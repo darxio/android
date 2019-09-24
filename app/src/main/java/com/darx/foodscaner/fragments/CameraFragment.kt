@@ -18,7 +18,7 @@ class CameraFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        return inflater.inflate(R.layout.fragment_camera, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -2,13 +2,7 @@ package com.darx.foodscaner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import com.darx.foodscaner.fragments.Adapter
-import com.darx.foodscaner.fragments.CameraFragment
-import com.darx.foodscaner.fragments.InfoFragment
-import com.darx.foodscaner.fragments.ProfileFragment
+import com.darx.foodscaner.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +10,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewPager.adapter = Adapter()
+
+        val pagerAdapter = PagerAdapter(supportFragmentManager, lifecycle)
+        pagerAdapter.addFragment(ProfileFragment(), "Profile")
+        pagerAdapter.addFragment(CameraFragment(), "Camera")
+        pagerAdapter.addFragment(InfoFragment(), "Info")
+        viewPager.adapter = pagerAdapter
     }
 }

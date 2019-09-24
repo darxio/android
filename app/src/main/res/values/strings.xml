@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FoodScaner</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_profile_fragment">Profile fragment</string>
+    <string name="hello_camera_fragment">Camera fragment</string>
+    <string name="hello_info_fragment">Info fragment</string>
 </resources>

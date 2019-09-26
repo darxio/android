@@ -16,16 +16,22 @@ class ProductActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product)
 
         val items = listOf(
-            Ingredient("Сахар"),
+            Ingredient("Сахар очень вк"),
             Ingredient("Соль"),
-            Ingredient("Яблоко"),
+            Ingredient("Яблокоааа"),
             Ingredient("Груша"),
-            Ingredient("Яблоко"),
-            Ingredient("Груша")
+            Ingredient("Яб"),
+            Ingredient("Грушалвалфыва ваыв"),
+            Ingredient("Ябвафы"),
+            Ingredient("Ябвыфаваыав"),
+            Ingredient("Ябав")
         )
 
         ingredientRecycler.adapter = IngredientAdapter(items, object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: Ingredient) {}
+            override fun onItemClicked(item: Ingredient) {
+                val intent = Intent(this@ProductActivity, IngredientActivity::class.java)
+                startActivity(intent)
+            }
         })
     }
 }

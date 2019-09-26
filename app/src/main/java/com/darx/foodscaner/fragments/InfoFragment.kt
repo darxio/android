@@ -35,7 +35,7 @@ class InfoFragment : Fragment() {
 
         val productAdapter = ProductAdapter(items, object : ProductAdapter.Callback {
             override fun onItemClicked(item: Product) {
-                val intent = Intent(activity, ProductActivity::class.java)
+                val intent = Intent(this@InfoFragment.activity, ProductActivity::class.java)
                 startActivity(intent)
             }
         })

@@ -11,9 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:icon="@drawable/ingredient"
-        app:iconSize="25dp"
-        app:cornerRadius="10dp"
+        app:iconSize="15dp"
+        app:cornerRadius="15dp"
         android:text="Ingredient"
+        android:textSize="10sp"
         app:strokeColor="@color/colorPrimary"/>
 
 </LinearLayout>

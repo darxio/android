@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
+                android:id="@+id/productImage"
                 android:layout_width="78dp"
                 android:layout_height="78dp"
                 android:layout_centerHorizontal="true"
@@ -25,7 +25,8 @@
                 app:civ_border_width="1dp" />
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:paddingLeft="15dp">
                 <TextView
@@ -41,11 +42,31 @@
                     android:text="Information (kal)"
                     android:textSize="16sp"/>
                 <LinearLayout
-                    android:id="@+id/productImages"
+                    android:id="@+id/ingredientsImages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-<!--                    картинки в квадратиках -->
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/box"
+                        android:src="@drawable/ingredient"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"/>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/box"
+                        android:src="@drawable/ingredient"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"/>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/box"
+                        android:src="@drawable/ingredient"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"/>
                 </LinearLayout>
             </LinearLayout>
             <ImageView

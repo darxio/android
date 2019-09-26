@@ -1,14 +1,16 @@
 package com.darx.foodscaner.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.darx.foodscaner.ProductActivity
 
 import com.darx.foodscaner.R
-import com.darx.foodscaner.components.Product
+import com.darx.foodscaner.models.Product
 import com.darx.foodscaner.components.ProductAdapter
 import kotlinx.android.synthetic.main.fragment_info.view.*
 
@@ -33,7 +35,8 @@ class InfoFragment : Fragment() {
 
         val productAdapter = ProductAdapter(items, object : ProductAdapter.Callback {
             override fun onItemClicked(item: Product) {
-                //TODO Сюда придёт элемент, по которому кликнули. Можно дальше с ним работать
+                val intent = Intent(activity, ProductActivity::class.java)
+                startActivity(intent)
             }
         })
         view.productRecycler.adapter = productAdapter

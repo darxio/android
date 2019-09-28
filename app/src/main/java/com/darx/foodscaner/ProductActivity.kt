@@ -3,10 +3,8 @@ package com.darx.foodscaner
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.darx.foodscaner.components.IngredientAdapter
-import com.darx.foodscaner.components.ProductAdapter
-import com.darx.foodscaner.models.Ingredient
-import com.darx.foodscaner.models.Product
+import com.darx.foodscaner.adapters.IngredientAdapter
+import com.darx.foodscaner.data.Ingredient
 import kotlinx.android.synthetic.main.activity_product.*
 
 class ProductActivity : AppCompatActivity() {

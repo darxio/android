@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import com.darx.foodscaner.ProductActivity
 
 import com.darx.foodscaner.R
-import com.darx.foodscaner.models.Product
-import com.darx.foodscaner.components.ProductAdapter
+import com.darx.foodscaner.data.Product
+import com.darx.foodscaner.adapters.ProductAdapter
 import kotlinx.android.synthetic.main.fragment_info.view.*
 
 /**

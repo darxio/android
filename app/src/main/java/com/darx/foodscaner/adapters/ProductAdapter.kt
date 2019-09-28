@@ -1,4 +1,4 @@
-package com.darx.foodscaner.components
+package com.darx.foodscaner.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.darx.foodscaner.R
-import com.darx.foodscaner.models.Product
+import com.darx.foodscaner.data.Product
 import de.hdodenhof.circleimageview.CircleImageView
 
 

@@ -3,19 +3,21 @@ package com.darx.foodscaner
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.darx.foodscaner.components.PageAdapter
+import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.fragments.*
 //import com.darx.foodscaner.services.ApiService
-import com.darx.foodscaner.services.responce.ApiService
+import com.darx.foodscaner.services.ApiService
+import com.darx.foodscaner.services.request.RegistrationInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
-import okhttp3.Request
 
 class MainActivity : AppCompatActivity() {
+
+    val apiService = ApiService.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +30,34 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = pagerAdapter
     }
 
-    fun req(view:View) {
-        val apiService = ApiService.create()
+    fun registration(view:View) {
         GlobalScope.launch(Dispatchers.Main) {
-            val currentWether = apiService.search("82e4f09b1d58065e0a32fb06341135c2", "London").await()
-            camera.text = currentWether.toString()
+            val registrationInfo = RegistrationInfo(loginInput.text.toString(), passwordInput.text.toString())
+            val response = apiService.registration(registrationInfo).await()
+            username.text = response.toString()
         }
     }
+
+    fun login(view:View) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val loginInfo = RegistrationInfo(loginInput.text.toString(), passwordInput.text.toString())
+            val response = apiService.login(loginInfo).await()
+            username.text = response.toString()
+        }
+    }
+
+    fun logout(view:View) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val response = apiService.logout().await()
+            username.text = "Guest"
+        }
+    }
+
+//    fun groups(view:View) {
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val response = apiService.groupsByName("vegan").await()
+//            username.text = response.toString()
+//        }
+//    }
 
 }

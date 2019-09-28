@@ -1,13 +1,12 @@
-package com.darx.foodscaner.components
+package com.darx.foodscaner.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.R
-import com.darx.foodscaner.models.Ingredient
+import com.darx.foodscaner.data.Ingredient
 
 class IngredientAdapter(var items: List<Ingredient>, val callback: Callback) : RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
 

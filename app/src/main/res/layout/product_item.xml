@@ -33,7 +33,7 @@
                     android:id="@+id/productName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Product"
+                    android:text="@string/product_name"
                     android:textSize="20sp"/>
                 <TextView
                     android:id="@+id/productInfo"

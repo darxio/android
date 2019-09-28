@@ -1,4 +1,4 @@
-package com.darx.foodscaner.models
+package com.darx.foodscaner.data
 
 data class Product (
     val name: String,

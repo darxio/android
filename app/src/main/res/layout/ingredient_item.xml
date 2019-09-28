@@ -13,7 +13,7 @@
         app:icon="@drawable/ingredient"
         app:iconSize="15dp"
         app:cornerRadius="15dp"
-        android:text="Ingredient"
+        android:text="@string/ingredient_name"
         android:textSize="10sp"
         app:strokeColor="@color/colorPrimary"/>
 

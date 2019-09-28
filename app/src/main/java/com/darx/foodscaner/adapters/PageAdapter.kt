@@ -1,4 +1,4 @@
-package com.darx.foodscaner.components
+package com.darx.foodscaner.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

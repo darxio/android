@@ -28,15 +28,28 @@
                 app:civ_border_width="2dp" />
 
             <TextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/username"
                 android:textSize="28sp"/>
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Products scaned: 0"
-                android:textSize="18sp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/products_snanned_info"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/productsCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/products_snanned_count"
+                    android:textSize="18sp"/>
+            </LinearLayout>
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,12 +57,65 @@
             android:layout_height="match_parent"
             android:padding="20dp">
             <ImageView
+                android:id="@+id/cameraIcon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/camera"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_button"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/loginInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Moleque" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test123"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/reg"
+        android:onClick="registration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reg"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/in"
+        android:onClick="login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="In"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/out"
+        android:onClick="logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Out"
+        android:layout_marginBottom="30dp"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/group"
+        android:onClick="groups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Groups"/>
     </LinearLayout>
 
     <LinearLayout
@@ -58,6 +124,8 @@
         android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/usersGroups"
+            android:onClick="groups"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -73,8 +141,7 @@
                 android:gravity="center"
                 android:text="Image" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/material_button"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -82,6 +149,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/usersProducts"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -97,12 +165,11 @@
                 android:gravity="center"
                 android:text="Image" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/next_button"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="test" />
+                android:text="Ingredients" />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 

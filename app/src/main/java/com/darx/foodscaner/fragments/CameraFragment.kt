@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.darx.foodscaner.R
-import com.darx.foodscaner.services.responce.ApiService
+import com.darx.foodscaner.services.ApiService
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

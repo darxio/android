@@ -8,6 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.darx.foodscaner.R
+import com.darx.foodscaner.services.responce.ApiService
+import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
@@ -24,4 +29,5 @@ class CameraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
 }

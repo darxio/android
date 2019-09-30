@@ -17,5 +17,8 @@
     <string name="ingredient_name">Ingredient</string>
     <string name="users_groups_header">Groups:</string>
 
+    <!-- Favorites activity -->
+    <string name="favorites_title">Favorites</string>
+
 
 </resources>

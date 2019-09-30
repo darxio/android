@@ -25,7 +25,7 @@ class InfoFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_info, container, false)
         val items = listOf(
-            Product("Яблоко", "Вкусно"),
+            Product(name = "Яблоко", info = "Вкусно"),
             Product("Груша", "Очень вкусно"),
             Product("Яблоко", "Вкусно"),
             Product("Груша", "Очень вкусно"),

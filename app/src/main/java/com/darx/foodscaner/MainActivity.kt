@@ -7,9 +7,8 @@ import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.fragments.*
 //import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ApiService
-import com.darx.foodscaner.services.request.RegistrationInfo
+import com.darx.foodscaner.data.request.RegistrationInfo
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

@@ -9,6 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.darx.foodscaner.R
+import com.darx.foodscaner.services.ApiService
+import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 import android.animation.AnimatorInflater
@@ -243,4 +248,5 @@ class CameraFragment : Fragment(), OnClickListener {
     companion object {
         private const val TAG = "LiveBarcodeActivity"
     }
+
 }

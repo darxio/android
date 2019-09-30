@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.darx.foodscaner">
 
+    <uses-permission android:name="android.permission.INTERNET" />
 
 
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -17,6 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".FavoritesActivity"></activity>
+        <activity android:name=".GroupActivity" />
+        <activity android:name=".IngredientsActivity" />
+        <activity android:name=".GroupsActivity" />
+        <activity android:name=".IngredientActivity" />
+        <activity android:name=".ProductActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -42,7 +42,7 @@ class ProductAdapter(private val productList: List<Product>) : Adapter<ProductVi
             if (!TextUtils.isEmpty(product.imageUrl)) {
                 ImageDownloadTask(imageView, imageSize).execute(product.imageUrl)
             } else {
-                imageView.setImageResource(R.drawable.logo_google_cloud)
+//                imageView.setImageResource(R.drawable.logo_google_cloud)
             }
             titleView.text = product.title
             subtitleView.text = product.subtitle
@@ -50,7 +50,7 @@ class ProductAdapter(private val productList: List<Product>) : Adapter<ProductVi
 
         companion object {
             fun create(parent: ViewGroup) =
-                ProductViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false))
+                ProductViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.product_items, parent, false))
         }
     }
 

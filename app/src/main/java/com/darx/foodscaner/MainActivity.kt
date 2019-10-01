@@ -39,7 +39,9 @@ class MainActivity : AppCompatActivity() {
         pagerAdapter.addFragment(ProfileFragment(), "Profile")
         pagerAdapter.addFragment(CameraFragment(), "Camera")
         pagerAdapter.addFragment(InfoFragment(), "Info")
+
         viewPager.adapter = pagerAdapter
+        viewPager.setCurrentItem(pagerAdapter.getItemNum("Camera"))
     }
 
     fun registration(view:View) {

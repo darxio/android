@@ -90,33 +90,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/reg"
-        android:onClick="registration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reg"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reg"
+            android:onClick="registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reg"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/in"
-        android:onClick="login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="In"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/in"
+            android:onClick="login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/out"
-        android:onClick="logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Out"
-        android:layout_marginBottom="30dp"/>
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/group"
-        android:onClick="groups"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Groups"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/out"
+            android:onClick="logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Out"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/group"
+            android:onClick="groups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Groups"/>
     </LinearLayout>
 
     <LinearLayout
@@ -126,7 +125,6 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/usersGroups"
-            android:onClick="groups"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"

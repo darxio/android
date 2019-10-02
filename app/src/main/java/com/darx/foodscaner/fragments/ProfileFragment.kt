@@ -27,7 +27,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(com.darx.foodscaner.R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         view.usersGroups.setOnClickListener({
             val intent = Intent(this@ProfileFragment.activity, GroupsActivity::class.java)

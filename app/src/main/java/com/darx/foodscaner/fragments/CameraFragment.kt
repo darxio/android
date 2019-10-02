@@ -71,7 +71,7 @@ class CameraFragment : Fragment(), OnClickListener {
     private var promptChipAnimator: AnimatorSet? = null
     private var workflowModel: WorkflowModel? = null
     private var currentWorkflowState: WorkflowState? = null
-    private var mInstrumentation: Instrumentation? = null
+    private var promtChipShown: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -209,6 +209,7 @@ class CameraFragment : Fragment(), OnClickListener {
 
             when (workflowState) {
                 WorkflowState.DETECTING -> {
+                    promtChipShown = false
                     promptChip?.visibility = View.VISIBLE
                     promptChip?.setText(R.string.prompt_point_at_a_barcode)
                     startCameraPreview()
@@ -237,7 +238,8 @@ class CameraFragment : Fragment(), OnClickListener {
         })
 
         workflowModel?.detectedBarcode?.observe(this, Observer { barcode ->
-            if (barcode != null) {
+            if (barcode != null && !promtChipShown) {
+                this.promtChipShown = true
                 val barcodeFieldList = ArrayList<BarcodeField>()
                 barcodeFieldList.add(BarcodeField("Raw Value", barcode.rawValue ?: ""))
                 BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeFieldList)

@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat.setAlpha
 import com.darx.foodscaner.*
 import com.darx.foodscaner.data.request.RegistrationInfo
 import com.darx.foodscaner.services.ApiService
+import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.createBalloon
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
  */
 class ProfileFragment : Fragment() {
 
-    private val apiService = ApiService(/*ConnectivityInterceptorImpl(this.baseContext)*/)
+    private val apiService = ApiService()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

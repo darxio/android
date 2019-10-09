@@ -3,6 +3,7 @@ package com.darx.foodscaner.data.response
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "products")
 data class Product (
@@ -10,4 +11,4 @@ data class Product (
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "barcode") var barcode: Int,
     @ColumnInfo(name = "info") var info: String
-)
+): Serializable

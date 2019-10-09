@@ -19,6 +19,8 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.Serializable
+
 
 /**
  * A simple [Fragment] subclass.
@@ -44,18 +46,10 @@ class InfoFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             val response = apiService.products().await()
 
-            val items = listOf(
-                Product(1, "Яблоко", 12, "Вкусно"),
-                Product(2, "Груша", 13, "Очень вкусно"),
-                Product(3, "Яблоко", 16, "Вкусно"),
-                Product(4, "Груша", 66, "Очень вкусно"),
-                Product(5, "Яблоко", 34, "Вкусно"),
-                Product(6, "Груша", 58, "Очень вкусно")
-            )
-
-            val productAdapter = ProductAdapter(items, object : ProductAdapter.Callback {
+            val productAdapter = ProductAdapter(response, object : ProductAdapter.Callback {
                 override fun onItemClicked(item: Product) {
                     val intent = Intent(this@InfoFragment.activity, ProductActivity::class.java)
+                    intent.putExtra("PRODUCT", item as Serializable)
                     startActivity(intent)
                 }
             })

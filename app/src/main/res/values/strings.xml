@@ -88,10 +88,13 @@
     <string name="products_snanned_count">0</string>
     <string name="login_button">Login</string>
 
+
+
     <!-- Info fragment -->
 
-
+    <!-- Product -->
     <string name="product_name">Product</string>
+    <string name="product_information">Information</string>
     <string name="ingredient_name">Ingredient</string>
     <string name="users_groups_header">Groups:</string>
 

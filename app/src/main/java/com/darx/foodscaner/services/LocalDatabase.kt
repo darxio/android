@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.darx.foodscaner.data.Product
+import com.darx.foodscaner.data.response.Product
 import com.darx.foodscaner.data.db.ProductDao
 
 

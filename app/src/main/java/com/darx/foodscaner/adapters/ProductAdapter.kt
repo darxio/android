@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.darx.foodscaner.R
-import com.darx.foodscaner.data.Product
+import com.darx.foodscaner.data.response.Product
 import de.hdodenhof.circleimageview.CircleImageView
 
 

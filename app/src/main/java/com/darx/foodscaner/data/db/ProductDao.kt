@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.darx.foodscaner.data.Product
+import com.darx.foodscaner.data.response.Product
 
 @Dao
 interface ProductDao {

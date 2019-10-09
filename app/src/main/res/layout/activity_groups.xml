@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/users_groups_header"/>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ingredientRecycler"
+        android:id="@+id/groupRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"

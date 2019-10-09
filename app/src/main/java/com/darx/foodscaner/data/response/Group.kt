@@ -1,7 +1,8 @@
 package com.darx.foodscaner.data.response
 
 
-data class Groups(
-    val name: String,
+data class Group(
+    val id: Int,
+    val group: String,
     val about: String
 )

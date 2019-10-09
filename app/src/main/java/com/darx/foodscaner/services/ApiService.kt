@@ -1,7 +1,8 @@
 package com.darx.foodscaner.services
 
 import com.darx.foodscaner.data.request.RegistrationInfo
-import com.darx.foodscaner.data.response.Groups
+import com.darx.foodscaner.data.response.Group
+import com.darx.foodscaner.data.response.Product
 import com.darx.foodscaner.data.response.Registration
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
@@ -27,44 +28,56 @@ interface ApiService {
     @DELETE("session")
     fun logout(): Deferred<Registration>
 
+
+    // === PRODUCTS ===
+    @GET("products")
+    fun products(): Deferred<List<Product>>
+
+    @GET("products")
+    fun productByBarcode(
+        @Query("barcode") barcode: Int
+    ): Deferred<Product>
+
+
     // === GROUPS ===
     @GET("groups")
-    fun groupsById(
-        @Query("id") id: Int
-    ): Deferred<Groups>
+    fun groups(): Deferred<List<Group>>
 
     @GET("groups")
-    fun groupsByName(
-        @Query("name") name: String
-    ): Deferred<Groups>
-
-    @GET("user/groups")
-    fun userGroupsById(
+    fun groupById(
         @Query("id") id: Int
-    ): Deferred<Groups>
+    ): Deferred<Group>
+
+    @GET("groups")
+    fun groupByName(
+        @Query("name") name: String
+    ): Deferred<Group>
+
+
+    @POST("user/groups")
+    fun userGroups(
+        @Body username: String
+    ): Deferred<List<Group>>
 
     @GET("user/groups")
     fun userGroupsByName(
         @Query("name") name: String
-    ): Deferred<Groups>
+    ): Deferred<Group>
 
     @POST("user/groups")
-    fun addGroup(): Deferred<Groups>
+    fun addGroup(): Deferred<Group>
 
     @DELETE("user/groups")
-    fun removeGroup(): Deferred<Groups>
+    fun removeGroup(): Deferred<Group>
 
 
-    companion object Factory {
-        fun create(): ApiService {
+    companion object {
+        operator fun invoke(
+//            connectivityInterceptor: ConnectivityInterceptor
+        ): ApiService {
             val httpClient = OkHttpClient.Builder()
                 .cookieJar(ApiCookieJar())
-//                .interceptors().add(object : Interceptor {
-//                    @Throws(IOException::class)
-//                    override fun intercept(chain: Interceptor.Chain): Response<*> {
-//                        return OnIntercept(chain)
-//                    }
-//                })
+//                .addInterceptor(connectivityInterceptor)
                 .build()
 
             val retrofit = Retrofit.Builder()

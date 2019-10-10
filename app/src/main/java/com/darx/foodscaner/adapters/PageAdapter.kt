@@ -27,4 +27,5 @@ class PageAdapter(manager: FragmentManager, lifecycle: Lifecycle) : FragmentStat
     fun getItemNum(title: String): Int {
         return titleList.indexOf(title)
     }
+
 }

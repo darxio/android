@@ -19,6 +19,7 @@ import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.createBalloon
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -66,6 +67,10 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
+        view.cameraIcon.setOnClickListener {
+//            viewPager.setCurrentItem(1)
+        }
+
 //        view.loginButton.setOnClickListener({
 //            val balloon = createBalloon(it.context) {
 //                setArrowSize(10)
@@ -98,21 +103,21 @@ class ProfileFragment : Fragment() {
 //            username.text = it.toString()
 //        })
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val registrationInfo = RegistrationInfo(loginInput.text.toString(), passwordInput.text.toString())
-//            networkDataSource.fetchRegistration(registrationInfo)
-
-            val response = apiService.registration(registrationInfo).await()
-            username.text = registrationInfo.username
-        }
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val registrationInfo = RegistrationInfo(loginInput.text.toString(), passwordInput.text.toString())
+////            networkDataSource.fetchRegistration(registrationInfo)
+//
+//            val response = apiService.registration(registrationInfo).await()
+//            username.text = registrationInfo.username
+//        }
     }
 
     private fun login(view:View) {
-        GlobalScope.launch(Dispatchers.Main) {
-            val loginInfo = RegistrationInfo(loginInput.text.toString(), passwordInput.text.toString())
-            val response = apiService.login(loginInfo).await()
-            username.text = loginInfo.username
-        }
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val loginInfo = RegistrationInfo(loginInput.text.toString(), passwordInput.text.toString())
+//            val response = apiService.login(loginInfo).await()
+//            username.text = loginInfo.username
+//        }
     }
 
     private fun logout(view:View) {

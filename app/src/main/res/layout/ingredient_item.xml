@@ -6,15 +6,11 @@
     android:layout_width="match_parent"
     android:orientation="horizontal">
 
-    <com.google.android.material.button.MaterialButton
+    <com.google.android.material.chip.Chip
         android:id="@+id/ingredientObject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@drawable/ingredient"
-        app:iconSize="15dp"
-        app:cornerRadius="15dp"
-        android:text="@string/ingredient_name"
-        android:textSize="10sp"
-        app:strokeColor="@color/colorPrimary"/>
+        app:chipIcon="@drawable/ingredient"
+        android:text="@string/ingredient_name"/>
 
 </LinearLayout>

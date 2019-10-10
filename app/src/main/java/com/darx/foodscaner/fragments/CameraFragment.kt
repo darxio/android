@@ -41,10 +41,9 @@ import java.io.IOException
 import java.util.ArrayList
 import androidx.core.app.ActivityCompat.requestPermissions
 import android.content.pm.PackageManager
+import android.view.WindowManager
 import androidx.core.app.ActivityCompat
-
-
-
+import com.darx.foodscaner.MainActivity
 
 
 class CameraFragment : Fragment(), OnClickListener {
@@ -78,10 +77,7 @@ class CameraFragment : Fragment(), OnClickListener {
         savedInstanceState: Bundle?
     ) : View?  {
         super.onCreate(savedInstanceState)
-
-//        setContentView(R.layout.activity_live_barcode_kotlin)
         return inflater.inflate(R.layout.activity_live_barcode_kotlin, container, false)
-
     }
 
     override  fun onStart() {

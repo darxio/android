@@ -8,15 +8,16 @@ import com.darx.foodscaner.adapters.IngredientAdapter
 import com.darx.foodscaner.data.Ingredient
 import com.darx.foodscaner.services.LocalDatabase
 import kotlinx.android.synthetic.main.activity_product.*
-import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import com.darx.foodscaner.data.response.Product
+import androidx.room.Room.databaseBuilder
 
 
 class ProductActivity : AppCompatActivity() {
 
-//    private val database = LocalDatabase(this)
+//    private val database = LocalDatabase(applicationContext)
+//    var database: LocalDatabase = databaseBuilder(baseContext, LocalDatabase::class.java!!, "database").build()
     private lateinit var product: Product
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +46,14 @@ class ProductActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+        productStar.setOnClickListener {
+            addToFavorite(it)
+        }
     }
 
-//    private fun addToFavorite(view: View) {
-//        val productDao = database.productDao()
-//        productDao.upsert(product)
-//    }
+    private fun addToFavorite(view: View) {
+        val database = LocalDatabase(applicationContext)
+        val productDao = database.productDao()
+        productDao.upsert(product)
+    }
 }

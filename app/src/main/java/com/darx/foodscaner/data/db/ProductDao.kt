@@ -13,5 +13,5 @@ interface ProductDao {
     fun upsert(product: Product)
 
     @Query("SELECT * FROM products")
-    fun getProduct(): LiveData<List<Product>>
+    fun getProducts(): List<Product>
 }

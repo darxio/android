@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.darx.foodscaner.data.request.LoginRqst
 import com.darx.foodscaner.data.request.RegistrationRqst
 import com.darx.foodscaner.data.response.Login
+import com.darx.foodscaner.data.response.Product
 import com.darx.foodscaner.data.response.Registration
 import com.darx.foodscaner.internal.NoConnectivityException
 
@@ -14,6 +15,7 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
     private val _registration = MutableLiveData<Registration>()
     private val _login = MutableLiveData<Login>()
     private val _logout = MutableLiveData<Login>()
+    private val _product = MutableLiveData<Product>()
 
 
     override val registration: LiveData<Registration>
@@ -24,6 +26,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
 
     override val logout: LiveData<Login>
         get() = _logout
+
+    override val product: LiveData<Product>
+        get() = _product
 
 
     override suspend fun fetchRegistration(registration: RegistrationRqst) {
@@ -50,6 +55,16 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
         try {
             val fetchedLogout = apiService.logout().await()
             _logout.postValue(fetchedLogout)
+        }
+        catch (e: NoConnectivityException) {
+            Log.e("Connectivity", "No internet connection.", e)
+        }
+    }
+
+    override suspend fun fetchProductByBarcode(barcode: Int) {
+        try {
+            val fetchedProductByBarcode = apiService.productByBarcode(barcode).await()
+            _product.postValue(fetchedProductByBarcode)
         }
         catch (e: NoConnectivityException) {
             Log.e("Connectivity", "No internet connection.", e)

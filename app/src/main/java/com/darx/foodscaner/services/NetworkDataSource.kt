@@ -1,13 +1,18 @@
 package com.darx.foodscaner.services
 
 import androidx.lifecycle.LiveData
-import com.darx.foodscaner.data.request.RegistrationInfo
+import androidx.lifecycle.MutableLiveData
+import com.darx.foodscaner.data.request.LoginRqst
+import com.darx.foodscaner.data.request.RegistrationRqst
+import com.darx.foodscaner.data.response.Login
 import com.darx.foodscaner.data.response.Registration
 
 interface NetworkDataSource {
-    val downloadedData: LiveData<Registration>
+    val registration: LiveData<Registration>
+    val login: LiveData<Login>
+    val logout: LiveData<Login>
 
-    suspend fun fetchRegistration(
-        registration: RegistrationInfo
-    )
+    suspend fun fetchRegistration(registration: RegistrationRqst)
+    suspend fun fetchLogin(login: LoginRqst)
+    suspend fun fetchLogout()
 }

@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class GroupsActivity : AppCompatActivity() {
 
-    private val apiService = ApiService(/*ConnectivityInterceptorImpl(this.baseContext)*/)
+//    private val apiService = ApiService(/*ConnectivityInterceptorImpl(this.baseContext)*/)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class GroupsActivity : AppCompatActivity() {
             }
         })
         groupRecycler.adapter = groupAdapter
-        apiService.groups()
+//        apiService.groups()
     }
 
 //    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
@@ -43,12 +43,12 @@ class GroupsActivity : AppCompatActivity() {
 //    }
 
     private fun groups(view: View) {
-        GlobalScope.launch(Dispatchers.Main) {
-            val response = apiService.groups().await()
-//            username.text = response.toString()
-
-
-        }
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val response = apiService.groups().await()
+////            username.text = response.toString()
+//
+//
+//        }
     }
 
 }

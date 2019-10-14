@@ -1,4 +1,6 @@
 package com.darx.foodscaner.fragments
+
+
 import android.Manifest
 import androidx.fragment.app.Fragment
 

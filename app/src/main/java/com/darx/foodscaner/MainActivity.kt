@@ -2,27 +2,16 @@ package com.darx.foodscaner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.fragments.*
 //import com.darx.foodscaner.services.ApiService
-import com.darx.foodscaner.services.ApiService
-import com.darx.foodscaner.data.request.RegistrationInfo
-import com.darx.foodscaner.services.ConnectivityInterceptorImpl
-import com.darx.foodscaner.services.NetworkDataSource
-import com.darx.foodscaner.services.NetworkDataSourceImpl
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+//    public var apiService: ApiService? = null
     private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
 
     override fun onBackPressed() {
@@ -37,6 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        apiService = ApiService(ConnectivityInterceptorImpl(this.baseContext))
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);

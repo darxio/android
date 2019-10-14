@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
+
 @Entity(tableName = "products")
 data class Product (
     @PrimaryKey(autoGenerate = false) var id: Long?,

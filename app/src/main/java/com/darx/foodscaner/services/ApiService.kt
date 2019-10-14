@@ -1,7 +1,9 @@
 package com.darx.foodscaner.services
 
-import com.darx.foodscaner.data.request.RegistrationInfo
+import com.darx.foodscaner.data.request.LoginRqst
+import com.darx.foodscaner.data.request.RegistrationRqst
 import com.darx.foodscaner.data.response.Group
+import com.darx.foodscaner.data.response.Login
 import com.darx.foodscaner.data.response.Product
 import com.darx.foodscaner.data.response.Registration
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -17,16 +19,16 @@ interface ApiService {
     // === USERS ===
     @POST("users")
     fun registration(
-        @Body registration: RegistrationInfo
+        @Body registration: RegistrationRqst
     ): Deferred<Registration>
 
     @POST("session")
     fun login(
-        @Body registration: RegistrationInfo
-    ): Deferred<Registration>
+        @Body registration: LoginRqst
+    ): Deferred<Login>
 
     @DELETE("session")
-    fun logout(): Deferred<Registration>
+    fun logout(): Deferred<Login>
 
 
     // === PRODUCTS ===
@@ -73,11 +75,11 @@ interface ApiService {
 
     companion object {
         operator fun invoke(
-//            connectivityInterceptor: ConnectivityInterceptor
+            connectivityInterceptor: ConnectivityInterceptor
         ): ApiService {
             val httpClient = OkHttpClient.Builder()
                 .cookieJar(ApiCookieJar())
-//                .addInterceptor(connectivityInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
 
             val retrofit = Retrofit.Builder()

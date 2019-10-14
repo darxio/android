@@ -46,6 +46,9 @@ import android.content.pm.PackageManager
 import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import com.darx.foodscaner.MainActivity
+import com.darx.foodscaner.services.ConnectivityInterceptorImpl
+import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class CameraFragment : Fragment(), OnClickListener {
@@ -74,12 +77,24 @@ class CameraFragment : Fragment(), OnClickListener {
     private var currentWorkflowState: WorkflowState? = null
     private var promtChipShown: Boolean = false
 
+    private var networkDataSource: NetworkDataSourceImpl? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ) : View?  {
         super.onCreate(savedInstanceState)
-        return inflater.inflate(R.layout.activity_live_barcode_kotlin, container, false)
+
+        val view = inflater.inflate(R.layout.activity_live_barcode_kotlin, container, false)
+
+        val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
+        networkDataSource = NetworkDataSourceImpl(apiService)
+
+        networkDataSource?.product?.observe(this, Observer {
+            // тут нужно добавить логику обработки полученного объекта it (Product)
+        })
+
+        return view
     }
 
     override  fun onStart() {

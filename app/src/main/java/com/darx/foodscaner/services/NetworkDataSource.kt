@@ -18,6 +18,6 @@ interface NetworkDataSource {
     suspend fun fetchRegistration(registration: RegistrationRqst)
     suspend fun fetchLogin(login: LoginRqst)
     suspend fun fetchLogout()
-    suspend fun fetchProductByBarcode(barcode: Int)
+    suspend fun fetchProductByBarcode(barcode: Long)
 
 }

@@ -1,6 +1,7 @@
 package com.darx.foodscaner.fragments
 
 import android.content.Intent
+import android.nfc.tech.NfcBarcode
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -41,10 +42,11 @@ class InfoFragment : Fragment() {
 //            username.text = it.
 
             var response: List<Product> = mutableListOf(
-                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
-                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
-                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
-                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk")
+//                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
+//                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
+//                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
+//                Product(111, "Choco-Pie", 111, Array(["adskfjkasjdfk", "dfas"]), ["adsf", "sdfaf"]),
+                it
             )
 
             val productAdapter = ProductAdapter(response, object : ProductAdapter.Callback {
@@ -57,18 +59,13 @@ class InfoFragment : Fragment() {
             view.productRecycler.adapter = productAdapter
         })
 
-        fetchProducts(view)
+        fetchProducts(view, 11111)
         return view
     }
 
-    private fun fetchProducts(view:View) {
-
+    private fun fetchProducts(view:View, barcode: Long) {
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchProductByBarcode (registrationInfo)
-        }
-
-        GlobalScope.launch(Dispatchers.Main) {
-            val response = apiService.products().await()
+            networkDataSource?.fetchProductByBarcode(barcode)
         }
     }
 

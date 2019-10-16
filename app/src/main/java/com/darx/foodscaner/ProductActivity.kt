@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import com.darx.foodscaner.data.response.Product
 import androidx.room.Room.databaseBuilder
+import com.google.android.material.chip.Chip
 
 
 class ProductActivity : AppCompatActivity() {
@@ -40,12 +41,23 @@ class ProductActivity : AppCompatActivity() {
             Ingredient("Ябав")
         )
 
-        ingredientRecycler.adapter = IngredientAdapter(items, object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: Ingredient) {
-                val intent = Intent(this@ProductActivity, IngredientActivity::class.java)
-                startActivity(intent)
-            }
-        })
+//        ingredientRecycler.adapter = IngredientAdapter(items, object : IngredientAdapter.Callback {
+//            override fun onItemClicked(item: Ingredient) {
+//                val intent = Intent(this@ProductActivity, IngredientActivity::class.java)
+//                startActivity(intent)
+//            }
+//        })
+        for (ingredient: Ingredient in items) {
+            val chip: Chip = Chip(this)
+            chip.text = ingredient.name
+//            chip.chipBackgroundColor = R.color.positiveColor
+            chip.chipStrokeWidth = 1F
+//            chip.chipStrokeColor = R.color.strongPositiveColor
+//            chip.chipIcon =
+
+            chipGroup.addView(chip)
+        }
+
         productStar.setOnClickListener {
             addToFavorite(it)
         }

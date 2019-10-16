@@ -6,13 +6,9 @@ import android.os.Bundle
 import android.view.View
 import com.darx.foodscaner.adapters.GroupAdapter
 import com.darx.foodscaner.data.response.Group
-import com.darx.foodscaner.services.ApiService
 import kotlinx.android.synthetic.main.activity_groups.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
-class GroupsActivity : AppCompatActivity() {
+class UserGroupsActivity : AppCompatActivity() {
 
 //    private val apiService = ApiService(/*ConnectivityInterceptorImpl(this.baseContext)*/)
 
@@ -29,7 +25,7 @@ class GroupsActivity : AppCompatActivity() {
         )
         val groupAdapter = GroupAdapter(items, object : GroupAdapter.Callback {
             override fun onItemClicked(item: Group) {
-                val intent = Intent(this@GroupsActivity, GroupActivity::class.java)
+                val intent = Intent(this@UserGroupsActivity, GroupActivity::class.java)
                 startActivity(intent)
             }
         })

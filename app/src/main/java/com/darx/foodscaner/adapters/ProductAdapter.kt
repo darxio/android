@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.darx.foodscaner.R
 import com.darx.foodscaner.data.response.Product
@@ -23,7 +24,7 @@ class ProductAdapter(var items: List<Product>, val callback: Callback) : Recycle
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val productImage = itemView.findViewById<CircleImageView>(R.id.productImage)
+        private val productImage = itemView.findViewById<ImageView>(R.id.productImage)
         private val productName = itemView.findViewById<TextView>(R.id.productName)
         private val productInfo = itemView.findViewById<TextView>(R.id.productInfo)
 

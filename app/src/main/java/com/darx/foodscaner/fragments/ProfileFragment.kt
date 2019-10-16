@@ -61,12 +61,12 @@ class ProfileFragment : Fragment() {
 
         // New activityes
         view.usersGroups.setOnClickListener {
-            val intent = Intent(this@ProfileFragment.activity, GroupsActivity::class.java)
+            val intent = Intent(this@ProfileFragment.activity, UserGroupsActivity::class.java)
             startActivity(intent)
         }
 
         view.usersProducts.setOnClickListener {
-            val intent = Intent(this@ProfileFragment.activity, IngredientsActivity::class.java)
+            val intent = Intent(this@ProfileFragment.activity, UserIngredientsActivity::class.java)
             startActivity(intent)
         }
 

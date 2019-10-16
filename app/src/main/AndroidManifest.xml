@@ -19,8 +19,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".FavoritesActivity"></activity>
         <activity android:name=".GroupActivity" />
-        <activity android:name=".IngredientsActivity" />
-        <activity android:name=".GroupsActivity" />
+        <activity android:name=".UserIngredientsActivity" />
+        <activity android:name=".UserGroupsActivity" />
         <activity android:name=".IngredientActivity" />
         <activity android:name=".ProductActivity" />
         <activity android:name=".MainActivity">

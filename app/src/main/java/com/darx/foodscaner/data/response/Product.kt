@@ -10,6 +10,6 @@ import java.io.Serializable
 data class Product (
     @PrimaryKey(autoGenerate = false) var id: Long?,
     @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "barcode") var barcode: Int,
+    @ColumnInfo(name = "barcode") var barcode: Long,
     @ColumnInfo(name = "info") var info: String
 ): Serializable

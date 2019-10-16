@@ -21,7 +21,7 @@ class FavoritesActivity : AppCompatActivity() {
         val productDao = database.productDao()
         val fovoriteProducts = productDao.getProducts()
 
-        val productAdapter = ProductAdapter(fovoriteProducts, object : ProductAdapter.Callback {
+        val productAdapter = ProductAdapter(fovoriteProducts as List<Product>, object : ProductAdapter.Callback {
             override fun onItemClicked(item: Product) {
                 val intent = Intent(this@FavoritesActivity, ProductActivity::class.java)
                 intent.putExtra("PRODUCT", item as Serializable)

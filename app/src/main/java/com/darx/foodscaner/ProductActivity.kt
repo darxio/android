@@ -1,18 +1,17 @@
 package com.darx.foodscaner
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.darx.foodscaner.adapters.IngredientAdapter
 import com.darx.foodscaner.data.Ingredient
 import com.darx.foodscaner.services.LocalDatabase
 import kotlinx.android.synthetic.main.activity_product.*
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.core.graphics.drawable.toDrawable
 import com.darx.foodscaner.data.response.Product
-import androidx.room.Room.databaseBuilder
 import com.google.android.material.chip.Chip
+import java.io.Serializable
 
 
 class ProductActivity : AppCompatActivity() {
@@ -28,8 +27,7 @@ class ProductActivity : AppCompatActivity() {
         product = intent.extras.get("PRODUCT") as Product
         productName.text = product.name
 
-
-        val items = listOf(
+        val ingredients = listOf(
             Ingredient("Сахар очень вк"),
             Ingredient("Соль"),
             Ingredient("Яблокоааа"),
@@ -41,21 +39,30 @@ class ProductActivity : AppCompatActivity() {
             Ingredient("Ябав")
         )
 
-//        ingredientRecycler.adapter = IngredientAdapter(items, object : IngredientAdapter.Callback {
-//            override fun onItemClicked(item: Ingredient) {
-//                val intent = Intent(this@ProductActivity, IngredientActivity::class.java)
-//                startActivity(intent)
-//            }
-//        })
-        for (ingredient: Ingredient in items) {
+
+        for (ingredient: Ingredient in ingredients) {
             val chip: Chip = Chip(this)
             chip.text = ingredient.name
-//            chip.chipBackgroundColor = R.color.positiveColor
-            chip.chipStrokeWidth = 1F
-//            chip.chipStrokeColor = R.color.strongPositiveColor
-//            chip.chipIcon =
 
-            chipGroup.addView(chip)
+            val states = arrayOf(
+                intArrayOf(android.R.attr.state_enabled), // enabled
+                intArrayOf(-android.R.attr.state_enabled), // disabled
+                intArrayOf(-android.R.attr.state_checked), // unchecked
+                intArrayOf(android.R.attr.state_pressed)  // pressed
+            )
+            val colors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
+
+            chip.chipBackgroundColor = ColorStateList(states, colors)
+            chip.chipStrokeColor = ColorStateList(states, colors)
+            chip.chipStrokeWidth = 1F
+            chip.chipIcon = R.drawable.ingredient.toDrawable()
+
+            chip.setOnClickListener {
+                val intent = Intent(this, IngredientActivity::class.java)
+//                intent.putExtra("PRODUCT", item as Serializable)
+                startActivity(intent)
+            }
+            ingredientChipsGroup.addView(chip)
         }
 
         productStar.setOnClickListener {

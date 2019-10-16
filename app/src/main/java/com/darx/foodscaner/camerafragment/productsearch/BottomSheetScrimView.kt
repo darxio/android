@@ -95,7 +95,7 @@ class BottomSheetScrimView(context: Context, attrs: AttributeSet) : View(context
     }
 
     /**
-     * Translates the object thumbnail from original bounding box location to at where the bottom
+     * Translates the object thumbnail from original bounding circle location to at where the bottom
      * sheet is settled as COLLAPSED state, with its size scales gradually.
      *
      *
@@ -146,7 +146,7 @@ class BottomSheetScrimView(context: Context, attrs: AttributeSet) : View(context
             thumbnailPaint.alpha = alpha
             canvas.drawBitmap(bitmap, null, rect, thumbnailPaint)
 
-            // Draws the bounding box.
+            // Draws the bounding circle.
             boxPaint.alpha = alpha
             canvas.drawRoundRect(rect, boxCornerRadius.toFloat(), boxCornerRadius.toFloat(), boxPaint)
         }

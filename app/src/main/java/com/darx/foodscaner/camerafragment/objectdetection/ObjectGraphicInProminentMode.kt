@@ -103,7 +103,7 @@ internal class ObjectGraphicInProminentMode(
         canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), scrimPaint)
         canvas.drawRoundRect(rect, boxCornerRadius.toFloat(), boxCornerRadius.toFloat(), eraserPaint)
 
-        // Draws the bounding box with a gradient border color at vertical.
+        // Draws the bounding circle with a gradient border color at vertical.
         boxPaint.shader = if (confirmationController.isConfirmed) {
             null
         } else {

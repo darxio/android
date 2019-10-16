@@ -25,7 +25,6 @@
                 android:id="@+id/profile_image"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_action_name" />
             <TextView
@@ -52,31 +51,38 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
         android:layout_marginTop="@dimen/mtrl_card_spacing"
-        android:layout_marginRight="@dimen/mtrl_card_spacing"
-        android:minHeight="200dp">
+        android:layout_marginRight="@dimen/mtrl_card_spacing">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="15dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Состав:"/>
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/ingredientRecycler"-->
+                android:text="@string/Constitution"/>
+
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup"
+                android:id="@+id/ingredientChipsGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
 
-<!--            </com.google.android.material.chip.ChipGroup>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/additive"
+                android:paddingTop="10dp"/>
 
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/eChipsGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
 
-<!--                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"-->
-<!--                app:spanCount="2"-->
-<!--                tools:listitem="@layout/ingredient_item" />-->
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -85,8 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
         android:layout_marginTop="@dimen/mtrl_card_spacing"
-        android:layout_marginRight="@dimen/mtrl_card_spacing"
-        android:minHeight="200dp">
+        android:layout_marginRight="@dimen/mtrl_card_spacing">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

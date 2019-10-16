@@ -25,7 +25,7 @@ import android.view.View
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.darx.foodscaner.R
 
-/** Represents a detected object by drawing a circle dot at the center of object's bounding box.  */
+/** Represents a detected object by drawing a circle dot at the center of object's bounding circle.  */
 class StaticObjectDotView @JvmOverloads constructor(context: Context, selected: Boolean = false) : View(context) {
 
     private val paint: Paint = Paint().apply {

@@ -60,15 +60,15 @@ internal abstract class BarcodeGraphicBase(overlay: GraphicOverlay) : Graphic(ov
     val boxRect: RectF = PreferenceUtils.getBarcodeReticleBox(overlay)
 
     override fun draw(canvas: Canvas) {
-        // Draws the dark background scrim and leaves the box area clear.
+        // Draws the dark background scrim and leaves the circle area clear.
         canvas.drawRect(0f, 0f, canvas.width.toFloat(), canvas.height.toFloat(), scrimPaint)
         // As the stroke is always centered, so erase twice with FILL and STROKE respectively to clear
-        // all area that the box rect would occupy.
+        // all area that the circle rect would occupy.
         eraserPaint.style = Style.FILL
         canvas.drawRoundRect(boxRect, boxCornerRadius, boxCornerRadius, eraserPaint)
         eraserPaint.style = Style.STROKE
         canvas.drawRoundRect(boxRect, boxCornerRadius, boxCornerRadius, eraserPaint)
-        // Draws the box.
+        // Draws the circle.
         canvas.drawRoundRect(boxRect, boxCornerRadius, boxCornerRadius, boxPaint)
     }
 }

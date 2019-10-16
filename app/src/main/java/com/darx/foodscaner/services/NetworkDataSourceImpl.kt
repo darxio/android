@@ -61,7 +61,7 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
         }
     }
 
-    override suspend fun fetchProductByBarcode(barcode: Int) {
+    override suspend fun fetchProductByBarcode(barcode: Long) {
         try {
             val fetchedProductByBarcode = apiService.productByBarcode(barcode).await()
             _product.postValue(fetchedProductByBarcode)

@@ -93,7 +93,7 @@ internal class ObjectGraphicInMultiMode(
         val boxWidth = rect.width() * confirmationController.progress
         val boxHeight = rect.height() * confirmationController.progress
         if (boxWidth < minBoxLen || boxHeight < minBoxLen) {
-            // Don't draw the box if its length is too small, otherwise it will intersect with reticle so
+            // Don't draw the circle if its length is too small, otherwise it will intersect with reticle so
             // the UI looks messy.
             return
         }

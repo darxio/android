@@ -125,7 +125,7 @@ class ProminentObjectProcessor(graphicOverlay: GraphicOverlay, private val workf
                     graphicOverlay.add(ObjectConfirmationGraphic(graphicOverlay, confirmationController))
                 }
             } else {
-                // Object is detected but the confirmation reticle is moved off the object box, which
+                // Object is detected but the confirmation reticle is moved off the object circle, which
                 // indicates user is not trying to pick this object.
                 graphicOverlay.add(
                         ObjectGraphicInProminentMode(

@@ -46,7 +46,7 @@ internal class BarcodeLoadingGraphic(overlay: GraphicOverlay, private val loadin
 
         val boxPerimeter = (boxRect.width() + boxRect.height()) * 2
         val path = Path()
-        // The distance between the box's left-top corner and the starting point of white colored path.
+        // The distance between the circle's left-top corner and the starting point of white colored path.
         var offsetLen = boxPerimeter * loadingAnimator.animatedValue as Float % boxPerimeter
         var i = 0
         while (i < 4) {
@@ -67,7 +67,7 @@ internal class BarcodeLoadingGraphic(overlay: GraphicOverlay, private val loadin
         for (j in 0..3) {
             val index = (i + j) % 4
             val nextIndex = (i + j + 1) % 4
-            // The length between path's current end point and reticle box's next coordinate point.
+            // The length between path's current end point and reticle circle's next coordinate point.
             val lineLen = Math.abs(boxClockwiseCoordinates[nextIndex].x - lastPathPoint.x) +
                     Math.abs(boxClockwiseCoordinates[nextIndex].y - lastPathPoint.y)
             if (lineLen >= pathLen) {

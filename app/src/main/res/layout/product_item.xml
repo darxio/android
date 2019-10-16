@@ -19,7 +19,6 @@
             android:id="@+id/productImage"
             android:layout_width="85dp"
             android:layout_height="85dp"
-            android:layout_centerHorizontal="true"
             android:src="@drawable/product"/>
 
         <LinearLayout

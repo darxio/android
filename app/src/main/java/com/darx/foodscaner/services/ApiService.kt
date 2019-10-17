@@ -35,9 +35,10 @@ interface ApiService {
     @GET("products")
     fun products(): Deferred<List<Product>>
 
-    @GET("products")
+    @GET("products/{barcode}")
     fun productByBarcode(
-        @Query("barcode") barcode: Long
+//        @Query("barcode") barcode: Long
+        @Path("barcode") barcode: Long
     ): Deferred<Product>
 
 

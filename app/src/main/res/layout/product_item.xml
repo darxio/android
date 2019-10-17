@@ -5,14 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="right"
-    android:layout_marginLeft="@dimen/mtrl_card_spacing"
-    android:layout_marginTop="@dimen/mtrl_card_spacing"
-    android:layout_marginRight="@dimen/mtrl_card_spacing"
     app:cardBackgroundColor="@color/negativeColor">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_margin="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -22,9 +20,9 @@
             android:src="@drawable/product"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/productInfoPart"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingLeft="15dp">
             <TextView

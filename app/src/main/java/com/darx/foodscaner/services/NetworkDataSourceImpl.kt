@@ -1,6 +1,7 @@
 package com.darx.foodscaner.services
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.darx.foodscaner.data.request.LoginRqst
@@ -9,6 +10,8 @@ import com.darx.foodscaner.data.response.Login
 import com.darx.foodscaner.data.response.Product
 import com.darx.foodscaner.data.response.Registration
 import com.darx.foodscaner.internal.NoConnectivityException
+import retrofit2.HttpException
+import kotlin.coroutines.coroutineContext
 
 class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSource {
 
@@ -68,6 +71,10 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
         }
         catch (e: NoConnectivityException) {
             Log.e("Connectivity", "No internet connection.", e)
+        }
+        catch (e: HttpException) {
+//            Toast.makeText(, e.message(), Toast.LENGTH_SHORT).show();
+            Log.e("Error", e.message(), e)
         }
     }
 

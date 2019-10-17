@@ -76,6 +76,8 @@ class CameraFragment : Fragment(), OnClickListener {
     private var workflowModel: WorkflowModel? = null
     private var currentWorkflowState: WorkflowState? = null
     private var promtChipShown: Boolean = false
+    private var barcodeFieldList = ArrayList<BarcodeField>()
+
 
     private var networkDataSource: NetworkDataSourceImpl? = null
 
@@ -92,6 +94,7 @@ class CameraFragment : Fragment(), OnClickListener {
 
         networkDataSource?.product?.observe(this, Observer {
             // тут нужно добавить логику обработки полученного объекта it (Product)
+            barcodeFieldList.add(BarcodeField("Raw Value", it.name ?: ""))
         })
 
         return view
@@ -253,8 +256,11 @@ class CameraFragment : Fragment(), OnClickListener {
         workflowModel?.detectedBarcode?.observe(this, Observer { barcode ->
             if (barcode != null && !promtChipShown) {
                 this.promtChipShown = true
-                val barcodeFieldList = ArrayList<BarcodeField>()
-                barcodeFieldList.add(BarcodeField("Raw Value", barcode.rawValue ?: ""))
+//                val barcodeFieldList = ArrayList<BarcodeField>()
+                GlobalScope.launch(Dispatchers.Main) {
+                    networkDataSource?.fetchProductByBarcode(barcode.rawValue!!.toLong())
+                }
+//                barcodeFieldList.add(BarcodeField("Raw Value", barcode.rawValue ?: ""))
                 BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeFieldList)
             }
         })

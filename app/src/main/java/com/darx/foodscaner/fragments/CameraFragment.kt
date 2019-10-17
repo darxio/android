@@ -94,6 +94,7 @@ class CameraFragment : Fragment(), OnClickListener {
 
         networkDataSource?.product?.observe(this, Observer {
             // тут нужно добавить логику обработки полученного объекта it (Product)
+            barcodeFieldList.clear()
             barcodeFieldList.add(BarcodeField("Raw Value", it.name ?: ""))
         })
 

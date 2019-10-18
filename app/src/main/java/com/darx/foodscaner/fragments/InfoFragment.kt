@@ -3,6 +3,7 @@ package com.darx.foodscaner.fragments
 import android.content.Intent
 import android.nfc.tech.NfcBarcode
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import java.io.Serializable
 import androidx.lifecycle.Observer
 import com.darx.foodscaner.data.request.RegistrationRqst
+import com.darx.foodscaner.services.NetworkDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,13 +61,23 @@ class InfoFragment : Fragment() {
             view.productRecycler.adapter = productAdapter
         })
 
-        fetchProducts(view, 11111)
+        fetchProducts(view, 1111122211111)
         return view
     }
 
     private fun fetchProducts(view:View, barcode: Long) {
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchProductByBarcode(barcode)
+            networkDataSource?.fetchProductByBarcode(barcode
+//                , object : NetworkDataSource.Callback {
+//                override fun onHttpException() {
+//                    Log.e("test", "test")
+//                }
+//
+//                override fun onNoConnectivityException() {
+//                    Log.e("test", "test")
+//                }
+//            }
+            )
         }
     }
 

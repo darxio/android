@@ -1,5 +1,6 @@
 package com.darx.foodscaner.services
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.darx.foodscaner.data.request.LoginRqst
@@ -18,6 +19,20 @@ interface NetworkDataSource {
     suspend fun fetchRegistration(registration: RegistrationRqst)
     suspend fun fetchLogin(login: LoginRqst)
     suspend fun fetchLogout()
-    suspend fun fetchProductByBarcode(barcode: Long)
+    suspend fun fetchProductByBarcode(barcode: Long, callback: Callback = DefaultCallback())
+
+    interface Callback {
+        fun onNoConnectivityException()
+        fun onHttpException()
+    }
+
+    class DefaultCallback: Callback {
+        override fun onNoConnectivityException() {
+            Log.e("Connectivity", "No internet connection.")
+        }
+        override fun onHttpException() {
+            Log.e("HTTP", "Wrong answer.")
+        }
+    }
 
 }

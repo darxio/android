@@ -16,9 +16,9 @@ interface NetworkDataSource {
     val logout: LiveData<Login>
     val product: LiveData<Product>
 
-    suspend fun fetchRegistration(registration: RegistrationRqst)
-    suspend fun fetchLogin(login: LoginRqst)
-    suspend fun fetchLogout()
+    suspend fun fetchRegistration(registration: RegistrationRqst, callback: Callback = DefaultCallback())
+    suspend fun fetchLogin(login: LoginRqst, callback: Callback = DefaultCallback())
+    suspend fun fetchLogout(callback: Callback = DefaultCallback())
     suspend fun fetchProductByBarcode(barcode: Long, callback: Callback = DefaultCallback())
 
     interface Callback {

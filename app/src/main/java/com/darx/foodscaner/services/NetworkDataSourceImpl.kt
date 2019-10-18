@@ -36,44 +36,42 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
         get() = _product
 
 
-//    private val defaultCallback = DefaultCallback() // default callback for exceptions
-
-    override suspend fun fetchRegistration(registration: RegistrationRqst) {
+    override suspend fun fetchRegistration(registration: RegistrationRqst, callback: Callback) {
         try {
             val fetchedRegistration = apiService.registration(registration).await()
             _registration.postValue(fetchedRegistration)
         }
         catch (e: NoConnectivityException) {
-            Log.e("Connectivity", "No internet connection.", e)
+            callback.onNoConnectivityException()
         }
         catch (e: HttpException) {
-            Log.e("HTTP", "Wrong answer.", e)
+            callback.onHttpException()
         }
     }
 
-    override suspend fun fetchLogin(login: LoginRqst) {
+    override suspend fun fetchLogin(login: LoginRqst, callback: Callback) {
         try {
             val fetchedLogin = apiService.login(login).await()
             _login.postValue(fetchedLogin)
         }
         catch (e: NoConnectivityException) {
-            Log.e("Connectivity", "No internet connection.", e)
+            callback.onNoConnectivityException()
         }
         catch (e: HttpException) {
-            Log.e("HTTP", "Wrong answer.", e)
+            callback.onHttpException()
         }
     }
 
-    override suspend fun fetchLogout() {
+    override suspend fun fetchLogout(callback: Callback) {
         try {
             val fetchedLogout = apiService.logout().await()
             _logout.postValue(fetchedLogout)
         }
         catch (e: NoConnectivityException) {
-            Log.e("Connectivity", "No internet connection.", e)
+            callback.onNoConnectivityException()
         }
         catch (e: HttpException) {
-            Log.e("HTTP", "Wrong answer.", e)
+            callback.onHttpException()
         }
     }
 
@@ -84,11 +82,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
         }
         catch (e: NoConnectivityException) {
             callback.onNoConnectivityException()
-//            Log.e("Connectivity", "No internet connection.", e)
         }
         catch (e: HttpException) {
             callback.onHttpException()
-//            Log.e("HTTP", "Wrong answer.", e)
         }
     }
 

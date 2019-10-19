@@ -36,6 +36,8 @@ import kotlinx.android.synthetic.main.product_item.*
 /** Displays the bottom sheet to present barcode fields contained in the detected barcode.  */
 class BarcodeResultFragment : BottomSheetDialogFragment() {
 
+    var barcodeField: BarcodeField? = null
+
     override fun onCreateView(
         layoutInflater: LayoutInflater,
         viewGroup: ViewGroup?,
@@ -49,20 +51,11 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
                 arguments.getSerializable(ARG_BARCODE_FIELD_LIST) as BarcodeField? ?: BarcodeField("", "")
             } else {
                 Log.e(TAG, "No barcode field list passed in!")
-    //                    ArrayList()
                 BarcodeField("", "")
             }
 
         val title: TextView = view.findViewById(R.id.productName)
         title.text = barcodeField.label
-
-//        view.findViewById<RecyclerView>(R.id.barcode_field_recycler_view).apply {
-//            setHasFixedSize(true)
-//            layoutManager = LinearLayoutManager(activity)
-//            adapter = BarcodeFieldAdapter(
-//                barcodeFieldList
-//            )
-//        }
 
         return view
     }
@@ -72,9 +65,7 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
             // Back to working state after the bottom sheet is dismissed.
             var wfm = ViewModelProviders.of(it).get<WorkflowModel>(
                 WorkflowModel::class.java)
-//            ViewModelProviders.of(it).get<WorkflowModel>(
-//                WorkflowModel::class.java)
-                    wfm.setWorkflowState(WorkflowState.DETECTING)
+            wfm.setWorkflowState(WorkflowState.DETECTING)
         }
         super.onDismiss(dialogInterface)
     }

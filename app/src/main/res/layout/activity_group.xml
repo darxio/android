@@ -17,7 +17,7 @@
             android:id="@+id/groupCollapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/ingredient"
+            android:background="@drawable/veg"
             app:contentScrim="?attr/colorPrimaryDark"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
@@ -37,7 +37,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/camera"
+        android:src="@drawable/add"
         android:backgroundTint="@color/colorPrimaryDark"
         app:layout_anchor="@id/groupBar"
         app:layout_anchorGravity="bottom|right|end"
@@ -68,7 +68,8 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:text="@string/group_ingredients_button"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

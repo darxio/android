@@ -17,12 +17,17 @@
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/ingredient"
             app:contentScrim="?attr/colorPrimaryDark"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
             app:title="@string/ingredient_name">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ingredient"
+                android:src="@drawable/bottom_action_bar_scrim"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/ingredientToolbar"
@@ -37,7 +42,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/camera"
+        android:src="@drawable/add"
         android:backgroundTint="@color/colorPrimaryDark"
         app:layout_anchor="@id/ingredientBar"
         app:layout_anchorGravity="bottom|right|end"
@@ -69,12 +74,14 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/camera"/>
+                        android:src="@drawable/type"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Тип ингредиента"/>
+                        android:text="@string/ingredient_type"
+                        android:textSize="18sp"
+                        android:layout_marginStart="8dp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

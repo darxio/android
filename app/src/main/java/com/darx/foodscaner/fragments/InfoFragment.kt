@@ -61,7 +61,7 @@ class InfoFragment : Fragment() {
             view.productRecycler.adapter = productAdapter
         })
 
-        fetchProducts(view, 1111122211111)
+        fetchProducts(view, 11111)
         return view
     }
 

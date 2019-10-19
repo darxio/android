@@ -47,17 +47,17 @@ class ProfileFragment : Fragment() {
         })
 
         // User API
-        view.registrationButton.setOnClickListener {
-            registration(it)
-        }
-
-        view.loginButton.setOnClickListener {
-            login(it)
-        }
-
-        view.logoutButton.setOnClickListener {
-            logout(it)
-        }
+//        view.registrationButton.setOnClickListener {
+//            registration(it)
+//        }
+//
+//        view.loginButton.setOnClickListener {
+//            login(it)
+//        }
+//
+//        view.logoutButton.setOnClickListener {
+//            logout(it)
+//        }
 
         // New activityes
         view.usersGroups.setOnClickListener {
@@ -101,24 +101,24 @@ class ProfileFragment : Fragment() {
         return view
     }
 
-    private fun registration(view:View) {
-        GlobalScope.launch(Dispatchers.Main) {
-            val registrationInfo = RegistrationRqst(loginInput.text.toString(), passwordInput.text.toString())
-            networkDataSource?.fetchRegistration(registrationInfo)
-        }
-    }
-
-    private fun login(view:View) {
-        GlobalScope.launch(Dispatchers.Main) {
-            val loginInfo = LoginRqst(loginInput.text.toString(), passwordInput.text.toString())
-            networkDataSource?.fetchLogin(loginInfo)
-        }
-    }
-
-    private fun logout(view:View) {
-        GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchLogout()
-        }
-    }
+//    private fun registration(view:View) {
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val registrationInfo = RegistrationRqst(loginInput.text.toString(), passwordInput.text.toString())
+//            networkDataSource?.fetchRegistration(registrationInfo)
+//        }
+//    }
+//
+//    private fun login(view:View) {
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val loginInfo = LoginRqst(loginInput.text.toString(), passwordInput.text.toString())
+//            networkDataSource?.fetchLogin(loginInfo)
+//        }
+//    }
+//
+//    private fun logout(view:View) {
+//        GlobalScope.launch(Dispatchers.Main) {
+//            networkDataSource?.fetchLogout()
+//        }
+//    }
 
 }

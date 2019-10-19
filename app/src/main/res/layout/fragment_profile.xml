@@ -83,43 +83,43 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/loginInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="hint" />
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="hint" />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/registrationButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Reg"/>
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/loginInput"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="hint" />-->
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/passwordInput"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="hint" />-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/registrationButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Reg"/>-->
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/loginButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="In"/>
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/loginButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="In"/>-->
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/logoutButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Out"/>
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/groupsButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Groups"/>
-            </LinearLayout>
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/logoutButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Out"/>-->
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/groupsButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Groups"/>-->
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -137,17 +137,21 @@
                     android:layout_marginRight="@dimen/mtrl_card_spacing"
                     android:minHeight="200dp">
 
-                    <TextView
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Image" />
+                        android:src="@drawable/eating_group"
+                        android:background="@color/colorPrimary" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="Groups" />
+                        android:layout_gravity="bottom|center"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:textSize="20sp"
+                        android:text="@string/user_groups_card" />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -161,17 +165,21 @@
                     android:layout_marginRight="@dimen/mtrl_card_spacing"
                     android:minHeight="200dp">
 
-                    <TextView
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Image" />
+                        android:src="@drawable/ingredients"
+                        android:background="@color/colorPrimaryDark" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:text="Ingredients" />
+                        android:layout_gravity="bottom|center"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:textSize="20sp"
+                        android:text="@string/user_ingredients_card" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
@@ -183,6 +191,7 @@
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
                 android:layout_marginTop="@dimen/mtrl_card_spacing"
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
+                app:cardBackgroundColor="@color/negativeColor"
                 android:minHeight="60dp">
 
                 <LinearLayout
@@ -190,16 +199,19 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="8dp"
                         android:gravity="center"
-                        android:text="Image" />
+                        android:src="@drawable/star"
+                        />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="Favorites" />
+                        android:textSize="20sp"
+                        android:text="@string/user_favorites_card" />
 
                 </LinearLayout>
 

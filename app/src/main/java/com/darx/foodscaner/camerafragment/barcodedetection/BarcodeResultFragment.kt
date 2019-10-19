@@ -22,6 +22,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +31,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.darx.foodscaner.R
 import com.darx.foodscaner.camerafragment.camera.WorkflowModel
 import com.darx.foodscaner.camerafragment.camera.WorkflowModel.WorkflowState
+import kotlinx.android.synthetic.main.product_item.*
 
 /** Displays the bottom sheet to present barcode fields contained in the detected barcode.  */
 class BarcodeResultFragment : BottomSheetDialogFragment() {
@@ -42,21 +44,25 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
         val view = layoutInflater.inflate(R.layout.barcode_bottom_sheet, viewGroup)
 
         val arguments = arguments
-        val barcodeFieldList: ArrayList<BarcodeField> =
-                if (arguments?.containsKey(ARG_BARCODE_FIELD_LIST) == true) {
-                    arguments.getParcelableArrayList(ARG_BARCODE_FIELD_LIST) ?: ArrayList()
-                } else {
-                    Log.e(TAG, "No barcode field list passed in!")
-                    ArrayList()
-                }
+        var barcodeField: BarcodeField =
+            if (arguments?.containsKey(ARG_BARCODE_FIELD_LIST) == true) {
+                arguments.getSerializable(ARG_BARCODE_FIELD_LIST) as BarcodeField? ?: BarcodeField("", "")
+            } else {
+                Log.e(TAG, "No barcode field list passed in!")
+    //                    ArrayList()
+                BarcodeField("", "")
+            }
 
-        view.findViewById<RecyclerView>(R.id.barcode_field_recycler_view).apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(activity)
-            adapter = BarcodeFieldAdapter(
-                barcodeFieldList
-            )
-        }
+        val title: TextView = view.findViewById(R.id.productName)
+        title.text = barcodeField.label
+
+//        view.findViewById<RecyclerView>(R.id.barcode_field_recycler_view).apply {
+//            setHasFixedSize(true)
+//            layoutManager = LinearLayoutManager(activity)
+//            adapter = BarcodeFieldAdapter(
+//                barcodeFieldList
+//            )
+//        }
 
         return view
     }
@@ -78,15 +84,12 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
         private const val TAG = "BarcodeResultFragment"
         private const val ARG_BARCODE_FIELD_LIST = "arg_barcode_field_list"
 
-        fun show(fragmentManager: FragmentManager, barcodeFieldArrayList: ArrayList<BarcodeField>) {
-            val barcodeResultFragment =
-                BarcodeResultFragment()
+        fun show(fragmentManager: FragmentManager, barcodeField: BarcodeField) {
+            val barcodeResultFragment = BarcodeResultFragment()
             barcodeResultFragment.arguments = Bundle().apply {
-                putParcelableArrayList(ARG_BARCODE_FIELD_LIST, barcodeFieldArrayList)
+                putSerializable(ARG_BARCODE_FIELD_LIST, barcodeField)
             }
-            barcodeResultFragment.show(fragmentManager,
-                TAG
-            )
+            barcodeResultFragment.show(fragmentManager, TAG)
         }
 
         fun dismiss(fragmentManager: FragmentManager) {

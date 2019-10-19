@@ -8,43 +8,11 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="back"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_action_name" />
-            <TextView
-                android:id="@+id/productName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/product_name"
-                android:textSize="20sp"
-                android:gravity="center"/>
-        </LinearLayout>
-        <RatingBar
-            android:id="@+id/productStar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numStars="1"
-            android:rating="0"
-            android:stepSize="1"
-            tools:layout_editor_absoluteX="347dp"
-            tools:layout_editor_absoluteY="16dp" />
-    </LinearLayout>
+    <include layout="@layout/product_item"/>
+
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -108,5 +76,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+<!--    </androidx.core.widget.NestedScrollView>-->
 
 </LinearLayout>

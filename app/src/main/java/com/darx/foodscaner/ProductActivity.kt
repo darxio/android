@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_product.*
 import androidx.core.graphics.drawable.toDrawable
 import com.darx.foodscaner.data.response.Product
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.product_item.*
 import java.io.Serializable
 
 
@@ -65,9 +66,9 @@ class ProductActivity : AppCompatActivity() {
             ingredientChipsGroup.addView(chip)
         }
 
-        productStar.setOnClickListener {
-            addToFavorite(it)
-        }
+//        productStar.setOnClickListener {
+//            addToFavorite(it)
+//        }
     }
 
     private fun addToFavorite(view: View) {

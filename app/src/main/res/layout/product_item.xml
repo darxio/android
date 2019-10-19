@@ -22,7 +22,7 @@
         <LinearLayout
             android:id="@+id/productInfoPart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="15dp">
             <TextView
@@ -36,13 +36,14 @@
                 android:id="@+id/productInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/product_information"
+                android:text="dskjfksjasdkljafjdsfjkdsfjajafdskafdslkjksladfjsdkfaljsfdajkasjfdlkjdskafjkldsfkajkldfsajkljdskafjjsdalfjldsjkafk;kldsafj;kljdlsafjkjdasflkjjfadskjlkasdfj@string/product_information"
                 android:textSize="16sp" />
             <LinearLayout
                 android:id="@+id/ingredientsImages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
@@ -58,6 +59,38 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     app:civ_border_color="@color/strongNegativeColor"
+                    app:civ_border_width="2dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongPositiveColor"
+                    app:civ_border_width="2dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongPositiveColor"
+                    app:civ_border_width="2dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongPositiveColor"
+                    app:civ_border_width="2dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongPositiveColor"
                     app:civ_border_width="2dp"/>
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="35dp"

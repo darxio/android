@@ -18,7 +18,11 @@ package com.darx.foodscaner.camerafragment.barcodedetection
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
 /** Information about a barcode field.  */
-@Parcelize
-data class BarcodeField(val label: String, val value: String) : Parcelable
+//@Parcelize
+data class BarcodeField(
+    var label: String,
+    var value: String
+) : Serializable

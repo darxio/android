@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:id="@+id/barcode_field_container"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:background="@color/white">-->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/barcode_field_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
-<!--  <TextView-->
-<!--      android:id="@+id/barcode_field_value"-->
-<!--      android:layout_width="match_parent"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:layout_marginTop="@dimen/barcode_field_padding_vertical"-->
-<!--      android:padding="@dimen/barcode_field_value_padding"-->
-<!--      android:background="@drawable/barcode_field_box"-->
-<!--      android:textColor="@color/barcode_field_value"-->
-<!--      android:textSize="@dimen/barcode_field_value_size"/>-->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/cameraBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="200dp">
 
-<!--  <TextView-->
-<!--      android:id="@+id/barcode_field_label"-->
-<!--      android:layout_width="wrap_content"-->
-<!--      android:layout_height="wrap_content"-->
-<!--      android:layout_marginStart="@dimen/barcode_field_value_padding"-->
-<!--      android:padding="@dimen/barcode_field_label_padding"-->
-<!--      android:background="@color/white"-->
-<!--      android:textColor="@color/black"-->
-<!--      android:textSize="@dimen/barcode_field_label_size"/>-->
+      <include layout="@layout/product_item"
+          android:id="@+id/productItem"/>
 
+    </androidx.core.widget.NestedScrollView>
 
-  <include layout="@layout/product_item"/>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</FrameLayout>
+<!--</FrameLayout>-->

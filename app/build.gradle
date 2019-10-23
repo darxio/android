@@ -65,7 +65,7 @@ dependencies {
 
     // room DAO
     implementation "androidx.room:room-runtime:2.2.0"
-    kapt "androidx.room:room-compiler:2.2.0"
+//    kapt "androidx.room:room-compiler:2.2.0"
 
 
     androidTestImplementation 'androidx.test:runner:1.2.0'

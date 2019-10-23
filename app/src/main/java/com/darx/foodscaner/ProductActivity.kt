@@ -70,8 +70,8 @@ class ProductActivity : AppCompatActivity() {
     }
 
     private fun addToFavorite(view: View) {
-        val database = LocalDatabase(applicationContext)
-        val productDao = database.productDao()
-        productDao.upsert(product)
+//        val database = LocalDatabase(applicationContext)
+//        val productDao = database.productDao()
+//        productDao.upsert(product)
     }
 }

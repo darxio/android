@@ -1,58 +1,90 @@
-<com.google.android.material.card.MaterialCardView
-    style="@style/Widget.MaterialComponents.CardView"
+<androidx.cardview.widget.CardView
     android:id="@+id/productCard"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/mtrl_card_spacing"
-    android:layout_marginTop="@dimen/mtrl_card_spacing"
-    android:layout_marginRight="@dimen/mtrl_card_spacing"
-    android:layout_gravity="right">
+    android:layout_gravity="right"
+    app:cardBackgroundColor="@color/negativeColor">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/productImage"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
-                android:src="@drawable/product" />
+            android:id="@+id/productImage"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:src="@drawable/product"/>
 
-        <RelativeLayout
-                android:id="@+id/productInfoPart"
-                android:layout_width="260dp"
-                android:layout_height="67dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="11dp"
-                android:layout_marginEnd="12dp"
-                android:orientation="vertical"
-                android:paddingLeft="15dp">
+        <LinearLayout
+            android:id="@+id/productInfoPart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_name"
+                android:textSize="20sp"/>
 
             <TextView
-                    android:id="@+id/productName"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/productInfo"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="109dp"
-                    android:layout_marginBottom="6dp"
-                    android:text="@string/product_name"
-                    android:textSize="20sp" />
-
-            <TextView
-                    android:id="@+id/productInfo"
-                    android:layout_width="201dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="26dp"
-                    android:layout_marginBottom="6dp"
-                    android:text="dskjfksjasdkljafjdsfjkdsfjajafdskafdslkjksladfjsdkfaljsfdajkasjfdlkjdskafjkldsfkajkldfsajkljdskafjjsdalfjldsjkafk;kldsafj;kljdlsafjkjdasflkjjfadskjlkasdfj@string/product_information"
-                    android:textSize="16sp" />
-        </RelativeLayout>
-    </RelativeLayout>
-</com.google.android.material.card.MaterialCardView>
+                android:id="@+id/productInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_information"
+                android:textSize="16sp" />
+            <LinearLayout
+                android:id="@+id/ingredientsImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongPositiveColor"
+                    app:civ_border_width="2dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongNegativeColor"
+                    app:civ_border_width="2dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongPositiveColor"
+                    app:civ_border_width="2dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongPositiveColor"
+                    app:civ_border_width="2dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ingredient"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    app:civ_border_color="@color/strongPositiveColor"
+                    app:civ_border_width="2dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

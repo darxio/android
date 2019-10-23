@@ -1,36 +1,24 @@
 package com.darx.foodscaner
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.darx.foodscaner.adapters.GroupAdapter
-import com.darx.foodscaner.data.response.Group
-import kotlinx.android.synthetic.main.activity_groups.*
+import com.darx.foodscaner.adapters.PageAdapter
+import com.darx.foodscaner.fragments.GroupsFragment
+import kotlinx.android.synthetic.main.activity_groups.viewPager
 
 class UserGroupsActivity : AppCompatActivity() {
 
-//    private val apiService = ApiService(/*ConnectivityInterceptorImpl(this.baseContext)*/)
+    private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_groups)
 
-        val items = listOf(
-            Group(1, "Вегетарианец", "Вкусно"),
-            Group(2, "Веган", "Очень вкусно"),
-            Group(3, "Мясоед", "Вкусно"),
-            Group(4, "Солнцеед", "Очень вкусно"),
-            Group(5, "Углеводная диета", "Вкусно")
-        )
-        val groupAdapter = GroupAdapter(items, object : GroupAdapter.Callback {
-            override fun onItemClicked(item: Group) {
-                val intent = Intent(this@UserGroupsActivity, GroupActivity::class.java)
-                startActivity(intent)
-            }
-        })
-        groupRecycler.adapter = groupAdapter
-//        apiService.groups()
+        pagerAdapter.addFragment(GroupsFragment(false), "MyGroups")
+        pagerAdapter.addFragment(GroupsFragment(true), "ShearchGroups")
+
+        setContentView(R.layout.activity_groups)
+        viewPager.adapter = pagerAdapter
     }
 
 //    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {

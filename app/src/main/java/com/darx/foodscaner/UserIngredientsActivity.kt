@@ -5,52 +5,25 @@ import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.graphics.drawable.toDrawable
+import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.data.Ingredient
+import com.darx.foodscaner.fragments.GroupsFragment
+import com.darx.foodscaner.fragments.IngredientsFragment
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_groups.*
 import kotlinx.android.synthetic.main.activity_product.*
 
 class UserIngredientsActivity : AppCompatActivity() {
 
+    private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        pagerAdapter.addFragment(IngredientsFragment(false), "MyIngredients")
+        pagerAdapter.addFragment(IngredientsFragment(true), "ShearchIngredients")
+
         setContentView(R.layout.activity_ingredients)
-
-        val ingredients = listOf(
-            Ingredient("Сахар очень вк"),
-            Ingredient("Соль"),
-            Ingredient("Яблокоааа"),
-            Ingredient("Груша"),
-            Ingredient("Яб"),
-            Ingredient("Грушалвалфыва ваыв"),
-            Ingredient("Ябвафы"),
-            Ingredient("Ябвыфаваыав"),
-            Ingredient("Ябав")
-        )
-
-
-        for (ingredient: Ingredient in ingredients) {
-            val chip: Chip = Chip(this)
-            chip.text = ingredient.name
-
-            val states = arrayOf(
-                intArrayOf(android.R.attr.state_enabled), // enabled
-                intArrayOf(-android.R.attr.state_enabled), // disabled
-                intArrayOf(-android.R.attr.state_checked), // unchecked
-                intArrayOf(android.R.attr.state_pressed)  // pressed
-            )
-            val colors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
-
-            chip.chipBackgroundColor = ColorStateList(states, colors)
-            chip.chipStrokeColor = ColorStateList(states, colors)
-            chip.chipStrokeWidth = 1F
-            chip.chipIcon = R.drawable.ingredient.toDrawable()
-
-            chip.setOnClickListener {
-                val intent = Intent(this, IngredientActivity::class.java)
-//                intent.putExtra("PRODUCT", item as Serializable)
-                startActivity(intent)
-            }
-            ingredientChipsGroup.addView(chip)
-        }
+        viewPager.adapter = pagerAdapter
     }
 }

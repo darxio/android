@@ -6,13 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.darx.foodscaner.data.Ingredient
-import com.darx.foodscaner.services.LocalDatabase
 import kotlinx.android.synthetic.main.activity_product.*
 import androidx.core.graphics.drawable.toDrawable
 import com.darx.foodscaner.data.response.Product
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.product_item.*
-import java.io.Serializable
 
 
 class ProductActivity : AppCompatActivity() {
@@ -72,8 +70,8 @@ class ProductActivity : AppCompatActivity() {
     }
 
     private fun addToFavorite(view: View) {
-        val database = LocalDatabase(applicationContext)
-        val productDao = database.productDao()
-        productDao.upsert(product)
+//        val database = LocalDatabase(applicationContext)
+//        val productDao = database.productDao()
+//        productDao.upsert(product)
     }
 }

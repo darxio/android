@@ -14,7 +14,7 @@ import com.darx.foodscaner.models.Product
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
-import kotlinx.android.synthetic.main.fragment_info.view.*
+import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import java.io.Serializable
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +30,7 @@ class RecentlyScannedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_info, container, false)
+        val view = inflater.inflate(R.layout.fragment_recently_scanned, container, false)
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
         networkDataSource = NetworkDataSourceImpl(apiService)

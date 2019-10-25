@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.darx.foodscaner.models.Ingredient
-import kotlinx.android.synthetic.main.activity_product.*
+import kotlinx.android.synthetic.main.fragment_product_info.*
 import androidx.core.graphics.drawable.toDrawable
 import com.darx.foodscaner.models.Product
 import com.google.android.material.chip.Chip
@@ -21,10 +21,10 @@ class ProductActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product)
+        setContentView(R.layout.fragment_product_info)
 
         product = intent.extras.get("PRODUCT") as Product
-        productName.text = product.name
+        product_name.text = product.name
 
         val ingredients = listOf(
             Ingredient("Сахар очень вк"),
@@ -61,7 +61,7 @@ class ProductActivity : AppCompatActivity() {
 //                intent.putExtra("PRODUCT", item as Serializable)
                 startActivity(intent)
             }
-            ingredientChipsGroup.addView(chip)
+            ingredient_chips.addView(chip)
         }
 
 //        productStar.setOnClickListener {

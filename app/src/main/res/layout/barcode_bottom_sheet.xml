@@ -15,7 +15,7 @@
       android:layout_height="match_parent"
       android:orientation="vertical">
 
-    <include layout="@layout/activity_product"
+    <include layout="@layout/fragment_product_info"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 

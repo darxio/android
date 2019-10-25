@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "groups")
-data class GroupsModel(@PrimaryKey(autoGenerate = true) var id: Int,
+data class GroupModel(@PrimaryKey(autoGenerate = true) var id: Int,
                             @ColumnInfo(name = "name") var name: String,
                             @ColumnInfo(name = "about") var about: String,
                             @ColumnInfo(name = "image_path") var imagePath: String

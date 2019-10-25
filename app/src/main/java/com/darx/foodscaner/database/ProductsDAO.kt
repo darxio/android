@@ -8,16 +8,16 @@ import androidx.room.Query
 @Dao
 interface ProductsDAO {
     @Query("SELECT * from products")
-    fun getAll(): List<ProductsModel>
+    fun getAll(): List<ProductModel>
 
-    @Query("SELECT * from products WHERE id = :id")
-    fun getOne(id: Int): ProductsModel
+    @Query("SELECT * from products WHERE barcode = :barcode")
+    fun getOne(barcode: Long): ProductModel
 
     @Insert(onConflict = REPLACE)
-    fun add(product: ProductsModel)
+    fun add(product: ProductModel)
 
-    @Query("DELETE from products WHERE id = :id")
-    fun deleteOne(id: Int)
+    @Query("DELETE from products WHERE barcode = :barcode")
+    fun deleteOne(barcode: Long)
 
     @Query("DELETE from products")
     fun deleteAll()

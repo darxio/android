@@ -8,13 +8,13 @@ import androidx.room.Query
 @Dao
 interface GroupsDAO {
     @Query("SELECT * from groups")
-    fun getAll(): List<GroupsModel>
+    fun getAll(): List<GroupModel>
 
     @Query("SELECT * from groups WHERE id = :id")
-    fun getOne(id: Int): GroupsModel
+    fun getOne(id: Int): GroupModel
 
     @Insert(onConflict = REPLACE)
-    fun add(group: GroupsModel)
+    fun add(group: GroupModel)
 
     @Query("DELETE from groups WHERE id = :id")
     fun deleteOne(id: Int)

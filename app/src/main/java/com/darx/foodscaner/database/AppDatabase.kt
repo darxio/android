@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(version = 1, entities = [GroupsModel::class, ExcludedIngredientsModel::class, IngredientsModel::class])
+@Database(version = 2, entities = [GroupsModel::class, ExcludedIngredientsModel::class, IngredientsModel::class])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun groupDAO(): GroupsDAO
     abstract fun ExcludedIngredientsDAO(): ExcludedIngredientsDAO

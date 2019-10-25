@@ -1,0 +1,14 @@
+<com.google.android.material.chip.Chip
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/ingredientObject"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:chipBackgroundColor="@color/positiveColor"
+    app:chipIcon="@drawable/ingredient"
+    app:chipStrokeWidth="1dp"
+    app:chipStrokeColor="@color/strongPositiveColor"
+
+    android:text="@string/ingredient_name"/>
+

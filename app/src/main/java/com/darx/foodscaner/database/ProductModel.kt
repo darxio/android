@@ -17,11 +17,8 @@ data class ProductModel(
                     @ColumnInfo(name = "bestbefore") var bestBefore: String,
                     @ColumnInfo(name = "nutrition") var nutrition: String,
                     @ColumnInfo(name = "manufacturer") var manufacturer: String,
-                    @ColumnInfo(name = "image") var image: String,
-                    @TypeConverters(TimestampConverter::class)
-                    @ColumnInfo(name = "date")
-                    var date: Date?
+                    @ColumnInfo(name = "image") var image: String
 ){
-    constructor():this(0,"","", "", "", "","","","","", null)
+    constructor():this(0,"","", "", "", "","","","","")
 
 }

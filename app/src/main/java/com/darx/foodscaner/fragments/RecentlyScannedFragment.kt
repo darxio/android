@@ -2,6 +2,7 @@ package com.darx.foodscaner.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,22 +10,22 @@ import android.view.ViewGroup
 import com.darx.foodscaner.ProductActivity
 
 import com.darx.foodscaner.R
-import com.darx.foodscaner.adapters.ProductAdapter
-import com.darx.foodscaner.models.Product
-import com.darx.foodscaner.services.ApiService
-import com.darx.foodscaner.services.ConnectivityInterceptorImpl
-import com.darx.foodscaner.services.NetworkDataSourceImpl
+import com.darx.foodscaner.adapters.ProductsAdapter
+import com.darx.foodscaner.database.AppDatabase
+import com.darx.foodscaner.database.ProductModel
+import com.darx.foodscaner.database.ScannedProductModel
+import com.darx.foodscaner.database.ScannedProductsDAO
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import java.io.Serializable
-import androidx.lifecycle.Observer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+
 
 
 class RecentlyScannedFragment : Fragment() {
-
-    private var networkDataSource: NetworkDataSourceImpl? = null
+    private var db: AppDatabase? = null
+    private var scannedProductsDAO: ScannedProductsDAO? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,48 +33,38 @@ class RecentlyScannedFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_recently_scanned, container, false)
 
-        val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        db = AppDatabase.getInstance(context = context!!) // ask
+            scannedProductsDAO = db?.scannedProductsDAO()
+        val recentlyScannedProducts: List<ScannedProductModel>? = null
 
-        networkDataSource?.product?.observe(this, Observer {
-//            username.text = it.
+        Observable.fromCallable({
 
-            var response: List<Product> = mutableListOf(
-                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
-                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
-//                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
-//                Product(111, "Choco-Pie", 111, Array(["adskfjkasjdfk", "dfas"]), ["adsf", "sdfaf"]),
-                it
-            )
+            var p1 = ScannedProductModel(barcode = 1321345364, name = "Chebupeli", description = "Ploxo", contents = "a,f,g,g,b",categoryURL = "/dsf",mass = "9324",bestBefore = "NULL",nutrition ="1",manufacturer = "43",image ="dfs",date = null)
+            var p2 = ScannedProductModel(barcode = 555555555, name = "Sir", description = "Xorosho", contents = "a,f,g,g,b",categoryURL = "/dsf",mass = "9324",bestBefore = "NULL",nutrition ="1",manufacturer = "43",image ="dfs",date = null)
 
-            val productAdapter = ProductAdapter(response, object : ProductAdapter.Callback {
-                override fun onItemClicked(item: Product) {
-                    val intent = Intent(this@RecentlyScannedFragment.activity, ProductActivity::class.java)
+            scannedProductsDAO?.add(p1)
+            scannedProductsDAO?.add(p2)
+            db?.scannedProductsDAO()?.getAll()
+        }).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                data -> Log.d("MYDATA", data?.get(1).toString())
+            })
+
+        val productsAdapter =
+            ProductsAdapter(recentlyScannedProducts!!, object : ProductsAdapter.Callback {
+                override fun onItemClicked(item: ScannedProductModel) {
+                    val intent = Intent(
+                        this@RecentlyScannedFragment.activity,
+                        ProductActivity::class.java
+                    )
                     intent.putExtra("PRODUCT", item as Serializable)
                     startActivity(intent)
                 }
             })
-            view.productRecycler.adapter = productAdapter
-        })
 
-        fetchProducts(view, 11111)
+        view.recently_scanned_products_recycler_view.adapter = productsAdapter
+
         return view
     }
-
-    private fun fetchProducts(view:View, barcode: Long) {
-        GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchProductByBarcode(barcode
-//                , object : NetworkDataSource.Callback {
-//                override fun onHttpException() {
-//                    Log.e("test", "test")
-//                }
-//
-//                override fun onNoConnectivityException() {
-//                    Log.e("test", "test")
-//                }
-//            }
-            )
-        }
-    }
-
 }

@@ -26,31 +26,31 @@ class IngredientsFragment(private val isSearch: Boolean) : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_groups, container, false)
 
-        var ingredients: List<Ingredient>? = null
-        if (isSearch) {
-            ingredients = getAllIngredients("")
-        } else {
-            val groupSearch = view.findViewById<TextInputLayout>(R.id.groupSearch)
-            groupSearch?.visibility = View.GONE
-            ingredients = getUsersIngredients()
-        }
-
-        for (ingredient: Ingredient in ingredients) {
-            val chip: Chip = Chip(this@IngredientsFragment.activity)
-            chip.text = ingredient.name
-
-            chip.chipStrokeWidth = 1F
-            chip.chipIcon = R.drawable.ingredient.toDrawable()
-
-            chip.setOnClickListener {
-                val intent = Intent(this@IngredientsFragment.activity, IngredientActivity::class.java)
-//                intent.putExtra("PRODUCT", item as Serializable)
-                startActivity(intent)
-            }
-
-            val ingredientsChipsGroup = view.findViewById<ChipGroup>(R.id.ingredientsChipsGroup)
-            ingredientsChipsGroup?.addView(chip)
-        }
+//        var ingredients: List<Ingredient>? = null
+//        if (isSearch) {
+//            ingredients = getAllIngredients("")
+//        } else {
+//            val groupSearch = view.findViewById<TextInputLayout>(R.id.groupSearch)
+//            groupSearch?.visibility = View.GONE
+//            ingredients = getUsersIngredients()
+//        }
+//
+//        for (ingredient: Ingredient in ingredients) {
+//            val chip: Chip = Chip(this@IngredientsFragment.activity)
+//            chip.text = ingredient.name
+//
+//            chip.chipStrokeWidth = 1F
+//            chip.chipIcon = R.drawable.ingredient.toDrawable()
+//
+//            chip.setOnClickListener {
+//                val intent = Intent(this@IngredientsFragment.activity, IngredientActivity::class.java)
+////                intent.putExtra("PRODUCT", item as Serializable)
+//                startActivity(intent)
+//            }
+//
+//            val ingredientsChipsGroup = view.findViewById<ChipGroup>(R.id.ingredientsChipsGroup)
+//            ingredientsChipsGroup?.addView(chip)
+//        }
 
         return view
     }

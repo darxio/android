@@ -6,7 +6,6 @@
     <string name="hello_info_fragment">Info fragment</string>
 
 
-
     <string name="entry_java_title">Java</string>
     <string name="entry_java_subtitle">Run the MLKit Showcase written in Java.</string>
     <string name="entry_kotlin_title">Kotlin</string>
@@ -81,13 +80,11 @@
     <string name="pref_summary_delay_loading_barcode_result">Will show the loading spinner for 2s</string>
 
 
-
     <!-- Profile fragment -->
     <string name="username">Guest</string>
     <string name="products_snanned_info">Products scanned:</string>
     <string name="products_snanned_count">0</string>
     <string name="login_button">Login</string>
-
 
 
     <!-- Info fragment -->
@@ -121,6 +118,9 @@
     <string name="my_item">Мои</string>
     <string name="search_item">Все</string>
     <string name="search">Поиск</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -1,10 +1,12 @@
 package com.darx.foodscaner
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import com.darx.foodscaner.adapters.PageAdapter
+import com.darx.foodscaner.adapters.WizardAdapter
 import com.darx.foodscaner.fragments.*
 //import com.darx.foodscaner.services.ApiService
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,8 +29,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        apiService = ApiService(ConnectivityInterceptorImpl(this.baseContext))
-
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         viewPager.adapter = pagerAdapter
         viewPager.currentItem = pagerAdapter.getItemNum("Camera")
+
+        val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
+        startActivity(intent)
     }
 
 }

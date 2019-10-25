@@ -1,11 +1,9 @@
-package com.darx.foodscaner.data.response
+package com.darx.foodscaner.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import java.io.Serializable
-import com.darx.foodscaner.services.StringArrayTypeConverters
 
 
 @Entity(tableName = "products")

@@ -5,10 +5,10 @@ import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.darx.foodscaner.data.Ingredient
+import com.darx.foodscaner.models.Ingredient
 import kotlinx.android.synthetic.main.activity_product.*
 import androidx.core.graphics.drawable.toDrawable
-import com.darx.foodscaner.data.response.Product
+import com.darx.foodscaner.models.Product
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.product_item.*
 

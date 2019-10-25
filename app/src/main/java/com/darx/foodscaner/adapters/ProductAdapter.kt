@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.darx.foodscaner.R
-import com.darx.foodscaner.data.response.Product
-import de.hdodenhof.circleimageview.CircleImageView
+import com.darx.foodscaner.models.Product
 
 
 class ProductAdapter(var items: List<Product>, val callback: Callback) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {

@@ -1,9 +1,7 @@
 package com.darx.foodscaner.fragments
 
 import android.content.Intent
-import android.nfc.tech.NfcBarcode
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,22 +10,19 @@ import com.darx.foodscaner.ProductActivity
 
 import com.darx.foodscaner.R
 import com.darx.foodscaner.adapters.ProductAdapter
-import com.darx.foodscaner.data.response.Product
+import com.darx.foodscaner.models.Product
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
-import kotlinx.android.synthetic.main.fragment_info.view.*
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import java.io.Serializable
 import androidx.lifecycle.Observer
-import com.darx.foodscaner.data.request.RegistrationRqst
-import com.darx.foodscaner.services.NetworkDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class InfoFragment : Fragment() {
+class RecentlyScannedFragment : Fragment() {
 
     private var networkDataSource: NetworkDataSourceImpl? = null
 
@@ -35,7 +30,7 @@ class InfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_info, container, false)
+        val view = inflater.inflate(R.layout.fragment_recently_scanned, container, false)
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
         networkDataSource = NetworkDataSourceImpl(apiService)
@@ -44,8 +39,8 @@ class InfoFragment : Fragment() {
 //            username.text = it.
 
             var response: List<Product> = mutableListOf(
-//                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
-//                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
+                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
+                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
 //                Product(111, "Choco-Pie", 1111, "adskfjkasjdfk"),
 //                Product(111, "Choco-Pie", 111, Array(["adskfjkasjdfk", "dfas"]), ["adsf", "sdfaf"]),
                 it
@@ -53,7 +48,7 @@ class InfoFragment : Fragment() {
 
             val productAdapter = ProductAdapter(response, object : ProductAdapter.Callback {
                 override fun onItemClicked(item: Product) {
-                    val intent = Intent(this@InfoFragment.activity, ProductActivity::class.java)
+                    val intent = Intent(this@RecentlyScannedFragment.activity, ProductActivity::class.java)
                     intent.putExtra("PRODUCT", item as Serializable)
                     startActivity(intent)
                 }

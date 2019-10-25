@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.darx.foodscaner.R
-import com.darx.foodscaner.data.response.Product
-import de.hdodenhof.circleimageview.CircleImageView
+import com.darx.foodscaner.models.Product
 
 
 class ProductAdapter(var items: List<Product>, val callback: Callback) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
@@ -24,9 +23,9 @@ class ProductAdapter(var items: List<Product>, val callback: Callback) : Recycle
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val productImage = itemView.findViewById<ImageView>(R.id.productImage)
-        private val productName = itemView.findViewById<TextView>(R.id.productName)
-        private val productInfo = itemView.findViewById<TextView>(R.id.productInfo)
+        private val productImage = itemView.findViewById<ImageView>(R.id.product_image)
+        private val productName = itemView.findViewById<TextView>(R.id.product_name)
+        private val productInfo = itemView.findViewById<TextView>(R.id.product_description)
 
         fun bind(item: Product) {
             productImage.setImageResource(R.drawable.product)  // TODO: сделать подгрузку фоток

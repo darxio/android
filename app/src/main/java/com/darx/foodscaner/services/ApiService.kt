@@ -1,11 +1,7 @@
 package com.darx.foodscaner.services
 
-import com.darx.foodscaner.data.request.LoginRqst
-import com.darx.foodscaner.data.request.RegistrationRqst
-import com.darx.foodscaner.data.response.Group
-import com.darx.foodscaner.data.response.Login
-import com.darx.foodscaner.data.response.Product
-import com.darx.foodscaner.data.response.Registration
+import com.darx.foodscaner.models.Group
+import com.darx.foodscaner.models.Product
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,22 +11,6 @@ import retrofit2.http.*
 
 
 interface ApiService {
-
-    // === USERS ===
-    @POST("users")
-    fun registration(
-        @Body registration: RegistrationRqst
-    ): Deferred<Registration>
-
-    @POST("session")
-    fun login(
-        @Body registration: LoginRqst
-    ): Deferred<Login>
-
-    @DELETE("session")
-    fun logout(): Deferred<Login>
-
-
     // === PRODUCTS ===
     @GET("products")
     fun products(): Deferred<List<Product>>

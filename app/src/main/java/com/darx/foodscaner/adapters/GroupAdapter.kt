@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.darx.foodscaner.R
-import com.darx.foodscaner.data.response.Group
+import com.darx.foodscaner.models.Group
 
 
 class GroupAdapter(var items: List<Group>, val callback: Callback) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {

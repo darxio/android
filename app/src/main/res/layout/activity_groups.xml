@@ -7,87 +7,39 @@
     android:layout_height="match_parent"
     tools:context=".UserGroupsActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/groupBar"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <include layout="@layout/toolbar"/>
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
-            app:contentScrim="?attr/colorPrimaryDark"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="exitUntilCollapsed|scroll">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--            android:id="@+id/ingredientBar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="160dp"-->
+<!--            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/user_groups_card"
-                        android:textSize="40sp"
-                        android:textColor="@color/white"
-                        android:layout_gravity="bottom"/>
-                </LinearLayout>
+<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+<!--                android:id="@+id/collapsingToolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:contentScrim="?attr/colorPrimaryDark"-->
+<!--                app:expandedTitleMarginEnd="64dp"-->
+<!--                app:expandedTitleMarginStart="48dp"-->
+<!--                app:layout_scrollFlags="exitUntilCollapsed|scroll"-->
+<!--                app:title="@string/user_groups_card">-->
 
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/eating_group"
-                    android:layout_gravity="right|center"
-                    tools:ignore="RtlHardcoded"
-                    android:layout_marginLeft="50dp"/>
+<!--            <ImageView-->
+<!--                    android:layout_width="90dp"-->
+<!--                    android:layout_height="90dp"-->
+<!--                    android:src="@drawable/eating_group" />-->
 
-            </LinearLayout>
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                    android:id="@+id/ingredientToolbar"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="?attr/actionBarSize"-->
+<!--                    app:layout_collapseMode="pin"-->
+<!--                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/groupsToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:background="@color/colorPrimary"
-                app:tabIndicatorColor="@color/colorPrimaryDark"
-                app:tabIndicatorHeight="5dp"
-                app:tabIconTint="@color/white"
-                app:tabTextColor="@color/white"
-                android:layout_gravity="bottom">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:icon="@drawable/user"
-                    android:text="@string/my_item"/>
-                <com.google.android.material.tabs.TabItem
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:icon="@drawable/search"
-                    android:text="@string/search_item"/>
-
-
-            </com.google.android.material.tabs.TabLayout>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

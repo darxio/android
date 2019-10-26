@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import com.darx.foodscaner.internal.NoConnectivityException
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.io.IOException
 
 class ConnectivityInterceptorImpl(context: Context) : ConnectivityInterceptor {
 

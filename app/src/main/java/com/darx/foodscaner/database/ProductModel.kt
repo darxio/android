@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "products")
@@ -17,11 +18,8 @@ data class ProductModel(
                     @ColumnInfo(name = "bestbefore") var bestBefore: String,
                     @ColumnInfo(name = "nutrition") var nutrition: String,
                     @ColumnInfo(name = "manufacturer") var manufacturer: String,
-                    @ColumnInfo(name = "image") var image: String,
-                    @TypeConverters(TimestampConverter::class)
-                    @ColumnInfo(name = "date")
-                    var date: Date?
-){
-    constructor():this(0,"","", "", "", "","","","","", null)
+                    @ColumnInfo(name = "image") var image: String
+): Serializable {
+    constructor():this(0,"","", "", "", "","","","","")
 
 }

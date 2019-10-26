@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.darx.foodscaner.R
+import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.models.Group
 
 

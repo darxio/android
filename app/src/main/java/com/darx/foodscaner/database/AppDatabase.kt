@@ -4,12 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
-@Database(version = 2, entities = [GroupModel::class, ExcludedIngredientModel::class, IngredientModel::class])
+@Database(version = 4, entities = [GroupModel::class, IngredientModel::class, ExcludedIngredientModel::class
+    , ProductModel::class, FavouriteProductModel::class, ScannedProductModel::class])
+@TypeConverters(TimestampConverter::class, ProductIngredientsConverter::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun groupDAO(): GroupsDAO
-    abstract fun ExcludedIngredientsDAO(): ExcludedIngredientsDAO
-    abstract fun IngredientsDAO(): IngredientsDAO
+    abstract fun groupsDAO(): GroupsDAO
+    abstract fun ingredientsDAO(): IngredientsDAO
+    abstract fun excludedIngredientsDAO(): ExcludedIngredientsDAO
+    abstract fun productsDAO(): ProductsDAO
+    abstract fun favouriteProductsDAO(): FavouriteProductsDAO
+    abstract fun scannedProductsDAO(): ScannedProductsDAO
+
 
     companion object {
         private var INSTANCE: AppDatabase? = null

@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "scanned_products")
@@ -21,7 +22,6 @@ data class ScannedProductModel(
     @TypeConverters(TimestampConverter::class)
     @ColumnInfo(name = "date")
     var date: Date?
-){
+): Serializable {
     constructor():this(0,"","", "", "", "","","","","", null)
-
 }

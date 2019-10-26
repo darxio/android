@@ -11,6 +11,7 @@ import com.darx.foodscaner.fragments.GroupsFragment
 import com.darx.foodscaner.fragments.IngredientsFragment
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_groups.*
+import kotlinx.android.synthetic.main.activity_ingredients.*
 import kotlinx.android.synthetic.main.activity_product.*
 
 class UserIngredientsActivity : AppCompatActivity() {

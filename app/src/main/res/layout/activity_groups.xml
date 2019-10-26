@@ -7,38 +7,41 @@
     android:layout_height="match_parent"
     tools:context=".UserGroupsActivity">
 
-    <include layout="@layout/toolbar"/>
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/groupsBar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--            android:id="@+id/ingredientBar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="160dp"-->
-<!--            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimaryDark"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll"
+                app:title="@string/user_groups_card">
 
-<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
-<!--                android:id="@+id/collapsingToolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:contentScrim="?attr/colorPrimaryDark"-->
-<!--                app:expandedTitleMarginEnd="64dp"-->
-<!--                app:expandedTitleMarginStart="48dp"-->
-<!--                app:layout_scrollFlags="exitUntilCollapsed|scroll"-->
-<!--                app:title="@string/user_groups_card">-->
+            <ImageView
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:src="@drawable/eating_group"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginRight="35dp"
+                    android:layout_marginBottom="15dp"/>
 
-<!--            <ImageView-->
-<!--                    android:layout_width="90dp"-->
-<!--                    android:layout_height="90dp"-->
-<!--                    android:src="@drawable/eating_group" />-->
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/groupToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                    android:id="@+id/ingredientToolbar"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="?attr/actionBarSize"-->
-<!--                    app:layout_collapseMode="pin"-->
-<!--                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
-<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
+<!--            <include layout="@layout/toolbar"/>-->
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+    </com.google.android.material.appbar.AppBarLayout>
 
 
     <androidx.core.widget.NestedScrollView
@@ -46,10 +49,19 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+<!--        <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:text="Мои группы:"-->
+<!--                android:textSize="30dp"/>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/groupsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/group_item" />
 
     </androidx.core.widget.NestedScrollView>
 

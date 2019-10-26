@@ -1,15 +1,8 @@
 package com.darx.foodscaner
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.darx.foodscaner.adapters.GroupAdapter
-import com.darx.foodscaner.adapters.ProductAdapter
-import com.darx.foodscaner.data.response.Group
 //import com.darx.foodscaner.data.response.Product
-import com.darx.foodscaner.database.AppDatabase
-import kotlinx.android.synthetic.main.activity_groups.*
-import java.io.Serializable
 
 class FavoritesActivity : AppCompatActivity() {
 

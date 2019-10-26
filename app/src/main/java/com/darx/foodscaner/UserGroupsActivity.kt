@@ -17,7 +17,7 @@ class UserGroupsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         pagerAdapter.addFragment(GroupsFragment(false), "MyGroups")
-        pagerAdapter.addFragment(GroupsFragment(true), "ShearchGroups")
+        pagerAdapter.addFragment(GroupsFragment(true), "SearchGroups")
 
         setContentView(R.layout.activity_groups)
         viewPager.adapter = pagerAdapter

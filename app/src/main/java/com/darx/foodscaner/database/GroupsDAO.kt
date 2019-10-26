@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 
 @Dao
-interface GroupDAO {
+interface GroupsDAO {
     @Query("SELECT * from groups")
     fun getAll(): List<GroupModel>
 

@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.darx.foodscaner.R
-import com.darx.foodscaner.data.response.Product
-import de.hdodenhof.circleimageview.CircleImageView
+import com.darx.foodscaner.database.ScannedProductModel
 
 
-class ProductAdapter(var items: List<Product>, val callback: Callback) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+class ProductsAdapter(var items: List<ScannedProductModel>, val callback: Callback) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false))
@@ -24,15 +23,18 @@ class ProductAdapter(var items: List<Product>, val callback: Callback) : Recycle
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val productImage = itemView.findViewById<ImageView>(R.id.productImage)
-        private val productName = itemView.findViewById<TextView>(R.id.productName)
-        private val productInfo = itemView.findViewById<TextView>(R.id.productInfo)
+        private val productImage = itemView.findViewById<ImageView>(R.id.product_image)
+        private val productName = itemView.findViewById<TextView>(R.id.product_name)
+        private val productDescription = itemView.findViewById<TextView>(R.id.product_description)
+        private val productWarning = itemView.findViewById<TextView>(R.id.product_warning_text)
 
-        fun bind(item: Product) {
-            productImage.setImageResource(R.drawable.product)  // TODO: сделать подгрузку фоток
+
+        fun bind(item: ScannedProductModel) {
+            productImage.setImageResource(R.drawable.product) //!
             productName.text = item.name
-            productInfo.text = item.category_url
-            // TODO: обработка добавления иконок
+            productDescription.text = item.description
+            productWarning.text = "" //!!
+
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
@@ -40,7 +42,7 @@ class ProductAdapter(var items: List<Product>, val callback: Callback) : Recycle
     }
 
     interface Callback {
-        fun onItemClicked(item: Product)
+        fun onItemClicked(item: ScannedProductModel)
     }
 
 }

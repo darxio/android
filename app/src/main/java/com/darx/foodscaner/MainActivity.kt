@@ -3,17 +3,12 @@ package com.darx.foodscaner
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowManager
 import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.adapters.WizardAdapter
 import com.darx.foodscaner.fragments.*
-//import com.darx.foodscaner.services.ApiService
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-//    public var apiService: ApiService? = null
     private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
 
     override fun onBackPressed() {
@@ -34,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         pagerAdapter.addFragment(ProfileFragment(), "Profile")
         pagerAdapter.addFragment(CameraFragment(), "Camera")
-        pagerAdapter.addFragment(InfoFragment(), "Info")
+        pagerAdapter.addFragment(RecentlyScannedFragment(), "RecentlyScanned")
 
         setContentView(R.layout.activity_main)
         viewPager.adapter = pagerAdapter

@@ -11,17 +11,12 @@ import android.view.ViewGroup
 
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import androidx.core.graphics.drawable.toDrawable
-import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.*
-import com.darx.foodscaner.adapters.GroupAdapter
-import com.darx.foodscaner.data.Ingredient
-import com.darx.foodscaner.data.response.Group
+import com.darx.foodscaner.models.Ingredient
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.activity_product.*
 
 
 class IngredientsFragment(private val isSearch: Boolean) : Fragment() {

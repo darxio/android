@@ -8,8 +8,8 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.GroupAdapter
 import com.darx.foodscaner.adapters.PageAdapter
-import com.darx.foodscaner.data.response.Group
 import com.darx.foodscaner.fragments.GroupsFragment
+import com.darx.foodscaner.models.Group
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_groups.*
 import kotlinx.android.synthetic.main.activity_ingredient.*
@@ -21,14 +21,9 @@ class UserGroupsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
 
-<<<<<<< HEAD
         setSupportActionBar(groupToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-=======
-        pagerAdapter.addFragment(GroupsFragment(false), "MyGroups")
-        pagerAdapter.addFragment(GroupsFragment(true), "SearchGroups")
->>>>>>> af5cc3a2d9755dffaf9c303cce43138bd4361d2a
 
         val groupAdapter = GroupAdapter(getUsersGroups(), object : GroupAdapter.Callback {
             override fun onItemClicked(item: Group) {

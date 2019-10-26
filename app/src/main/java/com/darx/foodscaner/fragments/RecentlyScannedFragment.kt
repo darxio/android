@@ -35,7 +35,6 @@ class RecentlyScannedFragment : Fragment() {
 
         db = AppDatabase.getInstance(context = context!!) // ask
             scannedProductsDAO = db?.scannedProductsDAO()
-        val recentlyScannedProducts: List<ScannedProductModel>? = null
 
         Observable.fromCallable({
 
@@ -50,6 +49,7 @@ class RecentlyScannedFragment : Fragment() {
             .subscribe({it->
                 val productsAdapter =
                     ProductsAdapter(it!!, object : ProductsAdapter.Callback {
+
                         override fun onItemClicked(item: ScannedProductModel) {
                             val intent = Intent(
                                 this@RecentlyScannedFragment.activity,
@@ -58,6 +58,7 @@ class RecentlyScannedFragment : Fragment() {
                             intent.putExtra("PRODUCT", item as Serializable)
                             startActivity(intent)
                         }
+
                     })
                 view.recently_scanned_products_recycler_view.adapter = productsAdapter
             })

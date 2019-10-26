@@ -1,11 +1,8 @@
 package com.darx.foodscaner.services
 
-import com.darx.foodscaner.data.request.LoginRqst
-import com.darx.foodscaner.data.request.RegistrationRqst
-import com.darx.foodscaner.data.response.Group
-import com.darx.foodscaner.data.response.Login
-import com.darx.foodscaner.data.response.Product
-import com.darx.foodscaner.data.response.Registration
+
+import com.darx.foodscaner.database.GroupModel
+import com.darx.foodscaner.database.ScannedProductModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,64 +12,29 @@ import retrofit2.http.*
 
 
 interface ApiService {
-
-    // === USERS ===
-    @POST("users")
-    fun registration(
-        @Body registration: RegistrationRqst
-    ): Deferred<Registration>
-
-    @POST("session")
-    fun login(
-        @Body registration: LoginRqst
-    ): Deferred<Login>
-
-    @DELETE("session")
-    fun logout(): Deferred<Login>
-
-
     // === PRODUCTS ===
     @GET("products")
-    fun products(): Deferred<List<Product>>
+    fun productsAll(): Deferred<List<ScannedProductModel>>
 
     @GET("products/barcode/{barcode}")
     fun productByBarcode(
-//        @Query("barcode") barcode: Long
         @Path("barcode") barcode: Long
-    ): Deferred<Product>
+    ): Deferred<ScannedProductModel>
 
 
     // === GROUPS ===
     @GET("groups")
-    fun groups(): Deferred<List<Group>>
+    fun groups(): Deferred<List<GroupModel>>
 
     @GET("groups")
-    fun groupById(
+    fun groupByID(
         @Query("id") id: Int
-    ): Deferred<Group>
+    ): Deferred<GroupModel>
 
     @GET("groups")
     fun groupByName(
         @Query("name") name: String
-    ): Deferred<Group>
-
-
-    @POST("user/groups")
-    fun userGroups(
-        @Body username: String
-    ): Deferred<List<Group>>
-
-    @GET("user/groups")
-    fun userGroupsByName(
-        @Query("name") name: String
-    ): Deferred<Group>
-
-    @POST("user/groups")
-    fun addGroup(): Deferred<Group>
-
-    @DELETE("user/groups")
-    fun removeGroup(): Deferred<Group>
-
+    ): Deferred<GroupModel>
 
     companion object {
         operator fun invoke(

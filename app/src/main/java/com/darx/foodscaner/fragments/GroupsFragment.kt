@@ -14,7 +14,7 @@ import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.*
 import com.darx.foodscaner.adapters.GroupAdapter
-import com.darx.foodscaner.data.response.Group
+import com.darx.foodscaner.models.Group
 import com.google.android.material.textfield.TextInputLayout
 
 

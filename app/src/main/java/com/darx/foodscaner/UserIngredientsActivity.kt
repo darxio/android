@@ -1,18 +1,15 @@
 package com.darx.foodscaner
 
-import android.content.Intent
-import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.graphics.drawable.toDrawable
 import com.darx.foodscaner.adapters.PageAdapter
-import com.darx.foodscaner.data.Ingredient
-import com.darx.foodscaner.fragments.GroupsFragment
 import com.darx.foodscaner.fragments.IngredientsFragment
-import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_groups.*
+<<<<<<< HEAD
 import kotlinx.android.synthetic.main.activity_ingredients.*
 import kotlinx.android.synthetic.main.activity_product.*
+=======
+>>>>>>> af5cc3a2d9755dffaf9c303cce43138bd4361d2a
 
 class UserIngredientsActivity : AppCompatActivity() {
 

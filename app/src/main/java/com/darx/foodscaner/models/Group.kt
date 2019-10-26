@@ -1,4 +1,4 @@
-package com.darx.foodscaner.data.response
+package com.darx.foodscaner.models
 
 
 data class Group(

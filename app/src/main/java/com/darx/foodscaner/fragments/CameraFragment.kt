@@ -46,9 +46,19 @@ import android.content.pm.PackageManager
 import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import com.darx.foodscaner.MainActivity
+import com.darx.foodscaner.ProductActivity
+import com.darx.foodscaner.adapters.ProductsAdapter
+import com.darx.foodscaner.database.AppDatabase
+import com.darx.foodscaner.database.ScannedProductModel
+import com.darx.foodscaner.database.ScannedProductsDAO
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
+import java.io.Serializable
 
 
 class CameraFragment : Fragment(), OnClickListener {
@@ -77,6 +87,8 @@ class CameraFragment : Fragment(), OnClickListener {
     private var currentWorkflowState: WorkflowState? = null
     private var promtChipShown: Boolean = false
     private var barcodeField = BarcodeField("", "")
+    private var db: AppDatabase? = null
+    private var scannedProductsDAO: ScannedProductsDAO? = null
 
 
     private var networkDataSource: NetworkDataSourceImpl? = null
@@ -93,9 +105,20 @@ class CameraFragment : Fragment(), OnClickListener {
         networkDataSource = NetworkDataSourceImpl(apiService)
 
         networkDataSource?.product?.observe(this, Observer {
-            // тут нужно добавить логику обработки полученного объекта it (Product)
             barcodeField.label = it.name ?: ""
-            barcodeField.value = it.category_url ?: ""
+            barcodeField.value = it.description ?: ""
+
+            db = AppDatabase.getInstance(context = context!!) // ask
+            scannedProductsDAO = db?.scannedProductsDAO()
+
+
+            Observable.fromCallable({
+                scannedProductsDAO?.add(it)
+            }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+
+
             BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField)
         })
 

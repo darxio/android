@@ -21,9 +21,14 @@ class UserGroupsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
 
+<<<<<<< HEAD
         setSupportActionBar(groupToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+=======
+        pagerAdapter.addFragment(GroupsFragment(false), "MyGroups")
+        pagerAdapter.addFragment(GroupsFragment(true), "SearchGroups")
+>>>>>>> af5cc3a2d9755dffaf9c303cce43138bd4361d2a
 
         val groupAdapter = GroupAdapter(getUsersGroups(), object : GroupAdapter.Callback {
             override fun onItemClicked(item: Group) {

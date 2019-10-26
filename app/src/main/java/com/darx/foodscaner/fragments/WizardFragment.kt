@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import androidx.lifecycle.Observer
 import com.darx.foodscaner.*
-import com.darx.foodscaner.data.request.LoginRqst
-import com.darx.foodscaner.data.request.RegistrationRqst
+//import com.darx.foodscaner.data.request.LoginRqst
+//import com.darx.foodscaner.data.request.RegistrationRqst
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl

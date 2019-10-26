@@ -47,23 +47,21 @@ class RecentlyScannedFragment : Fragment() {
             db?.scannedProductsDAO()?.getAll()
         }).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                data -> Log.d("MYDATA", data?.get(1).toString())
+            .subscribe({it->
+                val productsAdapter =
+                    ProductsAdapter(it!!, object : ProductsAdapter.Callback {
+                        override fun onItemClicked(item: ScannedProductModel) {
+                            val intent = Intent(
+                                this@RecentlyScannedFragment.activity,
+                                ProductActivity::class.java
+                            )
+                            intent.putExtra("PRODUCT", item as Serializable)
+                            startActivity(intent)
+                        }
+                    })
+                view.recently_scanned_products_recycler_view.adapter = productsAdapter
             })
 
-        val productsAdapter =
-            ProductsAdapter(recentlyScannedProducts!!, object : ProductsAdapter.Callback {
-                override fun onItemClicked(item: ScannedProductModel) {
-                    val intent = Intent(
-                        this@RecentlyScannedFragment.activity,
-                        ProductActivity::class.java
-                    )
-                    intent.putExtra("PRODUCT", item as Serializable)
-                    startActivity(intent)
-                }
-            })
-
-        view.recently_scanned_products_recycler_view.adapter = productsAdapter
 
         return view
     }

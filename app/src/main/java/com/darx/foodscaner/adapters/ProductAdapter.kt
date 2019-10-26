@@ -31,7 +31,7 @@ class ProductAdapter(var items: List<Product>, val callback: Callback) : Recycle
         fun bind(item: Product) {
             productImage.setImageResource(R.drawable.product)  // TODO: сделать подгрузку фоток
             productName.text = item.name
-            productInfo.text = item.info
+            productInfo.text = item.category_url
             // TODO: обработка добавления иконок
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])

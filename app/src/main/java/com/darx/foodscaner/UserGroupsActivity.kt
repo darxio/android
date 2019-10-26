@@ -2,10 +2,12 @@ package com.darx.foodscaner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.fragments.GroupsFragment
 import kotlinx.android.synthetic.main.activity_groups.viewPager
+import kotlinx.android.synthetic.main.toolbar.*
 
 class UserGroupsActivity : AppCompatActivity() {
 
@@ -19,6 +21,8 @@ class UserGroupsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_groups)
         viewPager.adapter = pagerAdapter
+
+        setSupportActionBar(toolBar)
     }
 
 //    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
@@ -35,4 +39,8 @@ class UserGroupsActivity : AppCompatActivity() {
 //        }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
 }

@@ -2,10 +2,10 @@ package com.darx.foodscaner.services
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.darx.foodscaner.models.Product
+import com.darx.foodscaner.database.ScannedProductModel
 
 interface NetworkDataSource {
-    val product: LiveData<Product>
+    val product: LiveData<ScannedProductModel>
 
     suspend fun fetchProductByBarcode(barcode: Long, callback: Callback = DefaultCallback())
 

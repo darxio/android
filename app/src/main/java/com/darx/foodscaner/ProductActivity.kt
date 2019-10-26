@@ -4,27 +4,27 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.darx.foodscaner.models.Ingredient
 import kotlinx.android.synthetic.main.fragment_product_info.*
 import androidx.core.graphics.drawable.toDrawable
-import com.darx.foodscaner.models.Product
+import com.darx.foodscaner.database.*
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.product_item.*
 
 
 class ProductActivity : AppCompatActivity() {
-
-//    private val database = LocalDatabase(applicationContext)
-//    var database: LocalDatabase = databaseBuilder(baseContext, LocalDatabase::class.java!!, "database").build()
-    private lateinit var product: Product
+    private var db: AppDatabase? = null
+    private var productsDAO: ProductsDAO? = null
+    private lateinit var productToShow: ScannedProductModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_product_info)
 
-        product = intent.extras.get("PRODUCT") as Product
-        product_name.text = product.name
+        productToShow = intent.extras.get("PRODUCT") as ScannedProductModel
+        product_name.text = productToShow.name
+        product_manufacturer.text = productToShow.manufacturer
+        product_description.text = productToShow.description
 
         val ingredients = listOf(
             Ingredient("Сахар очень вк"),
@@ -63,15 +63,5 @@ class ProductActivity : AppCompatActivity() {
             }
             ingredient_chips.addView(chip)
         }
-
-//        productStar.setOnClickListener {
-//            addToFavorite(it)
-//        }
-    }
-
-    private fun addToFavorite(view: View) {
-//        val database = LocalDatabase(applicationContext)
-//        val productDao = database.productDao()
-//        productDao.upsert(product)
     }
 }

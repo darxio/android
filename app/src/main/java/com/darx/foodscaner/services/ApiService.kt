@@ -2,7 +2,7 @@ package com.darx.foodscaner.services
 
 
 import com.darx.foodscaner.database.GroupModel
-import com.darx.foodscaner.database.ScannedProductModel
+import com.darx.foodscaner.database.ProductModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,12 +14,12 @@ import retrofit2.http.*
 interface ApiService {
     // === PRODUCTS ===
     @GET("products")
-    fun productsAll(): Deferred<List<ScannedProductModel>>
+    fun productsAll(): Deferred<List<ProductModel>>
 
     @GET("products/barcode/{barcode}")
     fun productByBarcode(
         @Path("barcode") barcode: Long
-    ): Deferred<ScannedProductModel>
+    ): Deferred<ProductModel>
 
 
     // === GROUPS ===

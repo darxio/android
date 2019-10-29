@@ -7,7 +7,7 @@ import androidx.room.Query
 
 @Dao
 interface FavouriteProductsDAO {
-    @Query("SELECT * from favourite_products")
+    @Query("SELECT * from favourite_products ORDER BY name")
     fun getAll(): List<FavouriteProductModel>
 
     @Query("SELECT * from favourite_products WHERE barcode = :barcode")

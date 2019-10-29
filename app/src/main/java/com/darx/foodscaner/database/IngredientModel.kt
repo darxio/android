@@ -10,7 +10,7 @@ data class IngredientModel(
                     @PrimaryKey var id: Int,
                     @ColumnInfo(name = "name") var name: String,
                     @ColumnInfo(name = "about") var about: String,
-                    @ColumnInfo(name = "image_path") var imagePath: String
+                    @ColumnInfo(name = "image") var imagePath: String
 
 ): Serializable {
     constructor():this(0,"","", "")

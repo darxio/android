@@ -13,18 +13,15 @@ import kotlinx.android.synthetic.main.product_item.*
 
 
 class ProductActivity : AppCompatActivity() {
-    private var db: AppDatabase? = null
-    private var productsDAO: ProductsDAO? = null
-    private lateinit var productToShow: ScannedProductModel
+    private lateinit var productToShow: ProductModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_product_info)
 
-        productToShow = intent.extras.get("PRODUCT") as ScannedProductModel
-        product_name.text = productToShow.name
-        product_manufacturer.text = productToShow.manufacturer
-        product_description.text = productToShow.description
+        productToShow = intent.extras.get("PRODUCT") as ProductModel
+        info_product_name.text = productToShow.name
+        info_product_manufacturer.text = productToShow.manufacturer
 
         val ingredients = listOf(
             Ingredient("Сахар очень вк"),
@@ -61,7 +58,7 @@ class ProductActivity : AppCompatActivity() {
 //                intent.putExtra("PRODUCT", item as Serializable)
                 startActivity(intent)
             }
-            ingredient_chips.addView(chip)
+            info_ingredient_chips.addView(chip)
         }
     }
 }

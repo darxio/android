@@ -49,8 +49,9 @@ import com.darx.foodscaner.MainActivity
 import com.darx.foodscaner.ProductActivity
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.AppDatabase
-import com.darx.foodscaner.database.ScannedProductModel
-import com.darx.foodscaner.database.ScannedProductsDAO
+import com.darx.foodscaner.database.ProductModel
+import com.darx.foodscaner.database.ProductViewModel
+import com.darx.foodscaner.database.ProductsDAO
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import io.reactivex.Observable
@@ -87,11 +88,9 @@ class CameraFragment : Fragment(), OnClickListener {
     private var currentWorkflowState: WorkflowState? = null
     private var promtChipShown: Boolean = false
     private var barcodeField = BarcodeField("", "")
-    private var db: AppDatabase? = null
-    private var scannedProductsDAO: ScannedProductsDAO? = null
-
 
     private var networkDataSource: NetworkDataSourceImpl? = null
+    private var productViewModel: ProductViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,21 +102,12 @@ class CameraFragment : Fragment(), OnClickListener {
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
         networkDataSource = NetworkDataSourceImpl(apiService)
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
         networkDataSource?.product?.observe(this, Observer {
             barcodeField.label = it.name ?: ""
             barcodeField.value = it.description ?: ""
-
-            db = AppDatabase.getInstance(context = context!!) // ask
-            scannedProductsDAO = db?.scannedProductsDAO()
-
-
-            Observable.fromCallable({
-                scannedProductsDAO?.add(it)
-            }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-
+            productViewModel?.add_(it)
 
             BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField)
         })

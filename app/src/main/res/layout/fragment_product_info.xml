@@ -1,46 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <include layout="@layout/product_item"/>
-
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.MaterialComponents.CardView"
-        android:id="@+id/product_ingredients"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_product_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/mtrl_card_spacing"
-        android:layout_marginTop="@dimen/mtrl_card_spacing"
-        android:layout_marginRight="@dimen/mtrl_card_spacing"
-        android:layout_gravity="right">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="15dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/Constitution"/>
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/ingredient_chips"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
-
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
             style="@style/Widget.MaterialComponents.CardView"
-            android:id="@+id/product_info_extended"
+            android:id="@+id/info_product_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/mtrl_card_spacing"
@@ -50,7 +19,144 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/info_product_image"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:padding="3dp"
+                    android:src="@drawable/product"/>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp">
+
+                <TextView
+                        android:id="@+id/info_product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/product_name"
+                        android:textSize="15sp" />
+
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:id="@+id/info_product_warning_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Опасно!"
+                            android:textSize="13sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+<!--  Ingredients -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:text="@string/Constitution"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/info_ingredient_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+        </LinearLayout>
+
+<!--    Nutrition Facts -->
+
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="БЖУ:"
+                android:layout_marginRight="8dp"/>
+
+        <TextView
+                android:id="@+id/info_product_nutrition_facts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100гр САХАРА"/>
+
+    </LinearLayout>
+
+
+<!--   Mass -->
+
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Масса:"
+                android:layout_marginRight="8dp"/>
+
+        <TextView
+                android:id="@+id/info_product_mass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="65kg"/>
+
+    </LinearLayout>
+
+<!-- Best Before-->
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Срок хранения:"
+                android:layout_marginRight="8dp"/>
+
+        <TextView
+                android:id="@+id/info_product_bestbefore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.7.2077"/>
+
+    </LinearLayout>
+
+<!--    Manufacturer -->
+
+    <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="15dp">
 
@@ -61,12 +167,10 @@
                     android:layout_marginRight="8dp"/>
 
             <TextView
-                    android:id="@+id/product_manufacturer"
+                    android:id="@+id/info_product_manufacturer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Рога и копыта ООО"/>
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
 </LinearLayout>

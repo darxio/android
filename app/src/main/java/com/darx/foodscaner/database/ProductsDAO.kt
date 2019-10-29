@@ -1,14 +1,16 @@
 package com.darx.foodscaner.database
 
-import androidx.room.Dao
-import androidx.room.Insert
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
 
 @Dao
 interface ProductsDAO {
-    @Query("SELECT * from products")
-    fun getAll(): List<ProductModel>
+    @Query("SELECT * from products ORDER BY date DESC") // ORDER BY
+    fun getAll(): LiveData<List<ProductModel>>
+
+    @Query("SELECT * from products WHERE starred=1 ORDER BY date DESC") //??
+    fun getFavourites(): LiveData<List<ProductModel>>
 
     @Query("SELECT * from products WHERE barcode = :barcode")
     fun getOne(barcode: Long): ProductModel
@@ -16,8 +18,11 @@ interface ProductsDAO {
     @Insert(onConflict = REPLACE)
     fun add(product: ProductModel)
 
-    @Query("DELETE from products WHERE barcode = :barcode")
-    fun deleteOne(barcode: Long)
+    @Update
+    fun updateStarred(product: ProductModel)
+
+    @Delete
+    fun deleteOne(product: ProductModel)
 
     @Query("DELETE from products")
     fun deleteAll()

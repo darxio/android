@@ -9,7 +9,7 @@ import java.io.Serializable
 data class GroupModel(@PrimaryKey(autoGenerate = true) var id: Int,
                             @ColumnInfo(name = "name") var name: String,
                             @ColumnInfo(name = "about") var about: String,
-                            @ColumnInfo(name = "image_path") var imagePath: String
+                            @ColumnInfo(name = "image") var imagePath: String
 
 ): Serializable {
     constructor():this(0,"","", "")

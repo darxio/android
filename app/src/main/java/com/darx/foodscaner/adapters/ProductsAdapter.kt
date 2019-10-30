@@ -50,13 +50,9 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
             productImage.setImageResource(R.drawable.product) //!
             productName.text = item.name
             productDescription.text = item.description
-//            productManufacturer.text = item.manufacturer
-//            productMass.text = item.mass
-//            productNutritonFacts.text = item.nutrition
-//            productBestBefore.text = item.bestBefore
+
             val dateFormat = SimpleDateFormat("dd MMM, HH:mm")
             productScannedDate.text = dateFormat.format(item.date)
-
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
@@ -69,7 +65,7 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 starred.setBackgroundResource(R.drawable.ic_unstarred)
             }
 
-            starred.setOnClickListener({
+            starred.setOnClickListener {
                 val starred_ = item.starred
                 if (starred_) {
                     starred.setBackgroundResource(R.drawable.ic_unstarred)
@@ -81,9 +77,9 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
 
                 pVM.updateStarred_(item)
                 notifyDataSetChanged()
-            })
+            }
 
-            share.setOnClickListener( {
+            share.setOnClickListener {
                 val sharingIntent = Intent(Intent.ACTION_SEND)
                 sharingIntent.type = "text/plain"
                 val shareBody = item.name;
@@ -91,16 +87,16 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 ctx.startActivity(
                     Intent.createChooser(
                         sharingIntent,
-//                        ctx.getResources().getString(R.string.share_via)
-                    "Поделиться"
+        //                        ctx.getResources().getString(R.string.share_via)
+                        "Поделиться"
                     )
                 )
-            })
+            }
 
-            delete.setOnClickListener({
+            delete.setOnClickListener {
                 pVM.deleteOne_(item)
                 notifyDataSetChanged()
-            })
+            }
         }
     }
 

@@ -41,7 +41,7 @@ class GroupsFragment(private val isSearch: Boolean) : Fragment() {
             }
         })
 
-        val groupsRecycler = view.findViewById<RecyclerView>(R.id.groupsRecycler)
+        val groupsRecycler = view.findViewById<RecyclerView>(R.id.myGroupsRecycler)
         groupsRecycler.adapter = groupAdapter
 
         return view

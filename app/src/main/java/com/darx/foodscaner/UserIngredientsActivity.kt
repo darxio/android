@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.fragments.IngredientsFragment
 import kotlinx.android.synthetic.main.activity_groups.*
+import kotlinx.android.synthetic.main.activity_ingredients.*
 
 class UserIngredientsActivity : AppCompatActivity() {
 

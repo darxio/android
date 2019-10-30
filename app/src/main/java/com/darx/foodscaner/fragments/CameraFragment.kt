@@ -148,9 +148,6 @@ class CameraFragment : Fragment(), OnClickListener {
         flashButton = getView()?.findViewById<View>(R.id.flash_button)
         flashButton?.setOnClickListener(this)
 
-        settingsButton = getView()?.findViewById<View>(R.id.settings_button)
-        settingsButton?.setOnClickListener(this)
-
         setUpWorkflowModel()
 
     }
@@ -189,12 +186,6 @@ class CameraFragment : Fragment(), OnClickListener {
                         cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
                     }
                 }
-            }
-            R.id.settings_button -> {
-                settingsButton?.isEnabled = false
-                val intent = Intent (activity, SettingsActivity::class.java)
-                activity?.startActivity(intent)
-
             }
         }
     }

@@ -20,6 +20,7 @@ import java.io.Serializable
 
 
 class RecentlyScannedFragment : Fragment() {
+
     private var productViewModel: ProductViewModel? = null
     private var productsAdapter: ProductsAdapter? = null
 

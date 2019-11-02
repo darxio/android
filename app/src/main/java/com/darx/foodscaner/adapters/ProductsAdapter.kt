@@ -9,17 +9,9 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.darx.foodscaner.ProductActivity
 import com.darx.foodscaner.R
-import com.darx.foodscaner.database.AppDatabase
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
-import com.darx.foodscaner.database.ProductsDAO
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
-import java.io.Serializable
 import java.text.SimpleDateFormat
 
 

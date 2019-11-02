@@ -91,6 +91,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-ml-vision:23.0.0'
     implementation 'com.google.firebase:firebase-ml-vision-object-detection-model:19.0.1'
 
+    // Search
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
     api 'com.google.guava:guava:27.1-jre'
 }
 

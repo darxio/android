@@ -114,7 +114,7 @@
     <string name="group_ingredients_button">Ингредиенты</string>
     <string name="user_ingredients_card">Ингредиенты</string>
     <string name="user_groups_card">Группы</string>
-    <string name="user_favorites_card">Избранное</string>
+    <string name="user_favorites_card">Избранные продукты</string>
     <string name="my_item">Мои</string>
     <string name="search_item">Все</string>
 

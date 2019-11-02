@@ -21,6 +21,11 @@ interface ApiService {
         @Path("barcode") barcode: Long
     ): Deferred<ProductModel>
 
+    @GET("products/search/{name}")
+    fun productSearch(
+        @Path("name") name: String
+    ): Deferred<List<ProductModel>>
+
 
     // === GROUPS ===
     @GET("groups")

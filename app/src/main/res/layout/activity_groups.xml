@@ -38,6 +38,11 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                    android:id="@+id/groupsSearchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
 <!--            <include layout="@layout/toolbar"/>-->
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -49,47 +54,43 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-<!--        <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:text="Мои группы:"-->
-<!--                android:textSize="30dp"/>-->
-
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Мои группы:"/>
+            <TextView
+                    android:id="@+id/myGroupsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Мои группы:"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/myGroupsRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="2"
-                tools:listitem="@layout/group_item" />
-
-            <View
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/myGroupsRecycler"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lighter_grey"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Все группы:"/>
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:spanCount="2"
+                    tools:listitem="@layout/group_item" />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="40dp"
+                        android:background="@color/lighter_grey"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Все группы:"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/allGroupsRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:spanCount="2"
+                    tools:listitem="@layout/group_item" />
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/allGroupsRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="2"
-                tools:listitem="@layout/group_item" />
-
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

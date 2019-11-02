@@ -15,7 +15,7 @@ data class ProductModel(
                     @ColumnInfo(name = "description") var description: String,
 //                    @TypeConverters(TimestampConverter::class)
 //                    @ColumnInfo(name = "Ingredients") var contents: JSONObject?,
-                    @ColumnInfo(name = "Ingredients") var ingredients: String,
+                    @ColumnInfo(name = "ingredients") var ingredients: String,
                     @ColumnInfo(name = "category_url") var categoryURL: String,
                     @ColumnInfo(name = "mass") var mass: String,
                     @ColumnInfo(name = "bestbefore") var bestBefore: String,

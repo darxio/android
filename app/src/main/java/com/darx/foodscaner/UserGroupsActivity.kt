@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -61,6 +62,16 @@ class UserGroupsActivity : AppCompatActivity() {
         })
         val allGroupsRecycler = this.findViewById<RecyclerView>(R.id.allGroupsRecycler)
         allGroupsRecycler.adapter = allGroupAdapter
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun groups(view: View) {

@@ -10,19 +10,24 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/groupBar"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="270dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/groupCollapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/veg"
             app:contentScrim="?attr/colorPrimaryDark"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
             app:title="@string/group_name">
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/veg"
+                    android:src="@drawable/bottom_action_bar_scrim"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/groupToolbar"

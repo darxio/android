@@ -3,12 +3,14 @@ package com.darx.foodscaner
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
 import kotlinx.android.synthetic.main.activity_favorites.*
+import kotlinx.android.synthetic.main.activity_ingredient.*
 import java.io.Serializable
 
 //import com.darx.foodscaner.data.response.Product
@@ -22,9 +24,11 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
-        this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        setSupportActionBar(favoritesToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true);
 
-//        val data = productViewModel?.getFavourites_()
+        this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
         productsAdapter = ProductsAdapter(emptyList(),  productViewModel!!, this@FavoritesActivity, object : ProductsAdapter.Callback {
             override fun onItemClicked(item: ProductModel) {
@@ -44,5 +48,15 @@ class FavoritesActivity : AppCompatActivity() {
                 tmpAdp!!.addItems(l ?: return)
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

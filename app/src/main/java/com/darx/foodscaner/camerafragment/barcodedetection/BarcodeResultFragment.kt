@@ -54,7 +54,7 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
                 BarcodeField("", "")
             }
 
-        val title: TextView = view.findViewById(R.id.product_name)
+        val title: TextView = view.findViewById(R.id.info_product_name)
         title.text = barcodeField.label
 
         return view

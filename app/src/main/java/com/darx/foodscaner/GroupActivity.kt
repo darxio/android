@@ -3,6 +3,9 @@ package com.darx.foodscaner
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProviders
+import com.darx.foodscaner.database.ProductModel
+import com.darx.foodscaner.database.ProductViewModel
 import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.activity_ingredient.*
 
@@ -24,6 +27,7 @@ class GroupActivity : AppCompatActivity() {
                 return true
             }
         }
+
         return super.onOptionsItemSelected(item)
     }
 }

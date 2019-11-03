@@ -41,10 +41,7 @@ class ProfileFragment : Fragment() {
             val intent = Intent(this@ProfileFragment.activity, FavoritesActivity::class.java)
             startActivity(intent)
         }
-
-        view.cameraIcon.setOnClickListener {
-//            viewPager.setCurrentItem(1)
-        }
+        
         return view
     }
 }

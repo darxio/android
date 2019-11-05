@@ -14,7 +14,12 @@ import com.darx.foodscaner.ProductActivity
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
+import com.darx.foodscaner.utils.SerializableJSONArray
+import com.darx.foodscaner.utils.SerializableJSONObject
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.Serializable
 
 
@@ -32,8 +37,12 @@ class RecentlyScannedFragment : Fragment() {
 
         this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
-        productViewModel?.add_(ProductModel(barcode = 222222222, name = "Chebupeli", description = "Ploxo", ingredients = "a,f,g,g,b",categoryURL = "/dsf",mass = "9324",bestBefore = "NULL",nutrition ="1",manufacturer = "43",image ="dfs"))
+        val ar = ArrayList<SerializableJSONObject>()
+            ar.add(SerializableJSONObject(JSONObject("{\"name\":\"Сливки натуральные\",\"danger\":-1,\"ingredients\":null}")))
 
+        productViewModel?.add_(ProductModel(barcode = 222222222, name = "Chebupeli", description = "Ploxo",
+            ingredients = ar,
+            categoryURL = "/dsf",mass = "9324",bestBefore = "NULL",nutrition ="1",manufacturer = "43",image ="dfs"))
 
         productsAdapter =
                     ProductsAdapter(emptyList(),  productViewModel!!, this.context!!, object : ProductsAdapter.Callback {

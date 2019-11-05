@@ -22,7 +22,7 @@ class ProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_product_info)
 
-        this.productToShow = intent.extras.get("PRODUCT") as ProductModel
+        this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
         info_product_name.text = productToShow.name
@@ -70,22 +70,12 @@ class ProductActivity : AppCompatActivity() {
             finish()
         }
 
-        val ingredients = listOf(
-            Ingredient("Сахар очень вк"),
-            Ingredient("Соль"),
-            Ingredient("Яблокоааа"),
-            Ingredient("Груша"),
-            Ingredient("Яб"),
-            Ingredient("Грушалвалфыва ваыв"),
-            Ingredient("Ябвафы"),
-            Ingredient("Ябвыфаваыав"),
-            Ingredient("Ябав")
-        )
+        val ingredients = this.productToShow.ingredients!!
 
 
-        for (ingredient: Ingredient in ingredients) {
+        for (json in ingredients) {
             val chip: Chip = Chip(this)
-            chip.text = ingredient.name
+            chip.text = json.get()?.getString("name")
 
             val states = arrayOf(
                 intArrayOf(android.R.attr.state_enabled), // enabled

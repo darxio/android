@@ -4,8 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.Serializable
+import com.darx.foodscaner.utils.SerializableJSONArray
+import com.darx.foodscaner.utils.SerializableJSONObject
 import java.util.*
 
 @Entity(tableName = "products")
@@ -13,9 +16,9 @@ data class ProductModel(
                     @PrimaryKey @ColumnInfo(name = "barcode") var barcode: Long,
                     @ColumnInfo(name = "name") var name: String,
                     @ColumnInfo(name = "description") var description: String,
-//                    @TypeConverters(TimestampConverter::class)
-//                    @ColumnInfo(name = "Ingredients") var contents: JSONObject?,
-                    @ColumnInfo(name = "ingredients") var ingredients: String,
+                    @TypeConverters(ProductIngredientsConverter::class)
+                    @ColumnInfo(name = "ingredients") var ingredients: ArrayList<SerializableJSONObject>?,
+//                    @ColumnInfo(name = "ingredients") var ingredients: String,
                     @ColumnInfo(name = "category_url") var categoryURL: String,
                     @ColumnInfo(name = "mass") var mass: String,
                     @ColumnInfo(name = "bestbefore") var bestBefore: String,
@@ -28,5 +31,5 @@ data class ProductModel(
                     @ColumnInfo(name = "starred")
                     var starred: Boolean = false
 ): Serializable {
-    constructor():this(0,"","", "", "", "","","","","", java.util.Calendar.getInstance().time, false)
+    constructor():this(0,"","", ArrayList<SerializableJSONObject>(), "", "","","","","", java.util.Calendar.getInstance().time, false)
 }

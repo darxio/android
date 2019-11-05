@@ -11,7 +11,7 @@ import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.models.Group
 
 
-class GroupAdapter(var items: List<Group>, val callback: Callback) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class GroupAdapter(var items: List<GroupModel>, val callback: Callback) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.group_item, parent, false))
@@ -22,14 +22,19 @@ class GroupAdapter(var items: List<Group>, val callback: Callback) : RecyclerVie
         holder.bind(items[position])
     }
 
+    fun addItems(groups: List<GroupModel>) {
+        this.items = groups
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val groupImage = itemView.findViewById<ImageView>(R.id.groupImage)
         private val groupName = itemView.findViewById<TextView>(R.id.groupName)
 
-        fun bind(item: Group) {
+        fun bind(item: GroupModel) {
             groupImage.setImageResource(R.drawable.product)  // TODO: сделать подгрузку фоток
-            groupName.text = item.group
+            groupName.text = item.name
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
@@ -38,7 +43,7 @@ class GroupAdapter(var items: List<Group>, val callback: Callback) : RecyclerVie
     }
 
     interface Callback {
-        fun onItemClicked(item: Group)
+        fun onItemClicked(item: GroupModel)
     }
 
 }

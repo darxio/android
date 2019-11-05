@@ -9,7 +9,7 @@ import java.io.Serializable
 data class IngredientModel(
                     @PrimaryKey var id: Int,
                     @ColumnInfo(name = "name") var name: String,
-                    @ColumnInfo(name = "about") var about: String,
+                    @ColumnInfo(name = "description") var description: String,
                     @ColumnInfo(name = "image") var imagePath: String
 
 ): Serializable {

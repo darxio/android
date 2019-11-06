@@ -1,5 +1,6 @@
 package com.darx.foodscaner
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -10,11 +11,13 @@ import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientModel
 import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.activity_ingredient.*
+import com.darx.foodscaner.R as R
 
 class GroupActivity : AppCompatActivity() {
 
     private var groupViewModel: GroupViewModel? = null
     private lateinit var groupToShow: GroupModel
+    private var isEnter: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,24 +34,25 @@ class GroupActivity : AppCompatActivity() {
         infoGroup.text = groupToShow.about
         // collapsingToolbar.background = R.drawable.group.toDrawable() IMAGE
 
-        groupViewModel!!.getOne_(groupToShow.id)?.observe(this@GroupActivity, object : Observer<GroupModel> {
+        groupViewModel?.getOne_(groupToShow.id)?.observe(this@GroupActivity, object : Observer<GroupModel> {
             override fun onChanged(t: GroupModel?) {
                 if (t?.id == groupToShow.id) {
-                    enterButton.text = "Добавить"
-//                    enterButton.setBackgroundColor(R.color.strongPositiveColor)
+                    enterButton.text = resources.getString(R.string.exit_from_group)
+                    enterButton.setBackgroundColor(resources.getColor(R.color.strongNegativeColor))
+                    isEnter = true
+                } else {
+                    enterButton.text = resources.getString(R.string.enter_to_group)
+                    enterButton.setBackgroundColor(resources.getColor(R.color.strongPositiveColor))
+                    isEnter = false
                 }
             }
         })
 
         enterButton.setOnClickListener {
-            if (enterButton.text == "Добавить") {
-                groupViewModel!!.deleteOne_(groupToShow)
-                enterButton.text = R.string.enter_to_group.toString()
-//                enterButton.setBackgroundColor(R.color.strongNegativeColor)
+            if (isEnter) {
+                groupViewModel?.deleteOne_(groupToShow)
             } else {
-                groupViewModel!!.add_(groupToShow)
-                enterButton.text = "Добавить"
-//                enterButton.setBackgroundColor(R.color.strongPositiveColor)
+                groupViewModel?.add_(groupToShow)
             }
         }
     }

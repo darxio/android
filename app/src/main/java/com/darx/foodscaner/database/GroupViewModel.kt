@@ -3,6 +3,10 @@ package com.darx.foodscaner.database
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.util.*
 import java.util.concurrent.Executors
 
 class GroupViewModel(application: Application) : AndroidViewModel(application) {
@@ -24,8 +28,20 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
 
     // check if works
     fun getOne_(id: Int): LiveData<GroupModel>? {
-        service.submit {   group = db?.groupsDAO()?.getOne(id) }
+        group = db?.groupsDAO()?.getOne(id)
         return group
+    }
+
+    fun find_(id: Int): Int {
+        var found: Int = 0
+        Observable.fromCallable{
+            db?.groupsDAO()?.find(id)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe{
+                found = it!!
+            }
+        return found
     }
 
     fun add_(group: GroupModel) {

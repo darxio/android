@@ -24,7 +24,7 @@ class IngredientViewModel(application: Application) : AndroidViewModel(applicati
 
     // check if works
     fun getOne_(id: Int): LiveData<IngredientModel>? {
-        service.submit {   exclIngredient = db?.ingredientsDAO()?.getOne(id) }
+        exclIngredient = db?.ingredientsDAO()?.getOne(id)
         return exclIngredient
     }
 

@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.ProductActivity
-import com.darx.foodscaner.R
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
@@ -29,11 +28,12 @@ class RecentlyScannedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_recently_scanned, container, false)
+        val view = inflater.inflate(com.darx.foodscaner.R.layout.fragment_recently_scanned, container, false)
 
         this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
         productViewModel?.add_(ProductModel(barcode = 222222222, name = "Chebupeli", description = "Ploxo", ingredients = "a,f,g,g,b",categoryURL = "/dsf",mass = "9324",bestBefore = "NULL",nutrition ="1",manufacturer = "43",image ="dfs"))
+
 
         productsAdapter =
                     ProductsAdapter(emptyList(),  productViewModel!!, this.context!!, object : ProductsAdapter.Callback {

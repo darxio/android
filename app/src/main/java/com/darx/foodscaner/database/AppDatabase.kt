@@ -6,15 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(version = 8, entities = [GroupModel::class, IngredientModel::class, ExcludedIngredientModel::class
-    , ProductModel::class, FavouriteProductModel::class])
+@Database(version = 9, entities = [GroupModel::class, IngredientModel::class, ExcludedIngredientModel::class
+    , ProductModel::class])
 @TypeConverters(TimestampConverter::class, ProductIngredientsConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun groupsDAO(): GroupsDAO
     abstract fun ingredientsDAO(): IngredientsDAO
     abstract fun excludedIngredientsDAO(): ExcludedIngredientsDAO
     abstract fun productsDAO(): ProductsDAO
-    abstract fun favouriteProductsDAO(): FavouriteProductsDAO
 
     companion object {
         private var INSTANCE: AppDatabase? = null

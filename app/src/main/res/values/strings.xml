@@ -122,6 +122,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Поиск</string>
     <string name="description">Описание</string>
+    <string name="enter_to_group">Вступить</string>
 
 
 </resources>

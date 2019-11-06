@@ -64,18 +64,19 @@ class UserGroupsActivity : AppCompatActivity() {
         val allGroupsRecycler = this.findViewById<RecyclerView>(R.id.allGroupsRecycler)
         allGroupsRecycler.adapter = allGroupAdapter
 
+        val apiService = ApiService(ConnectivityInterceptorImpl(this))
+        networkDataSource = NetworkDataSourceImpl(apiService)
+
         networkDataSource?.groups?.observe(this@UserGroupsActivity, Observer {
             allGroupAdapter.addItems(it)
         })
-        GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchGroups()
-        }
-
-        val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService)
         networkDataSource?.groupSearch?.observe(this@UserGroupsActivity, Observer {
             allGroupAdapter.addItems(it)
         })
+
+        GlobalScope.launch(Dispatchers.Main) {
+            networkDataSource?.fetchGroups()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

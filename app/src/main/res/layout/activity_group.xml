@@ -65,17 +65,18 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:textColor="@color/strongNegativeColor"
                         app:rippleColor="@color/strongNegativeColor"
+                        android:textSize="12sp"
                     android:text="@string/group_ingredients_button"/>
 
                 <Button
-                        android:id="@+id/exceptingButton"
+                        android:id="@+id/enterButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/strongPositiveColor"
                         android:src="@drawable/add"
-                        android:text="Вступить"
+                        android:text="@string/enter_to_group"
                         app:layout_anchor="@id/ingredientBar"
                         app:layout_anchorGravity="bottom|right|end" />
             </LinearLayout>
@@ -87,6 +88,7 @@
                 android:layout_marginRight="@dimen/mtrl_card_spacing">
 
                 <TextView
+                        android:id="@+id/infoGroup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"

@@ -6,23 +6,24 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.IngredientAdapter
-import com.darx.foodscaner.adapters.PageAdapter
-import com.darx.foodscaner.fragments.IngredientsFragment
-import com.darx.foodscaner.models.Ingredient
+import com.darx.foodscaner.database.IngredientModel
+import com.darx.foodscaner.database.IngredientViewModel
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.miguelcatalan.materialsearchview.MaterialSearchView
-import kotlinx.android.synthetic.main.activity_groups.*
 import kotlinx.android.synthetic.main.activity_ingredients.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 class UserIngredientsActivity : AppCompatActivity() {
 
+    private var ingredientViewModel: IngredientViewModel? = null
     private var networkDataSource: NetworkDataSourceImpl? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,32 +34,41 @@ class UserIngredientsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService)
-
-        networkDataSource?.productSearch?.observe(this@UserIngredientsActivity, Observer {
-            myIngredientsTitle.text = it[0].toString() ?: ""
-        })
-
         // my Ingredients
-        val myIngredientsAdapter = IngredientAdapter(getUsersIngredients(), object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: Ingredient) {
+        val myIngredientsAdapter: IngredientAdapter = IngredientAdapter(emptyList(), object : IngredientAdapter.Callback {
+            override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(this@UserIngredientsActivity, IngredientActivity::class.java)
+                intent.putExtra("INGREDIENT", item as Serializable)
                 startActivity(intent)
             }
         })
         val myIngredientsRecycler = this.findViewById<RecyclerView>(R.id.myIngredientsRecycler)
         myIngredientsRecycler.adapter = myIngredientsAdapter
 
+        ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        ingredientViewModel?.getAll_()?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>> {
+            override fun onChanged(l: List<IngredientModel>?) {
+                myIngredientsAdapter.addItems(l ?: return)
+            }
+        })
+
+
         // all Ingredients
-        val allIngredientsAdapter = IngredientAdapter(getAllIngredients(""), object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: Ingredient) {
+        val allIngredientsAdapter: IngredientAdapter = IngredientAdapter(emptyList(), object : IngredientAdapter.Callback {
+            override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(this@UserIngredientsActivity, IngredientActivity::class.java)
+                intent.putExtra("INGREDIENT", item as Serializable)
                 startActivity(intent)
             }
         })
         val allIngredientsRecycler = this.findViewById<RecyclerView>(R.id.allIngredientsRecycler)
         allIngredientsRecycler.adapter = allIngredientsAdapter
+
+        val apiService = ApiService(ConnectivityInterceptorImpl(this))
+        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource?.ingredientSearch?.observe(this@UserIngredientsActivity, Observer {
+            allIngredientsAdapter.addItems(it)
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -86,11 +96,16 @@ class UserIngredientsActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.length >= 4) {
+                // take data for all ingredients
+                if (newText.length >= 3) {
                     GlobalScope.launch(Dispatchers.Main) {
-                        networkDataSource?.fetchProductSearch(newText)
+                        networkDataSource?.fetchIngredientSearch(newText)
                     }
                 }
+
+                // take data for my ingredients
+
+
                 return false
             }
         })
@@ -107,32 +122,5 @@ class UserIngredientsActivity : AppCompatActivity() {
 
 
         return true
-    }
-
-
-    private fun getUsersIngredients(): List<Ingredient> {
-        return listOf(
-            Ingredient("Сахар"),
-            Ingredient("Соль"),
-            Ingredient("Уксус"),
-            Ingredient("Что-то")
-        )
-    }
-
-    private fun getAllIngredients(name: String): List<Ingredient> {
-        return listOf(
-            Ingredient("Сахар"),
-            Ingredient("Соль"),
-            Ingredient("Уксус"),
-            Ingredient("Что-то"),
-            Ingredient("Сахар"),
-            Ingredient("Соль"),
-            Ingredient("Уксус"),
-            Ingredient("Что-то"),
-            Ingredient("Сахар"),
-            Ingredient("Соль"),
-            Ingredient("Уксус"),
-            Ingredient("Что-то")
-        )
     }
 }

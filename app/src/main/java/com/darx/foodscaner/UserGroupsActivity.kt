@@ -7,25 +7,24 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.GroupAdapter
-import com.darx.foodscaner.adapters.PageAdapter
-import com.darx.foodscaner.fragments.GroupsFragment
-import com.darx.foodscaner.models.Group
+import com.darx.foodscaner.database.GroupModel
+import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
-import com.google.android.material.textfield.TextInputLayout
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_groups.*
-import kotlinx.android.synthetic.main.activity_ingredient.*
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 class UserGroupsActivity : AppCompatActivity() {
 
+    private var groupViewModel: GroupViewModel? = null
     private var networkDataSource: NetworkDataSourceImpl? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,32 +35,48 @@ class UserGroupsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService)
-
-        networkDataSource?.productSearch?.observe(this@UserGroupsActivity, Observer {
-            myGroupsTitle.text = it[0].toString() ?: ""
-        })
-
         // my Groups
-        val myGroupAdapter = GroupAdapter(getUsersGroups(), object : GroupAdapter.Callback {
-            override fun onItemClicked(item: Group) {
+        val myGroupAdapter: GroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {
+            override fun onItemClicked(item: GroupModel) {
                 val intent = Intent(this@UserGroupsActivity, GroupActivity::class.java)
+                intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
         })
         val myGroupsRecycler = this.findViewById<RecyclerView>(R.id.myGroupsRecycler)
         myGroupsRecycler.adapter = myGroupAdapter
 
+        groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        groupViewModel?.getAll_()?.observe(this@UserGroupsActivity, object : Observer<List<GroupModel>> {
+            override fun onChanged(l: List<GroupModel>?) {
+                myGroupAdapter.addItems(l ?: return)
+            }
+        })
+
         // all Groups
-        val allGroupAdapter = GroupAdapter(getAllGroups(""), object : GroupAdapter.Callback {
-            override fun onItemClicked(item: Group) {
+        val allGroupAdapter: GroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {
+            override fun onItemClicked(item: GroupModel) {
                 val intent = Intent(this@UserGroupsActivity, GroupActivity::class.java)
+                intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
         })
         val allGroupsRecycler = this.findViewById<RecyclerView>(R.id.allGroupsRecycler)
         allGroupsRecycler.adapter = allGroupAdapter
+
+        val apiService = ApiService(ConnectivityInterceptorImpl(this))
+        networkDataSource = NetworkDataSourceImpl(apiService)
+
+        networkDataSource?.groups?.observe(this@UserGroupsActivity, Observer {
+            allGroupAdapter.addItems(it)
+        })
+        networkDataSource?.groupSearch?.observe(this@UserGroupsActivity, Observer {
+            allGroupAdapter.addItems(it)
+        })
+
+        GlobalScope.launch(Dispatchers.Main) {
+            networkDataSource?.fetchGroups()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -120,30 +135,5 @@ class UserGroupsActivity : AppCompatActivity() {
 
 
         return true
-    }
-
-    private fun getUsersGroups(): List<Group> {
-        return listOf(
-            Group(1, "Вегетарианец", "Вкусно"),
-            Group(2, "Веган", "Очень вкусно"),
-            Group(3, "Мясоед", "Вкусно"),
-            Group(4, "Солнцеед", "Очень вкусно"),
-            Group(5, "Углеводная диета", "Вкусно")
-        )
-    }
-
-    private fun getAllGroups(name: String): List<Group> {
-        return listOf(
-            Group(1, "Вегетарианец", "Вкусно"),
-            Group(2, "Веган", "Очень вкусно"),
-            Group(3, "Мясоед", "Вкусно"),
-            Group(4, "Солнцеед", "Очень вкусно"),
-            Group(5, "Углеводная диета", "Вкусно"),
-            Group(6, "Вегетарианец", "Вкусно"),
-            Group(7, "Веган", "Очень вкусно"),
-            Group(8, "Мясоед", "Вкусно"),
-            Group(9, "Солнцеед", "Очень вкусно"),
-            Group(10, "Углеводная диета", "Вкусно")
-        )
     }
 }

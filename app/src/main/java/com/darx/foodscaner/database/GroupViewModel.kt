@@ -11,7 +11,7 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
     private var db: AppDatabase? = null
 
     private var groups: LiveData<List<GroupModel>>? = null
-    private var group: GroupModel? = null
+    private var group: LiveData<GroupModel>? = null
 
     init {
         db = AppDatabase.getInstance(application.applicationContext)
@@ -23,9 +23,9 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // check if works
-    fun getOne_(id: Int): GroupModel {
+    fun getOne_(id: Int): LiveData<GroupModel>? {
         service.submit {   group = db?.groupsDAO()?.getOne(id) }
-        return this.group!!
+        return group
     }
 
     fun add_(group: GroupModel) {

@@ -13,7 +13,7 @@ interface GroupsDAO {
     fun getAll(): LiveData<List<GroupModel>>
 
     @Query("SELECT * from groups WHERE id = :id")
-    fun getOne(id: Int): GroupModel
+    fun getOne(id: Int): LiveData<GroupModel>
 
     @Insert(onConflict = REPLACE)
     fun add(group: GroupModel)

@@ -7,6 +7,13 @@ import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.adapters.WizardAdapter
 import com.darx.foodscaner.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.Toast
+import android.R
+import android.view.MenuItem
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
+
+
 
 class MainActivity : AppCompatActivity() {
     private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
@@ -31,7 +38,26 @@ class MainActivity : AppCompatActivity() {
         pagerAdapter.addFragment(CameraFragment(), "Camera")
         pagerAdapter.addFragment(RecentlyScannedFragment(), "RecentlyScanned")
 
-        setContentView(R.layout.activity_main)
+        setContentView(com.darx.foodscaner.R.layout.activity_main)
+
+        val bottomNavigationView =
+            findViewById<BottomNavigationView>(com.darx.foodscaner.R.id.bottom_navigation)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(object :
+            BottomNavigationView.OnNavigationItemSelectedListener {
+            override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                when (item.getItemId()) {
+                    com.darx.foodscaner.R.id.action_profile ->
+                        viewPager.currentItem = pagerAdapter.getItemNum("Profile")
+                    com.darx.foodscaner.R.id.action_camera ->
+                        viewPager.currentItem = pagerAdapter.getItemNum("Camera")
+                    com.darx.foodscaner.R.id.action_recently_scanned ->
+                        viewPager.currentItem = pagerAdapter.getItemNum("RecentlyScanned")
+                }
+                return true
+            }
+        })
+
         viewPager.adapter = pagerAdapter
         viewPager.currentItem = pagerAdapter.getItemNum("Camera")
 

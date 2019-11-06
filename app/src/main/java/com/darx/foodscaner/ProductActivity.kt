@@ -4,24 +4,71 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageButton
 import com.darx.foodscaner.models.Ingredient
 import kotlinx.android.synthetic.main.fragment_product_info.*
 import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.product_item.*
 
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var productToShow: ProductModel
+    private lateinit var pVM: ProductViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_product_info)
 
-        productToShow = intent.extras.get("PRODUCT") as ProductModel
+        this.productToShow = intent.extras.get("PRODUCT") as ProductModel
+        this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+
         info_product_name.text = productToShow.name
         info_product_manufacturer.text = productToShow.manufacturer
+
+        var starred = findViewById<ImageButton>(R.id.info_starred_ib)
+        var share = findViewById<ImageButton>(R.id.info_share_btn)
+        var back = findViewById<Button>(R.id.back_btn)
+
+        // logics with image buttons
+        if (productToShow.starred) {
+            starred.setBackgroundResource(R.drawable.ic_starred)
+        } else {
+            starred.setBackgroundResource(R.drawable.ic_unstarred)
+        }
+
+        starred.setOnClickListener {
+            val starred_ = productToShow.starred
+            if (starred_) {
+                starred.setBackgroundResource(R.drawable.ic_unstarred)
+            } else {
+                starred.setBackgroundResource(R.drawable.ic_starred)
+            }
+
+            productToShow.starred = !starred_
+
+            pVM.updateStarred_(productToShow)
+        }
+
+        share.setOnClickListener {
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            val shareBody = productToShow.name;
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            applicationContext.startActivity(
+                Intent.createChooser(
+                    sharingIntent,
+                    //                        ctx.getResources().getString(R.string.share_via)
+                    "Поделиться"
+                )
+            )
+        }
+
+        back.setOnClickListener {
+            finish()
+        }
 
         val ingredients = listOf(
             Ingredient("Сахар очень вк"),

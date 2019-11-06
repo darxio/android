@@ -60,6 +60,7 @@ class GroupActivity : AppCompatActivity() {
                 return true
             }
         }
+
         return super.onOptionsItemSelected(item)
     }
 }

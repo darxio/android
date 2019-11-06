@@ -9,12 +9,13 @@ import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
 import com.darx.foodscaner.R
 import com.darx.foodscaner.database.GroupModel
+import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.models.Group
 import com.darx.foodscaner.models.Ingredient
 import com.google.android.material.chip.Chip
 
 
-class IngredientAdapter(var items: List<Ingredient>, val callback: Callback) : RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
+class IngredientAdapter(var items: List<IngredientModel>, val callback: Callback) : RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.ingredient_item, parent, false))
@@ -25,11 +26,16 @@ class IngredientAdapter(var items: List<Ingredient>, val callback: Callback) : R
         holder.bind(items[position])
     }
 
+    fun addItems(ingredients: List<IngredientModel>) {
+        this.items = ingredients
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val ingredientObject = itemView.findViewById<Chip>(R.id.ingredientObject)
 
-        fun bind(item: Ingredient) {
+        fun bind(item: IngredientModel) {
             ingredientObject.chipIcon = R.drawable.ingredient.toDrawable()
             ingredientObject.text = item.name
 
@@ -40,7 +46,7 @@ class IngredientAdapter(var items: List<Ingredient>, val callback: Callback) : R
     }
 
     interface Callback {
-        fun onItemClicked(item: Ingredient)
+        fun onItemClicked(item: IngredientModel)
     }
 
 }

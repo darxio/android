@@ -39,15 +39,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/add"
-        android:backgroundTint="@color/strongNegativeColor"
-        app:layout_anchor="@id/ingredientBar"
-        app:layout_anchorGravity="bottom|right|end"
-            android:text="Исключить"
-        android:layout_marginEnd="32dp"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
@@ -59,18 +50,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/mtrl_card_spacing"
-                android:layout_marginTop="@dimen/mtrl_card_spacing"
-                android:layout_marginRight="@dimen/mtrl_card_spacing">
 
-                <LinearLayout
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="20dp">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="5dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="center">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -85,17 +79,27 @@
                         android:layout_marginStart="8dp"/>
                 </LinearLayout>
 
-
-            </androidx.cardview.widget.CardView>
+                <Button
+                        android:id="@+id/exceptingButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/strongNegativeColor"
+                        android:src="@drawable/add"
+                        android:text="Исключить"
+                        app:layout_anchor="@id/ingredientBar"
+                        app:layout_anchorGravity="bottom|right|end" />
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
-                android:layout_marginTop="@dimen/mtrl_card_spacing"
                 android:layout_marginRight="@dimen/mtrl_card_spacing">
 
                 <TextView
+                        android:id="@+id/infoIngredient"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"

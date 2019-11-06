@@ -2,6 +2,7 @@ package com.darx.foodscaner.services
 
 
 import com.darx.foodscaner.database.GroupModel
+import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.ProductModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
@@ -40,6 +41,19 @@ interface ApiService {
     fun groupByName(
         @Query("name") name: String
     ): Deferred<GroupModel>
+
+    @GET("groups/search/{name}")
+    fun groupSearsh(
+        @Path("name") name: String
+    ): Deferred<List<GroupModel>>
+
+
+    // === INGREDIENTS ===
+    @GET("ingredients/search/{name}")
+    fun ingredientSearsh(
+        @Path("name") name: String
+    ): Deferred<List<IngredientModel>>
+
 
     companion object {
         operator fun invoke(

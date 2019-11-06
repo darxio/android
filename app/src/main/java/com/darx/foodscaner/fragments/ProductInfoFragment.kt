@@ -13,10 +13,6 @@ import android.view.ViewGroup
 import android.content.Intent
 import androidx.core.graphics.drawable.toDrawable
 import com.darx.foodscaner.*
-import com.darx.foodscaner.models.Ingredient
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.textfield.TextInputLayout
 
 
 class ProductInfoFragment() : Fragment() {

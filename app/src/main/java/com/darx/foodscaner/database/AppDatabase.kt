@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(version = 11, entities = [GroupModel::class, IngredientModel::class, ExcludedIngredientModel::class
+@Database(version = 13, entities = [GroupModel::class, IngredientModel::class, ExcludedIngredientModel::class
     , ProductModel::class])
 @TypeConverters(TimestampConverter::class, ProductIngredientsConverter::class)
 abstract class AppDatabase : RoomDatabase() {

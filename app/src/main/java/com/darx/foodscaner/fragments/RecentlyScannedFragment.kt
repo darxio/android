@@ -14,6 +14,7 @@ import com.darx.foodscaner.ProductActivity
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
+import com.darx.foodscaner.models.IngredientExtended
 import com.darx.foodscaner.utils.SerializableJSONArray
 import com.darx.foodscaner.utils.SerializableJSONObject
 import com.google.gson.JsonObject
@@ -37,8 +38,9 @@ class RecentlyScannedFragment : Fragment() {
 
         this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
-        val ar = ArrayList<SerializableJSONObject>()
-            ar.add(SerializableJSONObject(JSONObject("{\"name\":\"Сливки натуральные\",\"danger\":-1,\"ingredients\":null}")))
+//        val s = "{\"name\":\"Сливки натуральные\",\"danger\":-1,\"ingredients\":null}"
+        val ar = ArrayList<IngredientExtended>()
+            ar.add(IngredientExtended())
 
         productViewModel?.add_(ProductModel(barcode = 222222222, name = "Chebupeli", description = "Ploxo",
             ingredients = ar,

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import com.darx.foodscaner.models.Ingredient
 import kotlinx.android.synthetic.main.fragment_product_info.*
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.ViewModelProviders
@@ -73,9 +72,9 @@ class ProductActivity : AppCompatActivity() {
         val ingredients = this.productToShow.ingredients!!
 
 
-        for (json in ingredients) {
+        for (i in ingredients) {
             val chip: Chip = Chip(this)
-            chip.text = json.get()?.getString("name")
+            chip.text = i.name
 
             val states = arrayOf(
                 intArrayOf(android.R.attr.state_enabled), // enabled

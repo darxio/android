@@ -11,7 +11,6 @@ import com.darx.foodscaner.R
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.models.Group
-import com.darx.foodscaner.models.Ingredient
 import com.google.android.material.chip.Chip
 
 

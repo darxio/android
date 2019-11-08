@@ -25,6 +25,7 @@ class UserIngredientsActivity : AppCompatActivity() {
 
     private var ingredientViewModel: IngredientViewModel? = null
     private var networkDataSource: NetworkDataSourceImpl? = null
+    private var myIngredientsAdapter: IngredientAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         // my Ingredients
-        val myIngredientsAdapter: IngredientAdapter = IngredientAdapter(emptyList(), object : IngredientAdapter.Callback {
+        myIngredientsAdapter = IngredientAdapter(emptyList(), object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(this@UserIngredientsActivity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)
@@ -48,10 +49,9 @@ class UserIngredientsActivity : AppCompatActivity() {
         ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         ingredientViewModel?.getAll_()?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>> {
             override fun onChanged(l: List<IngredientModel>?) {
-                myIngredientsAdapter.addItems(l ?: return)
+                myIngredientsAdapter?.addItems(l ?: return)
             }
         })
-
 
         // all Ingredients
         val allIngredientsAdapter: IngredientAdapter = IngredientAdapter(emptyList(), object : IngredientAdapter.Callback {
@@ -66,9 +66,17 @@ class UserIngredientsActivity : AppCompatActivity() {
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService)
+
+//        networkDataSource?.ingredient?.observe(this@UserIngredientsActivity, Observer {
+//            allIngredientsAdapter.addItems(it)
+//        })
         networkDataSource?.ingredientSearch?.observe(this@UserIngredientsActivity, Observer {
             allIngredientsAdapter.addItems(it)
         })
+
+//        GlobalScope.launch(Dispatchers.Main) {
+//            networkDataSource?.fetchIngredients()
+//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -91,7 +99,6 @@ class UserIngredientsActivity : AppCompatActivity() {
 
         ingredientsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                //Do some magic
                 return false
             }
 
@@ -104,7 +111,7 @@ class UserIngredientsActivity : AppCompatActivity() {
                 }
 
                 // take data for my ingredients
-
+                myIngredientsAdapter?.addItems(matchMyIngredients(newText))
 
                 return false
             }
@@ -122,5 +129,17 @@ class UserIngredientsActivity : AppCompatActivity() {
 
 
         return true
+    }
+
+    fun matchMyIngredients(typed: String): List<IngredientModel> {
+        val matched: MutableList<IngredientModel> = mutableListOf()
+
+        val data = ingredientViewModel?.getAll_()!! //?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>>
+        for (ingredient in data.value!!) {
+            if (ingredient.name.contains(typed, ignoreCase=true)) {
+                matched.add(ingredient)
+            }
+        }
+        return matched
     }
 }

@@ -16,9 +16,8 @@ class IngredientActivity : AppCompatActivity() {
 
     private var ingredientViewModel: IngredientViewModel? = null
     private lateinit var ingredientToShow: IngredientModel
+    private var isExcept: Boolean = false
 
-
-    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredient)
@@ -32,27 +31,27 @@ class IngredientActivity : AppCompatActivity() {
         ingredientToShow = intent.extras.get("INGREDIENT") as IngredientModel
         collapsingToolbar.title = ingredientToShow.name
         infoIngredient.text = ingredientToShow.description
-//        collapsingToolbar.background = R.drawable.ingredient.toDrawable() IMAGE
+        // collapsingToolbar.background = R.drawable.ingredient.toDrawable() IMAGE
 
-
-        ingredientViewModel!!.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity, object : Observer<IngredientModel> {
+        ingredientViewModel?.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity, object : Observer<IngredientModel> {
             override fun onChanged(t: IngredientModel?) {
                 if (t?.id == ingredientToShow.id) {
-                    exceptingButton.text = "Добавить"
-                    exceptingButton.setBackgroundColor(R.color.strongPositiveColor)
+                    exceptingButton.text = resources.getString(R.string.add_ingredient)
+                    exceptingButton.setBackgroundColor(resources.getColor(R.color.strongPositiveColor))
+                    isExcept = true
+                } else {
+                    exceptingButton.text = resources.getString(R.string.except_ingredient)
+                    exceptingButton.setBackgroundColor(resources.getColor(R.color.strongNegativeColor))
+                    isExcept = false
                 }
             }
         })
 
         exceptingButton.setOnClickListener {
-            if (exceptingButton.text == "Добавить") {
-                ingredientViewModel!!.deleteOne_(ingredientToShow)
-                exceptingButton.text = "Исключить"
-                exceptingButton.setBackgroundColor(R.color.strongNegativeColor)
+            if (isExcept) {
+                ingredientViewModel?.deleteOne_(ingredientToShow)
             } else {
-                ingredientViewModel!!.add_(ingredientToShow)
-                exceptingButton.text = "Добавить"
-                exceptingButton.setBackgroundColor(R.color.strongPositiveColor)
+                ingredientViewModel?.add_(ingredientToShow)
             }
         }
     }

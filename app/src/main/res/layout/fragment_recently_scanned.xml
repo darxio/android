@@ -21,6 +21,11 @@
         <SearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+                android:id="@+id/groupsSearchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView

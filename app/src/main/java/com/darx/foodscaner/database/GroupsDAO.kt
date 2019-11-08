@@ -15,6 +15,9 @@ interface GroupsDAO {
     @Query("SELECT * from groups WHERE id = :id")
     fun getOne(id: Int): LiveData<GroupModel>
 
+    @Query("SELECT COUNT(*) from groups WHERE id = :id")
+    fun find(id: Int): Int
+
     @Insert(onConflict = REPLACE)
     fun add(group: GroupModel)
 

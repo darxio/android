@@ -26,6 +26,7 @@ class UserGroupsActivity : AppCompatActivity() {
 
     private var groupViewModel: GroupViewModel? = null
     private var networkDataSource: NetworkDataSourceImpl? = null
+    private var myGroupAdapter: GroupAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,7 @@ class UserGroupsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         // my Groups
-        val myGroupAdapter: GroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {
+        myGroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {
             override fun onItemClicked(item: GroupModel) {
                 val intent = Intent(this@UserGroupsActivity, GroupActivity::class.java)
                 intent.putExtra("GROUP", item as Serializable)
@@ -49,7 +50,7 @@ class UserGroupsActivity : AppCompatActivity() {
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
         groupViewModel?.getAll_()?.observe(this@UserGroupsActivity, object : Observer<List<GroupModel>> {
             override fun onChanged(l: List<GroupModel>?) {
-                myGroupAdapter.addItems(l ?: return)
+                myGroupAdapter?.addItems(l ?: return)
             }
         })
 
@@ -89,17 +90,6 @@ class UserGroupsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun groups(view: View) {
-//        GlobalScope.launch(Dispatchers.Main) {
-//            val response = apiService.groups().await()
-////            username.text = response.toString()
-//
-//
-//        }
-    }
-
-
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
 
@@ -114,11 +104,16 @@ class UserGroupsActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+                // take data for all groups
                 if (newText.length >= 4) {
                     GlobalScope.launch(Dispatchers.Main) {
                         networkDataSource?.fetchProductSearch(newText)
                     }
                 }
+
+                // take data for my groups
+                myGroupAdapter?.addItems(matchMyGroups(newText))
+
                 return false
             }
         })
@@ -135,5 +130,17 @@ class UserGroupsActivity : AppCompatActivity() {
 
 
         return true
+    }
+
+    fun matchMyGroups(typed: String): List<GroupModel> {
+        val matched: MutableList<GroupModel> = mutableListOf()
+
+        val data = groupViewModel?.getAll_()!!
+        for (group in data.value!!) {
+            if (group.name.contains(typed, ignoreCase=true)) {
+                matched.add(group)
+            }
+        }
+        return matched
     }
 }

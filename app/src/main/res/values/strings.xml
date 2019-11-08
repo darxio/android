@@ -123,6 +123,9 @@
     <string name="search">Поиск</string>
     <string name="description">Описание</string>
     <string name="enter_to_group">Вступить</string>
+    <string name="exit_from_group">Выйти</string>
 
+    <string name="except_ingredient">Исключить</string>
+    <string name="add_ingredient">Добавить</string>
 
 </resources>

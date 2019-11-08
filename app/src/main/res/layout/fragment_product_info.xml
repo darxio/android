@@ -120,6 +120,29 @@
 
         </LinearLayout>
 
+
+<!--  Description -->
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Constitution"/>
+
+        <com.google.android.material.chip.ChipGroup
+                android:id="@+id/info_product_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+    </LinearLayout>
+
 <!--    Nutrition Facts -->
 
 
@@ -138,8 +161,7 @@
         <TextView
                 android:id="@+id/info_product_nutrition_facts"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100гр САХАРА"/>
+                android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -163,7 +185,7 @@
                 android:id="@+id/info_product_mass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="65kg"/>
+                android:text=""/>
 
     </LinearLayout>
 
@@ -185,7 +207,7 @@
                 android:id="@+id/info_product_bestbefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="7.7.2077"/>
+                android:text=""/>
 
     </LinearLayout>
 
@@ -198,6 +220,7 @@
                 android:padding="15dp">
 
             <TextView
+                    android:id="@+id/info_product_manufacturer_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Производитель:"
@@ -207,7 +230,7 @@
                     android:id="@+id/info_product_manufacturer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Рога и копыта ООО"/>
+                    android:text=""/>
 
         </LinearLayout>
 

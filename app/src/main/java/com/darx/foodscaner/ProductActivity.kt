@@ -69,12 +69,21 @@ class ProductActivity : AppCompatActivity() {
             finish()
         }
 
-        val ingredients = this.productToShow.ingredients!!
 
 
-        for (i in ingredients) {
+        for (i in this.productToShow.ingredients!!) {
             val chip: Chip = Chip(this)
+            val chips: ArrayList<Chip>? = null
             chip.text = i.name
+
+            if (i.ingredients != null) {
+                val prod_ings = i.ingredients!!
+                for (k in prod_ings) {
+                    val c: Chip = Chip(this)
+                    c.text = k.name
+                    chips?.add(c)
+                }
+            }
 
             val states = arrayOf(
                 intArrayOf(android.R.attr.state_enabled), // enabled
@@ -95,6 +104,12 @@ class ProductActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             info_ingredient_chips.addView(chip)
+            if (chips != null) {
+                for (i in chips!!) {
+                    info_ingredient_chips.addView(i)
+                }
+            }
+
         }
     }
 }

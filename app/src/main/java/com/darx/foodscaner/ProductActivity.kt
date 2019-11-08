@@ -10,16 +10,25 @@ import kotlinx.android.synthetic.main.fragment_product_info.*
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
+import com.darx.foodscaner.models.IngredientExtended
+import com.darx.foodscaner.services.ApiService
+import com.darx.foodscaner.services.ConnectivityInterceptorImpl
+import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.google.android.material.chip.Chip
 
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
+    private var networkDataSource: NetworkDataSourceImpl? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_product_info)
+
+        val apiService = ApiService(ConnectivityInterceptorImpl(this))
+        networkDataSource = NetworkDataSourceImpl(apiService)
 
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
@@ -100,7 +109,8 @@ class ProductActivity : AppCompatActivity() {
 
             chip.setOnClickListener {
                 val intent = Intent(this, IngredientActivity::class.java)
-//                intent.putExtra("PRODUCT", item as Serializable)
+//                networkDataSource.ing
+                intent.putExtra("INGREDIENT", IngredientModel(i))
                 startActivity(intent)
             }
             info_ingredient_chips.addView(chip)

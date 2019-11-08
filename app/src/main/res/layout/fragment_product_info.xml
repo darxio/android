@@ -134,7 +134,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/Constitution"/>
 
-        <com.google.android.material.chip.ChipGroup
+        <TextView
                 android:id="@+id/info_product_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

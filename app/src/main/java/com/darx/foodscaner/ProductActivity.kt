@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import kotlinx.android.synthetic.main.fragment_product_info.*
 import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
 import com.darx.foodscaner.models.IngredientExtended
@@ -15,12 +16,16 @@ import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
+    private var ingToShow: IngredientModel? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +34,11 @@ class ProductActivity : AppCompatActivity() {
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource?.ingredient?.observe(this, Observer {
+            val intent = Intent(this, IngredientActivity::class.java)
+            intent.putExtra("INGREDIENT", it)
+            startActivity(intent)
+        })
 
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
@@ -108,10 +118,11 @@ class ProductActivity : AppCompatActivity() {
             chip.chipIcon = R.drawable.ingredient.toDrawable()
 
             chip.setOnClickListener {
-                val intent = Intent(this, IngredientActivity::class.java)
-//                networkDataSource.ing
-                intent.putExtra("INGREDIENT", IngredientModel(i))
-                startActivity(intent)
+                val n = networkDataSource
+                GlobalScope.launch(Dispatchers.Main) {
+                    n!!.getIngredientByID(i.id)
+                }
+
             }
             info_ingredient_chips.addView(chip)
             if (chips != null) {

@@ -54,6 +54,13 @@ interface ApiService {
         @Path("name") name: String
     ): Deferred<List<IngredientModel>>
 
+    // === INGREDIENTS ===
+    @GET("ingredients/name/{id}")
+    fun ingredientGetByID(
+        @Path("id") id: Int
+    ): Deferred<IngredientModel>
+
+
 
     companion object {
         operator fun invoke(

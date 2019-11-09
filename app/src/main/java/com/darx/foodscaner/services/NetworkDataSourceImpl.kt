@@ -14,6 +14,7 @@ import java.net.SocketTimeoutException
 class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSource {
 
     private val _product = MutableLiveData<ProductModel>()
+    private val _ingredient = MutableLiveData<IngredientModel>()
     private val _productSearch = MutableLiveData<List<ProductModel>>()
     private val _ingredientSearch = MutableLiveData<List<IngredientModel>>()
     private val _groups = MutableLiveData<List<GroupModel>>()
@@ -21,6 +22,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
 
     override val product: LiveData<ProductModel>
         get() = _product
+
+    override val ingredient: LiveData<IngredientModel>
+        get() = _ingredient
 
     override val productSearch: LiveData<List<ProductModel>>
         get() = _productSearch
@@ -58,6 +62,25 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
         try {
             val fetchedProductSearch = apiService.productSearch(name).await()
             _productSearch.postValue(fetchedProductSearch)
+        }
+        catch (e: NoConnectivityException) {
+            callback.onNoConnectivityException()
+        }
+        catch (e: HttpException) {
+            callback.onHttpException()
+        }
+        catch (e: SocketTimeoutException) {
+            callback.onTimeoutException()
+        }
+        catch (e: Exception) {
+            callback.onException()
+        }
+    }
+
+    override suspend fun getIngredientByID(id: Int, callback: Callback) {
+        try {
+            val ingByID = apiService.ingredientGetByID(id).await()
+            _ingredient.postValue(ingByID)
         }
         catch (e: NoConnectivityException) {
             callback.onNoConnectivityException()

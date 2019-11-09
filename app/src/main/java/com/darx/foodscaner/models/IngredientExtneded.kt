@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class IngredientExtended :Serializable {
+    @SerializedName("id") var id: Int = 0
     @SerializedName("name") var name: String = ""
     @SerializedName("danger") var danger: Int? = -1
     @SerializedName("description") var description: String? = ""

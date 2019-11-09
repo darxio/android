@@ -19,6 +19,7 @@ data class IngredientModel(
 ): Serializable {
     constructor():this(0,"", -1,"", "", "")
     constructor(ing: IngredientExtended):this() {
+        this.id = ing.id;
         this.name = ing.name;
         this.imagePath = "";
         this.description = ing.description;

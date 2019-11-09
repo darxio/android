@@ -30,7 +30,10 @@ class IngredientActivity : AppCompatActivity() {
 
         ingredientToShow = intent.extras.get("INGREDIENT") as IngredientModel
         collapsingToolbar.title = ingredientToShow.name
-        infoIngredient.text = ingredientToShow.description
+        val desc_html = ingredientToShow.description
+        webView.loadData(desc_html, "text/html; charset=utf-8", "utf-8")
+//        infoIngredient.text = ingredientToShow.description
+
         // collapsingToolbar.background = R.drawable.ingredient.toDrawable() IMAGE
 
         ingredientViewModel?.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity, object : Observer<IngredientModel> {

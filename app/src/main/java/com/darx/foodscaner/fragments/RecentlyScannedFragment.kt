@@ -38,13 +38,13 @@ class RecentlyScannedFragment : Fragment() {
 
         this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
-//        val s = "{\"name\":\"Сливки натуральные\",\"danger\":-1,\"ingredients\":null}"
-//        val ar = ArrayList<IngredientExtended>()
-//            ar.add(IngredientExtended().fromString(s))
-//
-//        productViewModel?.add_(ProductModel(barcode = 222222222, name = "Chebupeli", description = "Ploxo",
-//            ingredients = ar,
-//            categoryURL = "/dsf",mass = "9324",bestBefore = "NULL",nutrition ="1",manufacturer = "43",image ="dfs"))
+        val s = "{\"name\":\"Сливки натуральные\",\"danger\":-1,\"ingredients\":null}"
+        val ar = ArrayList<IngredientExtended>()
+            ar.add(IngredientExtended().fromString(s))
+
+        productViewModel?.add_(ProductModel(barcode = 222222222, name = "Chebupeli", description = "Ploxo",
+            ingredients = ar,
+            categoryURL = "/dsf",mass = "9324",bestBefore = "NULL",nutrition ="1",manufacturer = "43",image ="dfs"))
 
         productsAdapter =
                     ProductsAdapter(emptyList(),  productViewModel!!, this.context!!, object : ProductsAdapter.Callback {

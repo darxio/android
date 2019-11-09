@@ -2,6 +2,7 @@ package com.darx.foodscaner.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.OnConflictStrategy.REPLACE
 
 @Dao
@@ -15,7 +16,7 @@ interface ProductsDAO {
     @Query("SELECT * from products WHERE barcode = :barcode")
     fun getOne(barcode: Long): ProductModel
 
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = IGNORE)
     fun add(product: ProductModel)
 
     @Update

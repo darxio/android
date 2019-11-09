@@ -25,8 +25,46 @@ class ProductActivity : AppCompatActivity() {
     private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
-    private var ingToShow: IngredientModel? = null
+    var chips: ArrayList<Chip>? = null
 
+    val states = arrayOf(
+        intArrayOf(android.R.attr.state_enabled), // enabled
+        intArrayOf(-android.R.attr.state_enabled), // disabled
+        intArrayOf(-android.R.attr.state_checked), // unchecked
+        intArrayOf(android.R.attr.state_pressed)  // pressed
+    )
+
+    val colors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
+
+    private fun preorder(ingredient: IngredientExtended) {
+        if (ingredient == null) {
+            return
+        }
+
+        // logics
+        val chip = Chip(this)
+        chip.text = ingredient.name
+        this.chips?.add(chip)
+
+        chip.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource!!.getIngredientByID(ingredient.id)
+            }
+        }
+
+        chip.chipBackgroundColor = ColorStateList(states, colors)
+        chip.chipStrokeColor = ColorStateList(states, colors)
+        chip.chipStrokeWidth = 1F
+        chip.chipIcon = R.drawable.ingredient.toDrawable()
+
+
+        if (ingredient.ingredients == null || !productToShow.ingredients!!.isEmpty()) {
+            return
+        }
+        for (i in ingredient.ingredients!!) {
+            preorder(ingredient);
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,49 +126,14 @@ class ProductActivity : AppCompatActivity() {
             finish()
         }
 
+        if ((productToShow.ingredients!![0] != null) || (!productToShow.ingredients!!.isEmpty())) {
+            preorder(productToShow.ingredients!![0])
+        }
 
-
-        for (i in this.productToShow.ingredients!!) {
-            val chip: Chip = Chip(this)
-            val chips: ArrayList<Chip>? = null
-            chip.text = i.name
-
-            if (i.ingredients != null) {
-                val prod_ings = i.ingredients!!
-                for (k in prod_ings) {
-                    val c: Chip = Chip(this)
-                    c.text = k.name
-                    chips?.add(c)
-                }
+        if (this.chips != null) {
+            for (i in this.chips!!) {
+               info_ingredient_chips.addView(i)
             }
-
-            val states = arrayOf(
-                intArrayOf(android.R.attr.state_enabled), // enabled
-                intArrayOf(-android.R.attr.state_enabled), // disabled
-                intArrayOf(-android.R.attr.state_checked), // unchecked
-                intArrayOf(android.R.attr.state_pressed)  // pressed
-            )
-            val colors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
-
-            chip.chipBackgroundColor = ColorStateList(states, colors)
-            chip.chipStrokeColor = ColorStateList(states, colors)
-            chip.chipStrokeWidth = 1F
-            chip.chipIcon = R.drawable.ingredient.toDrawable()
-
-            chip.setOnClickListener {
-                val n = networkDataSource
-                GlobalScope.launch(Dispatchers.Main) {
-                    n!!.getIngredientByID(i.id)
-                }
-
-            }
-            info_ingredient_chips.addView(chip)
-            if (chips != null) {
-                for (i in chips!!) {
-                    info_ingredient_chips.addView(i)
-                }
-            }
-
         }
     }
 }

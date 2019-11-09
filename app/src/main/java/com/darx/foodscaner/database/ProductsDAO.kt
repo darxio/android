@@ -16,7 +16,7 @@ interface ProductsDAO {
     @Query("SELECT * from products WHERE barcode = :barcode")
     fun getOne(barcode: Long): ProductModel
 
-    @Insert(onConflict = IGNORE)
+    @Insert(onConflict = REPLACE)
     fun add(product: ProductModel)
 
     @Update

@@ -3,6 +3,9 @@ package com.darx.foodscaner.database
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executors
 
 class ProductViewModel(application: Application) : AndroidViewModel(application) {

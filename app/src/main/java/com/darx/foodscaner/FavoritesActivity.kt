@@ -39,12 +39,12 @@ class FavoritesActivity : AppCompatActivity() {
 
         favoritesProductRecycler.adapter = productsAdapter
 
-        val tmp = productViewModel
-        val tmpAdp = productsAdapter
+//        val tmp = productViewModel
+//        val tmpAdp = productsAdapter
 
-        tmp!!.getFavourites_().observe(this@FavoritesActivity, object : Observer<List<ProductModel>> {
+        productViewModel!!.getFavourites_().observe(this@FavoritesActivity, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
-                tmpAdp!!.addItems(l ?: return)
+                productsAdapter!!.addItems(l ?: return)
             }
         })
     }

@@ -19,7 +19,6 @@ data class ProductModel(
     @ColumnInfo(name = "description") var description: String,
     @TypeConverters(ProductIngredientsConverter::class)
     @ColumnInfo(name = "ingredients") var ingredients: ArrayList<IngredientExtended>,
-//  @ColumnInfo(name = "ingredients") var ingredients: String,
     @ColumnInfo(name = "category_url") var categoryURL: String,
     @ColumnInfo(name = "mass") var mass: String,
     @ColumnInfo(name = "bestbefore") var bestBefore: String,

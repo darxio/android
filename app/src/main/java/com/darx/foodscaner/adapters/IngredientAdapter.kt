@@ -4,13 +4,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
 import com.darx.foodscaner.R
-import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.IngredientModel
-import com.darx.foodscaner.models.Group
 import com.google.android.material.chip.Chip
 
 

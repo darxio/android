@@ -1,247 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment_product_info"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:fillViewport="false">
 
-
-
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/back_btn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Назад"/>
-
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            style="@style/Widget.MaterialComponents.CardView"
-            android:id="@+id/product_card"
+            android:id="@+id/fragment_product_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/mtrl_card_spacing"
-            android:layout_marginTop="@dimen/mtrl_card_spacing"
-            android:layout_marginRight="@dimen/mtrl_card_spacing"
-            android:layout_gravity="right">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <LinearLayout
+
+
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/back_btn"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Назад"/>
+
+        <com.google.android.material.card.MaterialCardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:id="@+id/product_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:layout_gravity="right">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/info_product_image"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:padding="3dp"
-                    android:src="@drawable/product"/>
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="15dp">
-
-                <TextView
-                        android:id="@+id/info_product_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/product_name"
-                        android:textSize="15sp" />
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                    <TextView
-                            android:id="@+id/info_product_warning_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Опасно!"
-                            android:textSize="13sp" />
-
-                </LinearLayout>
-            </LinearLayout>
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp">
+                    android:orientation="horizontal">
 
-                <ImageButton
-                        android:id="@+id/info_starred_ib"
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/info_product_image"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:padding="3dp"
+                        android:src="@drawable/product"/>
+
+                <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="14dp"
-                        android:layout_toStartOf="@+id/delete_link_ib" />
+                        android:orientation="vertical"
+                        android:paddingLeft="15dp">
 
-                <ImageButton
-                        android:id="@+id/info_share_btn"
-                        android:layout_width="wrap_content"
+                    <TextView
+                            android:id="@+id/info_product_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/product_name"
+                            android:textSize="15sp" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                        <TextView
+                                android:id="@+id/info_product_warning_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Опасно!"
+                                android:textSize="13sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="false"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginRight="102dp"
-                        android:layout_toStartOf="@+id/copy_ib"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_share" />
+                        android:orientation="horizontal"
+                        android:paddingLeft="15dp">
+
+                    <ImageButton
+                            android:id="@+id/info_starred_ib"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="14dp"
+                            android:layout_toStartOf="@+id/delete_link_ib" />
+
+                    <ImageButton
+                            android:id="@+id/info_share_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="false"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginRight="102dp"
+                            android:layout_toStartOf="@+id/copy_ib"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_share" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    <!--  Ingredients -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/Constitution"/>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/info_ingredient_chips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
 
             </LinearLayout>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
-<!--  Ingredients -->
+
+    <!--  Description -->
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/Constitution"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/Constitution"/>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/info_ingredient_chips"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
+            <TextView
+                    android:id="@+id/info_product_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
 
         </LinearLayout>
 
-
-<!--  Description -->
-
-    <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/Constitution"/>
-
-        <TextView
-                android:id="@+id/info_product_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"/>
-
-    </LinearLayout>
-
-<!--    Nutrition Facts -->
+    <!--    Nutrition Facts -->
 
 
-    <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="БЖУ:"
-                android:layout_marginRight="8dp"/>
-
-        <TextView
-                android:id="@+id/info_product_nutrition_facts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
-<!--   Mass -->
-
-
-    <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Масса:"
-                android:layout_marginRight="8dp"/>
-
-        <TextView
-                android:id="@+id/info_product_mass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""/>
-
-    </LinearLayout>
-
-<!-- Best Before-->
-
-    <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Срок хранения:"
-                android:layout_marginRight="8dp"/>
-
-        <TextView
-                android:id="@+id/info_product_bestbefore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""/>
-
-    </LinearLayout>
-
-<!--    Manufacturer -->
-
-    <LinearLayout
+        <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="15dp">
 
             <TextView
-                    android:id="@+id/info_product_manufacturer_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Производитель:"
+                    android:text="БЖУ:"
                     android:layout_marginRight="8dp"/>
 
             <TextView
-                    android:id="@+id/info_product_manufacturer"
+                    android:id="@+id/info_product_nutrition_facts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    <!--   Mass -->
+
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Масса:"
+                    android:layout_marginRight="8dp"/>
+
+            <TextView
+                    android:id="@+id/info_product_mass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""/>
 
         </LinearLayout>
 
-
-    <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <!-- Best Before-->
 
         <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
-    </ScrollView>
-</LinearLayout>
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Срок хранения:"
+                    android:layout_marginRight="8dp"/>
+
+            <TextView
+                    android:id="@+id/info_product_bestbefore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+
+        </LinearLayout>
+
+    <!--    Manufacturer -->
+
+        <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                <TextView
+                        android:id="@+id/info_product_manufacturer_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Производитель:"
+                        android:layout_marginRight="8dp"/>
+
+                <TextView
+                        android:id="@+id/info_product_manufacturer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+
+            </LinearLayout>
+    </LinearLayout>
+</ScrollView>

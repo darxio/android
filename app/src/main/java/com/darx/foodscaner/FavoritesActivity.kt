@@ -10,7 +10,6 @@ import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
 import kotlinx.android.synthetic.main.activity_favorites.*
-import kotlinx.android.synthetic.main.activity_ingredient.*
 import java.io.Serializable
 
 //import com.darx.foodscaner.data.response.Product

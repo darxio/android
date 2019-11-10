@@ -30,8 +30,9 @@ data class ProductModel(
     @ColumnInfo(name = "date")
         var date: Date = java.util.Calendar.getInstance().time,
     @ColumnInfo(name = "starred")
-                    var starred: Boolean = false
+                    var starred: Boolean = false,
+    @ColumnInfo(name = "ok") var ok: Boolean = true
 ): Serializable {
     constructor():this(0,"","", "", ArrayList(), "",
-        "","","","","", java.util.Calendar.getInstance().time, false)
+        "","","","","", java.util.Calendar.getInstance().time, false, true)
 }

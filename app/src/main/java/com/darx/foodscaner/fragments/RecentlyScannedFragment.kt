@@ -38,10 +38,10 @@ class RecentlyScannedFragment : Fragment() {
 
         this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
-        productViewModel?.add_(ProductModel(barcode = 4607111033451, name = "ГОТОВЫЕ ЧЕБУПЕЛИ ВЕТЧИНА+СЫР ТМ ГОРЯЧАЯ ШТУЧКА", description = "Изделия кулинарные мясосодержащие. Готовые вторые блюда замороженные.", contents = "",
-            ingredients = null,
-            categoryURL = "Товары/Продукты питания/Замороженные продукты/Полуфабрикаты замороженные/Чебуреки замороженные",
-            mass = "300,00 г",bestBefore = "6 мес.",nutrition ="Белки: 8,00 г",manufacturer = "NULL",image ="http://www.goodsmatrix.ru/BigImages/4607111033451.jpg"))
+//        productViewModel?.add_(ProductModel(barcode = 4607111033451, name = "ГОТОВЫЕ ЧЕБУПЕЛИ ВЕТЧИНА+СЫР ТМ ГОРЯЧАЯ ШТУЧКА", description = "Изделия кулинарные мясосодержащие. Готовые вторые блюда замороженные.", contents = "",
+//            ingredients = null,
+//            categoryURL = "Товары/Продукты питания/Замороженные продукты/Полуфабрикаты замороженные/Чебуреки замороженные",
+//            mass = "300,00 г",bestBefore = "6 мес.",nutrition ="Белки: 8,00 г",manufacturer = "NULL",image ="http://www.goodsmatrix.ru/BigImages/4607111033451.jpg"))
 
         productsAdapter =
                     ProductsAdapter(emptyList(),  productViewModel!!, this.context!!, object : ProductsAdapter.Callback {
@@ -55,9 +55,6 @@ class RecentlyScannedFragment : Fragment() {
                     })
 
         view.recently_scanned_products_recycler_view.adapter = productsAdapter
-
-//        val tmp = productViewModel
-//        val tmpAdp = productsAdapter
 
         productViewModel!!.getAll_().observe(this@RecentlyScannedFragment, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {

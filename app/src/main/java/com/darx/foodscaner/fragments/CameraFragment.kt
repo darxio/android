@@ -107,7 +107,7 @@ class CameraFragment : Fragment(), OnClickListener {
         networkDataSource?.product?.observe(this, Observer {
             barcodeField.label = it.name ?: ""
             barcodeField.value = it.description ?: ""
-            productViewModel?.add_(it)
+            productViewModel?.upsert_(it)
 
             BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField)
         })

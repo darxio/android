@@ -33,13 +33,11 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun add_(product: ProductModel) {
-        service.submit {
-            try {
-                db?.productsDAO()?.add(product)
-            } catch (e: Exception) {
-                Log.e("PROBLEM", "err: ", e)
-            }
-        }
+        service.submit { db?.productsDAO()?.add(product) }
+    }
+
+    fun upsert_(product: ProductModel) {
+        service.submit { db?.productsDAO()?.upsert(product) }
     }
 
     fun updateStarred_(product: ProductModel) {

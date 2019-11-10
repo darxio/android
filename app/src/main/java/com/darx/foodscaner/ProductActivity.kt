@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import kotlinx.android.synthetic.main.fragment_product_info.*
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +15,7 @@ import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -69,7 +69,7 @@ class ProductActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_product_info)
+        setContentView(R.layout.activity_product)
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService)
@@ -81,9 +81,6 @@ class ProductActivity : AppCompatActivity() {
 
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
-
-        info_product_name.text = productToShow.name
-        info_product_manufacturer.text = productToShow.manufacturer
 
         var starred = findViewById<ImageButton>(R.id.info_starred_ib)
         var share = findViewById<ImageButton>(R.id.info_share_btn)
@@ -127,14 +124,60 @@ class ProductActivity : AppCompatActivity() {
             finish()
         }
 
-        if ((productToShow.ingredients!![0] != null) || (!productToShow.ingredients!!.isEmpty())) {
-            preorder(productToShow.ingredients!![0])
-        }
+//        logics with info text views
 
-        if (this.chips != null) {
-            for (i in this.chips!!) {
-               info_ingredient_chips.addView(i)
+        info_product_name.text = productToShow.name
+        if (productToShow.contents == "") {
+            info_product_manufacturer.text = "Информация недоступна."
+            info_product_description.text = "Информация недоступна."
+            info_product_category_URL.text = "Информация недоступна."
+            info_product_mass.text = "Информация недоступна."
+            info_product_bestbefore.text = "Информация недоступна."
+            info_product_nutrition_facts.text = "Информация недоступна."
+        } else {
+            info_product_name.text = productToShow.name
+            if (productToShow.manufacturer != "NULL") {
+                info_product_manufacturer.text = productToShow.manufacturer
+            } else {
+                info_product_manufacturer.text = "Информация недоступна."
+            }
+            if (productToShow.description != "NULL") {
+                info_product_description.text = productToShow.description
+            } else {
+                info_product_description.text = "Информация недоступна."
+            }
+            if (productToShow.categoryURL != "NULL") {
+                info_product_category_URL.text = productToShow.categoryURL
+            } else {
+                info_product_category_URL.text = "Информация недоступна."
+            }
+            if (productToShow.mass != "NULL") {
+                info_product_mass.text = productToShow.mass
+            } else {
+                info_product_mass.text = "Информация недоступна."
+            }
+            if (productToShow.bestBefore != "NULL") {
+                info_product_bestbefore.text = productToShow.bestBefore
+            } else {
+                info_product_bestbefore.text = "Информация недоступна."
+            }
+            if (productToShow.nutrition != "NULL") {
+                info_product_nutrition_facts.text = productToShow.nutrition
+            } else {
+                info_product_nutrition_facts.text = "Информация недоступна."
             }
         }
+        // logics with ingredients
+//
+//        if ((productToShow.ingredients!![0] != null) || (!productToShow.ingredients!!.isEmpty())) {
+//            preorder(productToShow.ingredients!![0])
+//        } else {
+//        }
+//
+//        if (this.chips != null) {
+//            for (i in this.chips!!) {
+//               info_ingredient_chips.addView(i)
+//            }
+//        }
     }
 }

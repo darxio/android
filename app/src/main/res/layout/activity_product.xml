@@ -236,6 +236,29 @@
                         android:layout_height="wrap_content"
                         android:text=""/>
 
-            </LinearLayout>
+        </LinearLayout>
+
+        <!--    Category URL -->
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Категория:"
+                    android:layout_marginRight="8dp"/>
+
+            <TextView
+                    android:id="@+id/info_product_category_URL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

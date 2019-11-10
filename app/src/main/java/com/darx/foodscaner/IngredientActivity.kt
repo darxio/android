@@ -31,6 +31,8 @@ class IngredientActivity : AppCompatActivity() {
             <p>""" + resources.getString(R.string.no_ingredient_description) +"""</p>
         """.trimIndent()
 
+        webView.loadDataWithBaseURL("", desc_html, "text/html", "UTF-8", "")
+
         // collapsingToolbar.background = R.drawable.ingredient.toDrawable() IMAGE
 
         ingredientViewModel?.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity, object : Observer<IngredientModel> {

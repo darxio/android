@@ -48,7 +48,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".camerafragment.settings.SettingsActivity"></activity>
+        <activity android:name=".camerafragment.settings.SettingsActivity" android:screenOrientation="sensorPortrait">
+        </activity>
     </application>
 
 </manifest>

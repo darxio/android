@@ -67,16 +67,16 @@ class UserIngredientsActivity : AppCompatActivity() {
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService)
 
-//        networkDataSource?.ingredient?.observe(this@UserIngredientsActivity, Observer {
-//            allIngredientsAdapter.addItems(it)
-//        })
+        networkDataSource?.ingredients?.observe(this@UserIngredientsActivity, Observer {
+            allIngredientsAdapter.addItems(it)
+        })
         networkDataSource?.ingredientSearch?.observe(this@UserIngredientsActivity, Observer {
             allIngredientsAdapter.addItems(it)
         })
 
-//        GlobalScope.launch(Dispatchers.Main) {
-//            networkDataSource?.fetchIngredients()
-//        }
+        GlobalScope.launch(Dispatchers.Main) {
+            networkDataSource?.fetchIngredients(30, 1)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

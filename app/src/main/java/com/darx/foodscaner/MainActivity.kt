@@ -7,6 +7,9 @@ import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProviders
+import com.darx.foodscaner.database.ProfileModel
+import com.darx.foodscaner.database.ProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -38,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView =
             findViewById<BottomNavigationView>(com.darx.foodscaner.R.id.bottom_navigation)
 
+        val profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
+        val isProfile = profileViewModel.getCount_()
+
         bottomNavigationView.setOnNavigationItemSelectedListener(object :
             BottomNavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -56,8 +62,11 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = pagerAdapter
         viewPager.currentItem = pagerAdapter.getItemNum("Camera")
 
-        val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
-        startActivity(intent)
+        if (isProfile == 0) {
+            val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
+            startActivity(intent)
+            profileViewModel.add_(ProfileModel())
+        }
     }
 
 }

@@ -14,23 +14,31 @@ import java.net.SocketTimeoutException
 class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSource {
 
     private val _product = MutableLiveData<ProductModel>()
-    private val _ingredient = MutableLiveData<IngredientModel>()
     private val _productSearch = MutableLiveData<List<ProductModel>>()
+    private val _ingredient = MutableLiveData<IngredientModel>()
+    private val _ingredients = MutableLiveData<List<IngredientModel>>()
     private val _ingredientSearch = MutableLiveData<List<IngredientModel>>()
+    private val _groupIngredients = MutableLiveData<List<IngredientModel>>()
     private val _groups = MutableLiveData<List<GroupModel>>()
     private val _groupSearch = MutableLiveData<List<GroupModel>>()
 
     override val product: LiveData<ProductModel>
         get() = _product
 
-    override val ingredient: LiveData<IngredientModel>
-        get() = _ingredient
-
     override val productSearch: LiveData<List<ProductModel>>
         get() = _productSearch
 
+    override val ingredient: LiveData<IngredientModel>
+        get() = _ingredient
+
+    override val ingredients: LiveData<List<IngredientModel>>
+        get() = _ingredients
+
     override val ingredientSearch: LiveData<List<IngredientModel>>
         get() = _ingredientSearch
+
+    override val groupIngredients: LiveData<List<IngredientModel>>
+        get() = _groupIngredients
 
     override val groups: LiveData<List<GroupModel>>
         get() = _groups
@@ -96,10 +104,48 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
         }
     }
 
+    override suspend fun fetchIngredients(count: Int, page: Int, callback: Callback) {
+        try {
+            val fetchedIngredients = apiService.ingredientsTop(count, page).await()
+            _ingredientSearch.postValue(fetchedIngredients)
+        }
+        catch (e: NoConnectivityException) {
+            callback.onNoConnectivityException()
+        }
+        catch (e: HttpException) {
+            callback.onHttpException()
+        }
+        catch (e: SocketTimeoutException) {
+            callback.onTimeoutException()
+        }
+        catch (e: Exception) {
+            callback.onException()
+        }
+    }
+
     override suspend fun fetchIngredientSearch(name: String, callback: Callback) {
         try {
             val fetchedIngredientSearch = apiService.ingredientSearsh(name).await()
             _ingredientSearch.postValue(fetchedIngredientSearch)
+        }
+        catch (e: NoConnectivityException) {
+            callback.onNoConnectivityException()
+        }
+        catch (e: HttpException) {
+            callback.onHttpException()
+        }
+        catch (e: SocketTimeoutException) {
+            callback.onTimeoutException()
+        }
+        catch (e: Exception) {
+            callback.onException()
+        }
+    }
+
+    override suspend fun fetchGroupIngredients(id: Int, count: Int, page: Int, callback: Callback) {
+        try {
+            val fetchedGroupIngredients = apiService.groupIngredients(id, count, page).await()
+            _groupIngredients.postValue(fetchedGroupIngredients)
         }
         catch (e: NoConnectivityException) {
             callback.onNoConnectivityException()

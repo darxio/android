@@ -16,4 +16,12 @@
       android:contentDescription="@string/cd_flash_button"
       app:srcCompat="@drawable/camera_flash"/>
 
+  <ImageView
+          android:id="@+id/tutorial_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:padding="@dimen/top_action_button_padding"
+          android:contentDescription="@string/cd_flash_button"
+          app:srcCompat="@drawable/ic_info_white"/>
+
 </RelativeLayout>

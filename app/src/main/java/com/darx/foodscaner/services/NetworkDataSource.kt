@@ -10,13 +10,17 @@ interface NetworkDataSource {
     val product: LiveData<ProductModel>
     val ingredient: LiveData<IngredientModel>
     val productSearch: LiveData<List<ProductModel>>
+    val ingredients: LiveData<List<IngredientModel>>
     val ingredientSearch: LiveData<List<IngredientModel>>
+    val groupIngredients: LiveData<List<IngredientModel>>
     val groups: LiveData<List<GroupModel>>
     val groupSearch: LiveData<List<GroupModel>>
 
     suspend fun fetchProductByBarcode(barcode: Long, callback: Callback = DefaultCallback())
     suspend fun fetchProductSearch(name: String, callback: Callback = DefaultCallback())
+    suspend fun fetchIngredients(count: Int, page: Int, callback: Callback = DefaultCallback())
     suspend fun fetchIngredientSearch(name: String, callback: Callback = DefaultCallback())
+    suspend fun fetchGroupIngredients(id: Int, count: Int, page: Int, callback: Callback = DefaultCallback())
     suspend fun getIngredientByID(id: Int, callback: Callback = DefaultCallback())
     suspend fun fetchGroups(callback: Callback = DefaultCallback())
     suspend fun fetchGroupSearch(name: String, callback: Callback = DefaultCallback())

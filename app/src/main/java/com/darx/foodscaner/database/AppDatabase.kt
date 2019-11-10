@@ -12,6 +12,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun groupsDAO(): GroupsDAO
     abstract fun ingredientsDAO(): IngredientsDAO
     abstract fun productsDAO(): ProductsDAO
+    abstract fun profileDAO(): ProfilesDAO
 
     companion object {
         private var INSTANCE: AppDatabase? = null

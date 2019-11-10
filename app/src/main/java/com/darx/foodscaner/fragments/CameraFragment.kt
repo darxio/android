@@ -47,6 +47,7 @@ import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import com.darx.foodscaner.MainActivity
 import com.darx.foodscaner.ProductActivity
+import com.darx.foodscaner.WelcomeWizardActivity
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.AppDatabase
 import com.darx.foodscaner.database.ProductModel
@@ -59,6 +60,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
+import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.view.*
 import java.io.Serializable
 
 
@@ -112,6 +114,10 @@ class CameraFragment : Fragment(), OnClickListener {
             BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField)
         })
 
+        view.tutorial_button.setOnClickListener {
+            val intent = Intent(this.context, WelcomeWizardActivity::class.java)
+            startActivity(intent)
+        }
         return view
     }
 

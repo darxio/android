@@ -142,10 +142,10 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
         }
     }
 
-    override suspend fun fetchGroupIngredients(id: Int, callback: Callback) {
+    override suspend fun fetchGroupIngredients(id: Int, count: Int, page: Int, callback: Callback) {
         try {
-            val fetchedGroupIngredients = apiService.groupIngredients(id).await()
-            _ingredientSearch.postValue(fetchedGroupIngredients)
+            val fetchedGroupIngredients = apiService.groupIngredients(id, count, page).await()
+            _groupIngredients.postValue(fetchedGroupIngredients)
         }
         catch (e: NoConnectivityException) {
             callback.onNoConnectivityException()

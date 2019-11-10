@@ -49,7 +49,7 @@
                         android:id="@+id/myIngredientsTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Исключаемые ингредиенты:"/>
+                        android:text="@string/group_ingredients_button"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/groupIngredientsRecycler"

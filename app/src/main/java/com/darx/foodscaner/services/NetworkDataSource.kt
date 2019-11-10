@@ -20,7 +20,7 @@ interface NetworkDataSource {
     suspend fun fetchProductSearch(name: String, callback: Callback = DefaultCallback())
     suspend fun fetchIngredients(count: Int, page: Int, callback: Callback = DefaultCallback())
     suspend fun fetchIngredientSearch(name: String, callback: Callback = DefaultCallback())
-    suspend fun fetchGroupIngredients(id: Int, callback: Callback = DefaultCallback())
+    suspend fun fetchGroupIngredients(id: Int, count: Int, page: Int, callback: Callback = DefaultCallback())
     suspend fun getIngredientByID(id: Int, callback: Callback = DefaultCallback())
     suspend fun fetchGroups(callback: Callback = DefaultCallback())
     suspend fun fetchGroupSearch(name: String, callback: Callback = DefaultCallback())

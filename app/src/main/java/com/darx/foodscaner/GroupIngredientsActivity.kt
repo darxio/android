@@ -49,13 +49,13 @@ class GroupIngredientsActivity : AppCompatActivity() {
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService)
 
-        networkDataSource?.ingredients?.observe(this@GroupIngredientsActivity, Observer {
+        networkDataSource?.groupIngredients?.observe(this@GroupIngredientsActivity, Observer {
             groupIngredientsAdapter?.addItems(it)
         })
 
         val groupId: Int = intent.getIntExtra("GROUP_ID", 0)
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchGroupIngredients(groupId)
+            networkDataSource?.fetchGroupIngredients(groupId, 30, 1)
         }
     }
 

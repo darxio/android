@@ -49,9 +49,11 @@ interface ApiService {
 
 
     // === INGREDIENTS ===
-    @GET("/ingredients/group/{id}")
+    @GET("/groups/ingredients/{group_id}/{count}/{page}")
     fun groupIngredients(
-        @Path("id") id: Int
+        @Path("group_id") group_id: Int,
+        @Path("count") count: Int,
+        @Path("page") page: Int
     ): Deferred<List<IngredientModel>>
 
     @GET("/ingredients/top/{count}/{page}")

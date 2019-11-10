@@ -7,6 +7,7 @@
 
     <color name="positiveColor">#E4F5D8</color>
     <color name="negativeColor">#FFDBDB</color>
+    <color name="cautiousColor">#fcf403</color>
     <color name="strongPositiveColor">#8CC056</color>
     <color name="strongNegativeColor">#FF524B</color>
 

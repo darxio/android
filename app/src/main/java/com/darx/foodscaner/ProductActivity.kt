@@ -2,13 +2,11 @@ package com.darx.foodscaner
 
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
@@ -27,9 +25,13 @@ import android.widget.TextView
 class ProductActivity : AppCompatActivity() {
     private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
+    private lateinit var iVM: IngredientViewModel
+    private lateinit var gVM: GroupViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
     var chips: ArrayList<Chip>? = ArrayList()
     private lateinit var layout: LinearLayout
+    var ok: Boolean = true
+    var cautious: Boolean = false
 
     val states = arrayOf(
         intArrayOf(android.R.attr.state_enabled), // enabled
@@ -48,8 +50,9 @@ class ProductActivity : AppCompatActivity() {
 
         // logics
         val chip = Chip(this)
-        chip.text = ingredient.name
-        this.chips?.add(chip)
+        if (ingredient.name != "") {
+            chip.text = ingredient.name
+        }
 
         chip.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
@@ -57,15 +60,33 @@ class ProductActivity : AppCompatActivity() {
             }
         }
 
-        chip.chipBackgroundColor = ColorStateList(states, positiveColors)
-        chip.chipStrokeColor = ColorStateList(states, positiveColors)
-        chip.chipStrokeWidth = 1F
-        chip.chipIcon = R.drawable.ingredient.toDrawable()
+        if (iVM != null) {
+            iVM?.getOne_(ingredient.id)
+                ?.observe(this@ProductActivity, object : Observer<IngredientModel> {
+                    override fun onChanged(t: IngredientModel?) {
+                        if (t?.id == ingredient.id) {
+                            chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                            this@ProductActivity.ok = false
+                        } else {
+                            if (ingredient.danger!! > 0) {
+                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
+                                this@ProductActivity.cautious = true
+                            } else {
+                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                            }
+                        }
+                    }
+                })
+        }
 
+        chip.isClickable = true
+        if (chip.text != "") {
+            this.chips?.add(chip)
+        }
 
         if (!ingredient.ingredients.isNullOrEmpty()) {
             for (i in ingredient.ingredients!!) {
-                preorder(ingredient);
+                preorder(i)
             }
         }
     }
@@ -85,6 +106,8 @@ class ProductActivity : AppCompatActivity() {
 
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         var starred = findViewById<ImageButton>(R.id.info_starred_ib)
         var share = findViewById<ImageButton>(R.id.info_share_btn)
@@ -208,15 +231,20 @@ class ProductActivity : AppCompatActivity() {
                 layout.addView(contentsTextView)
             }
         } else {
-//            for (i in productToShow.ingredients!!) {
-//                preorder(i)
-//            }
+            for (i in productToShow.ingredients!!) {
+                preorder(i)
+            }
         }
 
-//        if (this.chips != null) {
-//            for (i in this.chips!!) {
-//               info_ingredient_chips.addView(i)
-//            }
-//        }
+        if (this.chips != null) {
+            for (i in this.chips!!) {
+               info_ingredient_chips.addView(i)
+            }
+        }
+
+        if (ok == false) {
+            info_material_card.setBackgroundColor(R.color.negativeColor)
+            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
+        }
     }
 }

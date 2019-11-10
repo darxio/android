@@ -3,16 +3,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:fillViewport="false">
 
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/fragment_product_info"
+            android:id="@+id/info_product_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/back_btn"
@@ -24,7 +23,7 @@
         <com.google.android.material.card.MaterialCardView
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 style="@style/Widget.MaterialComponents.CardView"
-                android:id="@+id/product_card"
+                android:id="@+id/info_material_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
@@ -37,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+
                 <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/info_product_image"
                         android:layout_width="65dp"
@@ -44,88 +44,102 @@
                         android:padding="3dp"
                         android:src="@drawable/product"/>
 
+
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:paddingLeft="15dp">
 
+
                     <TextView
                             android:id="@+id/info_product_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/product_name"
                             android:textSize="15sp" />
 
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
-                        <TextView
-                                android:id="@+id/info_product_warning_text"
+                    <TextView
+                            android:id="@+id/info_product_warning_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp" />
+
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingLeft="15dp">
+
+                        <ImageButton
+                                android:id="@+id/info_starred_ib"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Опасно!"
-                                android:textSize="13sp" />
+                                android:layout_alignParentTop="true"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="14dp"
+                                android:layout_toStartOf="@+id/delete_link_ib" />
+
+                        <ImageButton
+                                android:id="@+id/info_share_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="false"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginStart="0dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginRight="102dp"
+                                android:layout_toStartOf="@+id/copy_ib"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/ic_share" />
 
                     </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingLeft="15dp">
-
-                    <ImageButton
-                            android:id="@+id/info_starred_ib"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="14dp"
-                            android:layout_toStartOf="@+id/delete_link_ib" />
-
-                    <ImageButton
-                            android:id="@+id/info_share_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="false"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginRight="102dp"
-                            android:layout_toStartOf="@+id/copy_ib"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/ic_share" />
 
                 </LinearLayout>
+
             </LinearLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
-    <!--  Ingredients -->
+
+        <!--  Ingredients -->
 
             <LinearLayout
+                android:id="@+id/info_ingredients_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="15dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/Constitution"/>
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/Constitution"
+                        android:layout_marginRight="8dp"/>
+
+                    <TextView
+                            android:id="@+id/info_product_ingredients_temp_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                </LinearLayout>
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/info_ingredient_chips"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:singleSelection="true"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"/>
 
             </LinearLayout>
-
 
     <!--  Description -->
 
@@ -138,7 +152,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/Constitution"/>
+                    android:text="Описание:"/>
 
             <TextView
                     android:id="@+id/info_product_description"
@@ -190,8 +204,7 @@
             <TextView
                     android:id="@+id/info_product_mass"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""/>
+                    android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
@@ -212,8 +225,7 @@
             <TextView
                     android:id="@+id/info_product_bestbefore"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""/>
+                    android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
@@ -235,9 +247,30 @@
                 <TextView
                         android:id="@+id/info_product_manufacturer"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""/>
+                        android:layout_height="wrap_content"/>
 
-            </LinearLayout>
+        </LinearLayout>
+
+        <!--    Category URL -->
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Категория:"
+                    android:layout_marginRight="8dp"/>
+
+            <TextView
+                    android:id="@+id/info_product_category_URL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

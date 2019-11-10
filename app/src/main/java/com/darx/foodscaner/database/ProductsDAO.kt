@@ -4,6 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.OnConflictStrategy.REPLACE
+import android.provider.SyncStateContract.Helpers.update
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.room.Transaction
+import java.util.*
+
 
 @Dao
 interface ProductsDAO {
@@ -17,7 +22,10 @@ interface ProductsDAO {
     fun getOne(barcode: Long): ProductModel
 
     @Insert(onConflict = IGNORE)
-    fun add(product: ProductModel)
+    fun add(product: ProductModel): Long
+
+    @Query("UPDATE products SET date = :date WHERE barcode = :barcode")
+    fun updateDate(barcode: Long, date: Date)
 
     @Update
     fun updateStarred(product: ProductModel)
@@ -27,4 +35,12 @@ interface ProductsDAO {
 
     @Query("DELETE from products")
     fun deleteAll()
+
+    @Transaction
+    fun upsert(product: ProductModel) {
+        val id = add(product)
+        if (id.compareTo(-1) == 0) {
+            updateDate(product.barcode, product.date)
+        }
+    }
 }

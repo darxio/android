@@ -52,7 +52,6 @@ class RecentlyScannedFragment : Fragment() {
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
         networkDataSource = NetworkDataSourceImpl(apiService)
 
-
         // scaned products
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
@@ -85,7 +84,6 @@ class RecentlyScannedFragment : Fragment() {
         networkDataSource?.productSearch?.observe(this@RecentlyScannedFragment, Observer {
             allProductsAdapter.addItems(it)
         })
-
 
         // searching
         view.productSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

@@ -17,7 +17,11 @@ import org.json.JSONException
 object ProductIngredientsConverter {
     @TypeConverter
     @JvmStatic
-    fun jsonArrayToString(Contents: ArrayList<IngredientExtended>): String {
+    fun jsonArrayToString(Contents: ArrayList<IngredientExtended>?): String {
+        if (Contents == null) {
+            return "NULL"
+        }
+
         var a = ""
         for (s in Contents) {
             a += s.toString() + "|\t|"
@@ -28,7 +32,11 @@ object ProductIngredientsConverter {
 
     @TypeConverter
     @JvmStatic
-    fun toJsonArray(s: String): ArrayList<IngredientExtended> {
+    fun toJsonArray(s: String): ArrayList<IngredientExtended>? {
+        if (s == "NULL") {
+            return null
+        }
+
         val ingredients = ArrayList<IngredientExtended>()
         val ings = s.split("|\t|")
         for (i in ings) {

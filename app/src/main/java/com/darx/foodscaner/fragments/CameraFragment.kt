@@ -12,7 +12,6 @@ import android.view.ViewGroup
 
 import com.darx.foodscaner.R
 import com.darx.foodscaner.services.ApiService
-import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -20,12 +19,10 @@ import kotlinx.coroutines.launch
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.app.Instrumentation
 import android.content.Intent
 import android.hardware.Camera
 import android.util.Log
 import android.view.View.OnClickListener
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.chip.Chip
@@ -38,30 +35,14 @@ import com.darx.foodscaner.camerafragment.barcodedetection.BarcodeProcessor
 import com.darx.foodscaner.camerafragment.barcodedetection.BarcodeResultFragment
 import com.darx.foodscaner.camerafragment.camera.CameraSource
 import com.darx.foodscaner.camerafragment.camera.CameraSourcePreview
-import com.darx.foodscaner.camerafragment.settings.SettingsActivity
 import java.io.IOException
-import java.util.ArrayList
-import androidx.core.app.ActivityCompat.requestPermissions
 import android.content.pm.PackageManager
-import android.view.WindowManager
 import androidx.core.app.ActivityCompat
-import com.darx.foodscaner.MainActivity
-import com.darx.foodscaner.ProductActivity
 import com.darx.foodscaner.WelcomeWizardActivity
-import com.darx.foodscaner.adapters.ProductsAdapter
-import com.darx.foodscaner.database.AppDatabase
-import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
-import com.darx.foodscaner.database.ProductsDAO
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.view.*
-import java.io.Serializable
 
 
 class CameraFragment : Fragment(), OnClickListener {
@@ -109,9 +90,9 @@ class CameraFragment : Fragment(), OnClickListener {
         networkDataSource?.product?.observe(this, Observer {
             barcodeField.label = it.name ?: ""
             barcodeField.value = it.description ?: ""
-            productViewModel?.add_(it)
+            productViewModel?.upsert_(it)
 
-            BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField)
+            BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
         })
 
         view.tutorial_button.setOnClickListener {

@@ -1,13 +1,12 @@
 package com.darx.foodscaner
 
+
 import android.content.Intent
-import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import kotlinx.android.synthetic.main.fragment_product_info.*
-import androidx.core.graphics.drawable.toDrawable
+import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
@@ -16,21 +15,86 @@ import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import android.widget.TextView
 
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
+    private lateinit var iVM: IngredientViewModel
+    private lateinit var gVM: GroupViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
-    private var ingToShow: IngredientModel? = null
+    var chips: ArrayList<Chip>? = ArrayList()
+    private lateinit var layout: LinearLayout
+    var ok: Boolean = true
+    var cautious: Boolean = false
 
+    val states = arrayOf(
+        intArrayOf(android.R.attr.state_enabled), // enabled
+        intArrayOf(-android.R.attr.state_enabled), // disabled
+        intArrayOf(-android.R.attr.state_checked), // unchecked
+        intArrayOf(android.R.attr.state_pressed)  // pressed
+    )
+
+    val positiveColors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
+    val negativeColors = intArrayOf(R.color.negativeColor, R.color.negativeColor, R.color.negativeColor, R.color.negativeColor)
+
+    private fun preorder(ingredient: IngredientExtended) {
+        if (ingredient == null) {
+            return
+        }
+
+        // logics
+        val chip = Chip(this)
+        if (ingredient.name != "") {
+            chip.text = ingredient.name
+        }
+
+        chip.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource!!.getIngredientByID(ingredient.id)
+            }
+        }
+
+        if (iVM != null) {
+            iVM?.getOne_(ingredient.id)
+                ?.observe(this@ProductActivity, object : Observer<IngredientModel> {
+                    override fun onChanged(t: IngredientModel?) {
+                        if (t?.id == ingredient.id) {
+                            chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                            this@ProductActivity.ok = false
+                        } else {
+                            if (ingredient.danger!! > 0) {
+                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
+                                this@ProductActivity.cautious = true
+                            } else {
+                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                            }
+                        }
+                    }
+                })
+        }
+
+        chip.isClickable = true
+        if (chip.text != "") {
+            this.chips?.add(chip)
+        }
+
+        if (!ingredient.ingredients.isNullOrEmpty()) {
+            for (i in ingredient.ingredients!!) {
+                preorder(i)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_product_info)
+        setContentView(R.layout.activity_product)
+        val scale = resources.displayMetrics.density
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService)
@@ -42,9 +106,8 @@ class ProductActivity : AppCompatActivity() {
 
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
-
-        info_product_name.text = productToShow.name
-        info_product_manufacturer.text = productToShow.manufacturer
+        this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         var starred = findViewById<ImageButton>(R.id.info_starred_ib)
         var share = findViewById<ImageButton>(R.id.info_share_btn)
@@ -75,7 +138,7 @@ class ProductActivity : AppCompatActivity() {
             sharingIntent.type = "text/plain"
             val shareBody = productToShow.name;
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
-            applicationContext.startActivity(
+            this.startActivity(
                 Intent.createChooser(
                     sharingIntent,
                     //                        ctx.getResources().getString(R.string.share_via)
@@ -88,49 +151,100 @@ class ProductActivity : AppCompatActivity() {
             finish()
         }
 
+//        logics with info text views
 
-
-        for (i in this.productToShow.ingredients!!) {
-            val chip: Chip = Chip(this)
-            val chips: ArrayList<Chip>? = null
-            chip.text = i.name
-
-            if (i.ingredients != null) {
-                val prod_ings = i.ingredients!!
-                for (k in prod_ings) {
-                    val c: Chip = Chip(this)
-                    c.text = k.name
-                    chips?.add(c)
-                }
+        this.layout = findViewById(R.id.info_product_layout)
+        info_product_name.text = productToShow.name
+        // when the short version of the product is obtained
+        if (productToShow.contents == "") {
+//            contents
+            info_product_ingredients_temp_text_view.text = "Информация недоступна."
+            info_product_manufacturer.text = "Информация недоступна."
+            info_product_description.text = "Информация недоступна."
+            info_product_category_URL.text = "Информация недоступна."
+            info_product_mass.text = "Информация недоступна."
+            info_product_bestbefore.text = "Информация недоступна."
+            info_product_nutrition_facts.text = "Информация недоступна."
+        } else {
+            if (productToShow.manufacturer != "NULL") {
+                info_product_manufacturer.text = productToShow.manufacturer
+            } else {
+                info_product_manufacturer.text = "Информация недоступна."
             }
-
-            val states = arrayOf(
-                intArrayOf(android.R.attr.state_enabled), // enabled
-                intArrayOf(-android.R.attr.state_enabled), // disabled
-                intArrayOf(-android.R.attr.state_checked), // unchecked
-                intArrayOf(android.R.attr.state_pressed)  // pressed
-            )
-            val colors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
-
-            chip.chipBackgroundColor = ColorStateList(states, colors)
-            chip.chipStrokeColor = ColorStateList(states, colors)
-            chip.chipStrokeWidth = 1F
-            chip.chipIcon = R.drawable.ingredient.toDrawable()
-
-            chip.setOnClickListener {
-                val n = networkDataSource
-                GlobalScope.launch(Dispatchers.Main) {
-                    n!!.getIngredientByID(i.id)
-                }
-
+            if (productToShow.description != "NULL") {
+                info_product_description.text = productToShow.description
+            } else {
+                info_product_description.text = "Информация недоступна."
             }
-            info_ingredient_chips.addView(chip)
-            if (chips != null) {
-                for (i in chips!!) {
-                    info_ingredient_chips.addView(i)
-                }
+            if (productToShow.categoryURL != "NULL") {
+                info_product_category_URL.text = productToShow.categoryURL
+            } else {
+                info_product_category_URL.text = "Информация недоступна."
             }
+            if (productToShow.mass != "NULL") {
+                info_product_mass.text = productToShow.mass
+            } else {
+                info_product_mass.text = "Информация недоступна."
+            }
+            if (productToShow.bestBefore != "NULL") {
+                info_product_bestbefore.text = productToShow.bestBefore
+            } else {
+                info_product_bestbefore.text = "Информация недоступна."
+            }
+            if (productToShow.nutrition != "NULL") {
+                info_product_nutrition_facts.text = productToShow.nutrition
+            } else {
+                info_product_nutrition_facts.text = "Информация недоступна."
+            }
+        }
 
+        if (productToShow.ingredients.isNullOrEmpty()) {
+            if (productToShow.contents != null || productToShow.contents != "" || productToShow.contents != "NULL") {
+                val layout_contents = LinearLayout(this)
+                layout_contents.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                layout_contents.orientation = LinearLayout.VERTICAL
+
+//                ???
+                val layoutPadding = (15 * scale + 0.5f).toInt()
+
+                layout_contents.setPadding(
+                    layoutPadding,
+                    layoutPadding,
+                    layoutPadding,
+                    layoutPadding
+                )
+                this.layout.addView(layout_contents)
+
+                val contentsLabelTextView = TextView(this)
+                contentsLabelTextView.text = "Текст состава:"
+
+                val contentsTextView = TextView(this)
+
+//                ???
+                val textViewPadding = (8 * scale + 0.5f).toInt()
+                contentsTextView.setPadding(0, textViewPadding, 0, textViewPadding)
+                contentsTextView.text = productToShow.contents
+
+                layout.addView(contentsLabelTextView)
+                layout.addView(contentsTextView)
+            }
+        } else {
+            for (i in productToShow.ingredients!!) {
+                preorder(i)
+            }
+        }
+
+        if (this.chips != null) {
+            for (i in this.chips!!) {
+               info_ingredient_chips.addView(i)
+            }
+        }
+
+        if (ok == false) {
+            info_material_card.setBackgroundColor(R.color.negativeColor)
+            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
         }
     }
 }

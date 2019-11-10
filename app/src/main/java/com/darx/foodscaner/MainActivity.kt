@@ -4,18 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.darx.foodscaner.adapters.PageAdapter
-import com.darx.foodscaner.adapters.WizardAdapter
 import com.darx.foodscaner.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
-import android.widget.Toast
-import android.R
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.ProfileModel
 import com.darx.foodscaner.database.ProfileViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
-
 
 
 class MainActivity : AppCompatActivity() {

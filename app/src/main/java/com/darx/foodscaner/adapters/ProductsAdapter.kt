@@ -26,6 +26,11 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
         holder.bind(items[position])
     }
 
+    fun addItems(products: List<ProductModel>) {
+        this.items = products
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val productImage = itemView.findViewById<ImageView>(R.id.product_image)
@@ -36,7 +41,6 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
         private val starred = itemView.findViewById<ImageButton>(R.id.starred_ib)
         private val share = itemView.findViewById<ImageButton>(R.id.share_btn)
         private val delete = itemView.findViewById<ImageButton>(R.id.delete_ib)
-
 
         fun bind(item: ProductModel) {
             productImage.setImageResource(R.drawable.product) //!
@@ -90,11 +94,6 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 notifyDataSetChanged()
             }
         }
-    }
-
-    fun addItems(products: List<ProductModel>) {
-        this.items = products
-        notifyDataSetChanged()
     }
 
     interface Callback {

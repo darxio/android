@@ -130,5 +130,6 @@
 
     <string name="except_ingredient">Исключить</string>
     <string name="add_ingredient">Добавить</string>
+    <string name="searching">Поиск...</string>
 
 </resources>

@@ -31,6 +31,7 @@ class ProductActivity : AppCompatActivity() {
     var chips: ArrayList<Chip>? = ArrayList()
     private lateinit var layout: LinearLayout
     var ok: Boolean = true
+    var cautious: Boolean = false
 
     val states = arrayOf(
         intArrayOf(android.R.attr.state_enabled), // enabled
@@ -65,9 +66,14 @@ class ProductActivity : AppCompatActivity() {
                     override fun onChanged(t: IngredientModel?) {
                         if (t?.id == ingredient.id) {
                             chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-                            ok = false
+                            this@ProductActivity.ok = false
                         } else {
-                            chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                            if (ingredient.danger!! > 0) {
+                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
+                                this@ProductActivity.cautious = true
+                            } else {
+                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                            }
                         }
                     }
                 })
@@ -237,7 +243,8 @@ class ProductActivity : AppCompatActivity() {
         }
 
         if (ok == false) {
-            info_product_warning_text.text = "Продукт содержит ингредиенты, которые вы не хотите есть!"
+            info_material_card.setBackgroundColor(R.color.negativeColor)
+            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
         }
     }
 }

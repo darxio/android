@@ -114,7 +114,7 @@
     <string name="additive">Е-добавки:</string>
     <string name="group_name">Группа</string>
     <string name="ingredient_type">Тип ингредиента</string>
-    <string name="group_ingredients_button">Исключаемые ингредиенты</string>
+    <string name="group_ingredients_button">Исключаемые\nингредиенты</string>
     <string name="user_ingredients_card">Ингредиенты</string>
     <string name="user_groups_card">Группы</string>
     <string name="user_favorites_card">Избранные продукты</string>
@@ -131,5 +131,8 @@
     <string name="except_ingredient">Исключить</string>
     <string name="add_ingredient">Добавить</string>
     <string name="searching">Поиск...</string>
+    <string name="profile">Профиль</string>
+    <string name="camera">Камера</string>
+    <string name="history">История</string>
 
 </resources>

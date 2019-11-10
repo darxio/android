@@ -18,21 +18,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeWizardActivity"></activity>
-        <activity android:name=".FavoritesActivity" />
-        <activity android:name=".GroupActivity" />
-        <activity android:name=".UserIngredientsActivity" />
-        <activity android:name=".UserGroupsActivity" />
-        <activity android:name=".IngredientActivity" />
-        <activity android:name=".ProductActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".WelcomeWizardActivity" android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".FavoritesActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".GroupActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".UserIngredientsActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".UserGroupsActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".GroupIngredientsActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".IngredientActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".ProductActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".camerafragment.settings.SettingsActivity"></activity>
+        <activity android:name=".camerafragment.settings.SettingsActivity" android:screenOrientation="sensorPortrait">
+        </activity>
     </application>
 
 </manifest>

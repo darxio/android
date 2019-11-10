@@ -60,18 +60,18 @@
                     android:layout_marginBottom="5dp">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/groupIngredientsButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:textColor="@color/strongNegativeColor"
-                        app:rippleColor="@color/strongNegativeColor"
-                        android:textSize="12sp"
+                    app:rippleColor="@color/strongNegativeColor"
                     android:text="@string/group_ingredients_button"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                         android:id="@+id/enterButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/strongPositiveColor"

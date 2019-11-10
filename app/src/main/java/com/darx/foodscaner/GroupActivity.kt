@@ -1,6 +1,7 @@
 package com.darx.foodscaner
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,6 +12,7 @@ import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientModel
 import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.activity_ingredient.*
+import java.io.Serializable
 import com.darx.foodscaner.R as R
 
 class GroupActivity : AppCompatActivity() {
@@ -54,6 +56,12 @@ class GroupActivity : AppCompatActivity() {
             } else {
                 groupViewModel?.add_(groupToShow)
             }
+        }
+
+        groupIngredientsButton.setOnClickListener {
+            val intent = Intent(this@GroupActivity, GroupIngredientsActivity::class.java)
+            intent.putExtra("GROUP_ID", groupToShow.id)
+            startActivity(intent)
         }
     }
 

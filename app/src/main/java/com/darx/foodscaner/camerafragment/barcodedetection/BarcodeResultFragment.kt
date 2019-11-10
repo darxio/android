@@ -17,24 +17,109 @@
 package com.darx.foodscaner.camerafragment.barcodedetection
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.darx.foodscaner.IngredientActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.darx.foodscaner.R
 import com.darx.foodscaner.camerafragment.camera.WorkflowModel
 import com.darx.foodscaner.camerafragment.camera.WorkflowModel.WorkflowState
-import kotlinx.android.synthetic.main.product_item.*
+import com.darx.foodscaner.database.*
+import com.darx.foodscaner.models.IngredientExtended
+import com.darx.foodscaner.services.ApiService
+import com.darx.foodscaner.services.ConnectivityInterceptorImpl
+import com.darx.foodscaner.services.NetworkDataSourceImpl
+import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.barcode_bottom_sheet.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /** Displays the bottom sheet to present barcode fields contained in the detected barcode.  */
 class BarcodeResultFragment : BottomSheetDialogFragment() {
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    private lateinit var productToShow: ProductModel
+    private lateinit var pVM: ProductViewModel
+    private lateinit var iVM: IngredientViewModel
+    private lateinit var gVM: GroupViewModel
+    private var networkDataSource: NetworkDataSourceImpl? = null
+    var chips: ArrayList<Chip>? = ArrayList()
+    private lateinit var layout: LinearLayout
+    var ok: Boolean = true
+    var cautious: Boolean = false
+
+    val states = arrayOf(
+        intArrayOf(android.R.attr.state_enabled), // enabled
+        intArrayOf(-android.R.attr.state_enabled), // disabled
+        intArrayOf(-android.R.attr.state_checked), // unchecked
+        intArrayOf(android.R.attr.state_pressed)  // pressed
+    )
+
+    val positiveColors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
+    val negativeColors = intArrayOf(R.color.negativeColor, R.color.negativeColor, R.color.negativeColor, R.color.negativeColor)
+
+    private fun preorder(ingredient: IngredientExtended) {
+        if (ingredient == null) {
+            return
+        }
+
+        // logics
+        val chip = Chip(context!!)
+        if (ingredient.name != "") {
+            chip.text = ingredient.name
+        }
+
+        chip.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource!!.getIngredientByID(ingredient.id)
+            }
+        }
+
+        if (iVM != null) {
+            iVM?.getOne_(ingredient.id)
+                ?.observe(this@BarcodeResultFragment, object : Observer<IngredientModel> {
+                    override fun onChanged(t: IngredientModel?) {
+                        if (t?.id == ingredient.id) {
+                            chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                            this@BarcodeResultFragment.ok = false
+                        } else {
+                            if (ingredient.danger!! > 0) {
+                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
+                                this@BarcodeResultFragment.cautious = true
+                            } else {
+                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                            }
+                        }
+                    }
+                })
+        }
+
+        chip.isClickable = true
+        if (chip.text != "") {
+            this.chips?.add(chip)
+        }
+
+        if (!ingredient.ingredients.isNullOrEmpty()) {
+            for (i in ingredient.ingredients!!) {
+                preorder(i)
+            }
+        }
+    }
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     var barcodeField: BarcodeField? = null
 
@@ -54,12 +139,174 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
                 BarcodeField("", "")
             }
 
-        val title: TextView = view.findViewById(R.id.info_product_name)
-        title.text = barcodeField.label
+        this.productToShow = if (arguments?.containsKey(ARG_PRODUCT) == true) {
+                    arguments.getSerializable(ARG_PRODUCT) as ProductModel? ?: ProductModel()
+        } else {
+            Log.e(TAG, "No product passed in!")
+            ProductModel()
+        }
 
-        val desc: TextView = view.findViewById(R.id.info_product_description)
+//        val title: TextView = view.findViewById(R.id.info_product_name)
+//        title.text = barcodeField.label
+//
+//        val desc: TextView = view.findViewById(R.id.info_product_description)
 
 
+//        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        val scale = resources.displayMetrics.density
+
+        val apiService = ApiService(ConnectivityInterceptorImpl(context!!))
+        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource?.ingredient?.observe(this, Observer {
+            val intent = Intent(context!!, IngredientActivity::class.java)
+            intent.putExtra("INGREDIENT", it)
+            startActivity(intent)
+        })
+
+//        this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
+        this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+
+        var starred = view.findViewById<ImageButton>(R.id.barcode_info_starred_ib)
+        var share = view.findViewById<ImageButton>(R.id.barcode_info_share_btn)
+
+        // logics with image buttons
+        if (productToShow.starred) {
+            starred.setBackgroundResource(R.drawable.ic_starred)
+        } else {
+            starred.setBackgroundResource(R.drawable.ic_unstarred)
+        }
+
+        starred.setOnClickListener {
+            val starred_ = productToShow.starred
+            if (starred_) {
+                starred.setBackgroundResource(R.drawable.ic_unstarred)
+            } else {
+                starred.setBackgroundResource(R.drawable.ic_starred)
+            }
+
+            productToShow.starred = !starred_
+
+            pVM.updateStarred_(productToShow)
+        }
+
+        share.setOnClickListener {
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            val shareBody = productToShow.name;
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            this.startActivity(
+                Intent.createChooser(
+                    sharingIntent,
+                    //                        ctx.getResources().getString(R.string.share_via)
+                    "Поделиться"
+                )
+            )
+        }
+
+//        back.setOnClickListener {
+//            finish()
+//        }
+
+//        logics with info text views
+
+        this.layout = view.findViewById(R.id.barcode_info_product_layout)
+        barcode_info_product_name.text = productToShow.name
+        // when the short version of the product is obtained
+        if (productToShow.contents == "") {
+//            contents
+            barcode_info_product_ingredients_temp_text_view.text = "Информация недоступна."
+            barcode_info_product_manufacturer.text = "Информация недоступна."
+            barcode_info_product_description.text = "Информация недоступна."
+            barcode_info_product_category_URL.text = "Информация недоступна."
+            barcode_info_product_mass.text = "Информация недоступна."
+            barcode_info_product_bestbefore.text = "Информация недоступна."
+            barcode_info_product_nutrition_facts.text = "Информация недоступна."
+        } else {
+            if (productToShow.manufacturer != "NULL") {
+                barcode_info_product_manufacturer.text = productToShow.manufacturer
+            } else {
+                barcode_info_product_manufacturer.text = "Информация недоступна."
+            }
+            if (productToShow.description != "NULL") {
+                barcode_info_product_description.text = productToShow.description
+            } else {
+                barcode_info_product_description.text = "Информация недоступна."
+            }
+            if (productToShow.categoryURL != "NULL") {
+                barcode_info_product_category_URL.text = productToShow.categoryURL
+            } else {
+                barcode_info_product_category_URL.text = "Информация недоступна."
+            }
+            if (productToShow.mass != "NULL") {
+                barcode_info_product_mass.text = productToShow.mass
+            } else {
+                barcode_info_product_mass.text = "Информация недоступна."
+            }
+            if (productToShow.bestBefore != "NULL") {
+                barcode_info_product_bestbefore.text = productToShow.bestBefore
+            } else {
+                barcode_info_product_bestbefore.text = "Информация недоступна."
+            }
+            if (productToShow.nutrition != "NULL") {
+                barcode_info_product_nutrition_facts.text = productToShow.nutrition
+            } else {
+                barcode_info_product_nutrition_facts.text = "Информация недоступна."
+            }
+        }
+
+        if (productToShow.ingredients.isNullOrEmpty()) {
+            if (productToShow.contents != null || productToShow.contents != "" || productToShow.contents != "NULL") {
+                val layout_contents = LinearLayout(context!!)
+                layout_contents.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                layout_contents.orientation = LinearLayout.VERTICAL
+
+//                ???
+                val layoutPadding = (15 * scale + 0.5f).toInt()
+
+                layout_contents.setPadding(
+                    layoutPadding,
+                    layoutPadding,
+                    layoutPadding,
+                    layoutPadding
+                )
+                this.layout.addView(layout_contents)
+
+                val contentsLabelTextView = TextView(context!!)
+                contentsLabelTextView.text = "Текст состава:"
+
+                val contentsTextView = TextView(context!!)
+
+//                ???
+                val textViewPadding = (8 * scale + 0.5f).toInt()
+                contentsTextView.setPadding(0, textViewPadding, 0, textViewPadding)
+                contentsTextView.text = productToShow.contents
+
+                layout.addView(contentsLabelTextView)
+                layout.addView(contentsTextView)
+            }
+        } else {
+            for (i in productToShow.ingredients!!) {
+                preorder(i)
+            }
+        }
+
+        if (this.chips != null) {
+            for (i in this.chips!!) {
+                barcode_info_ingredient_chips.addView(i)
+            }
+        }
+
+        if (ok == false) {
+            barcode_info_material_card.setBackgroundColor(R.color.negativeColor)
+            barcode_info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
+        }
+
+//        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         return view
     }
@@ -78,11 +325,14 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
 
         private const val TAG = "BarcodeResultFragment"
         private const val ARG_BARCODE_FIELD_LIST = "arg_barcode_field_list"
+        private const val ARG_PRODUCT = "product_entity"
 
-        fun show(fragmentManager: FragmentManager, barcodeField: BarcodeField) {
+
+        fun show(fragmentManager: FragmentManager, barcodeField: BarcodeField, p: ProductModel) {
             val barcodeResultFragment = BarcodeResultFragment()
             barcodeResultFragment.arguments = Bundle().apply {
-                putSerializable(ARG_BARCODE_FIELD_LIST, barcodeField)
+                putSerializable(ARG_BARCODE_FIELD_LIST, barcodeField);
+                putSerializable(ARG_PRODUCT, p)
             }
             barcodeResultFragment.show(fragmentManager, TAG)
         }

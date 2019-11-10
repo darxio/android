@@ -88,7 +88,7 @@ class CameraFragment : Fragment(), OnClickListener {
             barcodeField.value = it.description ?: ""
             productViewModel?.upsert_(it)
 
-            BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField)
+            BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
         })
 
         return view

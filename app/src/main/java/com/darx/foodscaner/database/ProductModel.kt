@@ -22,7 +22,7 @@ data class ProductModel(
     @ColumnInfo(name = "ingredients") var ingredients: ArrayList<IngredientExtended>?,
     @ColumnInfo(name = "category_url") var categoryURL: String?,
     @ColumnInfo(name = "mass") var mass: String?,
-    @ColumnInfo(name = "bestbefore") var bestBefore: String?,
+    @ColumnInfo(name = "best_before") var bestBefore: String?,
     @ColumnInfo(name = "nutrition") var nutrition: String?,
     @ColumnInfo(name = "manufacturer") var manufacturer: String?,
     @ColumnInfo(name = "image") var image: String?,

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(version = 25, entities = [GroupModel::class, IngredientModel::class, ProductModel::class])
+@Database(version = 26, entities = [GroupModel::class, IngredientModel::class, ProductModel::class])
 @TypeConverters(TimestampConverter::class, ProductIngredientsConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun groupsDAO(): GroupsDAO

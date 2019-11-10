@@ -41,6 +41,7 @@ import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.barcode_bottom_sheet.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -128,7 +129,7 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
         viewGroup: ViewGroup?,
         bundle: Bundle?
     ): View {
-        val view = layoutInflater.inflate(R.layout.barcode_bottom_sheet, viewGroup)
+        val root: View = layoutInflater.inflate(R.layout.barcode_bottom_sheet, viewGroup, false)
 
         val arguments = arguments
         var barcodeField: BarcodeField =
@@ -169,8 +170,8 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
         this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        var starred = view.findViewById<ImageButton>(R.id.barcode_info_starred_ib)
-        var share = view.findViewById<ImageButton>(R.id.barcode_info_share_btn)
+        var starred = root.findViewById<ImageButton>(R.id.barcode_info_starred_ib)
+        var share = root.findViewById<ImageButton>(R.id.barcode_info_share_btn)
 
         // logics with image buttons
         if (productToShow.starred) {
@@ -212,48 +213,59 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
 
 //        logics with info text views
 
-        this.layout = view.findViewById(R.id.barcode_info_product_layout)
-        barcode_info_product_name.text = productToShow.name
+        this.layout = root.findViewById(R.id.barcode_info_product_layout)
+
+        val barcode_info_product_name_ = root.findViewById<View>(R.id.barcode_info_product_name) as TextView
+        val barcode_info_product_ingredients_temp_text_view_ = root.findViewById<View>(R.id.barcode_info_product_ingredients_temp_text_view) as TextView
+        val barcode_info_product_manufacturer_ = root.findViewById<View>(R.id.barcode_info_product_manufacturer) as TextView
+        val barcode_info_product_description_ = root.findViewById<View>(R.id.barcode_info_product_description) as TextView
+        val barcode_info_product_category_URL_ = root.findViewById<View>(R.id.barcode_info_product_category_URL) as TextView
+        val barcode_info_product_mass_ = root.findViewById<View>(R.id.barcode_info_product_mass) as TextView
+        val barcode_info_product_bestbefore_ = root.findViewById<View>(R.id.barcode_info_product_bestbefore) as TextView
+        val barcode_info_product_nutrition_facts_ = root.findViewById<View>(R.id.barcode_info_product_nutrition_facts) as TextView
+
+
+        barcode_info_product_name_.text = productToShow.name
         // when the short version of the product is obtained
         if (productToShow.contents == "") {
 //            contents
-            barcode_info_product_ingredients_temp_text_view.text = "Информация недоступна."
-            barcode_info_product_manufacturer.text = "Информация недоступна."
-            barcode_info_product_description.text = "Информация недоступна."
-            barcode_info_product_category_URL.text = "Информация недоступна."
-            barcode_info_product_mass.text = "Информация недоступна."
-            barcode_info_product_bestbefore.text = "Информация недоступна."
-            barcode_info_product_nutrition_facts.text = "Информация недоступна."
+            barcode_info_product_ingredients_temp_text_view_.text = "Информация недоступна."
+            barcode_info_product_manufacturer_.text = "Информация недоступна."
+            barcode_info_product_description_.text = "Информация недоступна."
+            barcode_info_product_category_URL_.text = "Информация недоступна."
+            barcode_info_product_mass_.text = "Информация недоступна."
+            barcode_info_product_bestbefore_.text = "Информация недоступна."
+            barcode_info_product_nutrition_facts_.text = "Информация недоступна."
         } else {
             if (productToShow.manufacturer != "NULL") {
-                barcode_info_product_manufacturer.text = productToShow.manufacturer
+                barcode_info_product_manufacturer_.text = productToShow.manufacturer
             } else {
-                barcode_info_product_manufacturer.text = "Информация недоступна."
+                barcode_info_product_manufacturer_.text = "Информация недоступна."
             }
             if (productToShow.description != "NULL") {
-                barcode_info_product_description.text = productToShow.description
+                barcode_info_product_description_.text = productToShow.description
             } else {
-                barcode_info_product_description.text = "Информация недоступна."
+                barcode_info_product_description_.text = "Информация недоступна."
             }
             if (productToShow.categoryURL != "NULL") {
-                barcode_info_product_category_URL.text = productToShow.categoryURL
+                barcode_info_product_category_URL_.text = productToShow.categoryURL
             } else {
-                barcode_info_product_category_URL.text = "Информация недоступна."
+                barcode_info_product_category_URL_.text = "Информация недоступна."
             }
             if (productToShow.mass != "NULL") {
-                barcode_info_product_mass.text = productToShow.mass
+                barcode_info_product_mass_.text = productToShow.mass
             } else {
-                barcode_info_product_mass.text = "Информация недоступна."
+                barcode_info_product_mass_.text = "Информация недоступна."
             }
             if (productToShow.bestBefore != "NULL") {
-                barcode_info_product_bestbefore.text = productToShow.bestBefore
+                barcode_info_product_bestbefore_.text = productToShow.bestBefore
             } else {
-                barcode_info_product_bestbefore.text = "Информация недоступна."
+                barcode_info_product_bestbefore_.text = "Информация недоступна."
             }
             if (productToShow.nutrition != "NULL") {
-                barcode_info_product_nutrition_facts.text = productToShow.nutrition
+                barcode_info_product_nutrition_facts_.text = productToShow.nutrition
             } else {
-                barcode_info_product_nutrition_facts.text = "Информация недоступна."
+                barcode_info_product_nutrition_facts_.text = "Информация недоступна."
             }
         }
 
@@ -295,9 +307,11 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
             }
         }
 
+        val barcode_info_ingredient_chips_ = root.findViewById<View>(R.id.barcode_info_ingredient_chips) as ChipGroup
+
         if (this.chips != null) {
             for (i in this.chips!!) {
-                barcode_info_ingredient_chips.addView(i)
+                barcode_info_ingredient_chips_.addView(i)
             }
         }
 
@@ -308,7 +322,7 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
 
 //        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        return view
+        return root
     }
 
     override fun onDismiss(dialogInterface: DialogInterface) {

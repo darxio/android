@@ -48,11 +48,11 @@ class MainActivity : AppCompatActivity() {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 when (item.getItemId()) {
                     com.darx.foodscaner.R.id.action_profile ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("Profile")
+                        viewPager.currentItem = pagerAdapter.getItemNum("Профиль")
                     com.darx.foodscaner.R.id.action_camera ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("Camera")
+                        viewPager.currentItem = pagerAdapter.getItemNum("Камера")
                     com.darx.foodscaner.R.id.action_recently_scanned ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("RecentlyScanned")
+                        viewPager.currentItem = pagerAdapter.getItemNum("История")
                 }
                 return true
             }

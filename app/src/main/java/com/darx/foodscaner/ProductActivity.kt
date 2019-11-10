@@ -34,7 +34,8 @@ class ProductActivity : AppCompatActivity() {
         intArrayOf(android.R.attr.state_pressed)  // pressed
     )
 
-    val colors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
+    val positiveColors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
+    val negativeColors = intArrayOf(R.color.negativeColor, R.color.negativeColor, R.color.negativeColor, R.color.negativeColor)
 
     private fun preorder(ingredient: IngredientExtended) {
         if (ingredient == null) {
@@ -52,9 +53,9 @@ class ProductActivity : AppCompatActivity() {
             }
         }
 
-        chip.chipBackgroundColor = ColorStateList(states, colors)
-        chip.chipStrokeColor = ColorStateList(states, colors)
-        chip.chipStrokeWidth = 1F
+        chip.chipBackgroundColor = ColorStateList(states, positiveColors)
+        chip.chipStrokeColor = ColorStateList(states, positiveColors)
+//        chip.chipStrokeWidth = 1F
         chip.chipIcon = R.drawable.ingredient.toDrawable()
 
 

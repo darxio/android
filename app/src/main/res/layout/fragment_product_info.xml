@@ -12,8 +12,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/back_btn"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -138,7 +136,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/Constitution"/>
+                    android:text="Описание"/>
 
             <TextView
                     android:id="@+id/info_product_description"

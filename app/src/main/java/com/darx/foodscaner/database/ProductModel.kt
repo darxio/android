@@ -17,6 +17,7 @@ data class ProductModel(
     @PrimaryKey @ColumnInfo(name = "barcode") var barcode: Long,
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "description") var description: String?,
+    @ColumnInfo(name = "contents") var contents: String?,
     @TypeConverters(ProductIngredientsConverter::class)
     @ColumnInfo(name = "ingredients") var ingredients: ArrayList<IngredientExtended>?,
     @ColumnInfo(name = "category_url") var categoryURL: String?,
@@ -31,6 +32,6 @@ data class ProductModel(
     @ColumnInfo(name = "starred")
                     var starred: Boolean = false
 ): Serializable {
-    constructor():this(0,"","", ArrayList(), "",
+    constructor():this(0,"","", "", ArrayList(), "",
         "","","","","", java.util.Calendar.getInstance().time, false)
 }

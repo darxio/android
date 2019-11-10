@@ -1,11 +1,13 @@
 package com.darx.foodscaner.database
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 import java.util.concurrent.Executors
 
 class ProductViewModel(application: Application) : AndroidViewModel(application) {
@@ -31,7 +33,13 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun add_(product: ProductModel) {
-        service.submit { db?.productsDAO()?.add(product) }
+        service.submit {
+            try {
+                db?.productsDAO()?.add(product)
+            } catch (e: Exception) {
+                Log.e("PROBLEM", "err: ", e)
+            }
+        }
     }
 
     fun updateStarred_(product: ProductModel) {

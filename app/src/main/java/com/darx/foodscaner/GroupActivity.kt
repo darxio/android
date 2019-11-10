@@ -1,6 +1,5 @@
 package com.darx.foodscaner
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -8,9 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.GroupViewModel
-import com.darx.foodscaner.database.IngredientModel
 import kotlinx.android.synthetic.main.activity_group.*
-import kotlinx.android.synthetic.main.activity_ingredient.*
 import com.darx.foodscaner.R as R
 
 class GroupActivity : AppCompatActivity() {

@@ -5,18 +5,18 @@
             android:id="@+id/action_profile"
             android:enabled="true"
             android:icon="@drawable/ic_action_profile"
-            android:title="Profile"
+            android:title="Профиль"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_camera"
             android:enabled="true"
             android:icon="@drawable/ic_action_camera"
-            android:title="Camera"
+            android:title="Камера"
             app:showAsAction="ifRoom" />
     <item
             android:id="@+id/action_recently_scanned"
             android:enabled="true"
             android:icon="@drawable/ic_action_recently_scanned"
-            android:title="History"
+            android:title="История"
             app:showAsAction="ifRoom" />
 </menu>

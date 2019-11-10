@@ -1,11 +1,13 @@
 package com.darx.foodscaner
 
+
 import android.content.Intent
 import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,13 +21,15 @@ import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import android.widget.TextView
 
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
-    var chips: ArrayList<Chip>? = null
+    var chips: ArrayList<Chip>? = ArrayList()
+    private lateinit var layout: LinearLayout
 
     val states = arrayOf(
         intArrayOf(android.R.attr.state_enabled), // enabled
@@ -55,21 +59,21 @@ class ProductActivity : AppCompatActivity() {
 
         chip.chipBackgroundColor = ColorStateList(states, positiveColors)
         chip.chipStrokeColor = ColorStateList(states, positiveColors)
-//        chip.chipStrokeWidth = 1F
+        chip.chipStrokeWidth = 1F
         chip.chipIcon = R.drawable.ingredient.toDrawable()
 
 
-        if (ingredient.ingredients == null || !productToShow.ingredients!!.isEmpty()) {
-            return
-        }
-        for (i in ingredient.ingredients!!) {
-            preorder(ingredient);
+        if (!ingredient.ingredients.isNullOrEmpty()) {
+            for (i in ingredient.ingredients!!) {
+                preorder(ingredient);
+            }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
+        val scale = resources.displayMetrics.density
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService)
@@ -111,7 +115,7 @@ class ProductActivity : AppCompatActivity() {
             sharingIntent.type = "text/plain"
             val shareBody = productToShow.name;
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
-            applicationContext.startActivity(
+            this.startActivity(
                 Intent.createChooser(
                     sharingIntent,
                     //                        ctx.getResources().getString(R.string.share_via)
@@ -126,8 +130,12 @@ class ProductActivity : AppCompatActivity() {
 
 //        logics with info text views
 
+        this.layout = findViewById(R.id.info_product_layout)
         info_product_name.text = productToShow.name
+        // when the short version of the product is obtained
         if (productToShow.contents == "") {
+//            contents
+            info_product_ingredients_temp_text_view.text = "Информация недоступна."
             info_product_manufacturer.text = "Информация недоступна."
             info_product_description.text = "Информация недоступна."
             info_product_category_URL.text = "Информация недоступна."
@@ -135,7 +143,6 @@ class ProductActivity : AppCompatActivity() {
             info_product_bestbefore.text = "Информация недоступна."
             info_product_nutrition_facts.text = "Информация недоступна."
         } else {
-            info_product_name.text = productToShow.name
             if (productToShow.manufacturer != "NULL") {
                 info_product_manufacturer.text = productToShow.manufacturer
             } else {
@@ -167,13 +174,45 @@ class ProductActivity : AppCompatActivity() {
                 info_product_nutrition_facts.text = "Информация недоступна."
             }
         }
-        // logics with ingredients
-//
-//        if ((productToShow.ingredients!![0] != null) || (!productToShow.ingredients!!.isEmpty())) {
-//            preorder(productToShow.ingredients!![0])
-//        } else {
-//        }
-//
+
+        if (productToShow.ingredients.isNullOrEmpty()) {
+            if (productToShow.contents != null || productToShow.contents != "" || productToShow.contents != "NULL") {
+                val layout_contents = LinearLayout(this)
+                layout_contents.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                layout_contents.orientation = LinearLayout.VERTICAL
+
+//                ???
+                val layoutPadding = (15 * scale + 0.5f).toInt()
+
+                layout_contents.setPadding(
+                    layoutPadding,
+                    layoutPadding,
+                    layoutPadding,
+                    layoutPadding
+                )
+                this.layout.addView(layout_contents)
+
+                val contentsLabelTextView = TextView(this)
+                contentsLabelTextView.text = "Текст состава:"
+
+                val contentsTextView = TextView(this)
+
+//                ???
+                val textViewPadding = (8 * scale + 0.5f).toInt()
+                contentsTextView.setPadding(0, textViewPadding, 0, textViewPadding)
+                contentsTextView.text = productToShow.contents
+
+                layout.addView(contentsLabelTextView)
+                layout.addView(contentsTextView)
+            }
+        } else {
+//            for (i in productToShow.ingredients!!) {
+//                preorder(i)
+//            }
+        }
+
 //        if (this.chips != null) {
 //            for (i in this.chips!!) {
 //               info_ingredient_chips.addView(i)

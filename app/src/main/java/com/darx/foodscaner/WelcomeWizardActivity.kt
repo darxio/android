@@ -1,19 +1,14 @@
 package com.darx.foodscaner
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.graphics.toColor
 import androidx.viewpager2.widget.ViewPager2
 import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.fragments.WizardFragment
 import kotlinx.android.synthetic.main.activity_welcome_wizard.*
-import kotlinx.android.synthetic.main.barcode_field.*
-import java.util.Collections.list
 
 class WelcomeWizardActivity : AppCompatActivity() {
 

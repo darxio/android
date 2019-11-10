@@ -4,15 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.darx.foodscaner.adapters.PageAdapter
-import com.darx.foodscaner.adapters.WizardAdapter
 import com.darx.foodscaner.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
-import android.widget.Toast
-import android.R
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,11 +43,11 @@ class MainActivity : AppCompatActivity() {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 when (item.getItemId()) {
                     com.darx.foodscaner.R.id.action_profile ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("Профиль")
+                        viewPager.currentItem = pagerAdapter.getItemNum("Profile")
                     com.darx.foodscaner.R.id.action_camera ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("Камера")
+                        viewPager.currentItem = pagerAdapter.getItemNum("Camera")
                     com.darx.foodscaner.R.id.action_recently_scanned ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("История")
+                        viewPager.currentItem = pagerAdapter.getItemNum("RecentlyScanned")
                 }
                 return true
             }

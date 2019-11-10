@@ -14,13 +14,7 @@ import com.darx.foodscaner.ProductActivity
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
-import com.darx.foodscaner.models.IngredientExtended
-import com.darx.foodscaner.utils.SerializableJSONArray
-import com.darx.foodscaner.utils.SerializableJSONObject
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.Serializable
 
 

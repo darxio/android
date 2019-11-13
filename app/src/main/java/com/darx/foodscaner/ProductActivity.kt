@@ -3,7 +3,10 @@ package com.darx.foodscaner
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import android.speech.tts.TextToSpeech
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -20,9 +23,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.widget.TextView
+import androidx.core.view.isVisible
+import java.util.*
 
 
-class ProductActivity : AppCompatActivity() {
+class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
     private lateinit var iVM: IngredientViewModel
@@ -33,6 +38,9 @@ class ProductActivity : AppCompatActivity() {
     var ok: Boolean = true
     var cautious: Boolean = false
 
+    private var speaker: ImageButton? = null
+    private var tts: TextToSpeech? = null
+
     val states = arrayOf(
         intArrayOf(android.R.attr.state_enabled), // enabled
         intArrayOf(-android.R.attr.state_enabled), // disabled
@@ -42,6 +50,36 @@ class ProductActivity : AppCompatActivity() {
 
     val positiveColors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
     val negativeColors = intArrayOf(R.color.negativeColor, R.color.negativeColor, R.color.negativeColor, R.color.negativeColor)
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            // set US English as language for tts
+            val result = tts!!.setLanguage(Locale.US)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS","The Language specified is not supported!")
+            } else {
+                speaker!!.isEnabled = true
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!")
+        }
+
+    }
+
+    private fun speakOut(text: String) {
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
+    }
+
+    override fun onDestroy() {
+        // Shutdown TTS
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+        super.onDestroy()
+    }
 
     private fun preorder(ingredient: IngredientExtended) {
         if (ingredient == null) {
@@ -96,6 +134,11 @@ class ProductActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product)
         val scale = resources.displayMetrics.density
 
+        speaker = findViewById<ImageButton>(R.id.info_speaker_ib)
+
+        speaker!!.isEnabled = false;
+        tts = TextToSpeech(this, this)
+
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService)
         networkDataSource?.ingredient?.observe(this, Observer {
@@ -105,6 +148,15 @@ class ProductActivity : AppCompatActivity() {
         })
 
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
+
+        if (this.productToShow.contents.isNullOrEmpty()) {
+            speaker!!.isEnabled == false
+            speaker!!.visibility = View.INVISIBLE
+        } else {
+            speaker!!.visibility = View.VISIBLE
+        }
+
+        speaker!!.setOnClickListener { speakOut(this.productToShow.contents!!) }
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
         this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)

@@ -145,17 +145,16 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         speaker!!.isEnabled = false;
         tts = TextToSpeech(this, this)
 
-//        tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
-//                override fun onDone(utteranceId: String?) {
-//                    info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
-//                    spoke = true
-//                }
-//
-//                override fun onError(utteranceId: String?) {}
-//
-//                override fun onStart(utteranceId: String?) {}
-//            }
-//        )
+        tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
+                override fun onDone(utteranceId: String?) {
+                    info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+                }
+
+                override fun onError(utteranceId: String?) {}
+
+                override fun onStart(utteranceId: String?) {}
+            }
+        )
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService, this)

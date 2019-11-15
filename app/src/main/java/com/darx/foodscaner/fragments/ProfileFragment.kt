@@ -24,7 +24,7 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
 
         // New activities
         view.usersGroups.setOnClickListener {

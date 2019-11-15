@@ -65,7 +65,7 @@ class UserGroupsActivity : AppCompatActivity() {
         allGroupsRecycler.adapter = allGroupAdapter
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource = NetworkDataSourceImpl(apiService, this)
 
         networkDataSource?.groups?.observe(this@UserGroupsActivity, Observer {
             allGroupAdapter.addItems(it)

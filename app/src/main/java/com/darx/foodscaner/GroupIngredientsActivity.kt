@@ -47,7 +47,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
         groupIngredientsRecycler.adapter = groupIngredientsAdapter
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource = NetworkDataSourceImpl(apiService, this)
 
         networkDataSource?.groupIngredients?.observe(this@GroupIngredientsActivity, Observer {
             groupIngredientsAdapter?.addItems(it)

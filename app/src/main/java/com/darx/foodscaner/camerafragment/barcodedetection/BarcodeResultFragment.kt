@@ -72,7 +72,7 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
     val positiveColors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
     val negativeColors = intArrayOf(R.color.negativeColor, R.color.negativeColor, R.color.negativeColor, R.color.negativeColor)
 
-    private fun preorder(ingredient: IngredientExtended) {
+    private fun preorder(ingredient: IngredientExtended?) {
         if (ingredient == null) {
             return
         }
@@ -158,7 +158,7 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
         val scale = resources.displayMetrics.density
 
         val apiService = ApiService(ConnectivityInterceptorImpl(context!!))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
         networkDataSource?.ingredient?.observe(this, Observer {
             val intent = Intent(context!!, IngredientActivity::class.java)
             intent.putExtra("INGREDIENT", it)

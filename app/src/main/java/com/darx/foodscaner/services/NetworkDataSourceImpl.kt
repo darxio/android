@@ -1,5 +1,6 @@
 package com.darx.foodscaner.services
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.darx.foodscaner.database.GroupModel
@@ -11,7 +12,7 @@ import retrofit2.HttpException
 import java.lang.Exception
 import java.net.SocketTimeoutException
 
-class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSource {
+class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx: Context) : NetworkDataSource {
 
     private val _product = MutableLiveData<ProductModel>()
     private val _productSearch = MutableLiveData<List<ProductModel>>()
@@ -21,6 +22,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService) : NetworkDataSou
     private val _groupIngredients = MutableLiveData<List<IngredientModel>>()
     private val _groups = MutableLiveData<List<GroupModel>>()
     private val _groupSearch = MutableLiveData<List<GroupModel>>()
+
+    override val ctx: Context
+        get() = _ctx
 
     override val product: LiveData<ProductModel>
         get() = _product

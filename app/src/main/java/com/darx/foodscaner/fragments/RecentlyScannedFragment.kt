@@ -50,7 +50,7 @@ class RecentlyScannedFragment : Fragment() {
         val view = inflater.inflate(com.darx.foodscaner.R.layout.fragment_recently_scanned, container, false)
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
 
         // scaned products
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)

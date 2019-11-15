@@ -42,6 +42,7 @@ import androidx.core.app.ActivityCompat
 import com.darx.foodscaner.WelcomeWizardActivity
 import com.darx.foodscaner.database.ProductViewModel
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
+import com.darx.foodscaner.services.NetworkDataSource
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.view.*
 import kotlinx.coroutines.joinAll
@@ -86,7 +87,7 @@ class CameraFragment : Fragment(), OnClickListener {
         val view = inflater.inflate(R.layout.activity_live_barcode_kotlin, container, false)
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
         networkDataSource?.product?.observe(this, Observer {
@@ -265,7 +266,29 @@ class CameraFragment : Fragment(), OnClickListener {
                 this.promtChipShown = true
                 GlobalScope.launch(Dispatchers.Main) {
                     if (isDigit((barcode.rawValue!!))) {
-                        networkDataSource?.fetchProductByBarcode(barcode.rawValue!!.toLong())
+                        networkDataSource?.fetchProductByBarcode(barcode.rawValue!!.toLong(), object : NetworkDataSource.Callback {
+                            override fun onTimeoutException() {
+                                NetworkDataSource.DefaultCallback(context!!).onTimeoutException()
+                            }
+
+                            override fun onException() {
+                                NetworkDataSource.DefaultCallback(context!!).onException()
+                            }
+
+                            override fun onNoConnectivityException() {
+                                NetworkDataSource.DefaultCallback(context!!).onNoConnectivityException()
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
+
+                            override fun onHttpException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Продукт не найден!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
+                        })
                     } else {
                         Toast.makeText(
                             context!!, "Нельзя сканировать QR код",

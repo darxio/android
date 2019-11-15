@@ -65,7 +65,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         allIngredientsRecycler.adapter = allIngredientsAdapter
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource = NetworkDataSourceImpl(apiService, this)
 
         networkDataSource?.ingredients?.observe(this@UserIngredientsActivity, Observer {
             allIngredientsAdapter.addItems(it)

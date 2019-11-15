@@ -23,7 +23,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.widget.TextView
-import androidx.core.view.isVisible
 import java.util.*
 
 
@@ -85,7 +84,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onDestroy()
     }
 
-    private fun preorder(ingredient: IngredientExtended) {
+    private fun preorder(ingredient: IngredientExtended?) {
         if (ingredient == null) {
             return
         }
@@ -146,7 +145,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         tts = TextToSpeech(this, this)
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService)
+        networkDataSource = NetworkDataSourceImpl(apiService, this)
         networkDataSource?.ingredient?.observe(this, Observer {
             val intent = Intent(this, IngredientActivity::class.java)
             intent.putExtra("INGREDIENT", it)

@@ -277,7 +277,7 @@ class CameraFragment : Fragment(), OnClickListener {
         })
 
         workflowModel?.detectedBarcode?.observe(this, Observer { barcode ->
-            if (barcode != null && !promtChipShown) {
+            if (barcode != null && !promtChipShown && (currentWorkflowState == WorkflowState.DETECTED || currentWorkflowState == WorkflowState.SEARCHED)) {
                 this.promtChipShown = true
                 GlobalScope.launch(Dispatchers.Main) {
                     if (isDigit((barcode.rawValue!!))) {

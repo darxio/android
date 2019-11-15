@@ -55,7 +55,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
 
         val groupId: Int = intent.getIntExtra("GROUP_ID", 0)
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchGroupIngredients(groupId, 30, 1)
+            networkDataSource?.fetchGroupIngredients(groupId, 30, 0)
         }
     }
 

@@ -282,13 +282,9 @@ class CameraFragment : Fragment(), OnClickListener {
                 GlobalScope.launch(Dispatchers.Main) {
                     if (isDigit((barcode.rawValue!!))) {
                         networkDataSource?.fetchProductByBarcode(barcode.rawValue!!.toLong(), object : NetworkDataSource.Callback {
-                            override fun onTimeoutException() {
-                                NetworkDataSource.DefaultCallback(context!!).onTimeoutException()
-                            }
+                            override fun onTimeoutException() {}
 
-                            override fun onException() {
-                                NetworkDataSource.DefaultCallback(context!!).onException()
-                            }
+                            override fun onException() {}
 
                             override fun onNoConnectivityException() {
                                 NetworkDataSource.DefaultCallback(context!!).onNoConnectivityException()

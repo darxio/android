@@ -341,7 +341,6 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
         private const val ARG_BARCODE_FIELD_LIST = "arg_barcode_field_list"
         private const val ARG_PRODUCT = "product_entity"
 
-
         fun show(fragmentManager: FragmentManager, barcodeField: BarcodeField, p: ProductModel) {
             val barcodeResultFragment = BarcodeResultFragment()
             barcodeResultFragment.arguments = Bundle().apply {

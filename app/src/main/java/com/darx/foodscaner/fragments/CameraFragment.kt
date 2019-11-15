@@ -37,12 +37,14 @@ import com.darx.foodscaner.camerafragment.camera.CameraSource
 import com.darx.foodscaner.camerafragment.camera.CameraSourcePreview
 import java.io.IOException
 import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.darx.foodscaner.WelcomeWizardActivity
 import com.darx.foodscaner.database.ProductViewModel
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.view.*
+import kotlinx.coroutines.joinAll
 
 
 class CameraFragment : Fragment(), OnClickListener {
@@ -201,6 +203,18 @@ class CameraFragment : Fragment(), OnClickListener {
         }
     }
 
+    private fun isDigit(name: String): Boolean {
+        var chars = name.toCharArray();
+
+        for (char in chars) {
+            if(Character.isLetter(char)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private fun setUpWorkflowModel() {
         workflowModel = ViewModelProviders.of(activity!!).get(WorkflowModel::class.java)
 
@@ -250,7 +264,15 @@ class CameraFragment : Fragment(), OnClickListener {
             if (barcode != null && !promtChipShown) {
                 this.promtChipShown = true
                 GlobalScope.launch(Dispatchers.Main) {
-                    networkDataSource?.fetchProductByBarcode(barcode.rawValue!!.toLong())
+                    if (isDigit((barcode.rawValue!!))) {
+                        networkDataSource?.fetchProductByBarcode(barcode.rawValue!!.toLong())
+                    } else {
+                        Toast.makeText(
+                            context!!, "Нельзя сканировать QR код",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                    }
                 }
             }
         })

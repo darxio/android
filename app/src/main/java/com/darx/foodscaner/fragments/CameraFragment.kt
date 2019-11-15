@@ -39,6 +39,7 @@ import java.io.IOException
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.darx.foodscaner.WelcomeWizardActivity
 import com.darx.foodscaner.database.ProductViewModel
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
@@ -84,23 +85,37 @@ class CameraFragment : Fragment(), OnClickListener {
     ) : View?  {
         super.onCreate(savedInstanceState)
 
-        val view = inflater.inflate(R.layout.activity_live_barcode_kotlin, container, false)
+        val viewGroupID: Int
+        val view: View
 
-        val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
-        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
-        productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(
+                context!!, "Дайте доступ к камере!",
+                Toast.LENGTH_SHORT
+            ).show()
+            viewGroupID = R.layout.no_camera
+            view = inflater.inflate(viewGroupID, container, false)
+        } else {
+            viewGroupID = R.layout.activity_live_barcode_kotlin
+            view = inflater.inflate(viewGroupID, container, false)
 
-        networkDataSource?.product?.observe(this, Observer {
-            barcodeField.label = it.name ?: ""
-            barcodeField.value = it.description ?: ""
-            productViewModel?.upsert_(it)
+            val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
+            networkDataSource = NetworkDataSourceImpl(apiService, context!!)
+            productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
-            BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
-        })
+            networkDataSource?.product?.observe(this, Observer {
+                barcodeField.label = it.name ?: ""
+                barcodeField.value = it.description ?: ""
+                productViewModel?.upsert_(it)
 
-        view.tutorial_button.setOnClickListener {
-            val intent = Intent(this.context, WelcomeWizardActivity::class.java)
-            startActivity(intent)
+                BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
+            })
+
+            view.tutorial_button.setOnClickListener {
+                val intent = Intent(this.context, WelcomeWizardActivity::class.java)
+                startActivity(intent)
+            }
         }
         return view
     }

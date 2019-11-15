@@ -72,6 +72,10 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
     }
 
+    private fun pause() {
+        tts!!.playSilentUtterance(10,TextToSpeech.QUEUE_FLUSH,"")
+    }
+
     override fun onDestroy() {
         // Shutdown TTS
         if (tts != null) {
@@ -133,8 +137,10 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
         val scale = resources.displayMetrics.density
+        var spoke = false
+        info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
 
-        speaker = findViewById<ImageButton>(R.id.info_speaker_ib)
+        speaker = findViewById(R.id.info_speaker_ib)
 
         speaker!!.isEnabled = false;
         tts = TextToSpeech(this, this)
@@ -156,7 +162,18 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             speaker!!.visibility = View.VISIBLE
         }
 
-        speaker!!.setOnClickListener { speakOut(this.productToShow.contents!!) }
+        speaker!!.setOnClickListener {
+            if (spoke) {
+                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+                pause()
+                spoke = false
+            } else {
+                info_speaker_ib.setBackgroundResource(R.drawable.ic_pause)
+                speakOut(this.productToShow.contents!!)
+                spoke = true
+            }
+        }
+
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
         this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)

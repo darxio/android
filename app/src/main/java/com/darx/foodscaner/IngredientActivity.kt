@@ -12,8 +12,10 @@ import com.darx.foodscaner.database.*
 class IngredientActivity : AppCompatActivity() {
 
     private var ingredientViewModel: IngredientViewModel? = null
+    private var groupViewModel: GroupViewModel? = null
     private lateinit var ingredientToShow: IngredientModel
     private var isExcept: Boolean = false
+    private var isGroup: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,7 @@ class IngredientActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
         ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         ingredientToShow = intent.extras.get("INGREDIENT") as IngredientModel
         collapsingToolbar.title = ingredientToShow.name
@@ -37,13 +40,16 @@ class IngredientActivity : AppCompatActivity() {
 
         ingredientViewModel?.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity, object : Observer<IngredientModel> {
             override fun onChanged(t: IngredientModel?) {
-                if (t?.id == ingredientToShow.id) {
+                if (t?.allowed == false) {
                     exceptingButton.text = resources.getString(R.string.add_ingredient)
                     exceptingButton.setBackgroundColor(resources.getColor(R.color.strongPositiveColor))
                     isExcept = true
                 } else {
                     exceptingButton.text = resources.getString(R.string.except_ingredient)
                     exceptingButton.setBackgroundColor(resources.getColor(R.color.strongNegativeColor))
+                    if (t?.allowed == true) {
+                        isGroup = true
+                    }
                     isExcept = false
                 }
             }
@@ -51,9 +57,26 @@ class IngredientActivity : AppCompatActivity() {
 
         exceptingButton.setOnClickListener {
             if (isExcept) {
-                ingredientViewModel?.deleteOne_(ingredientToShow)
+//                var isProductInMyGroup = false
+//                for (groupId in ingredientToShow?.groups!!) {
+//                    val group = groupViewModel?.getOne_(groupId)
+//                    if (group?.value as Boolean) {
+//                        isProductInMyGroup = true
+//                    }
+//                }
+//
+//                if (isProductInMyGroup) {
+//                    ingredientToShow.allowed = true
+//                    ingredientViewModel?.add_(ingredientToShow)
+//                } else {
+                    ingredientViewModel?.deleteOne_(ingredientToShow)
+//                }
             } else {
-                ingredientViewModel?.add_(ingredientToShow)
+//                if (isGroup) {
+//                    ingredientViewModel?.deleteOne_(ingredientToShow)
+//                } else {
+                    ingredientViewModel?.add_(ingredientToShow)
+//                }
             }
         }
     }

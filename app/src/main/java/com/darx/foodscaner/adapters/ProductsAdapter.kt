@@ -9,10 +9,18 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.darx.foodscaner.R
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
 import java.text.SimpleDateFormat
+import android.graphics.BitmapFactory
+import android.R.attr.src
+import android.util.Log
+import com.darx.foodscaner.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.IOException
+import java.net.HttpURLConnection
 
 
 class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, var ctx: Context, val callback: Callback) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
@@ -43,7 +51,19 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
         private val delete = itemView.findViewById<ImageButton>(R.id.delete_ib)
 
         fun bind(item: ProductModel) {
-            productImage.setImageResource(R.drawable.product) //!
+            productImage.setImageResource(R.drawable.product)
+            try {
+                val url = java.net.URL("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTaaLBo46LTsrQcrGH0nqJxg6xWkuSmdfeRI5XMfoNwrP_S9CMZ")
+                val connection = url.openConnection() as HttpURLConnection
+                connection.setDoInput(true)
+                connection.connect()
+                val input = connection.getInputStream()
+                productImage.setImageBitmap(BitmapFactory.decodeStream(input))
+            } catch (e: IOException) {
+                e.printStackTrace();
+                Log.e("Exception", "image downloaded failed.")
+            }
+
             productName.text = item.name
             productDescription.text = item.description
 

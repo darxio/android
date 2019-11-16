@@ -104,9 +104,9 @@ class UserGroupsActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 // take data for all groups
-                if (newText.length >= 4) {
+                if (newText.length >= 3) {
                     GlobalScope.launch(Dispatchers.Main) {
-                        networkDataSource?.fetchProductSearch(newText)
+                        networkDataSource?.fetchGroupSearch(newText)
                     }
                 }
 

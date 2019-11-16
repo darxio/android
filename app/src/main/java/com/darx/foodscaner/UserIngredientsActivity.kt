@@ -68,6 +68,9 @@ class UserIngredientsActivity : AppCompatActivity() {
         networkDataSource = NetworkDataSourceImpl(apiService)
 
         networkDataSource?.ingredients?.observe(this@UserIngredientsActivity, Observer {
+//            for (ingredient in it) {
+//
+//            }
             allIngredientsAdapter.addItems(it)
         })
         networkDataSource?.ingredientSearch?.observe(this@UserIngredientsActivity, Observer {

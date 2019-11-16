@@ -26,11 +26,24 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
         return this.profiles!!
     }
 
+    fun getOne_(id: Int): LiveData<ProfileModel>? {
+        profile = db?.profileDAO()?.getOne(id)
+        return profile
+    }
+
     fun getCount_(): Int {
         return this.profiles?.value?.size ?: 0
     }
 
     fun add_(profile: ProfileModel) {
         service.submit { db?.profileDAO()?.add(profile) }
+    }
+
+    fun deleteOne_(group: GroupModel) {
+        service.submit { db?.groupsDAO()?.deleteOne(group) }
+    }
+
+    fun deleteAll_() {
+        service.submit { db?.groupsDAO()?.deleteAll() }
     }
 }

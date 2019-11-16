@@ -2,6 +2,7 @@ package com.darx.foodscaner
 
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.speech.tts.TextToSpeech
 import android.os.Bundle
@@ -24,6 +25,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.widget.TextView
 import androidx.core.view.isVisible
+import java.io.IOException
+import java.net.HttpURLConnection
 import java.util.*
 
 
@@ -207,6 +210,18 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         this.layout = findViewById(R.id.info_product_layout)
         info_product_name.text = productToShow.name
+
+        try {
+            val url = java.net.URL(productToShow.image)
+            val connection = url.openConnection() as HttpURLConnection
+            connection.setDoInput(true)
+            connection.connect()
+            val input = connection.getInputStream()
+            info_product_image.setImageBitmap(BitmapFactory.decodeStream(input))
+        } catch (e: IOException) {
+            Log.e("Exception", "image downloaded failed.")
+        }
+
         // when the short version of the product is obtained
         if (productToShow.contents == "") {
 //            contents

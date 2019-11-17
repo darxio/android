@@ -57,26 +57,27 @@ class IngredientActivity : AppCompatActivity() {
 
         exceptingButton.setOnClickListener {
             if (isExcept) {
-//                var isProductInMyGroup = false
-//                for (groupId in ingredientToShow?.groups!!) {
-//                    val group = groupViewModel?.getOne_(groupId)
-//                    if (group?.value as Boolean) {
-//                        isProductInMyGroup = true
-//                    }
-//                }
-//
-//                if (isProductInMyGroup) {
-//                    ingredientToShow.allowed = true
-//                    ingredientViewModel?.add_(ingredientToShow)
-//                } else {
-                    ingredientViewModel?.deleteOne_(ingredientToShow)
-//                }
-            } else {
-//                if (isGroup) {
-//                    ingredientViewModel?.deleteOne_(ingredientToShow)
-//                } else {
+                var isProductInMyGroup = false
+                for (groupId in ingredientToShow?.groups!!) {
+                    val group = groupViewModel?.getOne_(groupId)
+                    if (group?.value as Boolean) {
+                        isProductInMyGroup = true
+                    }
+                }
+
+                if (isProductInMyGroup) {
+                    ingredientToShow.allowed = true
                     ingredientViewModel?.add_(ingredientToShow)
-//                }
+                } else {
+                    ingredientViewModel?.deleteOne_(ingredientToShow)
+                }
+            } else {
+                if (isGroup) {
+                    ingredientViewModel?.deleteOne_(ingredientToShow)
+                } else {
+                    ingredientToShow.allowed = false
+                    ingredientViewModel?.add_(ingredientToShow)
+                }
             }
         }
     }

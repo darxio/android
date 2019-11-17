@@ -3,9 +3,10 @@ package com.darx.foodscaner.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.darx.foodscaner.models.IngredientExtended
 import java.io.Serializable
-import java.util.ArrayList
+import java.util.*
 
 @Entity(tableName = "ingredients")
 data class IngredientModel(
@@ -15,10 +16,12 @@ data class IngredientModel(
     @ColumnInfo(name = "description") var description: String?,
     @ColumnInfo(name = "wiki_link") var wikiLink: String?,
     @ColumnInfo(name = "image") var imagePath: String?,
-//    @ColumnInfo(name = "groups") var groups: ArrayList<Int>?,
+    @TypeConverters(IngredientGroupsConverter::class)
+    @ColumnInfo(name = "groups") var groups: ArrayList<Int>?,
     @ColumnInfo(name = "allowed") var allowed: Boolean? = true
-): Serializable {
-    constructor():this(0,"", -1,"", "", "", true)
+)
+    : Serializable {
+    constructor():this(0,"", -1,"", "", "", ArrayList(), true)
     constructor(ing: IngredientExtended):this() {
         this.id = ing.id
         this.name = ing.name
@@ -26,7 +29,7 @@ data class IngredientModel(
         this.description = ing.description
         this.danger = ing.danger
         this.wikiLink = ing.wiki_link
-//        this.groups = arrayListOf()
+        this.groups = ArrayList()
         this.allowed = true
     }
 }

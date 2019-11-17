@@ -8,14 +8,14 @@ import kotlin.collections.ArrayList
 object IngredientGroupsConverter {
     @TypeConverter
     @JvmStatic
-    fun toString(groupsId: ArrayList<Int>?): String {
+    fun toString(groupsId: ArrayList<Int>): String {
         val gson = Gson()
         return gson.toJson(groupsId)
     }
 
     @TypeConverter
     @JvmStatic
-    fun toArrayList(s: String): ArrayList<Int>? {
+    fun toArrayList(s: String): ArrayList<Int> {
         val listType = object : TypeToken<ArrayList<Int>>() {}.getType()
         return Gson().fromJson(s, listType)
     }

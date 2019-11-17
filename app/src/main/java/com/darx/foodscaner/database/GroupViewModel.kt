@@ -1,5 +1,6 @@
 package com.darx.foodscaner.database
 
+import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -32,17 +33,21 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
         return group
     }
 
-    fun find_(id: Int): Int {
-        var found: Int = 0
-        Observable.fromCallable{
-            db?.groupsDAO()?.find(id)
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
-                found = it!!
-            }
-        return found
+    fun checkAll_(ids: ArrayList<Int>): LiveData<Boolean>? {
+        return db?.groupsDAO()?.checkAll(ids.toList())
     }
+
+//    fun find_(id: Int): Int {
+//        var found: Int = 0
+//        Observable.fromCallable{
+//            db?.groupsDAO()?.find(id)
+//        }.subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe{
+//                found = it!!
+//            }
+//        return found
+//    }
 
     fun add_(group: GroupModel) {
         service.submit { db?.groupsDAO()?.add(group) }

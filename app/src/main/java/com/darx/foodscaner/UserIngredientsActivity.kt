@@ -78,7 +78,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         })
 
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchIngredients(30, 1)
+            networkDataSource?.fetchIngredients(30, 0)
         }
     }
 

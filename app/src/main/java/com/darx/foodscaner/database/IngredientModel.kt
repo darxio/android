@@ -17,7 +17,7 @@ data class IngredientModel(
     @ColumnInfo(name = "wiki_link") var wikiLink: String?,
     @ColumnInfo(name = "image") var imagePath: String?,
     @TypeConverters(IngredientGroupsConverter::class)
-    @ColumnInfo(name = "groups") var groups: ArrayList<Int>?,
+    @ColumnInfo(name = "groups") var groups: ArrayList<Int> = ArrayList(),
     @ColumnInfo(name = "allowed") var allowed: Boolean? = true
 )
     : Serializable {

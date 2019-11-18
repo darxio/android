@@ -211,16 +211,16 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.layout = findViewById(R.id.info_product_layout)
         info_product_name.text = productToShow.name
 
-        try {
-            val url = java.net.URL(productToShow.image)
-            val connection = url.openConnection() as HttpURLConnection
-            connection.setDoInput(true)
-            connection.connect()
-            val input = connection.getInputStream()
-            info_product_image.setImageBitmap(BitmapFactory.decodeStream(input))
-        } catch (e: IOException) {
-            Log.e("Exception", "image downloaded failed.")
-        }
+//        try {
+//            val url = java.net.URL(productToShow.image)
+//            val connection = url.openConnection() as HttpURLConnection
+//            connection.setDoInput(true)
+//            connection.connect()
+//            val input = connection.getInputStream()
+//            info_product_image.setImageBitmap(BitmapFactory.decodeStream(input))
+//        } catch (e: IOException) {
+//            Log.e("Exception", "image downloaded failed.")
+//        }
 
         // when the short version of the product is obtained
         if (productToShow.contents == "") {

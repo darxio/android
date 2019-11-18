@@ -11,7 +11,6 @@ import com.darx.foodscaner.database.*
 
 class IngredientActivity : AppCompatActivity() {
 
-    private var ingredientViewModel: IngredientViewModel? = null
     private lateinit var ingredientToShow: IngredientModel
     private var isAllowed: Boolean = true
     private var isGroupsMatched: Boolean = false
@@ -32,13 +31,13 @@ class IngredientActivity : AppCompatActivity() {
         val desc_html = if (ingredientToShow.description != "NULL") ingredientToShow.description else """
             <p>""" + resources.getString(R.string.no_ingredient_description) +"""</p>
         """.trimIndent()
-
         webView.loadDataWithBaseURL("", desc_html, "text/html", "UTF-8", "")
         // collapsingToolbar.background = R.drawable.ingredient.toDrawable() IMAGE
 
 
+        // check groups
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
-//        if (ingredientToShow.groups == null) ingredientToShow.groups = ArrayList()
+        if (ingredientToShow.groups == null) ingredientToShow.groups = ArrayList()
         groupViewModel.checkAll_(ingredientToShow.groups)?.observe(this@IngredientActivity, object : Observer<Boolean> {
             override fun onChanged(t: Boolean?) {
                 isGroupsMatched = t ?: false
@@ -46,8 +45,9 @@ class IngredientActivity : AppCompatActivity() {
             }
         })
 
-        ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
-        ingredientViewModel?.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity, object : Observer<IngredientModel> {
+        // check excepted ingredients
+        val ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        ingredientViewModel.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity, object : Observer<IngredientModel> {
             override fun onChanged(t: IngredientModel?) {
                 setSettingsByStatus(checkStatus(t))
             }
@@ -57,16 +57,16 @@ class IngredientActivity : AppCompatActivity() {
             if (!isAllowed) {
                 if (isGroupsMatched) {
                     ingredientToShow.allowed = true
-                    ingredientViewModel?.add_(ingredientToShow)
+                    ingredientViewModel.add_(ingredientToShow)
                 } else {
-                    ingredientViewModel?.deleteOne_(ingredientToShow)
+                    ingredientViewModel.deleteOne_(ingredientToShow)
                 }
             } else {
                 if (isGroupsMatched) {
-                    ingredientViewModel?.deleteOne_(ingredientToShow)
+                    ingredientViewModel.deleteOne_(ingredientToShow)
                 } else {
                     ingredientToShow.allowed = false
-                    ingredientViewModel?.add_(ingredientToShow)
+                    ingredientViewModel.add_(ingredientToShow)
                 }
             }
         }

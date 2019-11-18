@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.IngredientAdapter
+import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.IngredientViewModel
 import com.darx.foodscaner.services.ApiService
@@ -35,8 +36,11 @@ class GroupIngredientsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        val ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+
         // group Ingredients
-        groupIngredientsAdapter = IngredientAdapter(emptyList(), object : IngredientAdapter.Callback {
+        groupIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(this@GroupIngredientsActivity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)

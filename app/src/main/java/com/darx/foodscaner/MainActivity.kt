@@ -1,6 +1,8 @@
 package com.darx.foodscaner
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.darx.foodscaner.adapters.PageAdapter
@@ -57,8 +59,13 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = pagerAdapter
         viewPager.currentItem = pagerAdapter.getItemNum("Camera")
 
+        val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        var firstLaunch = prefs.getBoolean("firstLaunch", true)
+
+        if (firstLaunch) {
             val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
             startActivity(intent)
+        }
     }
 
 }

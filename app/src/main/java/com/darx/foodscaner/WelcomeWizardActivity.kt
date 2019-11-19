@@ -1,5 +1,6 @@
 package com.darx.foodscaner
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
@@ -20,6 +21,9 @@ class WelcomeWizardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome_wizard)
+
+        val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("firstLaunch", false).apply()
 
         pagerAdapter.addFragment(WizardFragment("", "Выберете группы к которым вы относитесь и ингредиенты которые не едите: ..."), "Wizard1")
         pagerAdapter.addFragment(WizardFragment("", "Отсканируйте продукт, чтобы понять подходит он вам или нет" ), "Wizard2")

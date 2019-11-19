@@ -51,7 +51,7 @@ class RecentlyScannedFragment : Fragment() {
         })
         view.recently_scanned_products_recycler_view.adapter = productsAdapter
 
-        productViewModel?.getAll_()?.observe(this@RecentlyScannedFragment, object : Observer<List<ProductModel>> {
+        productViewModel?.getAllScanned_()?.observe(this@RecentlyScannedFragment, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
                 productsAdapter?.addItems(l ?: return)
             }
@@ -59,7 +59,7 @@ class RecentlyScannedFragment : Fragment() {
 
 
         // all products
-        val allProductsAdapter: ProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, object : ProductsAdapter.Callback {
+        val allProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, object : ProductsAdapter.Callback {
             override fun onItemClicked(item: ProductModel) {
                 val intent = Intent(this@RecentlyScannedFragment.activity, ProductActivity::class.java)
                 intent.putExtra("PRODUCT", item as Serializable)
@@ -99,7 +99,7 @@ class RecentlyScannedFragment : Fragment() {
     fun matchMyProducts(typed: String): List<ProductModel> {
         val matched: MutableList<ProductModel> = mutableListOf()
 
-        val data = productViewModel?.getAll_()!! //?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>>
+        val data = productViewModel?.getAllScanned_()!! //?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>>
         for (product in data.value!!) {
             if (product.name.contains(typed, ignoreCase=true)) {
                 matched.add(product)

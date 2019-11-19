@@ -26,7 +26,6 @@ class IngredientActivity : AppCompatActivity() {
         ingredientToShow = intent.extras.get("INGREDIENT") as IngredientModel
 
 
-
         collapsingToolbar.title = ingredientToShow.name
         val desc_html = if (ingredientToShow.description != "NULL") ingredientToShow.description else """
             <p>""" + resources.getString(R.string.no_ingredient_description) +"""</p>
@@ -35,9 +34,12 @@ class IngredientActivity : AppCompatActivity() {
         // collapsingToolbar.background = R.drawable.ingredient.toDrawable() IMAGE
 
 
+        if (ingredientToShow.groups.isNullOrEmpty()) {
+            ingredientToShow.groups = ArrayList()
+        }
+
         // check groups
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
-        if (ingredientToShow.groups == null) ingredientToShow.groups = ArrayList()
         groupViewModel.checkAll_(ingredientToShow.groups)?.observe(this@IngredientActivity, object : Observer<Boolean> {
             override fun onChanged(t: Boolean?) {
                 isGroupsMatched = t ?: false

@@ -2,7 +2,6 @@ package com.darx.foodscaner
 
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.speech.tts.TextToSpeech
 import android.os.Bundle
@@ -15,7 +14,7 @@ import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
-import com.darx.foodscaner.models.IngredientExtended
+import com.darx.foodscaner.database.IngredientExtended
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
@@ -25,9 +24,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.widget.TextView
-import androidx.core.view.isVisible
-import java.io.IOException
-import java.net.HttpURLConnection
 import java.util.*
 
 
@@ -39,21 +35,13 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var networkDataSource: NetworkDataSourceImpl? = null
     var chips: ArrayList<Chip>? = ArrayList()
     private lateinit var layout: LinearLayout
-    var ok: Boolean = true
-    var cautious: Boolean = false
+//    var ok: Boolean = true
 
     private var speaker: ImageButton? = null
     private var tts: TextToSpeech? = null
 
-    val states = arrayOf(
-        intArrayOf(android.R.attr.state_enabled), // enabled
-        intArrayOf(-android.R.attr.state_enabled), // disabled
-        intArrayOf(-android.R.attr.state_checked), // unchecked
-        intArrayOf(android.R.attr.state_pressed)  // pressed
-    )
-
-    val positiveColors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
-    val negativeColors = intArrayOf(R.color.negativeColor, R.color.negativeColor, R.color.negativeColor, R.color.negativeColor)
+    private var isAllowed: Boolean = true
+    private var isGroupsMatched: Boolean = false
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
@@ -69,7 +57,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         } else {
             Log.e("TTS", "Initilization Failed!")
         }
-
     }
 
     private fun speakOut(text: String) {
@@ -89,12 +76,23 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onDestroy()
     }
 
+    fun checkStatus(ingredient: IngredientModel?): Boolean {
+        isAllowed = true
+        if (isGroupsMatched) {
+            isAllowed = (ingredient != null && ingredient.allowed!!)
+        } else {
+            if (ingredient != null) {
+                isAllowed = ingredient.allowed!!
+            }
+        }
+        return isAllowed
+    }
+
     private fun preorder(ingredient: IngredientExtended?) {
         if (ingredient == null) {
             return
         }
 
-        // logics
         val chip = Chip(this)
         if (ingredient.name != "") {
             chip.text = ingredient.name
@@ -106,24 +104,31 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
         }
 
-        if (iVM != null) {
-            iVM?.getOne_(ingredient.id)
-                ?.observe(this@ProductActivity, object : Observer<IngredientModel> {
-                    override fun onChanged(t: IngredientModel?) {
-                        if (t?.id == ingredient.id) {
-                            chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-                            this@ProductActivity.ok = false
-                        } else {
-                            if (ingredient.danger!! > 0) {
-                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
-                                this@ProductActivity.cautious = true
-                            } else {
-                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
-                            }
-                        }
-                    }
-                })
+        iVM.getOne_(ingredient.id)
+            ?.observe(this@ProductActivity, object : Observer<IngredientModel> {
+               override fun onChanged(t: IngredientModel?) {
+                   if (checkStatus(t)) {
+                       chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                   } else {
+                       chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                   }
+               }
+            })
+
+        if (ingredient.groups.isNullOrEmpty()) {
+            ingredient.groups = ArrayList()
         }
+
+        gVM.checkAll_(ingredient.groups)?.observe(this@ProductActivity, object : Observer<Boolean> {
+            override fun onChanged(t: Boolean?) {
+                isGroupsMatched = t ?: false
+                if (checkStatus(null)) {
+                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                } else {
+                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                }
+            }
+        })
 
         chip.isClickable = true
         if (chip.text != "") {
@@ -193,9 +198,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        var starred = findViewById<ImageButton>(R.id.info_starred_ib)
-        var share = findViewById<ImageButton>(R.id.info_share_btn)
-        var back = findViewById<Button>(R.id.back_btn)
+        val starred = findViewById<ImageButton>(R.id.info_starred_ib)
+        val share = findViewById<ImageButton>(R.id.info_share_btn)
+        val back = findViewById<Button>(R.id.back_btn)
 
         // logics with image buttons
         if (productToShow.starred) {
@@ -236,7 +241,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
 //        logics with info text views
-
         this.layout = findViewById(R.id.info_product_layout)
         info_product_name.text = productToShow.name
 
@@ -253,7 +257,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         // when the short version of the product is obtained
         if (productToShow.contents == "") {
-//            contents
             info_product_ingredients_temp_text_view.text = "Информация недоступна."
             info_product_manufacturer.text = "Информация недоступна."
             info_product_description.text = "Информация недоступна."
@@ -301,16 +304,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 layout_contents.orientation = LinearLayout.VERTICAL
-
-//                ???
-                val layoutPadding = (15 * scale + 0.5f).toInt()
-
-                layout_contents.setPadding(
-                    layoutPadding,
-                    layoutPadding,
-                    layoutPadding,
-                    layoutPadding
-                )
                 this.layout.addView(layout_contents)
 
                 val contentsLabelTextView = TextView(this)
@@ -318,7 +311,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
                 val contentsTextView = TextView(this)
 
-//                ???
                 val textViewPadding = (8 * scale + 0.5f).toInt()
                 contentsTextView.setPadding(0, textViewPadding, 0, textViewPadding)
                 contentsTextView.text = productToShow.contents
@@ -331,16 +323,15 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 preorder(i)
             }
         }
-
         if (this.chips != null) {
             for (i in this.chips!!) {
                info_ingredient_chips.addView(i)
             }
         }
 
-        if (ok == false) {
-            info_material_card.setBackgroundColor(R.color.negativeColor)
-            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
-        }
+//        if (ok == false) {
+//            info_material_card.setBackgroundColor(R.color.negativeColor)
+//            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
+//        }
     }
 }

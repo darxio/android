@@ -20,11 +20,11 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
 
     init {
         db = AppDatabase.getInstance(application.applicationContext)
-        scannedProducts = db?.productsDAO()?.getAll()
+        scannedProducts = db?.productsDAO()?.getAllScanned()
         scannedFavouriteProducts = db?.productsDAO()?.getFavourites()
     }
 
-    fun getAll_(): LiveData<List<ProductModel>> {
+    fun getAllScanned_(): LiveData<List<ProductModel>> {
         return this.scannedProducts!!
     }
 

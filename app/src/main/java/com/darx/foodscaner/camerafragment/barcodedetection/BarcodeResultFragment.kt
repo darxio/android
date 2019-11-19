@@ -23,7 +23,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -36,7 +35,7 @@ import com.darx.foodscaner.R
 import com.darx.foodscaner.camerafragment.camera.WorkflowModel
 import com.darx.foodscaner.camerafragment.camera.WorkflowModel.WorkflowState
 import com.darx.foodscaner.database.*
-import com.darx.foodscaner.models.IngredientExtended
+import com.darx.foodscaner.database.IngredientExtended
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl

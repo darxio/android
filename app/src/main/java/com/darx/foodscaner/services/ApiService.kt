@@ -73,7 +73,12 @@ interface ApiService {
         @Path("id") id: Int
     ): Deferred<IngredientModel>
 
-
+    // === PRODUCT ADDITION ===
+    @GET("/products/add/{barcode}/{name}")
+    fun productAdd(
+        @Path("barcode") barcode: Long,
+        @Path("name") name: String
+    )
 
     companion object {
         operator fun invoke(

@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 import okhttp3.*
 import java.io.IOException
 import java.util.*
@@ -259,27 +260,33 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 //            Log.e("Exception", "image downloaded failed.")
 //        }
 
-        if (!productToShow.image.isNullOrEmpty()) {
-            val client = OkHttpClient()
+//        if (!productToShow.image.isNullOrEmpty()) {
+//            val client = OkHttpClient()
+//
+//            var request = Request.Builder()
+//                .url(productToShow.image)
+//                .build();
+//
+//            client.newCall(request).enqueue(object: Callback {
+//                override fun onResponse(call: Call?, response: Response) {
+//                    var inputStream = response.body()!!.byteStream()
+//                    var bitmap = BitmapFactory.decodeStream(inputStream)
+//
+//                    runOnUiThread{
+//                        info_product_image.setImageBitmap(bitmap)
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call?, e: IOException?) {
+//                    Log.e("OKHTTP","Request Failure.")
+//                }
+//            })
+//        }
 
-            var request = Request.Builder()
-                .url(productToShow.image)
-                .build();
-
-            client.newCall(request).enqueue(object: Callback {
-                override fun onResponse(call: Call?, response: Response) {
-                    var inputStream = response.body()!!.byteStream()
-                    var bitmap = BitmapFactory.decodeStream(inputStream)
-
-                    runOnUiThread{
-                        info_product_image.setImageBitmap(bitmap)
-                    }
-                }
-
-                override fun onFailure(call: Call?, e: IOException?) {
-                    Log.e("OKHTTP","Request Failure.")
-                }
-            })
+        if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
+            Picasso.get().load(productToShow.image).error(R.drawable.product).into(info_product_image);
+        } else {
+            info_product_image.setImageResource(R.drawable.product)
         }
 
         // when the short version of the product is obtained

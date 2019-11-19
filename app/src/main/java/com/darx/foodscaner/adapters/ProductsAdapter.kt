@@ -54,7 +54,7 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
         private val delete = itemView.findViewById<ImageButton>(R.id.delete_ib)
 
         fun bind(item: ProductModel) {
-            productImage.setImageResource(R.drawable.product)
+//            productImage.setImageResource(R.drawable.product)
 //            try {
 //                val url = java.net.URL("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTaaLBo46LTsrQcrGH0nqJxg6xWkuSmdfeRI5XMfoNwrP_S9CMZ")
 //                val connection = url.openConnection() as HttpURLConnection
@@ -70,10 +70,11 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
             productName.text = item.name
             productDescription.text = item.description
 
-//            if (!item.image.isNullOrEmpty()) {
-//                Picasso.
-//                Picasso..load("http://i.imgur.com/DvpvklR.png").into(imageView);
-//            }
+            if (!item.image.isNullOrEmpty() || item.image == "NULL") {
+                Picasso.get().load(item.image).error(R.drawable.product).into(productImage);
+            } else {
+                productImage.setImageResource(R.drawable.product)
+            }
 
             val dateFormat = SimpleDateFormat("dd MMM, HH:mm")
             productScannedDate.text = dateFormat.format(item.date)

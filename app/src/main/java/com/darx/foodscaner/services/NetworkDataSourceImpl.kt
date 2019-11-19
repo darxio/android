@@ -203,4 +203,22 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
         }
     }
 
+    override suspend fun productAdd(barcode: Long, name: String, callback: Callback) {
+        try {
+            apiService.productAdd(barcode, name)
+        }
+        catch (e: NoConnectivityException) {
+            callback.onNoConnectivityException()
+        }
+        catch (e: HttpException) {
+            callback.onHttpException()
+        }
+        catch (e: SocketTimeoutException) {
+            callback.onTimeoutException()
+        }
+        catch (e: Exception) {
+            callback.onException()
+        }
+    }
+
 }

@@ -2,10 +2,6 @@ package com.darx.foodscaner.database
 
 
 import androidx.room.TypeConverter
-import com.darx.foodscaner.models.IngredientExtended
-import com.google.gson.Gson
-
-
 
 
 object ProductIngredientsConverter {

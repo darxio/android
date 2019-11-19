@@ -297,6 +297,8 @@ class CameraFragment : Fragment(), OnClickListener {
                                     context!!, "Продукт не найден!",
                                     Toast.LENGTH_SHORT
                                 ).show()
+
+                                AddProductFragment.show(fragmentManager!!, barcode.rawValue!!.toLong())
                                 workflowModel?.setWorkflowState(WorkflowState.DETECTING)
                             }
                         })

@@ -29,6 +29,7 @@ interface NetworkDataSource {
     suspend fun getIngredientByID(id: Int, callback: Callback = DefaultCallback(ctx))
     suspend fun fetchGroups(callback: Callback = DefaultCallback(ctx))
     suspend fun fetchGroupSearch(name: String, callback: Callback = DefaultCallback(ctx))
+    suspend fun productAdd(barcode: Long, name: String, callback: Callback = DefaultCallback(ctx))
 
     interface Callback {
         fun onNoConnectivityException()

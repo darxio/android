@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.IngredientAdapter
+import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.IngredientViewModel
 import com.darx.foodscaner.services.ApiService
@@ -24,6 +25,7 @@ import java.io.Serializable
 class UserIngredientsActivity : AppCompatActivity() {
 
     private var ingredientViewModel: IngredientViewModel? = null
+    private var groupViewModel: GroupViewModel? = null
     private var networkDataSource: NetworkDataSourceImpl? = null
     private var myIngredientsAdapter: IngredientAdapter? = null
 
@@ -35,8 +37,11 @@ class UserIngredientsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+
         // my Ingredients
-        myIngredientsAdapter = IngredientAdapter(emptyList(), object : IngredientAdapter.Callback {
+        myIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(this@UserIngredientsActivity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)
@@ -46,7 +51,6 @@ class UserIngredientsActivity : AppCompatActivity() {
         val myIngredientsRecycler = this.findViewById<RecyclerView>(R.id.myIngredientsRecycler)
         myIngredientsRecycler.adapter = myIngredientsAdapter
 
-        ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         ingredientViewModel?.getAll_()?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>> {
             override fun onChanged(l: List<IngredientModel>?) {
                 myIngredientsAdapter?.addItems(l ?: return)
@@ -54,7 +58,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         })
 
         // all Ingredients
-        val allIngredientsAdapter: IngredientAdapter = IngredientAdapter(emptyList(), object : IngredientAdapter.Callback {
+        val allIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(this@UserIngredientsActivity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)
@@ -68,6 +72,9 @@ class UserIngredientsActivity : AppCompatActivity() {
         networkDataSource = NetworkDataSourceImpl(apiService, this)
 
         networkDataSource?.ingredients?.observe(this@UserIngredientsActivity, Observer {
+//            for (ingredient in it) {
+//
+//            }
             allIngredientsAdapter.addItems(it)
         })
         networkDataSource?.ingredientSearch?.observe(this@UserIngredientsActivity, Observer {
@@ -75,7 +82,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         })
 
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchIngredients(30, 1)
+            networkDataSource?.fetchIngredients(30, 0)
         }
     }
 

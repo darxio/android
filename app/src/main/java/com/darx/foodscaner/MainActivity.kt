@@ -65,7 +65,8 @@ class MainActivity : AppCompatActivity() {
         if (isProfile == 0) {
             val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
             startActivity(intent)
-            profileViewModel.add_(ProfileModel())
+            val p = ProfileModel(1, true)
+            profileViewModel.add_(p)
         }
     }
 

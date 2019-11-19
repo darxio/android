@@ -5,11 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.darx.foodscaner.models.IngredientExtended
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.Serializable
-import com.darx.foodscaner.utils.SerializableJSONArray
-import com.darx.foodscaner.utils.SerializableJSONObject
 import java.util.*
 
 @Entity(tableName = "products")

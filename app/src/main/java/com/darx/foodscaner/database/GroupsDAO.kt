@@ -15,6 +15,9 @@ interface GroupsDAO {
     @Query("SELECT * from groups WHERE id = :id")
     fun getOne(id: Int): LiveData<GroupModel>
 
+    @Query("SELECT COUNT(*) > 0 from groups WHERE id IN (:ids)")
+    fun checkAll(ids: List<Int>): LiveData<Boolean>
+
     @Query("SELECT COUNT(*) from groups WHERE id = :id")
     fun find(id: Int): Int
 

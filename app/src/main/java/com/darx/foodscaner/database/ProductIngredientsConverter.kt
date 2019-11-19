@@ -1,17 +1,11 @@
 package com.darx.foodscaner.database
 
 
-import android.util.Log
 import androidx.room.TypeConverter
-import com.google.gson.JsonArray
-import com.google.gson.Gson
-import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.models.IngredientExtended
-import com.darx.foodscaner.utils.SerializableJSONArray
-import com.darx.foodscaner.utils.SerializableJSONObject
-import org.json.JSONArray
-import org.json.JSONObject
-import org.json.JSONException
+import com.google.gson.Gson
+
+
 
 
 object ProductIngredientsConverter {

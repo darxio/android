@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.darx.foodscaner.models.IngredientExtended
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.*
 
@@ -16,8 +17,10 @@ data class ProductModel(
     @ColumnInfo(name = "contents") var contents: String?,
     @TypeConverters(ProductIngredientsConverter::class)
     @ColumnInfo(name = "ingredients") var ingredients: ArrayList<IngredientExtended>?,
+    @SerializedName("category_url")
     @ColumnInfo(name = "category_url") var categoryURL: String?,
     @ColumnInfo(name = "mass") var mass: String?,
+    @SerializedName("best_before")
     @ColumnInfo(name = "best_before") var bestBefore: String?,
     @ColumnInfo(name = "nutrition") var nutrition: String?,
     @ColumnInfo(name = "manufacturer") var manufacturer: String?,

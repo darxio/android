@@ -147,11 +147,12 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setContentView(R.layout.activity_product)
         val scale = resources.displayMetrics.density
         var spoke = false
+        var spokeDescription = false
         info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
 
         speaker = findViewById(R.id.info_speaker_ib)
 
-        speaker!!.isEnabled = false;
+        speaker!!.isEnabled = false
         tts = TextToSpeech(this, this)
 
         tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){

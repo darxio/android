@@ -157,10 +157,10 @@
                 android:orientation="vertical"
                 android:padding="15dp">
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Описание:"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Описание:"/>
 
             <TextView
                     android:id="@+id/info_product_description"

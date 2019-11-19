@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.speech.tts.TextToSpeech
 import android.os.Bundle
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -147,6 +148,17 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         speaker!!.isEnabled = false;
         tts = TextToSpeech(this, this)
+
+        tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
+                override fun onDone(utteranceId: String?) {
+                    info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+                }
+
+                override fun onError(utteranceId: String?) {}
+
+                override fun onStart(utteranceId: String?) {}
+            }
+        )
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService, this)

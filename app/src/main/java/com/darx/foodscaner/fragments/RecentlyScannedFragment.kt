@@ -1,7 +1,6 @@
 package com.darx.foodscaner.fragments
 
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,29 +10,17 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.ProductActivity
-import com.darx.foodscaner.R
 import com.darx.foodscaner.adapters.ProductsAdapter
-import com.darx.foodscaner.camerafragment.productsearch.ProductAdapter
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
-import com.darx.foodscaner.models.IngredientExtended
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
-import com.darx.foodscaner.utils.SerializableJSONArray
-import com.darx.foodscaner.utils.SerializableJSONObject
-import com.google.gson.JsonObject
-import com.miguelcatalan.materialsearchview.MaterialSearchView
-import kotlinx.android.synthetic.main.activity_ingredients.*
-import kotlinx.android.synthetic.main.fragment_recently_scanned.*
 import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.Serializable
 
 

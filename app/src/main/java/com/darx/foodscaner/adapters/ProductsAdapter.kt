@@ -16,9 +16,12 @@ import android.graphics.BitmapFactory
 import android.R.attr.src
 import android.util.Log
 import com.darx.foodscaner.R
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.*
 import java.io.IOException
 import java.net.HttpURLConnection
 
@@ -66,6 +69,11 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
 
             productName.text = item.name
             productDescription.text = item.description
+
+//            if (!item.image.isNullOrEmpty()) {
+//                Picasso.
+//                Picasso..load("http://i.imgur.com/DvpvklR.png").into(imageView);
+//            }
 
             val dateFormat = SimpleDateFormat("dd MMM, HH:mm")
             productScannedDate.text = dateFormat.format(item.date)

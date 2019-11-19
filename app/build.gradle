@@ -94,6 +94,8 @@ dependencies {
     // Search
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     api 'com.google.guava:guava:27.1-jre'
 }
 

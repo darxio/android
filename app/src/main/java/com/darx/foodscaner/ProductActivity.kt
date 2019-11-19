@@ -2,6 +2,7 @@ package com.darx.foodscaner
 
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.speech.tts.TextToSpeech
 import android.os.Bundle
@@ -24,6 +25,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import android.widget.TextView
+import okhttp3.*
+import java.io.IOException
 import java.util.*
 
 
@@ -255,6 +258,29 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 //        } catch (e: IOException) {
 //            Log.e("Exception", "image downloaded failed.")
 //        }
+
+        if (!productToShow.image.isNullOrEmpty()) {
+            val client = OkHttpClient()
+
+            var request = Request.Builder()
+                .url(productToShow.image)
+                .build();
+
+            client.newCall(request).enqueue(object: Callback {
+                override fun onResponse(call: Call?, response: Response) {
+                    var inputStream = response.body()!!.byteStream()
+                    var bitmap = BitmapFactory.decodeStream(inputStream)
+
+                    runOnUiThread{
+                        info_product_image.setImageBitmap(bitmap)
+                    }
+                }
+
+                override fun onFailure(call: Call?, e: IOException?) {
+                    Log.e("OKHTTP","Request Failure.")
+                }
+            })
+        }
 
         // when the short version of the product is obtained
         if (productToShow.contents == "") {

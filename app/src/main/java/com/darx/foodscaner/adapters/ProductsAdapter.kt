@@ -54,19 +54,6 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
         private val delete = itemView.findViewById<ImageButton>(R.id.delete_ib)
 
         fun bind(item: ProductModel) {
-//            productImage.setImageResource(R.drawable.product)
-//            try {
-//                val url = java.net.URL("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTaaLBo46LTsrQcrGH0nqJxg6xWkuSmdfeRI5XMfoNwrP_S9CMZ")
-//                val connection = url.openConnection() as HttpURLConnection
-//                connection.setDoInput(true)
-//                connection.connect()
-//                val input = connection.getInputStream()
-//                productImage.setImageBitmap(BitmapFactory.decodeStream(input))
-//            } catch (e: IOException) {
-//                e.printStackTrace();
-//                Log.e("Exception", "image downloaded failed.")
-//            }
-
             productName.text = item.name
             productDescription.text = item.description
 

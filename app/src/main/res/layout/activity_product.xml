@@ -280,5 +280,65 @@
 
         </LinearLayout>
 
+        <!-- Contents -->
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Текст состава:"
+                    android:layout_marginRight="8dp"/>
+
+            <TextView
+                    android:id="@+id/info_product_contents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+<!--        Feedback -->
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Насколько точно разделены ингредиенты состава?"
+                    android:layout_marginRight="8dp"/>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <ImageButton
+                        android:id="@+id/bad"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_bad"/>
+
+                <ImageButton
+                        android:id="@+id/good"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_good"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
     </LinearLayout>
 </ScrollView>

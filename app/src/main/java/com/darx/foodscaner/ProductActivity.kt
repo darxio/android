@@ -44,7 +44,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = null
 
     private var isAllowed: Boolean = true
-    private var isGroupsMatched: Boolean = false
+//    private var isGroupsMatched: Boolean = false
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
@@ -79,7 +79,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onDestroy()
     }
 
-    fun checkStatus(ingredient: IngredientModel?): Boolean {
+    fun checkStatus(ingredient: IngredientModel?, isGroupsMatched: Boolean): Boolean {
         isAllowed = true
         if (isGroupsMatched) {
             isAllowed = (ingredient != null && ingredient.allowed!!)
@@ -101,37 +101,32 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             chip.text = ingredient.name
         }
 
-        chip.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                networkDataSource!!.getIngredientByID(ingredient.id)
-            }
-        }
-
-        iVM.getOne_(ingredient.id)
-            ?.observe(this@ProductActivity, object : Observer<IngredientModel> {
-               override fun onChanged(t: IngredientModel?) {
-                   if (checkStatus(t)) {
-                       chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
-                   } else {
-                       chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-                   }
-               }
-            })
+        var isGroupsMatched = false
 
         if (ingredient.groups.isNullOrEmpty()) {
             ingredient.groups = ArrayList()
         }
-
         gVM.checkAll_(ingredient.groups)?.observe(this@ProductActivity, object : Observer<Boolean> {
             override fun onChanged(t: Boolean?) {
                 isGroupsMatched = t ?: false
-                if (checkStatus(null)) {
+                if (checkStatus(null, isGroupsMatched)) {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
                 } else {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
                 }
             }
         })
+
+        iVM.getOne_(ingredient.id)?.observe(this@ProductActivity, object : Observer<IngredientModel> {
+            override fun onChanged(t: IngredientModel?) {
+                if (checkStatus(t, isGroupsMatched)) {
+                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                } else {
+                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                }
+            }
+        })
+
 
         chip.isClickable = true
         if (chip.text != "") {
@@ -141,6 +136,12 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if (!ingredient.ingredients.isNullOrEmpty()) {
             for (i in ingredient.ingredients!!) {
                 preorder(i)
+            }
+        }
+
+        chip.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource!!.getIngredientByID(ingredient.id)
             }
         }
     }

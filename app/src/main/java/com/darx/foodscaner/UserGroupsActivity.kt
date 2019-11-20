@@ -13,6 +13,7 @@ import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.fragments.GroupsFragment
+import com.darx.foodscaner.fragments.MyGroupsFragment
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
@@ -42,7 +43,7 @@ class UserGroupsActivity : AppCompatActivity() {
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         pagerAdapter.addFragment(GroupsFragment(groupViewModel), "SearchGroups")
-        pagerAdapter.addFragment(GroupsFragment(groupViewModel), "MyGroups")
+        pagerAdapter.addFragment(MyGroupsFragment(groupViewModel), "MyGroups")
 
         setContentView(R.layout.activity_groups)
         groupsViewPager.adapter = pagerAdapter

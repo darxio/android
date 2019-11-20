@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialogFragment
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.FragmentManager
+import com.darx.foodscaner.R
 import com.darx.foodscaner.database.IngredientModel
 
 
-class SuggestionFragment: AppCompatDialogFragment() {
+class SuggestionFragment(val text: String): AppCompatDialogFragment() {
 
     lateinit var ingr: IngredientModel
 
@@ -20,6 +22,10 @@ class SuggestionFragment: AppCompatDialogFragment() {
         savedInstanceState: Bundle?
     ) : View?  {
         super.onCreate(savedInstanceState)
+        val view = inflater.inflate(com.darx.foodscaner.R.layout.fragment_suggestion, container, false)
+
+        val wizardText = view.findViewById<TextView>(R.id.suggestText)
+        wizardText.text = text
 
         val arguments = arguments
         this.ingr = if (arguments?.containsKey(ARG_INGREDIENT) == true) {
@@ -38,7 +44,7 @@ class SuggestionFragment: AppCompatDialogFragment() {
         private const val ARG_INGREDIENT = "arg_ingredient"
 
         fun show(fragmentManager: FragmentManager, ingredient: IngredientModel) {
-            val suggestionFragment = SuggestionFragment()
+            val suggestionFragment = SuggestionFragment("Default")
             suggestionFragment.arguments = Bundle().apply {
                 putSerializable(ARG_INGREDIENT, ingredient)
             }

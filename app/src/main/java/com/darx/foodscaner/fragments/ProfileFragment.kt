@@ -14,9 +14,6 @@ import com.darx.foodscaner.*
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
-import com.takusemba.multisnaprecyclerview.MultiSnapHelper
-import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
-import com.takusemba.multisnaprecyclerview.OnSnapListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.GroupAdapter
@@ -25,8 +22,6 @@ import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.IngredientViewModel
-import com.takusemba.multisnaprecyclerview.SnapGravity
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

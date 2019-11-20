@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewPager.setUserInputEnabled(false);
         viewPager.adapter = pagerAdapter
         viewPager.currentItem = pagerAdapter.getItemNum("Camera")
 

@@ -17,10 +17,12 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
 
     private var groups: LiveData<List<GroupModel>>? = null
     private var group: LiveData<GroupModel>? = null
+    private var ids: LiveData<List<Int>>? = null
 
     init {
         db = AppDatabase.getInstance(application.applicationContext)
         groups = db?.groupsDAO()?.getAll()
+        ids = db?.groupsDAO()?.getAllIds()
     }
 
     fun getAll_(): LiveData<List<GroupModel>> {
@@ -31,6 +33,10 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
     fun getOne_(id: Int): LiveData<GroupModel>? {
         group = db?.groupsDAO()?.getOne(id)
         return group
+    }
+
+    fun getAllIds(): LiveData<List<Int>> {
+        return this.ids!!
     }
 
     fun checkAll_(ids: ArrayList<Int>): LiveData<Boolean>? {

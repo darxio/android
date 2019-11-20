@@ -22,6 +22,11 @@ class IngredientViewModel(application: Application) : AndroidViewModel(applicati
         return this.excludedIngredients!!
     }
 
+    fun getNotAllowed_(): LiveData<List<IngredientModel>> {
+        val excludedIngredients = db?.ingredientsDAO()?.getNotAllowed()
+        return excludedIngredients!!
+    }
+
     // check if works
     fun getOne_(id: Int): LiveData<IngredientModel>? {
         exclIngredient = db?.ingredientsDAO()?.getOne(id)
@@ -32,6 +37,10 @@ class IngredientViewModel(application: Application) : AndroidViewModel(applicati
         service.submit { db?.ingredientsDAO()?.add(eI) }
     }
 
+    fun deleteIngrOfGroup_(groups: List<Int>) {
+        service.submit { db?.ingredientsDAO()?.deleteIngrOfGroup_(groups) }
+    }
+
     fun deleteOne_(eI: IngredientModel) {
         service.submit { db?.ingredientsDAO()?.deleteOne(eI) }
     }
@@ -40,3 +49,4 @@ class IngredientViewModel(application: Application) : AndroidViewModel(applicati
         service.submit { db?.ingredientsDAO()?.deleteAll() }
     }
 }
+

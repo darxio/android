@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 import com.darx.foodscaner.adapters.PageAdapter
+import com.darx.foodscaner.fragments.SuggestionFragment
 import com.darx.foodscaner.fragments.WizardFragment
 import kotlinx.android.synthetic.main.activity_welcome_wizard.*
 
@@ -25,9 +26,9 @@ class WelcomeWizardActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("firstLaunch", false).apply()
 
-        pagerAdapter.addFragment(WizardFragment("", "Выберете группы к которым вы относитесь и ингредиенты которые не едите: ..."), "Wizard1")
-        pagerAdapter.addFragment(WizardFragment("", "Отсканируйте продукт, чтобы понять подходит он вам или нет" ), "Wizard2")
-        pagerAdapter.addFragment(WizardFragment("", "Посмотрите информацию о продукте"), "Wizard3")
+        pagerAdapter.addFragment(WizardFragment("", "Группы, к которым вы относитесь:"), "Wizard1")
+        pagerAdapter.addFragment(WizardFragment("", "Ингредиенты, которые вы не едите:"), "Wizard2")
+        pagerAdapter.addFragment(WizardFragment("", "Отсканируйте продукт, чтобы понять подходит он вам или нет"), "Wizard3")
 
         wizardPager.adapter = pagerAdapter
 

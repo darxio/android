@@ -47,16 +47,14 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
         val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredientRecycler)
         ingredientRecycler.adapter = myIngredientsAdapter
 
-        ingredientViewModel.getAll_().observe(this, object : Observer<List<IngredientModel>> {
+        ingredientViewModel.getNotAllowed_().observe(this, object : Observer<List<IngredientModel>> {
             override fun onChanged(l: List<IngredientModel>?) {
-                // проверка allowed
                 myIngredientsAdapter?.addItems(l ?: return)
             }
         })
 
         return view
     }
-
 //    fun matchMyIngredients(typed: String): List<IngredientModel> {
 //        val matched: MutableList<IngredientModel> = mutableListOf()
 //

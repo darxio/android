@@ -282,11 +282,30 @@ class CameraFragment : Fragment(), OnClickListener {
                 GlobalScope.launch(Dispatchers.Main) {
                     if (isDigit((barcode.rawValue!!))) {
                         networkDataSource?.fetchProductByBarcode(barcode.rawValue!!.toLong(), object : NetworkDataSource.Callback {
-                            override fun onTimeoutException() {}
+                            override fun onTimeoutException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Проблемы с интернетом!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
 
-                            override fun onException() {}
+                            override fun onException() {
+                                Log.e("HTTP", "EXCEPTION CAUGHT.")
+                                Toast.makeText(
+                                    context!!, "Неизвестная ошибка",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
 
                             override fun onNoConnectivityException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Проблемы с интернетом!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 NetworkDataSource.DefaultCallback(context!!).onNoConnectivityException()
                                 workflowModel?.setWorkflowState(WorkflowState.DETECTING)
                             }

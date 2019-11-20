@@ -1,6 +1,7 @@
 package com.darx.foodscaner.fragments
 
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,10 +13,15 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.darx.foodscaner.R
+import com.darx.foodscaner.camerafragment.camera.WorkflowModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
+import com.darx.foodscaner.services.NetworkDataSource
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class AddProductFragment: AppCompatDialogFragment() {
@@ -53,9 +59,46 @@ class AddProductFragment: AppCompatDialogFragment() {
         add.setOnClickListener{
             val nameStr = name.text.toString().trim()
             if (nameStr != "" && nameStr.length > 0) {
-                // запрос в сеть
-                //nameStr & barcode
-//                apiService.productAdd(barcode, nameStr)
+                GlobalScope.launch(Dispatchers.Main) {
+                    networkDataSource?.productAdd(
+                        barcode,
+                        nameStr,
+                        object : NetworkDataSource.Callback {
+                            override fun onTimeoutException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Проблемы с интернетом!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            override fun onException() {
+                                Log.e("HTTP", "EXCEPTION CAUGHT.")
+                                Toast.makeText(
+                                    context!!, "Неизвестная ошибка",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            override fun onNoConnectivityException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Проблемы с интернетом!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                NetworkDataSource.DefaultCallback(context!!)
+                                    .onNoConnectivityException()
+                            }
+
+                            override fun onHttpException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Ошибка соединения",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                }
                 Toast.makeText(context!!, "Спасибо!", Toast.LENGTH_SHORT).show()
                 this.dismiss()
             } else {
@@ -69,7 +112,7 @@ class AddProductFragment: AppCompatDialogFragment() {
     companion object {
 
         private const val TAG = "AddProductFragment"
-        private const val ARG_BARCODE = "arg_barcode"
+        private const val ARG_BARCODE = "ARG_BARCODE"
 
         fun show(fragmentManager: FragmentManager, barcode: Long) {
             val addProductFragment = AddProductFragment()

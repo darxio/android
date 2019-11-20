@@ -10,6 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.*
 import retrofit2.http.*
+import retrofit2.http.POST
+
+
 
 
 interface ApiService {
@@ -74,10 +77,16 @@ interface ApiService {
     ): Deferred<IngredientModel>
 
     // === PRODUCT ADDITION ===
-    @GET("/products/add/{barcode}/{name}")
-    fun productAdd(
-        @Path("barcode") barcode: Long,
-        @Path("name") name: String
+//    @GET("/products/add/{barcode}/{name}")
+//    fun productAdd(
+//        @Path("barcode") barcode: Long,
+//        @Path("name") name: String
+//    )
+
+    @POST("/products/add")
+    fun getLandingPageReport(
+        @Query("barcode") barcode: Long,
+        @Query("name") name: String
     )
 
     companion object {

@@ -9,81 +9,55 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.IngredientAdapter
+import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.IngredientViewModel
+import com.darx.foodscaner.fragments.IngredientsFragment
+import com.darx.foodscaner.fragments.MyIngredientsFragment
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_ingredients.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.Serializable
+import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.ViewPager
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 class UserIngredientsActivity : AppCompatActivity() {
 
-    private var ingredientViewModel: IngredientViewModel? = null
-    private var groupViewModel: GroupViewModel? = null
-    private var networkDataSource: NetworkDataSourceImpl? = null
-    private var myIngredientsAdapter: IngredientAdapter? = null
+    private val pagerAdapter: PageAdapter = PageAdapter(supportFragmentManager, lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredients)
 
-        setSupportActionBar(ingredientsToolbar)
+//        setSupportActionBar(ingredientsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
-        groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        val ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        // my Ingredients
-        myIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: IngredientModel) {
-                val intent = Intent(this@UserIngredientsActivity, IngredientActivity::class.java)
-                intent.putExtra("INGREDIENT", item as Serializable)
-                startActivity(intent)
-            }
-        })
-        val myIngredientsRecycler = this.findViewById<RecyclerView>(R.id.myIngredientsRecycler)
-        myIngredientsRecycler.adapter = myIngredientsAdapter
+        pagerAdapter.addFragment(IngredientsFragment(ingredientViewModel, groupViewModel), "ShearchIngredients")
+        pagerAdapter.addFragment(MyIngredientsFragment(ingredientViewModel, groupViewModel), "MyIngredients")
 
-        ingredientViewModel?.getAll_()?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>> {
-            override fun onChanged(l: List<IngredientModel>?) {
-                myIngredientsAdapter?.addItems(l ?: return)
-            }
-        })
+        setContentView(R.layout.activity_ingredients)
+        ingredientsViewPager.adapter = pagerAdapter
 
-        // all Ingredients
-        val allIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: IngredientModel) {
-                val intent = Intent(this@UserIngredientsActivity, IngredientActivity::class.java)
-                intent.putExtra("INGREDIENT", item as Serializable)
-                startActivity(intent)
-            }
-        })
-        val allIngredientsRecycler = this.findViewById<RecyclerView>(R.id.allIngredientsRecycler)
-        allIngredientsRecycler.adapter = allIngredientsAdapter
 
-        val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService, this)
 
-        networkDataSource?.ingredients?.observe(this@UserIngredientsActivity, Observer {
-//            for (ingredient in it) {
-//
-//            }
-            allIngredientsAdapter.addItems(it)
-        })
-        networkDataSource?.ingredientSearch?.observe(this@UserIngredientsActivity, Observer {
-            allIngredientsAdapter.addItems(it)
-        })
-
-        GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchIngredients(30, 0)
-        }
+        val tabLayout = findViewById<TabLayout>(R.id.ingredientsTabs)
+//        tabLayout.setupWithViewPager(ingredients_view_pager)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -97,56 +71,44 @@ class UserIngredientsActivity : AppCompatActivity() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-
-        val item = menu!!.findItem(R.id.action_search)
-        ingredientsSearchView.setMenuItem(item)
-
-
-        ingredientsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                // take data for all ingredients
-                if (newText.length >= 3) {
-                    GlobalScope.launch(Dispatchers.Main) {
-                        networkDataSource?.fetchIngredientSearch(newText)
-                    }
-                }
-
-                // take data for my ingredients
-                myIngredientsAdapter?.addItems(matchMyIngredients(newText))
-
-                return false
-            }
-        })
-
-        ingredientsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
-            override fun onSearchViewShown() {
-                //Do some magic
-            }
-
-            override fun onSearchViewClosed() {
-                //Do some magic
-            }
-        })
-
-
-        return true
-    }
-
-    fun matchMyIngredients(typed: String): List<IngredientModel> {
-        val matched: MutableList<IngredientModel> = mutableListOf()
-
-        val data = ingredientViewModel?.getAll_()!! //?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>>
-        for (ingredient in data.value!!) {
-            if (ingredient.name.contains(typed, ignoreCase=true)) {
-                matched.add(ingredient)
-            }
-        }
-        return matched
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.toolbar_menu, menu)
+//
+//        val item = menu!!.findItem(R.id.action_search)
+//        ingredientsSearchView.setMenuItem(item)
+//
+//
+//        ingredientsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                // take data for all ingredients
+//                if (newText.length >= 3) {
+//                    GlobalScope.launch(Dispatchers.Main) {
+//                        networkDataSource?.fetchIngredientSearch(newText)
+//                    }
+//                }
+//
+//                // take data for my ingredients
+//                myIngredientsAdapter?.addItems(matchMyIngredients(newText))
+//
+//                return false
+//            }
+//        })
+//
+//        ingredientsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+//            override fun onSearchViewShown() {
+//                //Do some magic
+//            }
+//
+//            override fun onSearchViewClosed() {
+//                //Do some magic
+//            }
+//        })
+//
+//
+//        return true
+//    }
 }

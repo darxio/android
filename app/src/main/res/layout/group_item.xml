@@ -1,5 +1,5 @@
 <androidx.cardview.widget.CardView
-    android:layout_width="wrap_content"
+    android:layout_width="160dp"
     android:layout_height="150dp"
     android:layout_gravity="right"
     android:layout_marginLeft="@dimen/mtrl_card_spacing"

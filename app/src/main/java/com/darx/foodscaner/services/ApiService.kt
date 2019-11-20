@@ -84,7 +84,7 @@ interface ApiService {
 //    )
 
     @POST("/products/add")
-    fun getLandingPageReport(
+    fun productAdd(
         @Query("barcode") barcode: Long,
         @Query("name") name: String
     )

@@ -9,13 +9,13 @@ import android.os.Bundle
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
+import android.view.View.INVISIBLE
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
 import com.darx.foodscaner.database.IngredientExtended
+import com.darx.foodscaner.fragments.FeedbackFragment
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import android.widget.TextView
+import com.squareup.picasso.Picasso
 import okhttp3.*
 import java.io.IOException
 import java.util.*
@@ -148,9 +148,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-        val scale = resources.displayMetrics.density
         var spoke = false
-        var spokeDescription = false
         info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
 
         speaker = findViewById(R.id.info_speaker_ib)
@@ -163,7 +161,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
                 }
 
-                override fun onError(utteranceId: String?) {}
+                override fun onError(utteranceId: String?) {
+                    Log.d("TTS","OnError: something went wrong")
+                }
 
                 override fun onStart(utteranceId: String?) {}
             }
@@ -248,38 +248,10 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.layout = findViewById(R.id.info_product_layout)
         info_product_name.text = productToShow.name
 
-//        try {
-//            val url = java.net.URL(productToShow.image)
-//            val connection = url.openConnection() as HttpURLConnection
-//            connection.setDoInput(true)
-//            connection.connect()
-//            val input = connection.getInputStream()
-//            info_product_image.setImageBitmap(BitmapFactory.decodeStream(input))
-//        } catch (e: IOException) {
-//            Log.e("Exception", "image downloaded failed.")
-//        }
-
-        if (!productToShow.image.isNullOrEmpty()) {
-            val client = OkHttpClient()
-
-            var request = Request.Builder()
-                .url(productToShow.image)
-                .build();
-
-            client.newCall(request).enqueue(object: Callback {
-                override fun onResponse(call: Call?, response: Response) {
-                    var inputStream = response.body()!!.byteStream()
-                    var bitmap = BitmapFactory.decodeStream(inputStream)
-
-                    runOnUiThread{
-                        info_product_image.setImageBitmap(bitmap)
-                    }
-                }
-
-                override fun onFailure(call: Call?, e: IOException?) {
-                    Log.e("OKHTTP","Request Failure.")
-                }
-            })
+        if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
+            Picasso.get().load(productToShow.image).error(R.drawable.product).into(info_product_image);
+        } else {
+            info_product_image.setImageResource(R.drawable.product)
         }
 
         // when the short version of the product is obtained
@@ -291,7 +263,16 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             info_product_mass.text = "Информация недоступна."
             info_product_bestbefore.text = "Информация недоступна."
             info_product_nutrition_facts.text = "Информация недоступна."
+            bad.isEnabled = false
+            good.isEnabled = false
+            bad.visibility = INVISIBLE
+            good.visibility = INVISIBLE
         } else {
+            if (productToShow.contents != "NULL") {
+                info_product_contents.text = productToShow.contents
+            } else {
+                info_product_contents.text = "Информация недоступна."
+            }
             if (productToShow.manufacturer != "NULL") {
                 info_product_manufacturer.text = productToShow.manufacturer
             } else {
@@ -324,35 +305,32 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
         }
 
-        if (productToShow.ingredients.isNullOrEmpty()) {
-            if (productToShow.contents != null || productToShow.contents != "" || productToShow.contents != "NULL") {
-                val layout_contents = LinearLayout(this)
-                layout_contents.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                layout_contents.orientation = LinearLayout.VERTICAL
-                this.layout.addView(layout_contents)
-
-                val contentsLabelTextView = TextView(this)
-                contentsLabelTextView.text = "Текст состава:"
-
-                val contentsTextView = TextView(this)
-
-                val textViewPadding = (8 * scale + 0.5f).toInt()
-                contentsTextView.setPadding(0, textViewPadding, 0, textViewPadding)
-                contentsTextView.text = productToShow.contents
-
-                layout.addView(contentsLabelTextView)
-                layout.addView(contentsTextView)
-            }
-        } else {
+        if (!productToShow.ingredients.isNullOrEmpty()) {
             for (i in productToShow.ingredients!!) {
                 preorder(i)
             }
         }
+
         if (this.chips != null) {
             for (i in this.chips!!) {
                info_ingredient_chips.addView(i)
+            }
+        }
+
+        if (good.isEnabled && bad.isEnabled) {
+            good.setOnClickListener {
+                Toast.makeText(
+                    this, "Спасибо за отзыв!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            bad.setOnClickListener {
+                // запрос в сеть
+                Toast.makeText(
+                    this, "Спасибо за отзыв!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

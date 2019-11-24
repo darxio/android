@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    Bottom Navigation, Titles -->
+    <string name="profile">Профиль</string>
+    <string name="camera">Камера</string>
+    <string name="history">История</string>
+
+
+</resources>

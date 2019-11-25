@@ -11,7 +11,7 @@
             android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/wizardImage"
+                android:id="@+id/wizard_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/product"
@@ -19,7 +19,7 @@
 
 
         <TextView
-                android:id="@+id/wizardText"
+                android:id="@+id/wizard_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/description"

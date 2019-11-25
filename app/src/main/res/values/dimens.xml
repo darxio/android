@@ -45,6 +45,11 @@
     <dimen name="barcode_reticle_stroke_width">4dp</dimen>
     <dimen name="barcode_reticle_corner_radius">8dp</dimen>
     <dimen name="divider_height">1dp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="appbar_height">56dp</dimen>
     <dimen name="appbar_padding">16dp</dimen>
+    <dimen name="profile_fragment_title_padding">14dp</dimen>
+    <dimen name="collapsible_appbar_height">270dp</dimen>
+
 </resources>

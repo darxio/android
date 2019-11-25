@@ -15,7 +15,7 @@
     </androidx.viewpager2.widget.ViewPager2>
 
     <LinearLayout
-        android:id="@+id/wizardLayout"
+        android:id="@+id/wizard_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -25,7 +25,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonPrev"
+        android:id="@+id/prev_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
@@ -35,7 +35,7 @@
         style="?android:attr/borderlessButtonStyle"/>
 
     <Button
-        android:id="@+id/buttonNext"
+        android:id="@+id/next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"

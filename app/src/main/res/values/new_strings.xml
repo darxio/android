@@ -5,6 +5,37 @@
     <string name="profile">Профиль</string>
     <string name="camera">Камера</string>
     <string name="history">История</string>
+    <string name="favourites">Избранное</string>
 
+<!--    Profile Fragment -->
+    <string name="all_groups">Все группы</string>
+    <string name="show_more">ещё</string>
+    <string name="all_ingredients">Все ингредиенты</string>
+
+<!--    Group Activity -->
+    <string name="group">Группа</string>
+    <string name="group_ingredients">Ингредиенты</string>
+    <string name="join_group">Вступить</string>
+
+<!--    Ingredient Activity -->
+    <string name="ingredient">Ингредиент</string>
+    <string name="exclude_ingredient">Исключить</string>
+
+<!--    Groups Activity -->
+    <string name="groups">Группы</string>
+    <string name="my_groups">Мои</string>
+    <string name="all">Все</string>
+
+<!--    Ingredients Activity -->
+    <string name="ingredients">Ингредиенты</string>
+    <string name="excluded_ingredients">Исключённые</string>
+
+<!--    Group Ingredients Activity -->
+    <string name="all_group_ingredients">Ингредиенты группы</string>
+
+<!--    Add Product Dialog Fragment -->
+    <string name="not_found">"К сожалению, продукт не был найден! Вы можете нам помочь, добавив его имя."</string>
+    <string name="do_not_add">"Не добавлять"</string>
+    <string name="add">"Добавить"</string>
 
 </resources>

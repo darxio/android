@@ -111,11 +111,6 @@ class CameraFragment : Fragment(), OnClickListener {
 
                 BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
             })
-
-            view.tutorial_button.setOnClickListener {
-                val intent = Intent(this.context, WelcomeWizardActivity::class.java)
-                startActivity(intent)
-            }
         }
         return view
     }

@@ -7,10 +7,9 @@
         android:minHeight="450dp">
 
     <TextView
-            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="К сожалению, продукт не был найден! Вы можете нам помочь, добавив его имя." />
+            android:text="@string/not_found" />
 
     <EditText
             android:id="@+id/name_et"
@@ -22,11 +21,11 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Не добавлять"/>
+            android:text="@string/do_not_add"/>
 
     <com.google.android.material.button.MaterialButton
             android:id="@+id/add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Добавить"/>
+            android:text="@string/add"/>
 </LinearLayout>

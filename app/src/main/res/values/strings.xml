@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">FoodScaner</string>
+    <string name="app_name">FoodWise</string>
+
+    <string name="cd_flash_button">Вспышка</string>
 
     <!-- Camera fragment -->
-
-
-    <string name="cd_flash_button">Toggle camera flash</string>
     <string name="prompt_point_at_a_barcode">Point your camera at a barcode</string>
     <string name="prompt_move_camera_closer">Move closer to search</string>
     <string name="prompt_searching">Searching&#8230;</string>
@@ -76,8 +75,6 @@
 
 В лингвистике термин «текст» используется в широком значении, включая и образцы устной речи. Восприятие текста изучается в рамках лингвистики текста и психолингвистики. Так, например, И. Р. Гальперин определяет текст следующим образом: «Это письменное сообщение, объективированное в виде письменного документа, состоящее из ряда высказываний, объединённых разными типами лексической, грамматической и логической связи, имеющее определённый моральный характер, прагматическую установку и соответственно литературно обработанное»</string>
     <string name="Constitution">Состав:</string>
-    <string name="group_name">Группа</string>
-    <string name="group_ingredients_button">Ингредиенты</string>
     <string name="user_ingredients_card">Ингредиенты</string>
     <string name="user_groups_card">Группы</string>
     <string name="user_favorites_card">Избранные продукты</string>
@@ -93,6 +90,5 @@
     <string name="profile">Профиль</string>
     <string name="camera">Камера</string>
     <string name="history">История</string>
-    <string name="more"><![CDATA[Еще >]]></string>
 
 </resources>

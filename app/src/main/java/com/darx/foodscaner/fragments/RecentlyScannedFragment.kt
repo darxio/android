@@ -50,11 +50,11 @@ class RecentlyScannedFragment : Fragment() {
                 startActivity(intent)
             }
         })
-        view.recently_scanned_products_recycler_view.adapter = scannedProductsAdapter
+        view.history_rv.adapter = scannedProductsAdapter
 
         productViewModel?.getScanned_()?.observe(this@RecentlyScannedFragment, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
-                scannedProductsAdapter.addItems(matchMyProducts(productSearchView?.query.toString()))
+//                scannedProductsAdapter.addItems(matchMyProducts(productSearchView?.query.toString()))
             }
         })
 
@@ -67,34 +67,34 @@ class RecentlyScannedFragment : Fragment() {
                 startActivity(intent)
             }
         })
-        view.allProductsRecycler.adapter = searchedProductsAdapter
+        view.all_products_rv.adapter = searchedProductsAdapter
 
         networkDataSource?.productSearch?.observe(this@RecentlyScannedFragment, Observer {
             searchedProductsAdapter.addItems(it)
         })
 
         // searching
-        view.productSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                // take data for all ingredients
-                if (newText.length >= 3) {
-                    GlobalScope.launch(Dispatchers.Main) {
-                        networkDataSource?.fetchProductSearch(newText)
-                    }
-                } else {
-                    searchedProductsAdapter.addItems(listOf())
-                }
-
-                // take data for my ingredients
-                scannedProductsAdapter.addItems(matchMyProducts(newText))
-
-                return false
-            }
-        })
+//        view.productSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                // take data for all ingredients
+//                if (newText.length >= 3) {
+//                    GlobalScope.launch(Dispatchers.Main) {
+//                        networkDataSource?.fetchProductSearch(newText)
+//                    }
+//                } else {
+//                    searchedProductsAdapter.addItems(listOf())
+//                }
+//
+//                // take data for my ingredients
+//                scannedProductsAdapter.addItems(matchMyProducts(newText))
+//
+//                return false
+//            }
+//        })
 
         return view
     }

@@ -7,94 +7,87 @@
     android:layout_marginLeft="@dimen/mtrl_card_spacing"
     android:layout_marginTop="@dimen/mtrl_card_spacing"
     android:layout_marginRight="@dimen/mtrl_card_spacing"
-    android:layout_gravity="right">
+    android:elevation="0dp"
+    android:backgroundTint="@color/positiveColor">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+        <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:elevation="0dp"
+                android:backgroundTint="@color/white">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/product_image"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:padding="3dp"
-                android:src="@drawable/product"/>
+            <ImageView
+                    android:id="@+id/pr_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_bad"
+                    android:layout_margin="10dp">
+            </ImageView>
 
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="15dp">
-
+                android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/product_name"
+                    android:id="@+id/pr_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/product_name"
                     android:textSize="15sp" />
 
             <TextView
-                    android:id="@+id/product_description"
+                    android:id="@+id/pr_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/product_information"
                     android:textSize="13sp" />
 
-            <TextView
-                    android:id="@+id/product_warning_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp" />
+        </LinearLayout>
 
-            <TextView
-                    android:id="@+id/product_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginBottom="15dp" />
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp">
+                    android:orientation="horizontal">
 
                 <ImageButton
-                        android:id="@+id/starred_ib"
+                        android:id="@+id/pr_starred_ib"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_marginTop="15dp"
-                        android:layout_marginEnd="14dp"
-                        android:layout_toStartOf="@+id/delete_link_ib" />
+                        android:layout_marginEnd="14dp" />
 
                 <ImageButton
-                        android:id="@+id/share_btn"
+                        android:id="@+id/pr_share_ib"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="false"
-                        android:layout_alignParentTop="true"
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="15dp"
                         android:layout_marginRight="102dp"
-                        android:layout_toStartOf="@+id/copy_ib"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_share" />
 
                 <ImageButton
-                        android:id="@+id/delete_ib"
+                        android:id="@+id/pr_delete_ib"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="false"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="40dp"
@@ -102,6 +95,14 @@
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_delete" />
             </LinearLayout>
+
+            <TextView
+                    android:id="@+id/pr_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="15dp" />
 
         </LinearLayout>
 

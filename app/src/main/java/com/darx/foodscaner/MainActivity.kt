@@ -46,19 +46,19 @@ class MainActivity : AppCompatActivity() {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
                 when (item.getItemId()) {
                     com.darx.foodscaner.R.id.action_profile ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("Profile")
+                        fragments_view_pager.currentItem = pagerAdapter.getItemNum("Profile")
                     com.darx.foodscaner.R.id.action_camera ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("Camera")
+                        fragments_view_pager.currentItem = pagerAdapter.getItemNum("Camera")
                     com.darx.foodscaner.R.id.action_recently_scanned ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("RecentlyScanned")
+                        fragments_view_pager.currentItem = pagerAdapter.getItemNum("RecentlyScanned")
                 }
                 return true
             }
         })
 
-        viewPager.setUserInputEnabled(false);
-        viewPager.adapter = pagerAdapter
-        viewPager.currentItem = pagerAdapter.getItemNum("Camera")
+        fragments_view_pager.setUserInputEnabled(false);
+        fragments_view_pager.adapter = pagerAdapter
+        fragments_view_pager.currentItem = pagerAdapter.getItemNum("Camera")
 
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
         var firstLaunch = prefs.getBoolean("firstLaunch", true)

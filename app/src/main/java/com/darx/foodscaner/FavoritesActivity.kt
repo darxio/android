@@ -23,7 +23,7 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
-        setSupportActionBar(favoritesToolbar)
+//        setSupportActionBar(favoritesToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
@@ -37,7 +37,7 @@ class FavoritesActivity : AppCompatActivity() {
             }
         })
 
-        favoritesProductRecycler.adapter = productsAdapter
+        favourites_rv.adapter = productsAdapter
 
         productViewModel!!.getFavourites_().observe(this@FavoritesActivity, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {

@@ -18,10 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.GroupAdapter
 import com.darx.foodscaner.adapters.IngredientAdapter
-import com.darx.foodscaner.database.GroupModel
-import com.darx.foodscaner.database.GroupViewModel
-import com.darx.foodscaner.database.IngredientModel
-import com.darx.foodscaner.database.IngredientViewModel
+import com.darx.foodscaner.adapters.ProductsAdapter
+import com.darx.foodscaner.database.*
+import kotlinx.android.synthetic.main.activity_favorites.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,6 +33,7 @@ class ProfileFragment : Fragment() {
 
     private var networkDataSource: NetworkDataSourceImpl? = null
     private var ingredientViewModel: IngredientViewModel? = null
+    private var productViewModel: ProductViewModel? = null
     private var groupViewModel: GroupViewModel? = null
 
     override fun onCreateView(
@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
 
         ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
-
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
         // GROUPS
         val allGroupAdapter: GroupAdapter = GroupAdapter(listOf(), object : GroupAdapter.Callback {
@@ -57,7 +57,7 @@ class ProfileFragment : Fragment() {
                 startActivity(intent)
             }
         })
-        val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groupsMultiRecycler)
+        val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_multi_rv)
         val layoutManagerGroups = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         allGroupsRecycler.layoutManager = layoutManagerGroups
         allGroupsRecycler.adapter = allGroupAdapter
@@ -80,7 +80,7 @@ class ProfileFragment : Fragment() {
                 startActivity(intent)
             }
         })
-        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredientMultiRecycler)
+        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_multi_rv_1)
         val layoutManagerIngredients = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         ingredientRecycler.layoutManager = layoutManagerIngredients
         ingredientRecycler.adapter = allIngredientsAdapter
@@ -96,16 +96,33 @@ class ProfileFragment : Fragment() {
         }
 
 
+        // FAVOURITES
+//        val productsAdapter = ProductsAdapter(emptyList(),  productViewModel!!, this.context!!, this, false, object : ProductsAdapter.Callback {
+//            override fun onItemClicked(item: ProductModel) {
+//                val intent = Intent(activity, ProductActivity::class.java)
+//                intent.putExtra("PRODUCT", item as Serializable)
+//                startActivity(intent)
+//            }
+//        })
+//
+//        favourites_rv.adapter = productsAdapter
+//        productViewModel!!.getFavourites_().observe(this, object : Observer<List<ProductModel>> {
+//            override fun onChanged(l: List<ProductModel>?) {
+//                productsAdapter.addItems(l ?: return)
+//            }
+//        })
+
+
         // New activities
-        view.moreGroups.setOnClickListener {
+        view.more_groups.setOnClickListener {
             val intent = Intent(this@ProfileFragment.activity, UserGroupsActivity::class.java)
             startActivity(intent)
         }
-        view.moreIngredients.setOnClickListener {
+        view.more_ingredients.setOnClickListener {
             val intent = Intent(this@ProfileFragment.activity, UserIngredientsActivity::class.java)
             startActivity(intent)
         }
-        view.usersFavorites.setOnClickListener {
+        view.more_favourites.setOnClickListener {
             val intent = Intent(this@ProfileFragment.activity, FavoritesActivity::class.java)
             startActivity(intent)
         }

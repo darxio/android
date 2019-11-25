@@ -48,13 +48,12 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val productImage = itemView.findViewById<ImageView>(R.id.product_image)
-        private val productName = itemView.findViewById<TextView>(R.id.product_name)
-        private val productDescription = itemView.findViewById<TextView>(R.id.product_description)
-        private val productWarning = itemView.findViewById<TextView>(R.id.product_warning_text)
-        private val productScannedDate = itemView.findViewById<TextView>(R.id.product_date)
-        private val starred = itemView.findViewById<ImageButton>(R.id.starred_ib)
-        private val share = itemView.findViewById<ImageButton>(R.id.share_btn)
-        private val delete = itemView.findViewById<ImageButton>(R.id.delete_ib)
+        private val productName = itemView.findViewById<TextView>(R.id.pr_name)
+        private val productDescription = itemView.findViewById<TextView>(R.id.pr_description)
+        private val productScannedDate = itemView.findViewById<TextView>(R.id.pr_date)
+        private val starred = itemView.findViewById<ImageButton>(R.id.pr_starred_ib)
+        private val share = itemView.findViewById<ImageButton>(R.id.pr_share_ib)
+        private val delete = itemView.findViewById<ImageButton>(R.id.pr_delete_ib)
 
         fun bind(item: ProductModel) {
             productName.text = item.name

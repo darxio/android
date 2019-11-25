@@ -43,7 +43,7 @@ class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
                 startActivity(intent)
             }
         })
-        val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groupsRecycler)
+        val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_rv)
         allGroupsRecycler.adapter = allGroupAdapter
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))

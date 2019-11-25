@@ -52,9 +52,9 @@ class UserIngredientsActivity : AppCompatActivity() {
         pagerAdapter.addFragment(MyIngredientsFragment(ingredientViewModel, groupViewModel), "MyIngredients")
 
         setContentView(R.layout.activity_ingredients)
-        ingredientsViewPager.adapter = pagerAdapter
+        ingredients_view_pager.adapter = pagerAdapter
 
-        val tabLayout = findViewById<TabLayout>(R.id.ingredientsTabs)
+        val tabLayout = findViewById<TabLayout>(R.id.ingredients_tabs)
 //        tabLayout.setupWithViewPager(ingredients_view_pager)
     }
 

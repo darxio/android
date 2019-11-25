@@ -28,12 +28,12 @@ class GroupAdapter(var items: List<GroupModel>, val callback: Callback) : Recycl
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val groupImage = itemView.findViewById<ImageView>(R.id.groupImage)
-        private val groupName = itemView.findViewById<TextView>(R.id.groupName)
+        private val groupImage = itemView.findViewById<ImageView>(R.id.group_image)
+//        private val groupName = itemView.findViewById<TextView>(R.id.group_image)
 
         fun bind(item: GroupModel) {
             groupImage.setImageResource(R.drawable.product)  // TODO: сделать подгрузку фоток
-            groupName.text = item.name
+//            groupName.text = item.name
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])

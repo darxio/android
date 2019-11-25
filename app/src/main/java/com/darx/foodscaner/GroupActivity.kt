@@ -23,7 +23,7 @@ class GroupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
 
-        setSupportActionBar(groupToolbar)
+        setSupportActionBar(group_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
@@ -31,8 +31,8 @@ class GroupActivity : AppCompatActivity() {
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         groupToShow = intent.extras.get("GROUP") as GroupModel
-        groupCollapsingToolbar.title = groupToShow.name
-        infoGroup.text = groupToShow.about
+        group_name.title = groupToShow.name
+        group_info.text = groupToShow.about
         // collapsingToolbar.background = R.drawable.group.toDrawable() IMAGE
 
         // observer for deleting ingredients of groups
@@ -45,18 +45,18 @@ class GroupActivity : AppCompatActivity() {
         groupViewModel?.getOne_(groupToShow.id)?.observe(this@GroupActivity, object : Observer<GroupModel> {
             override fun onChanged(t: GroupModel?) {
                 if (t?.id == groupToShow.id) {
-                    enterButton.text = resources.getString(R.string.exit_from_group)
-                    enterButton.setBackgroundColor(resources.getColor(R.color.strongNegativeColor))
+                    group_join_btn.text = resources.getString(R.string.exit_from_group)
+                    group_join_btn.setBackgroundColor(resources.getColor(R.color.strongNegativeColor))
                     isEnter = true
                 } else {
-                    enterButton.text = resources.getString(R.string.enter_to_group)
-                    enterButton.setBackgroundColor(resources.getColor(R.color.strongPositiveColor))
+                    group_join_btn.text = resources.getString(R.string.enter_to_group)
+                    group_join_btn.setBackgroundColor(resources.getColor(R.color.strongPositiveColor))
                     isEnter = false
                 }
             }
         })
 
-        enterButton.setOnClickListener {
+        group_join_btn.setOnClickListener {
             if (isEnter) {
                 groupViewModel?.deleteOne_(groupToShow)
             } else {
@@ -64,7 +64,7 @@ class GroupActivity : AppCompatActivity() {
             }
         }
 
-        groupIngredientsButton.setOnClickListener {
+        group_ingredients_btn.setOnClickListener {
             val intent = Intent(this@GroupActivity, GroupIngredientsActivity::class.java)
             intent.putExtra("GROUP_ID", groupToShow.id)
             startActivity(intent)

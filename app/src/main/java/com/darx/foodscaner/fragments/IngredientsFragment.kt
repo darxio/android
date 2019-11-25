@@ -48,7 +48,7 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
                 startActivity(intent)
             }
         })
-        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredientRecycler)
+        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_rv)
         ingredientRecycler.adapter = allIngredientsAdapter
 
         networkDataSource?.ingredients?.observe(this, Observer {

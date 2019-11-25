@@ -32,7 +32,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_ingredients)
 
-        setSupportActionBar(groupIngredientsToolbar)
+//        setSupportActionBar(groupIngredientsToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -47,7 +47,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-        val groupIngredientsRecycler = this.findViewById<RecyclerView>(R.id.groupIngredientsRecycler)
+        val groupIngredientsRecycler = this.findViewById<RecyclerView>(R.id.group_ingredients_rv)
         groupIngredientsRecycler.adapter = groupIngredientsAdapter
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
@@ -77,36 +77,36 @@ class GroupIngredientsActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
 
         val item = menu!!.findItem(R.id.action_search)
-        groupIngredientsSearchView.setMenuItem(item)
-
-
-        groupIngredientsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                // take data for all ingredients
-                if (newText.length >= 3) {
-                    GlobalScope.launch(Dispatchers.Main) {
-                        networkDataSource?.fetchIngredientSearch(newText)
-                    }
-                } else {
-                    groupIngredientsAdapter?.addItems(listOf())
-                }
-                return false
-            }
-        })
-
-        groupIngredientsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
-            override fun onSearchViewShown() {
-                //Do some magic
-            }
-
-            override fun onSearchViewClosed() {
-                //Do some magic
-            }
-        })
+//        groupIngredientsSearchView.setMenuItem(item)
+//
+//
+//        groupIngredientsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                // take data for all ingredients
+//                if (newText.length >= 3) {
+//                    GlobalScope.launch(Dispatchers.Main) {
+//                        networkDataSource?.fetchIngredientSearch(newText)
+//                    }
+//                } else {
+//                    groupIngredientsAdapter?.addItems(listOf())
+//                }
+//                return false
+//            }
+//        })
+//
+//        groupIngredientsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+//            override fun onSearchViewShown() {
+//                //Do some magic
+//            }
+//
+//            override fun onSearchViewClosed() {
+//                //Do some magic
+//            }
+//        })
 
 
         return true

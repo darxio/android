@@ -46,7 +46,7 @@ class UserGroupsActivity : AppCompatActivity() {
         pagerAdapter.addFragment(MyGroupsFragment(groupViewModel), "MyGroups")
 
         setContentView(R.layout.activity_groups)
-        groupsViewPager.adapter = pagerAdapter
+        groups_view_pager.adapter = pagerAdapter
 
         setSupportActionBar(toolBar)
     }

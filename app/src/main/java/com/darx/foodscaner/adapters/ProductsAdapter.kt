@@ -47,7 +47,7 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val productImage = itemView.findViewById<ImageView>(R.id.product_image)
+        private val productImage = itemView.findViewById<ImageView>(R.id.pr_image)
         private val productName = itemView.findViewById<TextView>(R.id.pr_name)
         private val productDescription = itemView.findViewById<TextView>(R.id.pr_description)
         private val productScannedDate = itemView.findViewById<TextView>(R.id.pr_date)

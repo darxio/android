@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.GroupAdapter
 import com.darx.foodscaner.adapters.IngredientAdapter
+import com.darx.foodscaner.adapters.PreviewProductsAdapter
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.*
 import kotlinx.android.synthetic.main.activity_favorites.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -97,20 +99,21 @@ class ProfileFragment : Fragment() {
 
 
         // FAVOURITES
-//        val productsAdapter = ProductsAdapter(emptyList(),  productViewModel!!, this.context!!, this, false, object : ProductsAdapter.Callback {
-//            override fun onItemClicked(item: ProductModel) {
-//                val intent = Intent(activity, ProductActivity::class.java)
-//                intent.putExtra("PRODUCT", item as Serializable)
-//                startActivity(intent)
-//            }
-//        })
-//
-//        favourites_rv.adapter = productsAdapter
-//        productViewModel!!.getFavourites_().observe(this, object : Observer<List<ProductModel>> {
-//            override fun onChanged(l: List<ProductModel>?) {
-//                productsAdapter.addItems(l ?: return)
-//            }
-//        })
+        val productsAdapter = PreviewProductsAdapter(emptyList(), object : PreviewProductsAdapter.Callback {
+            override fun onItemClicked(item: ProductModel) {
+                val intent = Intent(activity, ProductActivity::class.java)
+                intent.putExtra("PRODUCT", item as Serializable)
+                startActivity(intent)
+            }
+        })
+
+        val favouritesRecycler = view.findViewById<RecyclerView>(R.id.favourites_multi_recycler)
+        favouritesRecycler.adapter = productsAdapter
+        productViewModel!!.getFavourites_().observe(this, object : Observer<List<ProductModel>> {
+            override fun onChanged(l: List<ProductModel>?) {
+                productsAdapter.addItems(l ?: return)
+            }
+        })
 
 
         // New activities

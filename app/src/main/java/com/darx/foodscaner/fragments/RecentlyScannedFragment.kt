@@ -54,6 +54,7 @@ class RecentlyScannedFragment : Fragment() {
 
         productViewModel?.getScanned_()?.observe(this@RecentlyScannedFragment, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
+                scannedProductsAdapter.addItems(l!!)
 //                scannedProductsAdapter.addItems(matchMyProducts(productSearchView?.query.toString()))
             }
         })

@@ -29,9 +29,9 @@ data class ProductModel(
         var date: Date = java.util.Calendar.getInstance().time,
     @ColumnInfo(name = "starred")
                     var starred: Boolean = false,
-    @ColumnInfo(name = "scanned") var scanned: Boolean = true,
+    @ColumnInfo(name = "scanned") var scanned: Boolean = false,
     @ColumnInfo(name = "ok") var ok: Boolean = true
 ): Serializable {
     constructor():this(0,"","", "", ArrayList(), "",
-        "","","","","", java.util.Calendar.getInstance().time, false, true,true)
+        "","","","","", java.util.Calendar.getInstance().time, false, false,true)
 }

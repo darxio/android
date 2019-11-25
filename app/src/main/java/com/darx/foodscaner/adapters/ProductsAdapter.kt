@@ -15,6 +15,9 @@ import java.text.SimpleDateFormat
 import android.graphics.BitmapFactory
 import android.R.attr.src
 import android.util.Log
+import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.darx.foodscaner.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product.*
@@ -26,7 +29,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 
 
-class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, var ctx: Context, val callback: Callback) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
+class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, val ctx: Context, val owner: LifecycleOwner, val scanedElements: Boolean, val callback: Callback) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false))
@@ -63,32 +66,41 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 productImage.setImageResource(R.drawable.product)
             }
 
-            val dateFormat = SimpleDateFormat("dd MMM, HH:mm")
-            productScannedDate.text = dateFormat.format(item.date)
+            if (scanedElements) {
+                val dateFormat = SimpleDateFormat("dd MMM, HH:mm")
+                productScannedDate.text = dateFormat.format(item.date)
+            } else {
+                productScannedDate.visibility = View.INVISIBLE
+                delete.visibility = View.INVISIBLE
+            }
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
 
-            // logics with image buttons
-            if (item.starred) {
-                starred.setBackgroundResource(R.drawable.ic_starred)
-            } else {
-                starred.setBackgroundResource(R.drawable.ic_unstarred)
-            }
-
-            starred.setOnClickListener {
-                val starred_ = item.starred
-                if (starred_) {
-                    starred.setBackgroundResource(R.drawable.ic_unstarred)
-                } else {
-                    starred.setBackgroundResource(R.drawable.ic_starred)
+            pVM.getOne_(item.barcode)?.observe(owner, object : Observer<ProductModel> {
+                override fun onChanged(t: ProductModel?) {
+                    item.starred = t?.starred ?: item.starred
+                    if (t != null && t.starred) {
+                        starred.setBackgroundResource(R.drawable.ic_starred)
+                    } else {
+                        starred.setBackgroundResource(R.drawable.ic_unstarred)
+                    }
                 }
+            })
 
-                item.starred = !starred_
-
-                pVM.updateStarred_(item)
-                notifyDataSetChanged()
+            // logics with image buttons
+            starred.setOnClickListener {
+                item.starred = !item.starred
+                if (item.starred) {
+                    pVM.upsert_(item)
+                } else {
+                    if (item.scanned) {
+                        pVM.upsert_(item)
+                    } else {
+                        pVM.deleteOne_(item)
+                    }
+                }
             }
 
             share.setOnClickListener {
@@ -106,8 +118,12 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
             }
 
             delete.setOnClickListener {
-                pVM.deleteOne_(item)
-                notifyDataSetChanged()
+                if (item.starred) {
+                    item.scanned = !item.scanned
+                    pVM.upsert_(item)
+                } else {
+                    pVM.deleteOne_(item)
+                }
             }
         }
     }

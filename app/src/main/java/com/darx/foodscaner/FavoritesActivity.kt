@@ -29,7 +29,7 @@ class FavoritesActivity : AppCompatActivity() {
 
         this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
-        productsAdapter = ProductsAdapter(emptyList(),  productViewModel!!, this@FavoritesActivity, object : ProductsAdapter.Callback {
+        productsAdapter = ProductsAdapter(emptyList(),  productViewModel!!, this@FavoritesActivity, this, false, object : ProductsAdapter.Callback {
             override fun onItemClicked(item: ProductModel) {
                 val intent = Intent(this@FavoritesActivity, ProductActivity::class.java)
                 intent.putExtra("PRODUCT", item as Serializable)
@@ -38,9 +38,6 @@ class FavoritesActivity : AppCompatActivity() {
         })
 
         favoritesProductRecycler.adapter = productsAdapter
-
-//        val tmp = productViewModel
-//        val tmpAdp = productsAdapter
 
         productViewModel!!.getFavourites_().observe(this@FavoritesActivity, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {

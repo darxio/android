@@ -17,6 +17,7 @@ import com.darx.foodscaner.database.ProductViewModel
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.fragment_recently_scanned.*
 import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,7 +29,7 @@ class RecentlyScannedFragment : Fragment() {
 
     private var productViewModel: ProductViewModel? = null
     private var networkDataSource: NetworkDataSourceImpl? = null
-    private var productsAdapter: ProductsAdapter? = null
+//    private var productsAdapter: ProductsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,37 +40,37 @@ class RecentlyScannedFragment : Fragment() {
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
         networkDataSource = NetworkDataSourceImpl(apiService, context!!)
 
-        // scaned products
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
-        productsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, object : ProductsAdapter.Callback {
+        // scaned products
+        val scannedProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, this, true, object : ProductsAdapter.Callback {
             override fun onItemClicked(item: ProductModel) {
                 val intent = Intent(this@RecentlyScannedFragment.activity, ProductActivity::class.java)
                 intent.putExtra("PRODUCT", item as Serializable)
                 startActivity(intent)
             }
         })
-        view.recently_scanned_products_recycler_view.adapter = productsAdapter
+        view.recently_scanned_products_recycler_view.adapter = scannedProductsAdapter
 
-        productViewModel?.getAllScanned_()?.observe(this@RecentlyScannedFragment, object : Observer<List<ProductModel>> {
+        productViewModel?.getScanned_()?.observe(this@RecentlyScannedFragment, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
-                productsAdapter?.addItems(l ?: return)
+                scannedProductsAdapter.addItems(matchMyProducts(productSearchView?.query.toString()))
             }
         })
 
 
-        // all products
-        val allProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, object : ProductsAdapter.Callback {
+        // search products
+        val searchedProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, this, false, object : ProductsAdapter.Callback {
             override fun onItemClicked(item: ProductModel) {
                 val intent = Intent(this@RecentlyScannedFragment.activity, ProductActivity::class.java)
                 intent.putExtra("PRODUCT", item as Serializable)
                 startActivity(intent)
             }
         })
-        view.allProductsRecycler.adapter = allProductsAdapter
+        view.allProductsRecycler.adapter = searchedProductsAdapter
 
         networkDataSource?.productSearch?.observe(this@RecentlyScannedFragment, Observer {
-            allProductsAdapter.addItems(it)
+            searchedProductsAdapter.addItems(it)
         })
 
         // searching
@@ -84,10 +85,12 @@ class RecentlyScannedFragment : Fragment() {
                     GlobalScope.launch(Dispatchers.Main) {
                         networkDataSource?.fetchProductSearch(newText)
                     }
+                } else {
+                    searchedProductsAdapter.addItems(listOf())
                 }
 
                 // take data for my ingredients
-                productsAdapter?.addItems(matchMyProducts(newText))
+                scannedProductsAdapter.addItems(matchMyProducts(newText))
 
                 return false
             }
@@ -99,7 +102,7 @@ class RecentlyScannedFragment : Fragment() {
     fun matchMyProducts(typed: String): List<ProductModel> {
         val matched: MutableList<ProductModel> = mutableListOf()
 
-        val data = productViewModel?.getAllScanned_()!! //?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>>
+        val data = productViewModel?.getScanned_()!! //?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>>
         for (product in data.value!!) {
             if (product.name.contains(typed, ignoreCase=true)) {
                 matched.add(product)

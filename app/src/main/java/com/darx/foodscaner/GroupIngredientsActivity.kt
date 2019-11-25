@@ -91,6 +91,8 @@ class GroupIngredientsActivity : AppCompatActivity() {
                     GlobalScope.launch(Dispatchers.Main) {
                         networkDataSource?.fetchIngredientSearch(newText)
                     }
+                } else {
+                    groupIngredientsAdapter?.addItems(listOf())
                 }
                 return false
             }

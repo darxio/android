@@ -208,23 +208,27 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         val back = findViewById<Button>(R.id.back_btn)
 
         // logics with image buttons
-        if (productToShow.starred) {
-            starred.setBackgroundResource(R.drawable.ic_starred)
-        } else {
-            starred.setBackgroundResource(R.drawable.ic_unstarred)
-        }
+        pVM.getOne_(productToShow.barcode)?.observe(this, object : Observer<ProductModel> {
+            override fun onChanged(t: ProductModel?) {
+                if (t != null && t.starred) {
+                    starred.setBackgroundResource(R.drawable.ic_starred)
+                } else {
+                    starred.setBackgroundResource(R.drawable.ic_unstarred)
+                }
+            }
+        })
 
         starred.setOnClickListener {
-            val starred_ = productToShow.starred
-            if (starred_) {
-                starred.setBackgroundResource(R.drawable.ic_unstarred)
+            productToShow.starred = !productToShow.starred
+            if (productToShow.starred) {
+                pVM.upsert_(productToShow)
             } else {
-                starred.setBackgroundResource(R.drawable.ic_starred)
+                if (productToShow.scanned) {
+                    pVM.upsert_(productToShow)
+                } else {
+                    pVM.deleteOne_(productToShow)
+                }
             }
-
-            productToShow.starred = !starred_
-
-            pVM.updateStarred_(productToShow)
         }
 
         share.setOnClickListener {

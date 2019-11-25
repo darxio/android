@@ -107,6 +107,7 @@ class CameraFragment : Fragment(), OnClickListener {
             networkDataSource?.product?.observe(this, Observer {
                 barcodeField.label = it.name ?: ""
                 barcodeField.value = it.description ?: ""
+                it.scanned = true
                 productViewModel?.upsert_(it)
 
                 BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
@@ -122,7 +123,6 @@ class CameraFragment : Fragment(), OnClickListener {
 
     override  fun onStart() {
         super.onStart()
-        var view = getView()
         preview = getView()?.findViewById(R.id.camera_preview)
         graphicOverlay = getView()?.findViewById<GraphicOverlay>(R.id.camera_preview_graphic_overlay)?.apply {
             if (ActivityCompat.checkSelfPermission(

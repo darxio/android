@@ -54,8 +54,6 @@ class UserIngredientsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_ingredients)
         ingredientsViewPager.adapter = pagerAdapter
 
-
-
         val tabLayout = findViewById<TabLayout>(R.id.ingredientsTabs)
 //        tabLayout.setupWithViewPager(ingredients_view_pager)
     }

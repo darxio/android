@@ -16,6 +16,19 @@
       android:contentDescription="@string/cd_flash_button"
       app:srcCompat="@drawable/camera_flash"/>
 
+
+  <ImageView
+          android:id="@+id/settings_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentEnd="true"
+          android:layout_marginTop="1dp"
+          android:layout_marginEnd="65dp"
+          android:contentDescription="@string/cd_settings_button"
+          android:padding="@dimen/top_action_button_padding"
+          app:srcCompat="@drawable/ic_settings_vd_white_24" />
+
   <ImageView
           android:id="@+id/tutorial_button"
           android:layout_width="wrap_content"

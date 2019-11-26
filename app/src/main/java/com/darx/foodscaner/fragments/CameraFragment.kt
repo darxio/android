@@ -40,6 +40,7 @@ import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import com.darx.foodscaner.WelcomeWizardActivity
 import com.darx.foodscaner.database.ProductViewModel
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
@@ -75,6 +76,7 @@ class CameraFragment : Fragment(), OnClickListener {
     private var currentWorkflowState: WorkflowState? = null
     private var promtChipShown: Boolean = false
     private var barcodeField = BarcodeField("", "")
+    private var fm = fragmentManager
 
     private var networkDataSource: NetworkDataSourceImpl? = null
     private var productViewModel: ProductViewModel? = null
@@ -191,6 +193,15 @@ class CameraFragment : Fragment(), OnClickListener {
                         cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
                     }
                 }
+            }
+            R.id.settings_button -> {
+//                settingsButton?.isEnabled = false
+
+                fragmentManager!!.beginTransaction()
+                  .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                  .show(ObjectDetectionFragment())
+                  .commit();
+//                startActivity(Intent(this, SettingsActivity::class.java))
             }
         }
     }

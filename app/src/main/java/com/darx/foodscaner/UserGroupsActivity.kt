@@ -23,7 +23,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.activity_groups.*
 import kotlinx.android.synthetic.main.activity_ingredients.*
-import kotlinx.android.synthetic.main.toolbar.*
+//import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -50,8 +50,6 @@ class UserGroupsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_groups)
         groups_view_pager.adapter = pagerAdapter
-
-        setSupportActionBar(toolBar)
 
         groups_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

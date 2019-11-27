@@ -1,120 +1,106 @@
 <com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.MaterialComponents.CardView"
-    android:id="@+id/product_card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/mtrl_card_spacing"
-    android:layout_marginTop="@dimen/mtrl_card_spacing"
-    android:layout_marginRight="@dimen/mtrl_card_spacing"
-    android:elevation="0dp"
-    android:backgroundTint="@color/positiveColor">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:id="@+id/product_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:elevation="0dp"
+        android:backgroundTint="@color/positiveColor">
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="94dp"
+            android:animateLayoutChanges="true"
             android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.MaterialComponents.CardView"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="74dp"
+                android:layout_height="67dp"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
+                android:layout_marginStart="14dp"
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
-                android:layout_marginBottom="11dp"
                 android:backgroundTint="@color/white"
                 android:elevation="0dp">
 
-        </com.google.android.material.card.MaterialCardView>
-
-        <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-        </RelativeLayout>
-
-        <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            <TextView
-                    android:id="@+id/pr_date"
+            <ImageView
+                    android:id="@+id/pr_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginBottom="15dp" />
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_bad"></ImageView>
 
-        </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
+        <TextView
+                android:id="@+id/pr_name"
+                android:layout_width="142dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="31dp"
+                android:layout_toStartOf="@+id/pr_starred_ib"
+                android:textSize="15sp" />
+
+        <ImageButton
+                android:id="@+id/pr_starred_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@+id/pr_share_ib" />
+
+        <ImageButton
+                android:id="@+id/pr_share_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="102dp"
+                android:layout_toStartOf="@+id/pr_delete_ib"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_share" />
+
+        <TextView
+                android:id="@+id/pr_description"
+                android:layout_width="144dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pr_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="147dp"
+                android:textSize="13sp" />
+
+        <ImageButton
+                android:id="@+id/pr_delete_ib"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="-88dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="1dp"
-                android:orientation="horizontal">
-
-            <ImageButton
-                    android:id="@+id/pr_starred_ib"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="14dp" />
-
-            <ImageButton
-                    android:id="@+id/pr_share_ib"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="102dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_share" />
-
-            <ImageButton
-                    android:id="@+id/pr_delete_ib"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginRight="102dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_delete" />
-        </LinearLayout>
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="102dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_delete" />
 
         <TextView
-                android:id="@+id/pr_description"
-                android:layout_width="wrap_content"
+                android:id="@+id/pr_date"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="23dp"
-                android:layout_marginBottom="59dp"
-                android:text="@string/product_information"
-                android:textSize="13sp" />
-
-        <TextView
-                android:id="@+id/pr_name"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/product_name"
-                android:textSize="15sp" />
-
-        <ImageView
-                android:id="@+id/pr_image"
-                android:layout_width="wrap_content"
-                android:layout_height="58dp"
-                android:src="@drawable/ic_bad"></ImageView>
+                android:layout_below="@+id/pr_starred_ib"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="97dp" />
 
     </RelativeLayout>
 

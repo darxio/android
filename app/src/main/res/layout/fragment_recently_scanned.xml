@@ -41,19 +41,19 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:listitem="@layout/product_item"/>
 
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@color/colorPrimary"/>
+<!--                <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:layout_marginBottom="20dp"-->
+<!--                        android:background="@color/colorPrimary"/>-->
 
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/all_products_rv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/product_item"/>
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                            android:id="@+id/all_products_rv"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                            tools:listitem="@layout/product_item"/>-->
 
             </LinearLayout>
 

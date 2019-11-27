@@ -9,8 +9,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group.*
 import com.darx.foodscaner.R as R
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.Bitmap
+
+
 
 class GroupActivity : AppCompatActivity() {
 
@@ -33,6 +39,23 @@ class GroupActivity : AppCompatActivity() {
         groupToShow = intent.extras.get("GROUP") as GroupModel
         group_name.title = groupToShow.name
         group_info.text = groupToShow.about
+
+
+        if (!groupToShow.imagePath.isNullOrEmpty() || groupToShow.imagePath == "NULL") {
+            Picasso.get().load(groupToShow.imagePath).error(R.drawable.product).into(
+                object : com.squareup.picasso.Target {
+                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
+
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        group_name.setBackground(bitmap as BitmapDrawable);
+                    }
+
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+                })
+        } else {
+            group_name.setBackgroundResource(R.drawable.product)
+        }
+
         // collapsingToolbar.background = R.drawable.group.toDrawable() IMAGE
 
         // observer for deleting ingredients of groups

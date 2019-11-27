@@ -68,7 +68,7 @@ class RecentlyScannedFragment : Fragment() {
                 startActivity(intent)
             }
         })
-        view.all_products_rv.adapter = searchedProductsAdapter
+//        view.all_products_rv.adapter = searchedProductsAdapter
 
         networkDataSource?.productSearch?.observe(this@RecentlyScannedFragment, Observer {
             searchedProductsAdapter.addItems(it)

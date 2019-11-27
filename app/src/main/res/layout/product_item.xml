@@ -7,8 +7,7 @@
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
         android:layout_marginTop="@dimen/mtrl_card_spacing"
         android:layout_marginRight="@dimen/mtrl_card_spacing"
-        android:elevation="0dp"
-        android:backgroundTint="@color/positiveColor">
+        android:elevation="0dp">
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -18,14 +17,17 @@
 
         <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.MaterialComponents.CardView"
+                android:id="@+id/image_container"
                 android:layout_width="74dp"
                 android:layout_height="67dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginStart="14dp"
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
                 android:layout_marginTop="14dp"
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
+                android:layout_marginBottom="13dp"
                 android:backgroundTint="@color/white"
                 android:elevation="0dp">
 
@@ -33,19 +35,20 @@
                     android:id="@+id/pr_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/ic_bad"></ImageView>
+                    android:layout_margin="10dp" />
 
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
                 android:id="@+id/pr_name"
-                android:layout_width="142dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="31dp"
-                android:layout_toStartOf="@+id/pr_starred_ib"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="37dp"
+                android:layout_marginBottom="37dp"
+                android:layout_toEndOf="@+id/image_container"
                 android:textSize="15sp" />
 
         <ImageButton
@@ -54,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="14dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/pr_share_ib" />
 
         <ImageButton
@@ -64,21 +67,11 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="14dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginRight="102dp"
                 android:layout_toStartOf="@+id/pr_delete_ib"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_share" />
-
-        <TextView
-                android:id="@+id/pr_description"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/pr_name"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="147dp"
-                android:textSize="13sp" />
 
         <ImageButton
                 android:id="@+id/pr_delete_ib"
@@ -88,19 +81,20 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="14dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginRight="102dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_delete" />
 
         <TextView
                 android:id="@+id/pr_date"
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pr_starred_ib"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="17dp"
-                android:layout_marginEnd="97dp" />
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp" />
 
     </RelativeLayout>
 

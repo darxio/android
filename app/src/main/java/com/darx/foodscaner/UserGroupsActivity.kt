@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.darx.foodscaner.adapters.GroupAdapter
 import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.database.GroupModel
@@ -17,10 +18,12 @@ import com.darx.foodscaner.fragments.MyGroupsFragment
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import com.google.android.material.tabs.TabLayout
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.activity_groups.*
-//import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.activity_ingredients.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -36,7 +39,7 @@ class UserGroupsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
 
-//        setSupportActionBar(groupToolbar)
+//        setSupportActionBar(groups_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -48,7 +51,22 @@ class UserGroupsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_groups)
         groups_view_pager.adapter = pagerAdapter
 
-//        setSupportActionBar(toolBar)
+        setSupportActionBar(toolBar)
+
+        groups_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                groups_view_pager.currentItem = tab.position
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+        groups_view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                groups_tabs.getTabAt(position)?.select()
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

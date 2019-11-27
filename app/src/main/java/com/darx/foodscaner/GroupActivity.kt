@@ -1,14 +1,19 @@
 package com.darx.foodscaner
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_group.*
 import com.darx.foodscaner.R as R
 
@@ -34,6 +39,21 @@ class GroupActivity : AppCompatActivity() {
         groupCollapsingToolbar.title = groupToShow.name
         infoGroup.text = groupToShow.about
         // collapsingToolbar.background = R.drawable.group.toDrawable() IMAGE
+
+        if (!groupToShow.imagePath.isNullOrEmpty() || groupToShow.imagePath == "NULL") {
+            Picasso.get().load(groupToShow.imagePath).error(R.drawable.product).into(
+                object : com.squareup.picasso.Target {
+                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
+
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        groupCollapsingToolbar.setBackground(bitmap?.toDrawable(resources))
+                    }
+
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+                })
+        } else {
+            groupCollapsingToolbar.setBackgroundResource(R.drawable.product)
+        }
 
         // observer for deleting ingredients of groups
         groupViewModel?.getAllIds()?.observe(this@GroupActivity, object : Observer<List<Int>> {

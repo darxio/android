@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.darx.foodscaner.R
 import com.darx.foodscaner.database.GroupModel
+import com.squareup.picasso.Picasso
 
 
 class GroupAdapter(var items: List<GroupModel>, val callback: Callback) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
@@ -32,7 +33,11 @@ class GroupAdapter(var items: List<GroupModel>, val callback: Callback) : Recycl
         private val groupName = itemView.findViewById<TextView>(R.id.groupName)
 
         fun bind(item: GroupModel) {
-            groupImage.setImageResource(R.drawable.product)  // TODO: сделать подгрузку фоток
+            if (!item.imagePath.isNullOrEmpty() || item.imagePath == "NULL") {
+                Picasso.get().load(item.imagePath).error(R.drawable.product).into(groupImage);
+            } else {
+                groupImage.setImageResource(R.drawable.product)
+            }
             groupName.text = item.name
 
             itemView.setOnClickListener {

@@ -23,8 +23,8 @@ class WelcomeWizardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome_wizard)
 
-        val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("firstLaunch", false).apply()
+//        val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+//        prefs.edit().putBoolean("firstLaunch", false).apply()
 
         pagerAdapter.addFragment(WizardFragment("", "Группы, к которым вы относитесь:"), "Wizard1")
         pagerAdapter.addFragment(WizardFragment("", "Ингредиенты, которые вы не едите:"), "Wizard2")

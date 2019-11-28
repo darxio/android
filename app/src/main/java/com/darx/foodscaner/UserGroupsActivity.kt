@@ -31,15 +31,13 @@ import java.io.Serializable
 
 class UserGroupsActivity : AppCompatActivity() {
 
-
-
     private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
 
-//        setSupportActionBar(groups_toolbar)
+        setSupportActionBar(groups_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -79,14 +77,14 @@ class UserGroupsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.toolbar_menu, menu)
-//
-//        val item = menu!!.findItem(R.id.action_search)
-//        groupsSearchView.setMenuItem(item)
-//
-//
-//        groupsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+
+        val item = menu!!.findItem(R.id.action_search)
+//        ingredients_search_view.setMenuItem(item)
+
+
+//        ingredients_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
 //            override fun onQueryTextSubmit(query: String): Boolean {
 //                //Do some magic
 //                return false
@@ -107,7 +105,7 @@ class UserGroupsActivity : AppCompatActivity() {
 //            }
 //        })
 //
-//        groupsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+//        ingredients_search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
 //            override fun onSearchViewShown() {
 //                //Do some magic
 //            }
@@ -118,8 +116,8 @@ class UserGroupsActivity : AppCompatActivity() {
 //        })
 //
 //
-//        return true
-//    }
+        return true
+    }
 
 //    fun matchMyGroups(typed: String): List<GroupModel> {
 //        val matched: MutableList<GroupModel> = mutableListOf()

@@ -19,7 +19,7 @@ class IngredientActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredient)
 
-//        setSupportActionBar(ingredientToolbar)
+        setSupportActionBar(ingredient_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 

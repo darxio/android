@@ -9,28 +9,16 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/ingredients_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ingredients"
-                android:minHeight="@dimen/appbar_height"
-                android:padding="@dimen/appbar_padding"
-                android:textColor="@color/white"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
-
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/ingredients_toolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/appbar_height"-->
-<!--                android:background="@color/colorPrimary"-->
-<!--                android:backgroundTint="@color/colorPrimary"-->
-<!--                app:layout_scrollFlags="scroll|enterAlways"-->
-<!--                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
+                android:layout_height="@dimen/appbar_height"
+                android:background="@color/colorPrimary"
+                android:backgroundTint="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="@string/ingredients">
+        </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
                 style="@style/Widget.MaterialComponents.TabLayout.Colored"
@@ -44,7 +32,6 @@
                     android:text="Исключенные"/>
 
         </com.google.android.material.tabs.TabLayout>
-        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

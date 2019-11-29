@@ -46,10 +46,7 @@ class UserGroupsActivity : AppCompatActivity() {
         pagerAdapter.addFragment(GroupsFragment(groupViewModel), "SearchGroups")
         pagerAdapter.addFragment(MyGroupsFragment(groupViewModel), "MyGroups")
 
-        setContentView(R.layout.activity_groups)
         groups_view_pager.adapter = pagerAdapter
-
-        setSupportActionBar(toolBar)
 
         groups_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -77,10 +74,10 @@ class UserGroupsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-
-        val item = menu!!.findItem(R.id.action_search)
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.toolbar_menu, menu)
+//
+//        val item = menu!!.findItem(R.id.action_search)
 //        ingredients_search_view.setMenuItem(item)
 
 
@@ -116,8 +113,8 @@ class UserGroupsActivity : AppCompatActivity() {
 //        })
 //
 //
-        return true
-    }
+//        return true
+//    }
 
 //    fun matchMyGroups(typed: String): List<GroupModel> {
 //        val matched: MutableList<GroupModel> = mutableListOf()

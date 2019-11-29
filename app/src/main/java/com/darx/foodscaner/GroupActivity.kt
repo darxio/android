@@ -23,7 +23,7 @@ class GroupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group)
 
-//        setSupportActionBar(group_toolbar)
+        setSupportActionBar(group_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 

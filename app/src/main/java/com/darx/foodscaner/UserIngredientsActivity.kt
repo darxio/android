@@ -42,7 +42,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredients)
 
-//        setSupportActionBar(ingredients_toolbar)
+        setSupportActionBar(ingredients_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -52,7 +52,6 @@ class UserIngredientsActivity : AppCompatActivity() {
         pagerAdapter.addFragment(IngredientsFragment(ingredientViewModel, groupViewModel), "ShearchIngredients")
         pagerAdapter.addFragment(MyIngredientsFragment(ingredientViewModel, groupViewModel), "MyIngredients")
 
-        setContentView(R.layout.activity_ingredients)
         ingredients_view_pager.adapter = pagerAdapter
 
         ingredients_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

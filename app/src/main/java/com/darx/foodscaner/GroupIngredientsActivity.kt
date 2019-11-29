@@ -32,7 +32,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_ingredients)
 
-//        setSupportActionBar(groupIngredientsToolbar)
+        setSupportActionBar(group_ingredients_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -73,10 +73,10 @@ class GroupIngredientsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-
-        val item = menu!!.findItem(R.id.action_search)
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.toolbar_menu, menu)
+//
+//        val item = menu!!.findItem(R.id.action_search)
 //        groupIngredientsSearchView.setMenuItem(item)
 //
 //
@@ -108,7 +108,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
 //            }
 //        })
 
-
-        return true
-    }
+//
+//        return true
+//    }
 }

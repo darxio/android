@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,52 +13,40 @@
             android:layout_height="@dimen/appbar_height"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-                android:id="@+id/ingredient_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ingredient"
-                android:minHeight="@dimen/appbar_height"
-                android:padding="@dimen/appbar_padding"
-                android:textColor="@color/white"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/ingredient_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/appbar_height"
+                android:background="@color/colorPrimary"
+                android:backgroundTint="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="@string/ingredient">
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-        <androidx.core.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <WebView
+                android:id="@+id/ingredient_web_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:layout_height="wrap_content" />
 
-            <WebView
-                    android:id="@+id/ingredient_web_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-        </androidx.core.widget.NestedScrollView>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:gravity="right|bottom">
+    </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/ingredient_exclude_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColor="@color/white"
+                android:layout_margin="16dp"
                 android:text="@string/exclude_ingredient" />
 
-    </LinearLayout>
-
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

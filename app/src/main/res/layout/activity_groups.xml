@@ -9,15 +9,6 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-<!--        <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/groups"-->
-<!--                android:minHeight="@dimen/appbar_height"-->
-<!--                android:padding="@dimen/appbar_padding"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>-->
-
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/groups_toolbar"
                 android:layout_width="match_parent"
@@ -26,7 +17,8 @@
                 android:backgroundTint="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:navigationIcon="?attr/homeAsUpIndicator"/>
+                app:title="@string/groups">
+        </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
                 style="@style/Widget.MaterialComponents.TabLayout.Colored"

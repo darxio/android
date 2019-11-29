@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import com.darx.foodscaner.*
 import com.darx.foodscaner.services.ApiService
@@ -16,13 +17,8 @@ import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.darx.foodscaner.adapters.GroupAdapter
-import com.darx.foodscaner.adapters.IngredientAdapter
-import com.darx.foodscaner.adapters.PreviewProductsAdapter
-import com.darx.foodscaner.adapters.ProductsAdapter
+import com.darx.foodscaner.adapters.*
 import com.darx.foodscaner.database.*
-import kotlinx.android.synthetic.main.activity_favorites.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -75,15 +71,15 @@ class ProfileFragment : Fragment() {
         }
 
         // INGREDIENTS
-        val allIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
+        val allIngredientsAdapter = ChipsAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(activity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)
                 startActivity(intent)
             }
         })
-        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_multi_rv_1)
-        val layoutManagerIngredients = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_multi_rv)
+        val layoutManagerIngredients = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
         ingredientRecycler.layoutManager = layoutManagerIngredients
         ingredientRecycler.adapter = allIngredientsAdapter
 

@@ -5,9 +5,9 @@
 
         <item
                 android:id="@+id/action_search"
-                android:icon="@drawable/ic_lens_white"
+                android:icon="@drawable/search"
                 android:orderInCategory="100"
-                android:title="@string/abc_search_hint"
-                app:showAsAction="always" />
+                android:title="@string/searching"
+                app:showAsAction="ifRoom|collapseActionView" />
 
 </menu>

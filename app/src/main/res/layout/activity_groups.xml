@@ -9,6 +9,9 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/groups_toolbar"
                 android:layout_width="match_parent"
@@ -16,9 +19,15 @@
                 android:background="@color/colorPrimary"
                 android:backgroundTint="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/groups">
-        </androidx.appcompat.widget.Toolbar>
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:title="@string/groups"/>
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                    android:id="@+id/groups_search_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </FrameLayout>
+<!--        </androidx.appcompat.widget.Toolbar>-->
 
         <com.google.android.material.tabs.TabLayout
                 style="@style/Widget.MaterialComponents.TabLayout.Colored"

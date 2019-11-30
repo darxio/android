@@ -7,6 +7,8 @@
     <color name="positiveColor">#d6fc7e</color>
     <color name="negativeColor">#f40036</color>
 
+    <color name="emptyColor">#551544</color>
+
     <!-- <color name="colorPrimary">#008577</color> -->
     <!-- <color name="colorPrimaryDark">#00574B</color> -->
     <!-- <color name="colorAccent">#D81B60</color> -->

@@ -12,7 +12,6 @@ import com.darx.foodscaner.database.ProductViewModel
 import kotlinx.android.synthetic.main.activity_favorites.*
 import java.io.Serializable
 
-//import com.darx.foodscaner.data.response.Product
 
 class FavoritesActivity : AppCompatActivity() {
 
@@ -23,7 +22,7 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
-//        setSupportActionBar(favoritesToolbar)
+        setSupportActionBar(favourites_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 

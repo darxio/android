@@ -31,15 +31,13 @@ import java.io.Serializable
 
 class UserGroupsActivity : AppCompatActivity() {
 
-
-
     private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
 
-//        setSupportActionBar(groups_toolbar)
+        setSupportActionBar(groups_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -48,7 +46,6 @@ class UserGroupsActivity : AppCompatActivity() {
         pagerAdapter.addFragment(GroupsFragment(groupViewModel), "SearchGroups")
         pagerAdapter.addFragment(MyGroupsFragment(groupViewModel), "MyGroups")
 
-        setContentView(R.layout.activity_groups)
         groups_view_pager.adapter = pagerAdapter
 
         groups_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -77,47 +74,47 @@ class UserGroupsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.toolbar_menu, menu)
-//
-//        val item = menu!!.findItem(R.id.action_search)
-//        groupsSearchView.setMenuItem(item)
-//
-//
-//        groupsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                //Do some magic
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                // take data for all groups
-//                if (newText.length >= 3) {
-//                    GlobalScope.launch(Dispatchers.Main) {
-////                        networkDataSource?.fetchGroupSearch(newText)
-//                    }
-//                }
-//
-//                // take data for my groups
-////                myGroupAdapter?.addItems(matchMyGroups(newText))
-//
-//                return false
-//            }
-//        })
-//
-//        groupsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
-//            override fun onSearchViewShown() {
-//                //Do some magic
-//            }
-//
-//            override fun onSearchViewClosed() {
-//                //Do some magic
-//            }
-//        })
-//
-//
-//        return true
-//    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+
+        val item = menu!!.findItem(R.id.action_search)
+        groups_search_view.setMenuItem(item)
+
+
+        groups_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                //Do some magic
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                // take data for all groups
+                if (newText.length >= 3) {
+                    GlobalScope.launch(Dispatchers.Main) {
+//                        networkDataSource?.fetchGroupSearch(newText)
+                    }
+                }
+
+                // take data for my groups
+//                myGroupAdapter?.addItems(matchMyGroups(newText))
+
+                return false
+            }
+        })
+
+        groups_search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+            override fun onSearchViewShown() {
+                //Do some magic
+            }
+
+            override fun onSearchViewClosed() {
+                //Do some magic
+            }
+        })
+
+
+        return true
+    }
 
 //    fun matchMyGroups(typed: String): List<GroupModel> {
 //        val matched: MutableList<GroupModel> = mutableListOf()

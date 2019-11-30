@@ -111,6 +111,12 @@
     <string name="all_group_ingredients">Ингредиенты группы</string>
 
     <!--    Add Product Dialog Fragment -->
+    <string name="not_found">"К сожалению, продукт не был найден! Вы можете нам помочь, добавив его имя."</string>
+    <string name="do_not_add">"Не добавлять"</string>
+    <string name="add">"Добавить"</string>
+    <string name="tab_all">Все</string>
+    <string name="tab_my">Мои</string>
+</resources>
 
     <!--    Product Activity -->
     <string name="product">Продукт</string>

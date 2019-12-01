@@ -12,16 +12,26 @@
             android:layout_height="@dimen/appbar_height"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/group_ingredients_toolbar"
+        <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/appbar_height"
-                android:background="@color/colorPrimary"
-                android:backgroundTint="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/all_group_ingredients">
-        </androidx.appcompat.widget.Toolbar>
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways">
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/group_ingredients_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/appbar_height"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:title="@string/all_group_ingredients"/>
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                    android:id="@+id/group_ingredients_search_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MaterialSearchViewStyle"/>
+
+        </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

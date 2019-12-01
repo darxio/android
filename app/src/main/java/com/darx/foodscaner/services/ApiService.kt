@@ -52,6 +52,14 @@ interface ApiService {
         @Path("name") name: String
     ): Deferred<List<GroupModel>>
 
+    @GET("groups/search_ing/{group_id}/{query}/{count}/{page}")
+    fun groupIngredientsSearsh(
+        @Path("group_id") group_id: Int,
+        @Path("query") query: String,
+        @Path("count") count: Int,
+        @Path("page") page: Int
+    ): Deferred<List<IngredientModel>>
+
 
     // === INGREDIENTS ===
     @GET("/groups/ingredients/{group_id}/{count}/{page}")

@@ -27,6 +27,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
 
     private var networkDataSource: NetworkDataSourceImpl? = null
     private var groupIngredientsAdapter: IngredientAdapter? = null
+    private var groupId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +58,13 @@ class GroupIngredientsActivity : AppCompatActivity() {
             groupIngredientsAdapter?.addItems(it)
         })
 
-        val groupId: Int = intent.getIntExtra("GROUP_ID", 0)
+        networkDataSource?.groupIngredientsSearch?.observe(this@GroupIngredientsActivity, Observer {
+            groupIngredientsAdapter?.addItems(it)
+        })
+
+        groupId = intent.getIntExtra("GROUP_ID", 0)
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchGroupIngredients(groupId, 30, 0)
+            networkDataSource?.fetchGroupIngredients(groupId?:0, 20, 0)
         }
     }
 
@@ -73,42 +78,43 @@ class GroupIngredientsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.toolbar_menu, menu)
-//
-//        val item = menu!!.findItem(R.id.action_search)
-//        groupIngredientsSearchView.setMenuItem(item)
-//
-//
-//        groupIngredientsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                // take data for all ingredients
-//                if (newText.length >= 3) {
-//                    GlobalScope.launch(Dispatchers.Main) {
-//                        networkDataSource?.fetchIngredientSearch(newText)
-//                    }
-//                } else {
-//                    groupIngredientsAdapter?.addItems(listOf())
-//                }
-//                return false
-//            }
-//        })
-//
-//        groupIngredientsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
-//            override fun onSearchViewShown() {
-//                //Do some magic
-//            }
-//
-//            override fun onSearchViewClosed() {
-//                //Do some magic
-//            }
-//        })
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
 
-//
-//        return true
-//    }
+        val item = menu!!.findItem(R.id.action_search)
+        group_ingredients_search_view.setMenuItem(item)
+
+
+        group_ingredients_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.length == 0) {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        networkDataSource?.fetchGroupIngredients(groupId ?: 0, 20, 0)
+                    }
+                } else {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        networkDataSource?.fetchGroupIngredientsSearch(groupId?:0, newText, 20, 0)
+                    }
+                }
+                return false
+            }
+        })
+
+        group_ingredients_search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+            override fun onSearchViewShown() {
+                //Do some magic
+            }
+
+            override fun onSearchViewClosed() {
+                //Do some magic
+            }
+        })
+
+
+        return true
+    }
 }

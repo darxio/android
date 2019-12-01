@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#44A0F0</color>
+    <color name="colorPrimary">#00ACDC</color>
     <color name="colorPrimaryDark">#8CC056</color>
     <color name="colorLast">#3E93DA</color>
     <color name="colorAccent">#44A0F0</color>
+    <color name="colorSelect">#C31F71</color>
 
-    <color name="positiveColor">#d6fc7e</color>
-    <color name="negativeColor">#f40036</color>
+    <color name="positiveColor">#DDFA91</color>
+    <color name="negativeColor">#F90046</color>
 
     <color name="emptyColor">#551544</color>
 

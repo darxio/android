@@ -4,7 +4,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <item
-                android:id="@+id/action_search"
+                android:id="@+id/barcode_search"
+                android:icon="@drawable/ic_action_camera"
+                android:orderInCategory="100"
+                android:title="@string/searching"
+                app:showAsAction="ifRoom|collapseActionView" />
+        <item
+                android:id="@+id/voice_search"
                 android:icon="@drawable/ic_mic_black_24dp"
                 android:orderInCategory="100"
                 android:title="@string/searching"

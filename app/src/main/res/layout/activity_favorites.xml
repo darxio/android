@@ -14,14 +14,14 @@
 
         <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways">
             <androidx.appcompat.widget.Toolbar
                     android:id="@+id/favourites_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/appbar_height"
                     android:background="@color/colorPrimary"
                     android:backgroundTint="@color/colorPrimary"
-                    app:layout_scrollFlags="scroll|enterAlways"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:title="@string/favourites"/>
 
@@ -46,13 +46,5 @@
                     tools:listitem="@layout/product_item"/>
 
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/favourites_search_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_margin="16dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

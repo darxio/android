@@ -3,8 +3,6 @@ package com.darx.foodscaner
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,9 +23,11 @@ import android.speech.RecognizerIntent
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
-
+import android.view.MotionEvent.*
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.*
+import android.view.inputmethod.InputMethodManager
+import kotlinx.android.synthetic.main.fragment_add_product.view.*
 
 
 class FavoritesActivity : AppCompatActivity() {
@@ -80,9 +80,11 @@ class FavoritesActivity : AppCompatActivity() {
 
         favourites_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                return false
+                productsAdapter?.addItems(matchFavouritesGroups(query))
+                val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManger.hideSoftInputFromWindow(favourites_rv.getWindowToken(), 0)
+                return true
             }
-
             override fun onQueryTextChange(newText: String): Boolean {
                 productsAdapter?.addItems(matchFavouritesGroups(newText))
                 return false
@@ -93,6 +95,12 @@ class FavoritesActivity : AppCompatActivity() {
             override fun onSearchViewShown() {}
             override fun onSearchViewClosed() {}
         })
+
+        // hide keyboard
+        //        favourites_rv.setOnTouchListener { view: View, motionEvent: MotionEvent ->
+        //            val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //            inputMethodManger.hideSoftInputFromWindow(favourites_rv.getWindowToken(), 0)
+        //        }
 
         return true
     }

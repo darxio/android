@@ -8,7 +8,6 @@ import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.ProductActivity
-import com.darx.foodscaner.R
 import com.darx.foodscaner.adapters.ProductsAdapter
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
@@ -30,6 +29,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.LinearLayout
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.google.android.material.snackbar.Snackbar
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
+import android.content.Context.INPUT_METHOD_SERVICE
+import androidx.core.content.ContextCompat.getSystemService
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
+import com.google.android.material.tabs.TabLayout
+import android.R
+
+
+
+
 
 
 class RecentlyScannedFragment : Fragment() {
@@ -44,11 +55,6 @@ class RecentlyScannedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(com.darx.foodscaner.R.layout.fragment_recently_scanned, container, false)
-//
-//        setHasOptionsMenu(true);
-//        (activity as AppCompatActivity).setSupportActionBar(rs_toolbar)
-//        (activity as AppCompatActivity).supportActionBar!!.setTitle("Contacts")
-
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
         networkDataSource = NetworkDataSourceImpl(apiService, context!!)
@@ -80,7 +86,7 @@ class RecentlyScannedFragment : Fragment() {
                 startActivity(intent)
             }
         })
-//        view.all_products_rv.adapter = searchedProductsAdapter
+        view.all_products_rv.adapter = searchedProductsAdapter
 
         networkDataSource?.productSearch?.observe(this@RecentlyScannedFragment, Observer {
             searchedProductsAdapter?.addItems(it)
@@ -105,6 +111,19 @@ class RecentlyScannedFragment : Fragment() {
 //
 //            fun onMenuItemSelected(item: MenuItem) {
 //
+//            }
+//        })
+
+        // HIDE KEYBOARD
+//        view.rs_need_scroll.setOnTouchListener(object : OnTouchListener {
+//            override fun onTouch(v: View, event: MotionEvent): Boolean {
+//                hideKeyboard(v)
+//                return false
+//            }
+//
+//            private fun hideKeyboard(view: View) {
+//                val inputMethodManger = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+//                inputMethodManger!!.hideSoftInputFromWindow(view.windowToken, 0)
 //            }
 //        })
 

@@ -14,11 +14,4 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/ingredient_item" />
 
-    <RelativeLayout
-        android:id="@+id/fragment_empty_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include layout="@layout/fragment_empty"/>
-    </RelativeLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -20,6 +20,7 @@ import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.fragment_groups.view.*
 import java.io.Serializable
 
 

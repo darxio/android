@@ -15,33 +15,14 @@
 
         <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/rs_toolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/appbar_height"-->
-<!--                android:background="@color/colorPrimary"-->
-<!--                android:backgroundTint="@color/colorPrimary"-->
-<!--                app:layout_scrollFlags="scroll|enterAlways"-->
-<!--                android:theme="@style/AppTheme.AppBarOverlay"-->
-<!--                app:title="@string/history"/>-->
-
-<!--            <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/history"-->
-<!--                    android:minHeight="@dimen/appbar_height"-->
-<!--                    android:padding="@dimen/appbar_padding"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>-->
-
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways">
             <com.arlib.floatingsearchview.FloatingSearchView
                     android:id="@+id/rs_search_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:floatingSearch_searchBarMarginLeft="1dp"
-                    app:floatingSearch_searchBarMarginRight="1dp"
+                    app:floatingSearch_searchBarMarginLeft="8dp"
+                    app:floatingSearch_searchBarMarginRight="8dp"
                     app:floatingSearch_searchHint="@string/searching"
                     app:floatingSearch_suggestionsListAnimDuration="250"
                     app:floatingSearch_showSearchKey="false"
@@ -49,21 +30,11 @@
                     app:floatingSearch_menu="@menu/search_menu"
                     app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
         </FrameLayout>
-=======
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/history"
-                android:minHeight="@dimen/appbar_height"
-                android:padding="@dimen/appbar_padding"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
->>>>>>> origin/new_layout_logics
 
     </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+                android:id="@+id/rs_need_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -73,26 +44,26 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/history_rv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/product_item"/>
-
-<!--                <View-->
+                <!--                <View-->
 <!--                        android:layout_width="match_parent"-->
 <!--                        android:layout_height="1dp"-->
 <!--                        android:layout_marginTop="20dp"-->
 <!--                        android:layout_marginBottom="20dp"-->
 <!--                        android:background="@color/colorPrimary"/>-->
 
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                            android:id="@+id/all_products_rv"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                            tools:listitem="@layout/product_item"/>-->
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/history_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/product_item" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/all_products_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/product_item"/>
 
             </LinearLayout>
 

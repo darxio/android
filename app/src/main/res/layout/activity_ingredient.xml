@@ -21,8 +21,7 @@
                 android:backgroundTint="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/ingredient">
-        </androidx.appcompat.widget.Toolbar>
+                app:title="@string/ingredient"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,14 +38,18 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:cardCornerRadius="0dp">
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/ingredient_exclude_btn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColor="@color/white"
-                android:layout_margin="16dp"
                 android:text="@string/exclude_ingredient" />
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

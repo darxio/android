@@ -60,18 +60,18 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
         private val productCard = itemView.findViewById<MaterialCardView>(R.id.product_card)
 
         fun bind(item: ProductModel) {
-            productCard.setBackgroundColor(R.color.colorPrimary)
+//            productCard.setBackgroundColor(R.color.colorPrimary)
 
-            if (item.name.length > 10) {
-                productName.text = item.name.substring(0, 10) + "..."
-            } else {
+//            if (item.name.length > 20) {
+//                productName.text = item.name.substring(0, 20) + "..."
+//            } else {
                 productName.text = item.name
-            }
+//            }
 
             if (!item.image.isNullOrEmpty() || item.image == "NULL") {
-                Picasso.get().load(item.image).error(R.drawable.product).into(productImage);
+                Picasso.get().load(item.image).error(R.drawable.ic_no_photo).into(productImage);
             } else {
-                productImage.setImageResource(R.drawable.product)
+                productImage.setImageResource(R.drawable.ic_no_photo)
             }
 
             if (scanedElements) {

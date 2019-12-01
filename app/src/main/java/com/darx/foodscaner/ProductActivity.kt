@@ -44,11 +44,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = null
 
     private var isAllowed: Boolean = true
-//    private var isGroupsMatched: Boolean = false
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            // set US English as language for tts
             val result = tts!!.setLanguage(Locale.US)
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -71,7 +69,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     override fun onDestroy() {
-        // Shutdown TTS
         if (tts != null) {
             tts!!.stop()
             tts!!.shutdown()
@@ -150,7 +147,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
         var spoke = false
-        info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+        info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
 
         speaker = findViewById(R.id.info_speaker_ib)
 
@@ -159,7 +156,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
                 override fun onDone(utteranceId: String?) {
-                    info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+                    info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 }
 
                 override fun onError(utteranceId: String?) {
@@ -189,11 +186,11 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         speaker!!.setOnClickListener {
             if (spoke) {
-                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 pause()
                 spoke = false
             } else {
-                info_speaker_ib.setBackgroundResource(R.drawable.ic_pause)
+                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_off_black)
                 speakOut(this.productToShow.contents!!)
                 spoke = true
             }
@@ -245,13 +242,12 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
 //        logics with info text views
-        this.layout = findViewById(R.id.info_product_layout)
         info_product_name.text = productToShow.name
 
         if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
-            Picasso.get().load(productToShow.image).error(R.drawable.product).into(info_product_image);
+            Picasso.get().load(productToShow.image).error(R.drawable.ic_no_photo).into(info_product_image);
         } else {
-            info_product_image.setImageResource(R.drawable.product)
+            info_product_image.setImageResource(R.drawable.ic_no_photo)
         }
 
         // when the short version of the product is obtained

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,14 +13,42 @@
             android:layout_height="@dimen/appbar_height"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/history"
-                android:minHeight="@dimen/appbar_height"
-                android:padding="@dimen/appbar_padding"
-                android:textColor="@color/white"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/rs_toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/appbar_height"-->
+<!--                android:background="@color/colorPrimary"-->
+<!--                android:backgroundTint="@color/colorPrimary"-->
+<!--                app:layout_scrollFlags="scroll|enterAlways"-->
+<!--                android:theme="@style/AppTheme.AppBarOverlay"-->
+<!--                app:title="@string/history"/>-->
+
+<!--            <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/history"-->
+<!--                    android:minHeight="@dimen/appbar_height"-->
+<!--                    android:padding="@dimen/appbar_padding"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>-->
+
+            <com.arlib.floatingsearchview.FloatingSearchView
+                    android:id="@+id/rs_search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:floatingSearch_searchBarMarginLeft="1dp"
+                    app:floatingSearch_searchBarMarginRight="1dp"
+                    app:floatingSearch_searchHint="@string/searching"
+                    app:floatingSearch_suggestionsListAnimDuration="250"
+                    app:floatingSearch_showSearchKey="false"
+                    app:floatingSearch_leftActionMode="noLeftAction"
+                    app:floatingSearch_menu="@menu/search_menu"
+                    app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
+        </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,12 +69,12 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:listitem="@layout/product_item"/>
 
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@color/colorPrimary"/>
+<!--                <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:layout_marginBottom="20dp"-->
+<!--                        android:background="@color/colorPrimary"/>-->
 
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/all_products_rv"
@@ -59,12 +87,12 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/history_search_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_margin="16dp"/>
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/history_search_fab"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|right"-->
+<!--            android:backgroundTint="@color/colorPrimary"-->
+<!--            android:layout_margin="16dp"/>-->
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

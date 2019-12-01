@@ -22,9 +22,9 @@ interface NetworkDataSource {
     val ctx: Context
 
     suspend fun fetchProductByBarcode(barcode: Long, callback: Callback = DefaultCallback(ctx))
-    suspend fun fetchProductSearch(name: String, callback: Callback = DefaultCallback(ctx))
+    suspend fun fetchProductSearch(name: String, count: Int, page: Int, callback: Callback = DefaultCallback(ctx))
     suspend fun fetchIngredients(count: Int, page: Int, callback: Callback = DefaultCallback(ctx))
-    suspend fun fetchIngredientSearch(name: String, callback: Callback = DefaultCallback(ctx))
+    suspend fun fetchIngredientSearch(name: String, count: Int, page: Int, callback: Callback = DefaultCallback(ctx))
     suspend fun fetchGroupIngredients(id: Int, count: Int, page: Int, callback: Callback = DefaultCallback(ctx))
     suspend fun getIngredientByID(id: Int, callback: Callback = DefaultCallback(ctx))
     suspend fun fetchGroups(callback: Callback = DefaultCallback(ctx))

@@ -12,20 +12,21 @@
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/groups_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/appbar_height"
-                android:background="@color/colorPrimary"
-                android:backgroundTint="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:theme="@style/AppTheme.AppBarOverlay"
-                app:title="@string/groups"/>
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/groups_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/appbar_height"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:theme="@style/AppTheme.AppBarOverlay"
+                    app:title="@string/groups"/>
 
             <com.miguelcatalan.materialsearchview.MaterialSearchView
                     android:id="@+id/groups_search_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    style="@style/MaterialSearchViewStyle"/>
         </FrameLayout>
 <!--        </androidx.appcompat.widget.Toolbar>-->
 

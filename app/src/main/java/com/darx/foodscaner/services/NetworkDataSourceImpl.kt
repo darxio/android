@@ -70,9 +70,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
         }
     }
 
-    override suspend fun fetchProductSearch(name: String, callback: Callback) {
+    override suspend fun fetchProductSearch(name: String, count: Int, page: Int, callback: Callback) {
         try {
-            val fetchedProductSearch = apiService.productSearch(name).await()
+            val fetchedProductSearch = apiService.productSearch(name, count, page).await()
             _productSearch.postValue(fetchedProductSearch)
         }
         catch (e: NoConnectivityException) {
@@ -127,9 +127,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
         }
     }
 
-    override suspend fun fetchIngredientSearch(name: String, callback: Callback) {
+    override suspend fun fetchIngredientSearch(name: String, count: Int, page: Int, callback: Callback) {
         try {
-            val fetchedIngredientSearch = apiService.ingredientSearsh(name).await()
+            val fetchedIngredientSearch = apiService.ingredientSearsh(name, count, page).await()
             _ingredientSearch.postValue(fetchedIngredientSearch)
         }
         catch (e: NoConnectivityException) {

@@ -19,6 +19,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.darx.foodscaner.R
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
@@ -123,6 +124,8 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 } else {
                     pVM.deleteOne_(item)
                 }
+                Snackbar.make(itemView, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
             }
         }
     }

@@ -50,6 +50,13 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
         ingredientViewModel.getNotAllowed_().observe(this, object : Observer<List<IngredientModel>> {
             override fun onChanged(l: List<IngredientModel>?) {
                 myIngredientsAdapter?.addItems(l ?: return)
+
+//                if (myIngredientsAdapter?.items.isNullOrEmpty()) {
+//                    fragmentManager!!.beginTransaction()
+//                        .replace(R.id.fragment_empty_container, EmptyFragment("Текст", "Добавить"))
+//                        .addToBackStack(null)
+//                        .commit()
+//                }
             }
         })
 

@@ -12,16 +12,9 @@
 <!--        <item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
     <style name="MaterialSearchViewStyle">
         <item name="searchBackground">@color/colorPrimary</item>
         <item name="searchVoiceIcon">@drawable/ic_action_voice_search_inverted</item>
@@ -31,7 +24,6 @@
         <item name="searchSuggestionBackground">@android:color/white</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">#AEFFFFFF</item>
-        <item name="android:hint">@string/search</item>
+        <item name="android:hint">@string/searching</item>
     </style>
-
 </resources>

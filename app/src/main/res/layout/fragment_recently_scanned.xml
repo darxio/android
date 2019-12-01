@@ -49,6 +49,17 @@
                     app:floatingSearch_menu="@menu/search_menu"
                     app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
         </FrameLayout>
+=======
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/history"
+                android:minHeight="@dimen/appbar_height"
+                android:padding="@dimen/appbar_padding"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+>>>>>>> origin/new_layout_logics
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -76,12 +87,12 @@
 <!--                        android:layout_marginBottom="20dp"-->
 <!--                        android:background="@color/colorPrimary"/>-->
 
-                    <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/all_products_rv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            tools:listitem="@layout/product_item"/>
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                            android:id="@+id/all_products_rv"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                            tools:listitem="@layout/product_item"/>-->
 
             </LinearLayout>
 

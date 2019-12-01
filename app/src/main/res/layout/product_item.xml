@@ -1,111 +1,101 @@
 <com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.MaterialComponents.CardView"
-    android:id="@+id/product_card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/mtrl_card_spacing"
-    android:layout_marginTop="@dimen/mtrl_card_spacing"
-    android:layout_marginRight="@dimen/mtrl_card_spacing"
-    android:elevation="0dp"
-    android:backgroundTint="@color/positiveColor">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:id="@+id/product_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:elevation="0dp">
 
-    <LinearLayout
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="94dp"
+            android:animateLayoutChanges="true"
             android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.MaterialComponents.CardView"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:id="@+id/image_container"
+                android:layout_width="74dp"
+                android:layout_height="67dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="14dp"
                 android:layout_marginLeft="@dimen/mtrl_card_spacing"
-                android:layout_marginTop="@dimen/mtrl_card_spacing"
+                android:layout_marginTop="14dp"
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
-                android:elevation="0dp"
-                android:backgroundTint="@color/white">
+                android:layout_marginBottom="13dp"
+                android:backgroundTint="@color/white"
+                android:elevation="0dp">
 
             <ImageView
                     android:id="@+id/pr_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_bad"
-                    android:layout_margin="10dp">
-            </ImageView>
+                    android:layout_margin="10dp" />
 
         </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
+        <TextView
+                android:id="@+id/pr_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="37dp"
+                android:layout_marginBottom="37dp"
+                android:layout_toEndOf="@+id/image_container"
+                android:textSize="15sp" />
 
-            <TextView
-                    android:id="@+id/pr_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/product_name"
-                    android:textSize="15sp" />
-
-            <TextView
-                    android:id="@+id/pr_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/product_information"
-                    android:textSize="13sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <ImageButton
+                android:id="@+id/pr_starred_ib"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/pr_share_ib" />
 
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+        <ImageButton
+                android:id="@+id/pr_share_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="102dp"
+                android:layout_toStartOf="@+id/pr_delete_ib"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_share" />
 
-                <ImageButton
-                        android:id="@+id/pr_starred_ib"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="14dp" />
+        <ImageButton
+                android:id="@+id/pr_delete_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="102dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_delete" />
 
-                <ImageButton
-                        android:id="@+id/pr_share_ib"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginRight="102dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_share" />
+        <TextView
+                android:id="@+id/pr_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp" />
 
-                <ImageButton
-                        android:id="@+id/pr_delete_ib"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="40dp"
-                        android:layout_marginRight="102dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_delete" />
-            </LinearLayout>
-
-            <TextView
-                    android:id="@+id/pr_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginBottom="15dp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

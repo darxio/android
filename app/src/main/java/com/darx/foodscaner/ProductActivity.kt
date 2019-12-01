@@ -204,8 +204,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         val starred = findViewById<ImageButton>(R.id.info_starred_ib)
-        val share = findViewById<ImageButton>(R.id.info_share_btn)
-        val back = findViewById<Button>(R.id.back_btn)
+        val share = findViewById<ImageButton>(R.id.info_share_ib)
 
         // logics with image buttons
         pVM.getOne_(productToShow.barcode)?.observe(this, object : Observer<ProductModel> {
@@ -243,10 +242,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     "Поделиться"
                 )
             )
-        }
-
-        back.setOnClickListener {
-            finish()
         }
 
 //        logics with info text views

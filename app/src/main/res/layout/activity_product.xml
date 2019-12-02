@@ -9,7 +9,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="180dp"
             android:theme="@style/AppTheme.AppBarOverlay"
             android:background="@drawable/appbar_background">
 
@@ -65,44 +65,21 @@
 
                 <TextView
                         android:id="@+id/info_product_name"
-                        android:layout_width="298dp"
-                        android:layout_height="39dp"
+                        android:layout_width="297dp"
+                        android:layout_height="70dp"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="43dp"
+                        android:layout_marginBottom="12dp"
                         android:layout_toEndOf="@+id/info_image_container"
-                        android:lines="2"
-                        android:maxLines="2"
-                        android:textSize="15sp"
                         android:ellipsize="end"
-                        android:textColor="@color/black"/>
-
-                <ImageButton
-                        android:id="@+id/info_starred_ib"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="9dp"
-                        android:layout_marginBottom="11dp"
-                        android:layout_toStartOf="@+id/info_share_ib" />
-
-                <ImageButton
-                        android:id="@+id/info_share_ib"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="102dp"
-                        android:layout_marginBottom="11dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_share" />
-
+                        android:lines="3"
+                        android:maxLines="4"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -119,6 +96,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+
+            <ImageButton
+                    android:id="@+id/info_starred_ib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="11dp"
+                    android:layout_toStartOf="@+id/info_share_ib" />
+
+            <ImageButton
+                    android:id="@+id/info_share_ib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="102dp"
+                    android:layout_marginBottom="11dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_share" />
 
             <!--  Ingredients -->
 

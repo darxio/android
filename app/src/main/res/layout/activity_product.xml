@@ -10,8 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:background="@drawable/appbar_background">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -140,15 +139,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="8dp"
                                 android:text="@string/Constitution"
-                                android:textColor="@color/black"
-                                android:textSize="20sp"/>
+                                android:textColor="@color/product_property_title_color"
+                                android:textSize="@dimen/product_property_title_size"/>
 
                         <TextView
                                 android:id="@+id/info_product_ingredients_temp_text_view"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentTop="true"
-                                android:layout_toEndOf="@+id/tmp_ingredients" />
+                                android:layout_toEndOf="@+id/tmp_ingredients"
+                                android:textColor="@color/product_property_content_color"
+                                android:textSize="@dimen/product_property_content_size"/>
 
                         <ImageButton
                                 android:id="@+id/info_speaker_ib"
@@ -165,15 +166,19 @@
                         android:layout_height="wrap_content"
                         app:singleSelection="true"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp"/>
+                        android:paddingBottom="8dp"
+                        app:chipSpacingHorizontal="4dp"
+                        app:chipSpacingVertical="4dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
 
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorPrimary"/>
 
         <!--  Description -->
@@ -188,23 +193,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Описание:"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"/>
+                            android:textColor="@color/product_property_title_color"
+                            android:textSize="@dimen/product_property_title_size"/>
 
                 <TextView
                         android:id="@+id/info_product_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:paddingBottom="8dp"/>
+                        android:paddingBottom="8dp"
+                        android:textColor="@color/product_property_content_color"
+                        android:textSize="@dimen/product_property_content_size"/>
 
             </LinearLayout>
 
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorPrimary"/>
 
         <!--    Nutrition Facts -->
@@ -221,26 +228,26 @@
                         android:layout_height="wrap_content"
                         android:text="БЖУ:"
                         android:layout_marginRight="8dp"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"/>
+                        android:textColor="@color/product_property_title_color"
+                        android:textSize="@dimen/product_property_title_size"/>
 
                 <TextView
                         android:id="@+id/info_product_nutrition_facts"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/product_property_content_color"
+                        android:textSize="@dimen/product_property_content_size"/>
 
             </LinearLayout>
 
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorPrimary"/>
 
-
         <!--   Mass -->
-
 
             <LinearLayout
                     android:layout_width="wrap_content"
@@ -253,21 +260,23 @@
                         android:layout_height="wrap_content"
                         android:text="Масса:"
                         android:layout_marginRight="8dp"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"/>
+                        android:textColor="@color/product_property_title_color"
+                        android:textSize="@dimen/product_property_title_size"/>
 
                 <TextView
                         android:id="@+id/info_product_mass"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/product_property_content_color"
+                        android:textSize="@dimen/product_property_content_size"/>
 
             </LinearLayout>
 
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorPrimary"/>
 
         <!-- Best Before-->
@@ -283,21 +292,23 @@
                         android:layout_height="wrap_content"
                         android:text="Срок хранения:"
                         android:layout_marginRight="8dp"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"/>
+                        android:textColor="@color/product_property_title_color"
+                        android:textSize="@dimen/product_property_title_size"/>
 
                 <TextView
                         android:id="@+id/info_product_bestbefore"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/product_property_content_color"
+                        android:textSize="@dimen/product_property_content_size"/>
 
             </LinearLayout>
 
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorPrimary"/>
 
         <!--    Manufacturer -->
@@ -314,21 +325,23 @@
                             android:layout_height="wrap_content"
                             android:text="Производитель:"
                             android:layout_marginRight="8dp"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"/>
+                            android:textColor="@color/product_property_title_color"
+                            android:textSize="@dimen/product_property_title_size"/>
 
                     <TextView
                             android:id="@+id/info_product_manufacturer"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/product_property_content_color"
+                            android:textSize="@dimen/product_property_content_size"/>
 
             </LinearLayout>
 
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorPrimary"/>
 
             <!--    Category URL -->
@@ -343,20 +356,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Категория:"
-                        android:layout_marginRight="8dp"/>
+                        android:layout_marginRight="8dp"
+                        android:textColor="@color/product_property_title_color"
+                        android:textSize="@dimen/product_property_title_size"/>
 
                 <TextView
                         android:id="@+id/info_product_category_URL"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/product_property_content_color"
+                        android:textSize="@dimen/product_property_content_size"/>
 
             </LinearLayout>
 
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorPrimary"/>
 
             <!-- Contents -->
@@ -371,40 +388,52 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Текст состава:"
-                        android:layout_marginRight="8dp"/>
+                        android:textColor="@color/product_property_title_color"
+                        android:textSize="@dimen/product_property_title_size"/>
 
                 <TextView
                         android:id="@+id/info_product_contents"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:textColor="@color/product_property_content_color"
+                        android:textSize="@dimen/product_property_content_size"/>
 
             </LinearLayout>
 
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorPrimary"/>
 
     <!--        Feedback -->
 
             <LinearLayout
+                    android:id="@+id/feedback_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="15dp">
+                    android:padding="15dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Насколько точно разделены ингредиенты состава?"
-                        android:layout_marginRight="8dp"/>
+                        android:text="Вам понравилось разделение состава по ингредиентам?"
+                        android:layout_marginRight="8dp"
+                        android:textColor="@color/product_property_title_color"
+                        android:textSize="@dimen/product_property_title_size"/>
 
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
 
                     <ImageButton
                             android:id="@+id/bad"

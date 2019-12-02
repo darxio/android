@@ -52,4 +52,7 @@
     <dimen name="appbar_padding">16dp</dimen>
     <dimen name="profile_fragment_title_padding">14dp</dimen>
     <dimen name="collapsible_appbar_height">270dp</dimen>
+
+    <dimen name="product_property_title_size">15sp</dimen>
+    <dimen name="product_property_content_size">15sp</dimen>
 </resources>

@@ -245,9 +245,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         info_product_name.text = productToShow.name
 
         if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
-            Picasso.get().load(productToShow.image).error(R.drawable.ic_no_photo).into(info_product_image);
+            Picasso.get().load(productToShow.image).error(R.drawable.ic_cereals__black).into(info_product_image);
         } else {
-            info_product_image.setImageResource(R.drawable.ic_no_photo)
+            info_product_image.setImageResource(R.drawable.ic_cereals__black)
         }
 
         // when the short version of the product is obtained

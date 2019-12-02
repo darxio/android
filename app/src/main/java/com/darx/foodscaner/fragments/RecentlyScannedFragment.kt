@@ -109,7 +109,6 @@ class RecentlyScannedFragment : Fragment() {
 
         view.rs_search_view.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
-                R.id.barcode_search -> (activity as MainActivity?)?.chooseFragment(1)
                 R.id.voice_search -> voiceGoogle()
             }
         }
@@ -135,9 +134,11 @@ class RecentlyScannedFragment : Fragment() {
         when(requestCode) {
             REQUEST_CODE_SPEECH_INPUT -> {
                 if (resultCode == Activity.RESULT_OK && null != data) {
-                    val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    rs_search_view.setSearchText(result[0]?.toString())
-//                    rs_search_view.
+                    val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)[0].toString()
+                    rs_search_view.setSearchText(result)
+                    GlobalScope.launch(Dispatchers.Main) {
+                        networkDataSource?.fetchProductSearch(result, 15, 0)
+                    }
                 }
             }
         }

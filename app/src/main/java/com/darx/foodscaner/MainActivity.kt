@@ -60,25 +60,4 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-    fun chooseFragment(id: Int) {
-        if (id < 0 || id > 2) {
-            return
-        }
-        when (id) {
-            0 -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, profileFragment).commit()
-                bottomNavigationView?.selectedItemId = R.id.action_profile
-            }
-            1 -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment).commit()
-                bottomNavigationView?.selectedItemId = R.id.action_camera
-            }
-            2 -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, recentlyScannedFragment).commit()
-                bottomNavigationView?.selectedItemId = R.id.action_recently_scanned
-            }
-        }
-    }
-
 }

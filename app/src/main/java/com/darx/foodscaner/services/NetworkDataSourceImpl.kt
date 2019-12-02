@@ -3,11 +3,13 @@ package com.darx.foodscaner.services
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.darx.foodscaner.database.FruitModel
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.internal.NoConnectivityException
 import com.darx.foodscaner.services.NetworkDataSource.Callback
+import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.lang.Exception
 import java.net.SocketTimeoutException
@@ -22,6 +24,7 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
     private val _groupIngredients = MutableLiveData<List<IngredientModel>>()
     private val _groups = MutableLiveData<List<GroupModel>>()
     private val _groupSearch = MutableLiveData<List<GroupModel>>()
+    private val _fruit = MutableLiveData<FruitModel>()
 
     override val ctx: Context
         get() = _ctx
@@ -50,6 +53,8 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
     override val groupSearch: LiveData<List<GroupModel>>
         get() = _groupSearch
 
+    override val fruit: LiveData<FruitModel>
+        get() = _fruit
 
     override suspend fun fetchProductByBarcode(barcode: Long, callback: Callback) {
         try {
@@ -206,6 +211,25 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
     override suspend fun productAdd(barcode: Long, name: String, callback: Callback) {
         try {
             apiService.productAdd(barcode, name)
+        }
+        catch (e: NoConnectivityException) {
+            callback.onNoConnectivityException()
+        }
+        catch (e: HttpException) {
+            callback.onHttpException()
+        }
+        catch (e: SocketTimeoutException) {
+            callback.onTimeoutException()
+        }
+        catch (e: Exception) {
+            callback.onException()
+        }
+    }
+
+    override suspend fun searchFruit(file: RequestBody, callback: Callback) {
+        try {
+            val fetchedFruit = apiService.searchFruit(file).await()
+            _fruit.postValue(fetchedFruit)
         }
         catch (e: NoConnectivityException) {
             callback.onNoConnectivityException()

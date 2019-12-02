@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.hardware.Camera
 import android.util.Log
@@ -36,6 +38,10 @@ import java.io.IOException
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.hardware.Camera.Parameters.FLASH_MODE_OFF
+import android.hardware.Camera.Parameters.FLASH_MODE_TORCH
+import android.view.View.VISIBLE
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -43,6 +49,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.darx.foodscaner.FoodApp
 import com.darx.foodscaner.WelcomeWizardActivity
 import com.darx.foodscaner.camerafragment.objectdetection.MultiObjectProcessor
 import com.darx.foodscaner.camerafragment.objectdetection.ProminentObjectProcessor
@@ -56,8 +63,17 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.collect.ImmutableList
 import com.darx.foodscaner.camerafragment.productsearch.ProductAdapter
+import com.darx.foodscaner.camerafragment.settings.PreferenceUtils
+import com.darx.foodscaner.camerafragment.settings.SettingsActivity
+import kotlinx.android.synthetic.main.activity_live_object_kotlin.*
+import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.view.*
 import kotlinx.coroutines.joinAll
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 
 class ObjectDetectionFragment : Fragment(), OnClickListener {
@@ -65,6 +81,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     private var CAMERA_REQUEST = 1;
 
     private var cameraSource: CameraSource? = null
+    private var camera: Camera? = null
     private var preview: CameraSourcePreview? = null
     private var graphicOverlay: GraphicOverlay? = null
     private var settingsButton: View? = null
@@ -72,6 +89,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     private var promptChip: Chip? = null
     private var promptChipAnimator: AnimatorSet? = null
     private var searchButton: ExtendedFloatingActionButton? = null
+    private var changeModeButton: View? = null
     private var searchButtonAnimator: AnimatorSet? = null
     private var searchProgressBar: ProgressBar? = null
     private var workflowModel: WorkflowModel? = null
@@ -92,6 +110,10 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     ) : View?  {
         super.onCreate(savedInstanceState)
 
+        if (container == null) {
+            return null;
+        }
+
         val viewGroupID: Int
         val view: View
 
@@ -104,7 +126,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
             viewGroupID = R.layout.no_camera
             view = inflater.inflate(viewGroupID, container, false)
         } else {
-            viewGroupID = R.layout.activity_live_barcode_kotlin
+            viewGroupID = R.layout.activity_live_object_kotlin
             view = inflater.inflate(viewGroupID, container, false)
 
             val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
@@ -119,17 +141,23 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
 //                BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
 //            })
 
-            view.tutorial_button.setOnClickListener {
-                val intent = Intent(this.context, WelcomeWizardActivity::class.java)
-                startActivity(intent)
-            }
+//            view.tutorial_button.setOnClickListener {
+//                val intent = Intent(this.context, WelcomeWizardActivity::class.java)
+//                startActivity(intent)
+//            }
         }
+
+        networkDataSource?.fruit?.observe(this, Observer {
+           Toast.makeText(context, it.prediction, Toast.LENGTH_LONG).show()
+        })
         return view
     }
 
     override  fun onStart() {
         super.onStart()
         var view = getView()
+        camera = FoodApp.instance.camera
+        searchEngine = SearchEngine(context!!.applicationContext)
         preview = getView()?.findViewById(R.id.camera_preview)
         graphicOverlay = getView()?.findViewById<GraphicOverlay>(R.id.camera_preview_graphic_overlay)?.apply {
             if (ActivityCompat.checkSelfPermission(
@@ -148,6 +176,10 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                     )
             }
             getView()?.setOnClickListener(this@ObjectDetectionFragment)
+//            if (cameraSource == null) {
+//                FoodApp.instance.cameraSource =  CameraSource(this)
+//                cameraSource = FoodApp.instance.cameraSource
+//            }
             cameraSource = CameraSource(this)
         }
 
@@ -166,13 +198,21 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
 //        settingsButton = view?.findViewById<View>(R.id.settings_button).apply {
 //            view?.setOnClickListener(this@ObjectDetectionFragment)
 //        }
+
+        settingsButton = settings_button
+        settingsButton?.setOnClickListener(this)
+        settingsButton?.visibility = VISIBLE
+
+        changeModeButton = getView()?.findViewById(R.id.change_mode_button)
+        changeModeButton?.setOnClickListener(this@ObjectDetectionFragment)
+
         promptChip = getView()?.findViewById(R.id.bottom_prompt_chip)
         promptChipAnimator =
             (AnimatorInflater.loadAnimator(context, R.animator.bottom_prompt_chip_enter) as AnimatorSet).apply {
                 setTarget(promptChip)
             }
 
-        flashButton = getView()?.findViewById<View>(R.id.flash_button)
+        flashButton = getView()?.findViewById(R.id.flash_button)
         flashButton?.setOnClickListener(this)
 
         setUpWorkflowModel()
@@ -187,8 +227,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         currentWorkflowState = WorkflowState.NOT_STARTED
         cameraSource?.setFrameProcessor(
-//            if (PreferenceUtils.isMultipleObjectsMode(this)) {
-            if (true) {
+            if (PreferenceUtils.isMultipleObjectsMode(context!!)) {
                 MultiObjectProcessor(graphicOverlay!!, workflowModel!!)
             } else {
                 ProminentObjectProcessor(graphicOverlay!!, workflowModel!!)
@@ -211,17 +250,30 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     }
 
     override fun onClick(view: View) {
+        val id = view.id
         when (view.id) {
             R.id.flash_button -> {
                 flashButton?.let {
                     if (it.isSelected) {
                         it.isSelected = false
-                        cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_OFF)
+                        this.cameraSource?.updateFlashMode(FLASH_MODE_OFF)
                     } else {
                         it.isSelected = true
-                        cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
+                        this.cameraSource?.updateFlashMode(FLASH_MODE_TORCH)
                     }
                 }
+            }
+            R.id.settings_button -> {
+//                settingsButton?.isEnabled = false
+                startActivity(Intent(context, SettingsActivity::class.java))
+            }
+            R.id.change_mode_button -> {
+//                changeModeButton?.setOnClickListener(null)
+                val transaction = fragmentManager?.beginTransaction()
+                cameraSource?.release()
+                transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                transaction?.replace(R.id.camera_preview, CameraFragment(), "CameraFragment")
+                transaction?.commit()
             }
         }
     }
@@ -250,9 +302,8 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         }
     }
 
-
     private fun setUpBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(view!!.findViewById(R.id.bottom_sheet))
+        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         bottomSheetBehavior?.setBottomSheetCallback(
             object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -300,12 +351,12 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         }
 
         bottomSheetTitleView = view?.findViewById(R.id.bottom_sheet_title)
-//        productRecyclerView = view?.findViewById<RecyclerView>(R.id.product_recycler_view).apply {
-//            setHasFixedSize(true)
-//            layoutManager = LinearLayoutManager(context)
-//            adapter = ProductAdapter(ImmutableList.of())
-//        }
-    }
+        productRecyclerView = view?.findViewById<RecyclerView>(R.id.product_recycler_view)?.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = ProductAdapter(ImmutableList.of())
+            }
+        }
 
 
     private fun setUpWorkflowModel() {
@@ -320,8 +371,8 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                 currentWorkflowState = workflowState
                 Log.d(TAG, "Current workflow state: ${workflowState.name}")
 
-//                if (PreferenceUtils.isAutoSearchEnabled(this@ObjectDetectionFragment)) {
-                if (true) {
+                if (PreferenceUtils.isAutoSearchEnabled(context!!)) {
+//                if (true) {
                     stateChangeInAutoSearchMode(workflowState)
                 } else {
                     stateChangeInManualSearchMode(workflowState)
@@ -340,7 +391,52 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
             searchedObject.observe(this@ObjectDetectionFragment, Observer { nullableSearchedObject ->
                 val searchedObject = nullableSearchedObject ?: return@Observer
                 val productList = searchedObject.productList
+
                 objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail()
+                val file = bitmapToFile(searchedObject.getObjectThumbnail())
+                val fbody = RequestBody.create(MediaType.parse("image/*"), file);
+                GlobalScope.launch(Dispatchers.Main) {
+                    networkDataSource?.searchFruit(
+                        fbody, object : NetworkDataSource.Callback {
+                            override fun onTimeoutException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Проблемы с интернетом!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
+
+                            override fun onException() {
+                                Log.e("HTTP", "EXCEPTION CAUGHT.")
+                                Toast.makeText(
+                                    context!!, "Неизвестная ошибка",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
+
+                            override fun onNoConnectivityException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Проблемы с интернетом!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                NetworkDataSource.DefaultCallback(context!!).onNoConnectivityException()
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
+
+                            override fun onHttpException() {
+                                Log.e("HTTP", "Wrong answer.")
+                                Toast.makeText(
+                                    context!!, "Продукт не найден!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
+                        })
+                }
                 bottomSheetTitleView?.text = resources
                     .getQuantityString(
                         R.plurals.bottom_sheet_title, productList.size, productList.size)
@@ -353,6 +449,26 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         }
     }
 
+    private fun bitmapToFile(bitmap:Bitmap): File {
+        // Get the context wrapper
+//        val wrapper = ContextWrapper(context)
+
+        // Initialize a new file instance to save bitmap object
+//        var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
+//        file = File(file,"${UUID.randomUUID()}.jpg")
+        var file = File("")
+        try{
+            // Compress the bitmap and save in jpg format
+            val stream: OutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream)
+            stream.flush()
+            stream.close()
+        }catch (e:IOException){
+            e.printStackTrace()
+        }
+
+        return file
+    }
 
     private fun stateChangeInAutoSearchMode(workflowState: WorkflowState) {
         val wasPromptChipGone = promptChip!!.visibility == View.GONE
@@ -444,7 +560,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     }
 
     companion object {
-        private const val TAG = "LiveObjectActivity"
+        private const val TAG = "ObjectDetectionFragment"
     }
 
 }

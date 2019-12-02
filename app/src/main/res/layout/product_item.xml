@@ -78,7 +78,7 @@
                 android:layout_marginBottom="11dp"
                 android:layout_toStartOf="@+id/pr_delete_ib"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_share" />
+                android:src="@drawable/ic_share_black" />
 
         <ImageButton
                 android:id="@+id/pr_delete_ib"
@@ -91,7 +91,7 @@
                 android:layout_marginRight="102dp"
                 android:layout_marginBottom="11dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_delete" />
+                android:src="@drawable/ic_garbage_black" />
 
         <TextView
                 android:id="@+id/pr_date"

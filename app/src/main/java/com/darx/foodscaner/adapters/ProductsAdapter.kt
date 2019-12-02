@@ -131,9 +131,9 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 override fun onChanged(t: ProductModel?) {
                     item.starred = t?.starred ?: item.starred
                     if (t != null && t.starred) {
-                        starred.setBackgroundResource(R.drawable.ic_starred)
+                        starred.setBackgroundResource(R.drawable.ic_star_yellow)
                     } else {
-                        starred.setBackgroundResource(R.drawable.ic_unstarred)
+                        starred.setBackgroundResource(R.drawable.ic_star_black)
                     }
                 }
             })

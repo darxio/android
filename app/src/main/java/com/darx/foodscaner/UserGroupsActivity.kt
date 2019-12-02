@@ -149,7 +149,3 @@ class UserGroupsActivity : AppCompatActivity() {
 //        return matched
 //    }
 }
-
-private fun View.OnFocusChangeListener.onFocusChange(function: () -> Unit) {
-
-}

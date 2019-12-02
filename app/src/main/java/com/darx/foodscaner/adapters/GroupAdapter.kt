@@ -16,7 +16,7 @@ import android.widget.LinearLayout
 
 
 
-class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var n: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var size: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
     val Int.dp: Int
         get() = (this / Resources.getSystem().displayMetrics.density).toInt()
@@ -55,13 +55,15 @@ class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var n: I
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
 
-            val params = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+            if (size > 0) {
+                val params = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
 
-            params.width = n.dp
-            itemView.layoutParams = params
+                params.width = size.dp
+                itemView.layoutParams = params
+            }
         }
     }
 

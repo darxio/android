@@ -149,7 +149,6 @@ class CameraFragment : Fragment(), OnClickListener {
 //                val intent = Intent(this.context, WelcomeWizardActivity::class.java)
 //                startActivity(intent)
 //            }
-        }
         return view
     }
 

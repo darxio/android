@@ -6,9 +6,11 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.camerafragment.camera.WorkflowModel
+import com.darx.foodscaner.database.FruitModel
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.ProductModel
+import okhttp3.RequestBody
 
 interface NetworkDataSource {
     val product: LiveData<ProductModel>
@@ -20,6 +22,7 @@ interface NetworkDataSource {
     val groupIngredientsSearch: LiveData<List<IngredientModel>>
     val groups: LiveData<List<GroupModel>>
     val groupSearch: LiveData<List<GroupModel>>
+    val fruit: LiveData<FruitModel>
     val ctx: Context
 
     suspend fun fetchProductByBarcode(barcode: Long, callback: Callback = DefaultCallback(ctx))
@@ -32,6 +35,7 @@ interface NetworkDataSource {
     suspend fun fetchGroups(callback: Callback = DefaultCallback(ctx))
     suspend fun fetchGroupSearch(name: String, callback: Callback = DefaultCallback(ctx))
     suspend fun productAdd(barcode: Long, name: String, callback: Callback = DefaultCallback(ctx))
+    suspend fun searchFruit(file: RequestBody, callback: Callback = DefaultCallback(ctx))
 
     interface Callback {
         fun onNoConnectivityException()

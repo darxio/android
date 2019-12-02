@@ -19,10 +19,10 @@ import kotlinx.coroutines.launch
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.content.Context
 import android.content.Intent
 import android.hardware.Camera
 import android.util.Log
-import android.view.View.OnClickListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.chip.Chip
@@ -37,14 +37,19 @@ import com.darx.foodscaner.camerafragment.camera.CameraSource
 import com.darx.foodscaner.camerafragment.camera.CameraSourcePreview
 import java.io.IOException
 import android.content.pm.PackageManager
+import android.view.View.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
+import com.darx.foodscaner.FoodApp
 import com.darx.foodscaner.WelcomeWizardActivity
+import com.darx.foodscaner.camerafragment.settings.SettingsActivity
 import com.darx.foodscaner.database.ProductViewModel
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSource
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.view.*
 import kotlinx.coroutines.joinAll
 
@@ -64,6 +69,7 @@ class CameraFragment : Fragment(), OnClickListener {
 
     private var CAMERA_REQUEST = 1;
 
+    private var camera: Camera? = null
     private var cameraSource: CameraSource? = null
     private var preview: CameraSourcePreview? = null
     private var graphicOverlay: GraphicOverlay? = null
@@ -74,6 +80,8 @@ class CameraFragment : Fragment(), OnClickListener {
     private var workflowModel: WorkflowModel? = null
     private var currentWorkflowState: WorkflowState? = null
     private var promtChipShown: Boolean = false
+    private var changeModeButton: View? = null
+
     private var barcodeField = BarcodeField("", "")
 
     private var networkDataSource: NetworkDataSourceImpl? = null
@@ -88,8 +96,31 @@ class CameraFragment : Fragment(), OnClickListener {
         val viewGroupID: Int
         val view: View
 
-        if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                context!!,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context!!,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(
+                    android.Manifest.permission.CAMERA
+                ),
+                CAMERA_REQUEST
+            )
+        }
+
+        if (ActivityCompat.checkSelfPermission(
+                context!!,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context!!,
+                android.Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
             Toast.makeText(
                 context!!, "Дайте доступ к камере!",
                 Toast.LENGTH_SHORT
@@ -112,13 +143,19 @@ class CameraFragment : Fragment(), OnClickListener {
 
                 BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
             })
+        }
 
 //            view.tutorial_button.setOnClickListener {
 //                val intent = Intent(this.context, WelcomeWizardActivity::class.java)
 //                startActivity(intent)
 //            }
-        }
         return view
+    }
+
+    override fun onStop() {
+        super.onStop()
+        cameraSource?.release()
+        cameraSource = null
     }
 
     override  fun onStart() {
@@ -140,7 +177,12 @@ class CameraFragment : Fragment(), OnClickListener {
                     CAMERA_REQUEST
                     )
             }
-            getView()?.setOnClickListener(this@CameraFragment)
+//            getView()?.setOnClickListener(this@CameraFragment)
+
+//            if (cameraSource == null) {
+//                FoodApp.instance.cameraSource =  CameraSource(this)
+//                cameraSource = FoodApp.instance.cameraSource
+//            }
             cameraSource = CameraSource(this)
         }
 
@@ -149,6 +191,12 @@ class CameraFragment : Fragment(), OnClickListener {
             (AnimatorInflater.loadAnimator(context, R.animator.bottom_prompt_chip_enter) as AnimatorSet).apply {
                 setTarget(promptChip)
             }
+
+        settingsButton = settings_button
+        settingsButton?.visibility = INVISIBLE
+
+        changeModeButton = change_mode_button
+        changeModeButton?.setOnClickListener(this@CameraFragment)
 
         flashButton = getView()?.findViewById<View>(R.id.flash_button)
         flashButton?.setOnClickListener(this)
@@ -161,7 +209,7 @@ class CameraFragment : Fragment(), OnClickListener {
         super.onResume()
 
         workflowModel?.markCameraFrozen()
-        settingsButton?.isEnabled = true
+//        settingsButton?.isEnabled = false
         currentWorkflowState = WorkflowState.NOT_STARTED
         cameraSource?.setFrameProcessor(BarcodeProcessor(graphicOverlay!!, workflowModel!!))
         workflowModel?.setWorkflowState(WorkflowState.DETECTING)
@@ -175,24 +223,50 @@ class CameraFragment : Fragment(), OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        cameraSource?.release()
-        cameraSource = null
+//        cameraSource?.release()
+//        cameraSource = null
     }
 
     override fun onClick(view: View) {
+        val id = view.id
         when (view.id) {
             R.id.flash_button -> {
                 flashButton?.let {
                     if (it.isSelected) {
                         it.isSelected = false
-                        cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_OFF)
+                        this.cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_OFF)
                     } else {
                         it.isSelected = true
-                        cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
+                        this.cameraSource?.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
                     }
                 }
             }
+            R.id.settings_button -> {
+//                settingsButton?.isEnabled = false
+                startActivity(Intent(context, SettingsActivity::class.java))
+            }
+            R.id.change_mode_button -> {
+                val fragmentInFrame = fragmentManager?.findFragmentById(R.id.camera_preview);
+                var frag: Fragment
+                if (fragmentInFrame is CameraFragment ) {
+                    frag = ObjectDetectionFragment()
+                } else {
+                    frag = CameraFragment()
+                }
+                val transaction = fragmentManager?.beginTransaction()
+                cameraSource?.release()
+                transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                transaction?.replace(R.id.camera_preview, frag)
+                transaction?.commit()
+
+            }
         }
+//        fragment = ObjectDetectionFragment()
+//        if (fragment != null) {
+//            val transaction = fragmentManager?.beginTransaction()
+//            transaction?.replace(R.id.camera_preview, ObjectDetectionFragment())
+//            transaction?.commit()
+//        }
     }
 
     private fun startCameraPreview() {
@@ -334,7 +408,7 @@ class CameraFragment : Fragment(), OnClickListener {
     }
 
     companion object {
-        private const val TAG = "LiveBarcodeActivity"
+        private const val TAG = "CameraFragment"
     }
 
 }

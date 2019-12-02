@@ -22,6 +22,7 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
     private val _ingredients = MutableLiveData<List<IngredientModel>>()
     private val _ingredientSearch = MutableLiveData<List<IngredientModel>>()
     private val _groupIngredients = MutableLiveData<List<IngredientModel>>()
+    private val _groupIngredientsSearch = MutableLiveData<List<IngredientModel>>()
     private val _groups = MutableLiveData<List<GroupModel>>()
     private val _groupSearch = MutableLiveData<List<GroupModel>>()
     private val _fruit = MutableLiveData<FruitModel>()
@@ -46,6 +47,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
 
     override val groupIngredients: LiveData<List<IngredientModel>>
         get() = _groupIngredients
+
+    override val groupIngredientsSearch: LiveData<List<IngredientModel>>
+        get() = _groupIngredientsSearch
 
     override val groups: LiveData<List<GroupModel>>
         get() = _groups
@@ -75,9 +79,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
         }
     }
 
-    override suspend fun fetchProductSearch(name: String, callback: Callback) {
+    override suspend fun fetchProductSearch(name: String, count: Int, page: Int, callback: Callback) {
         try {
-            val fetchedProductSearch = apiService.productSearch(name).await()
+            val fetchedProductSearch = apiService.productSearch(name, count, page).await()
             _productSearch.postValue(fetchedProductSearch)
         }
         catch (e: NoConnectivityException) {
@@ -132,9 +136,9 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
         }
     }
 
-    override suspend fun fetchIngredientSearch(name: String, callback: Callback) {
+    override suspend fun fetchIngredientSearch(name: String, count: Int, page: Int, callback: Callback) {
         try {
-            val fetchedIngredientSearch = apiService.ingredientSearsh(name).await()
+            val fetchedIngredientSearch = apiService.ingredientSearsh(name, count, page).await()
             _ingredientSearch.postValue(fetchedIngredientSearch)
         }
         catch (e: NoConnectivityException) {
@@ -155,6 +159,25 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
         try {
             val fetchedGroupIngredients = apiService.groupIngredients(id, count, page).await()
             _groupIngredients.postValue(fetchedGroupIngredients)
+        }
+        catch (e: NoConnectivityException) {
+            callback.onNoConnectivityException()
+        }
+        catch (e: HttpException) {
+            callback.onHttpException()
+        }
+        catch (e: SocketTimeoutException) {
+            callback.onTimeoutException()
+        }
+        catch (e: Exception) {
+            callback.onException()
+        }
+    }
+
+    override suspend fun fetchGroupIngredientsSearch(group_id: Int, query: String, count: Int, page: Int, callback: Callback) {
+        try {
+            val fetchedGroupIngredientsSearch = apiService.groupIngredientsSearsh(group_id, query, count, page).await()
+            _groupIngredientsSearch.postValue(fetchedGroupIngredientsSearch)
         }
         catch (e: NoConnectivityException) {
             callback.onNoConnectivityException()

@@ -30,7 +30,8 @@ import androidx.viewpager.widget.ViewPager
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
+import androidx.viewpager2.widget.ViewPager2
+import kotlinx.android.synthetic.main.activity_groups.*
 
 
 class UserIngredientsActivity : AppCompatActivity() {
@@ -41,7 +42,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredients)
 
-//        setSupportActionBar(ingredientsToolbar)
+        setSupportActionBar(ingredients_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -51,13 +52,22 @@ class UserIngredientsActivity : AppCompatActivity() {
         pagerAdapter.addFragment(IngredientsFragment(ingredientViewModel, groupViewModel), "ShearchIngredients")
         pagerAdapter.addFragment(MyIngredientsFragment(ingredientViewModel, groupViewModel), "MyIngredients")
 
-        setContentView(R.layout.activity_ingredients)
-        ingredientsViewPager.adapter = pagerAdapter
+        ingredients_view_pager.adapter = pagerAdapter
 
+        ingredients_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                ingredients_view_pager.currentItem = tab.position
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
 
-
-        val tabLayout = findViewById<TabLayout>(R.id.ingredientsTabs)
-//        tabLayout.setupWithViewPager(ingredients_view_pager)
+        ingredients_view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                ingredients_tabs.getTabAt(position)?.select()
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

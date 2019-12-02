@@ -44,12 +44,19 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
                 startActivity(intent)
             }
         })
-        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredientRecycler)
+        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_rv)
         ingredientRecycler.adapter = myIngredientsAdapter
 
         ingredientViewModel.getNotAllowed_().observe(this, object : Observer<List<IngredientModel>> {
             override fun onChanged(l: List<IngredientModel>?) {
                 myIngredientsAdapter?.addItems(l ?: return)
+
+//                if (myIngredientsAdapter?.items.isNullOrEmpty()) {
+//                    fragmentManager!!.beginTransaction()
+//                        .replace(R.id.fragment_empty_container, EmptyFragment("Текст", "Добавить"))
+//                        .addToBackStack(null)
+//                        .commit()
+//                }
             }
         })
 

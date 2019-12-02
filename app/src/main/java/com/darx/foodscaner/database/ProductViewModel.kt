@@ -16,20 +16,25 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
     private var db: AppDatabase? = null
 
     private var scannedProducts: LiveData<List<ProductModel>>? = null
-    private var scannedFavouriteProducts: LiveData<List<ProductModel>>? = null
+    private var favouriteProducts: LiveData<List<ProductModel>>? = null
 
     init {
         db = AppDatabase.getInstance(application.applicationContext)
-        scannedProducts = db?.productsDAO()?.getAllScanned()
-        scannedFavouriteProducts = db?.productsDAO()?.getFavourites()
+        scannedProducts = db?.productsDAO()?.getScanned()
+        favouriteProducts = db?.productsDAO()?.getFavourites()
     }
 
-    fun getAllScanned_(): LiveData<List<ProductModel>> {
+    fun getScanned_(): LiveData<List<ProductModel>> {
         return this.scannedProducts!!
     }
 
     fun getFavourites_(): LiveData<List<ProductModel>> {
-        return this.scannedFavouriteProducts!!
+        return this.favouriteProducts!!
+    }
+
+    fun getOne_(barcode: Long): LiveData<ProductModel>? {
+        val product = db?.productsDAO()?.getOne(barcode)
+        return product
     }
 
     fun add_(product: ProductModel) {

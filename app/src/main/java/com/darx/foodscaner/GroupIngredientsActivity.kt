@@ -27,12 +27,13 @@ class GroupIngredientsActivity : AppCompatActivity() {
 
     private var networkDataSource: NetworkDataSourceImpl? = null
     private var groupIngredientsAdapter: IngredientAdapter? = null
+    private var groupId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_ingredients)
 
-        setSupportActionBar(groupIngredientsToolbar)
+        setSupportActionBar(group_ingredients_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -47,7 +48,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-        val groupIngredientsRecycler = this.findViewById<RecyclerView>(R.id.groupIngredientsRecycler)
+        val groupIngredientsRecycler = this.findViewById<RecyclerView>(R.id.group_ingredients_rv)
         groupIngredientsRecycler.adapter = groupIngredientsAdapter
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
@@ -57,9 +58,13 @@ class GroupIngredientsActivity : AppCompatActivity() {
             groupIngredientsAdapter?.addItems(it)
         })
 
-        val groupId: Int = intent.getIntExtra("GROUP_ID", 0)
+        networkDataSource?.groupIngredientsSearch?.observe(this@GroupIngredientsActivity, Observer {
+            groupIngredientsAdapter?.addItems(it)
+        })
+
+        groupId = intent.getIntExtra("GROUP_ID", 0)
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchGroupIngredients(groupId, 30, 0)
+            networkDataSource?.fetchGroupIngredients(groupId?:0, 20, 0)
         }
     }
 
@@ -77,26 +82,29 @@ class GroupIngredientsActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
 
         val item = menu!!.findItem(R.id.action_search)
-        groupIngredientsSearchView.setMenuItem(item)
+        group_ingredients_search_view.setMenuItem(item)
 
 
-        groupIngredientsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+        group_ingredients_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                // take data for all ingredients
-                if (newText.length >= 3) {
+                if (newText.length == 0) {
                     GlobalScope.launch(Dispatchers.Main) {
-                        networkDataSource?.fetchIngredientSearch(newText)
+                        networkDataSource?.fetchGroupIngredients(groupId ?: 0, 20, 0)
+                    }
+                } else {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        networkDataSource?.fetchGroupIngredientsSearch(groupId?:0, newText, 20, 0)
                     }
                 }
                 return false
             }
         })
 
-        groupIngredientsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+        group_ingredients_search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
             override fun onSearchViewShown() {
                 //Do some magic
             }

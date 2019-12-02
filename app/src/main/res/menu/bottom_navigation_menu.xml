@@ -4,7 +4,7 @@
 
     <item
             android:id="@+id/action_profile"
-            android:icon="@drawable/ic_action_profile"
+            android:icon="@drawable/ic_avatar_white"
             android:title="@string/profile" />
 
     <item

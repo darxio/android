@@ -2,37 +2,12 @@
     <string name="app_name">FoodScaner</string>
 
     <!-- Camera fragment -->
-    <string name="hello_camera_fragment">Camera fragment</string>
-    <string name="hello_info_fragment">Info fragment</string>
 
-
-    <string name="entry_java_title">Java</string>
-    <string name="entry_java_subtitle">Run the MLKit Showcase written in Java.</string>
-    <string name="entry_kotlin_title">Kotlin</string>
-    <string name="entry_kotlin_subtitle">Run the MLKit Showcase written in Kotlin.</string>
-    <string name="mode_odt_live_title">Object Detection: Live Camera</string>
-    <string name="mode_odt_live_subtitle">A device’s live camera can be used to detect objects in an environment.</string>
-    <string name="mode_odt_static_title">Object Detection: Static Image</string>
-    <string name="mode_odt_static_subtitle">One or more objects can be detected from a provided image.</string>
-    <string name="mode_barcode_live_title">Barcode Scanning</string>
-    <string name="mode_barcode_live_subtitle">Read data encoded in most standard barcode formats.</string>
-    <string name="settings_title">MLKit Showcase Settings</string>
-    <string name="cd_settings_button">Settings</string>
-    <string name="cd_close_button">Back</string>
     <string name="cd_flash_button">Toggle camera flash</string>
-    <string name="cd_photo_library_button">Upload image</string>
-    <string name="prompt_point_at_an_object">Point your camera at an object</string>
     <string name="prompt_point_at_a_barcode">Point your camera at a barcode</string>
-    <string name="prompt_hold_camera_steady">Keep camera still for a moment</string>
     <string name="prompt_move_camera_closer">Move closer to search</string>
     <string name="prompt_searching">Searching&#8230;</string>
     <string name="product_search_button">Search object</string>
-    <plurals name="bottom_sheet_title">
-        <item quantity="one">%d match found</item>
-        <item quantity="other">%d matches found</item>
-    </plurals>
-    <string name="static_image_prompt_detected_no_results">No results found</string>
-    <string name="static_image_prompt_detected_results">Tap on a dot to inspect</string>
     <string name="static_image_card_no_result_title">No result found</string>
     <string name="static_image_card_no_result_subtitle">Support text place holder</string>
     <string name="static_image_preview_card_subtitle">+%d more results</string>
@@ -81,10 +56,6 @@
 
 
     <!-- Profile fragment -->
-    <string name="username">Guest</string>
-    <string name="products_snanned_info">Products scanned:</string>
-    <string name="products_snanned_count">0</string>
-    <string name="login_button">Login</string>
 
 
     <!-- Info fragment -->
@@ -92,51 +63,63 @@
     <!-- Product -->
     <string name="product_name">Продукт</string>
     <string name="product_information">Информация</string>
-    <string name="ingredient_name">Ингредиент</string>
-    <string name="users_groups_header">Группы:</string>
 
     <!-- Favorites activity -->
-    <string name="favorites_title">Избранное</string>
 
     <!--  Ingredient activity  -->
     <string name="no_ingredient_description">Информация об игредиенте пока не добавлена</string>
-    <string name="ingredientDescription">Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо материальном носителе человеческая мысль; в общем плане связная и полная последовательность символов.
-
-Существуют две основные трактовки понятия «текст»: имманентная (расширенная, философски нагруженная) и репрезентативная (более частная). Имманентный подход подразумевает отношение к тексту как к автономной реальности, нацеленность на выявление его внутренней структуры. Репрезентативный — рассмотрение текста как особой формы представления знаний о внешней тексту действительности.
-
-В лингвистике термин «текст» используется в широком значении, включая и образцы устной речи. Восприятие текста изучается в рамках лингвистики текста и психолингвистики. Так, например, И. Р. Гальперин определяет текст следующим образом: «Это письменное сообщение, объективированное в виде письменного документа, состоящее из ряда высказываний, объединённых разными типами лексической, грамматической и логической связи, имеющее определённый моральный характер, прагматическую установку и соответственно литературно обработанное»
-    Текст (от лат. textus — ткань; сплетение, сочетание) — зафиксированная на каком-либо материальном носителе человеческая мысль; в общем плане связная и полная последовательность символов.
-
-Существуют две основные трактовки понятия «текст»: имманентная (расширенная, философски нагруженная) и репрезентативная (более частная). Имманентный подход подразумевает отношение к тексту как к автономной реальности, нацеленность на выявление его внутренней структуры. Репрезентативный — рассмотрение текста как особой формы представления знаний о внешней тексту действительности.
-
-В лингвистике термин «текст» используется в широком значении, включая и образцы устной речи. Восприятие текста изучается в рамках лингвистики текста и психолингвистики. Так, например, И. Р. Гальперин определяет текст следующим образом: «Это письменное сообщение, объективированное в виде письменного документа, состоящее из ряда высказываний, объединённых разными типами лексической, грамматической и логической связи, имеющее определённый моральный характер, прагматическую установку и соответственно литературно обработанное»</string>
     <string name="Constitution">Состав:</string>
-    <string name="additive">Е-добавки:</string>
-    <string name="group_name">Группа</string>
-    <string name="ingredient_type">Тип ингредиента</string>
-    <string name="group_ingredients_button">Ингредиенты</string>
-    <string name="user_ingredients_card">Ингредиенты</string>
-    <string name="user_groups_card">Группы</string>
-    <string name="user_favorites_card">Избранные продукты</string>
-    <string name="my_item">Мои</string>
-    <string name="search_item">Все</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search">Поиск</string>
     <string name="description">Описание</string>
     <string name="enter_to_group">Вступить</string>
     <string name="exit_from_group">Выйти</string>
 
-    <string name="except_ingredient">Исключить</string>
     <string name="add_ingredient">Добавить</string>
-    <string name="searching">Поиск...</string>
+
+
+    <!--    New Strings -->
+
+    <!--    Bottom Navigation, Titles -->
     <string name="profile">Профиль</string>
     <string name="camera">Камера</string>
     <string name="history">История</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="more"><![CDATA[Еще >]]></string>
+    <string name="favourites">Избранное</string>
 
+    <!--    Profile Fragment -->
+    <string name="all_groups">Все группы</string>
+    <string name="show_more">ещё</string>
+    <string name="all_ingredients">Все ингредиенты</string>
+
+    <!--    Group Activity -->
+    <string name="group">Группа</string>
+    <string name="group_ingredients">Ингредиенты</string>
+    <string name="join_group">Вступить</string>
+
+    <!--    Ingredient Activity -->
+    <string name="ingredient">Ингредиент</string>
+    <string name="exclude_ingredient">Исключить</string>
+
+    <!--    Groups Activity -->
+    <string name="groups">Группы</string>
+
+    <!--    Ingredients Activity -->
+    <string name="ingredients">Ингредиенты</string>
+
+    <!--    Group Ingredients Activity -->
+    <string name="all_group_ingredients">Ингредиенты группы</string>
+
+    <!--    Add Product Dialog Fragment -->
+    <string name="not_found">"К сожалению, продукт не был найден! Вы можете нам помочь, добавив его имя."</string>
+    <string name="do_not_add">"Не добавлять"</string>
+    <string name="add">"Добавить"</string>
+    <string name="tab_all">Все</string>
+    <string name="tab_my">Мои</string>
+
+    <!--    Product Activity -->
+    <string name="product">Продукт</string>
+
+<!--    Toolbar -->
+    <string name="searching">Поиск...</string>
+    <string name="speach_prompt">Назовите название продукта</string>
 </resources>

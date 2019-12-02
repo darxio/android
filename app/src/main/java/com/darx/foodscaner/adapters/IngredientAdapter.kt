@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import com.darx.foodscaner.UserIngredientsActivity
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.IngredientViewModel
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 
 
@@ -35,7 +37,7 @@ class IngredientAdapter(var items: List<IngredientModel>, val owner: LifecycleOw
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val ingredientObject = itemView.findViewById<Chip>(R.id.ingredientObject)
+        private val ingredientObject = itemView.findViewById<MaterialCardView>(R.id.ingredient_object)
         private var isGroupsMatched = false
 
         fun bind(item: IngredientModel) {
@@ -55,7 +57,8 @@ class IngredientAdapter(var items: List<IngredientModel>, val owner: LifecycleOw
                 }
             })
 
-            ingredientObject.text = item.name
+            val ingredientName = itemView.findViewById<TextView>(R.id.ingredient_name)
+            ingredientName.text = item.name
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
@@ -64,9 +67,9 @@ class IngredientAdapter(var items: List<IngredientModel>, val owner: LifecycleOw
 
         fun setSettingsByStatus(status: Boolean) {
             if (status) {
-                ingredientObject.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                ingredientObject.setCardBackgroundColor(R.drawable.bg_chip_state_list_positive)
             } else {
-                ingredientObject.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                ingredientObject.setCardBackgroundColor(R.drawable.bg_chip_state_list_negative)
             }
         }
 

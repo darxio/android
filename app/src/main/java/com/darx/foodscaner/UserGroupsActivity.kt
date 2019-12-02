@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.darx.foodscaner.adapters.GroupAdapter
 import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.database.GroupModel
@@ -17,18 +21,29 @@ import com.darx.foodscaner.fragments.MyGroupsFragment
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import com.google.android.material.tabs.TabLayout
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.activity_groups.*
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.activity_ingredients.*
+import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
+//import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.Serializable
+import com.google.android.material.appbar.AppBarLayout
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.app.Activity
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.app.ComponentActivity.ExtraData
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+
 
 class UserGroupsActivity : AppCompatActivity() {
-
-
 
     private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
 
@@ -36,7 +51,7 @@ class UserGroupsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groups)
 
-//        setSupportActionBar(groupToolbar)
+        setSupportActionBar(groups_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -45,10 +60,22 @@ class UserGroupsActivity : AppCompatActivity() {
         pagerAdapter.addFragment(GroupsFragment(groupViewModel), "SearchGroups")
         pagerAdapter.addFragment(MyGroupsFragment(groupViewModel), "MyGroups")
 
-        setContentView(R.layout.activity_groups)
-        groupsViewPager.adapter = pagerAdapter
+        groups_view_pager.adapter = pagerAdapter
 
-        setSupportActionBar(toolBar)
+        groups_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                groups_view_pager.currentItem = tab.position
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+        groups_view_pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                groups_tabs.getTabAt(position)?.select()
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -61,47 +88,54 @@ class UserGroupsActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.toolbar_menu, menu)
-//
-//        val item = menu!!.findItem(R.id.action_search)
-//        groupsSearchView.setMenuItem(item)
-//
-//
-//        groupsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                //Do some magic
-//                return false
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+
+        val item = menu!!.findItem(R.id.action_search)
+        groups_search_view.setMenuItem(item)
+
+        groups_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean { return false }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                // take data for all groups
+                if (newText.length >= 3) {
+                    GlobalScope.launch(Dispatchers.Main) {
+//                        networkDataSource?.fetchGroupSearch(newText)
+                    }
+                }
+
+                // take data for my groups
+//                myGroupAdapter?.addItems(matchMyGroups(newText))
+
+                return false
+            }
+        })
+
+        groups_search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+            override fun onSearchViewShown() {
+                groups_tabs.visibility = View.GONE
+                val params = frame_toolbar.getLayoutParams() as AppBarLayout.LayoutParams
+                params.scrollFlags = 0
+                groups_view_pager.setUserInputEnabled(false);
+            }
+            override fun onSearchViewClosed() {
+                groups_tabs.visibility = View.VISIBLE
+                val params = frame_toolbar.getLayoutParams() as AppBarLayout.LayoutParams
+                params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                groups_view_pager.setUserInputEnabled(true);
+            }
+        })
+
+//        groups_search_view.onFocusChangeListener.onFocusChange{
+//            if(!groups_search_view.isFocusable) {
+//                val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//                inputMethodManger.hideSoftInputFromWindow(groups_search_view.getWindowToken(), 0)
 //            }
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                // take data for all groups
-//                if (newText.length >= 3) {
-//                    GlobalScope.launch(Dispatchers.Main) {
-////                        networkDataSource?.fetchGroupSearch(newText)
-//                    }
-//                }
-//
-//                // take data for my groups
-////                myGroupAdapter?.addItems(matchMyGroups(newText))
-//
-//                return false
-//            }
-//        })
-//
-//        groupsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
-//            override fun onSearchViewShown() {
-//                //Do some magic
-//            }
-//
-//            override fun onSearchViewClosed() {
-//                //Do some magic
-//            }
-//        })
-//
-//
-//        return true
-//    }
+//        }
+
+        return true
+    }
 
 //    fun matchMyGroups(typed: String): List<GroupModel> {
 //        val matched: MutableList<GroupModel> = mutableListOf()

@@ -15,7 +15,13 @@ import java.text.SimpleDateFormat
 import android.graphics.BitmapFactory
 import android.R.attr.src
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.darx.foodscaner.R
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.card.MaterialCardView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +32,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 
 
-class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, var ctx: Context, val callback: Callback) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
+class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, val ctx: Context, val owner: LifecycleOwner, val scanedElements: Boolean, val callback: Callback) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false))
@@ -44,51 +50,106 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val productImage = itemView.findViewById<ImageView>(R.id.product_image)
-        private val productName = itemView.findViewById<TextView>(R.id.product_name)
-        private val productDescription = itemView.findViewById<TextView>(R.id.product_description)
-        private val productWarning = itemView.findViewById<TextView>(R.id.product_warning_text)
-        private val productScannedDate = itemView.findViewById<TextView>(R.id.product_date)
-        private val starred = itemView.findViewById<ImageButton>(R.id.starred_ib)
-        private val share = itemView.findViewById<ImageButton>(R.id.share_btn)
-        private val delete = itemView.findViewById<ImageButton>(R.id.delete_ib)
+        private val productImage = itemView.findViewById<ImageView>(R.id.pr_image)
+        private val productName = itemView.findViewById<TextView>(R.id.pr_name)
+        private val productScannedDate = itemView.findViewById<TextView>(R.id.pr_date)
+        private val starred = itemView.findViewById<ImageButton>(R.id.pr_starred_ib)
+        private val share = itemView.findViewById<ImageButton>(R.id.pr_share_ib)
+        private val delete = itemView.findViewById<ImageButton>(R.id.pr_delete_ib)
+
+        private val productCard = itemView.findViewById<MaterialCardView>(R.id.product_card)
 
         fun bind(item: ProductModel) {
-            productName.text = item.name
-            productDescription.text = item.description
+//            productCard.setBackgroundColor(R.color.colorPrimary)
+
+//            if (item.name.length > 20) {
+//                productName.text = item.name.substring(0, 20) + "..."
+//            } else {
+                productName.text = item.name
+//            }
 
             if (!item.image.isNullOrEmpty() || item.image == "NULL") {
-                Picasso.get().load(item.image).error(R.drawable.product).into(productImage);
+                Picasso.get().load(item.image).error(R.drawable.ic_cereals__black).into(productImage);
             } else {
-                productImage.setImageResource(R.drawable.product)
+                productImage.setImageResource(R.drawable.ic_cereals__black)
             }
 
-            val dateFormat = SimpleDateFormat("dd MMM, HH:mm")
-            productScannedDate.text = dateFormat.format(item.date)
+            if (scanedElements) {
+                val dateFormat = SimpleDateFormat("dd MMM, HH:mm")
+                productScannedDate.text = dateFormat.format(item.date)
+            } else {
+                productScannedDate.visibility = View.INVISIBLE
+                delete.visibility = View.INVISIBLE
+            }
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
 
-            // logics with image buttons
-            if (item.starred) {
-                starred.setBackgroundResource(R.drawable.ic_starred)
-            } else {
-                starred.setBackgroundResource(R.drawable.ic_unstarred)
-            }
+//            pVM.getOne_(item.barcode)?.observe(owner, object : Observer<ProductModel> {
+//                override fun onChanged(t: ProductModel?) {
+//                    item.starred = t?.starred ?: item.starred
+//
+//                    if (t != null) {
+//                            productCard.setBackgroundColor(R.color.positiveColor)
+//                            productName.setTextColor(R.color.black)
+//                            if (productScannedDate.isVisible) {
+//                                productScannedDate.setTextColor(R.color.black)
+//                            }
+//                            //                      black delete & share
+//                            //                        delete.setBackgroundResource()
+//                            //                        share.setBackgroundResource()
+//                            productScannedDate.setTextColor(R.color.black)
+//                            if (t.starred) {
+//                                starred.setBackgroundResource(R.drawable.ic_starred)
+//                            } else {
+//                                starred.setBackgroundResource(R.drawable.ic_unstarred)
+//                            }
+////                        } else {
+////                            productCard.setBackgroundColor(R.color.negativeColor)
+////                            productName.setTextColor(R.color.white)
+////                            if (productScannedDate.isVisible) {
+////                                productScannedDate.setTextColor(R.color.white)
+////                            }
+////                            //                      white delete & share
+////                            //                        delete.setBackgroundResource()
+////                            //                        share.setBackgroundResource()
+////                            productScannedDate.setTextColor(R.color.white)
+////                            if (t.starred) {
+////                                starred.setBackgroundResource(R.drawable.ic_starred)
+////                            } else {
+////                                starred.setBackgroundResource(R.drawable.ic_unstarred)
+////                            }
+////                        }
+//                    } else {
+//                        starred.setBackgroundResource(R.drawable.ic_unstarred)
+//                    }
+//                }
+//            })
 
-            starred.setOnClickListener {
-                val starred_ = item.starred
-                if (starred_) {
-                    starred.setBackgroundResource(R.drawable.ic_unstarred)
-                } else {
-                    starred.setBackgroundResource(R.drawable.ic_starred)
+            pVM.getOne_(item.barcode)?.observe(owner, object : Observer<ProductModel> {
+                override fun onChanged(t: ProductModel?) {
+                    item.starred = t?.starred ?: item.starred
+                    if (t != null && t.starred) {
+                        starred.setBackgroundResource(R.drawable.ic_star_yellow)
+                    } else {
+                        starred.setBackgroundResource(R.drawable.ic_star_black)
+                    }
                 }
+            })
 
-                item.starred = !starred_
-
-                pVM.updateStarred_(item)
-                notifyDataSetChanged()
+            // logics with image buttons
+            starred.setOnClickListener {
+                item.starred = !item.starred
+                if (item.starred) {
+                    pVM.upsert_(item)
+                } else {
+                    if (item.scanned) {
+                        pVM.upsert_(item)
+                    } else {
+                        pVM.deleteOne_(item)
+                    }
+                }
             }
 
             share.setOnClickListener {
@@ -99,15 +160,20 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 ctx.startActivity(
                     Intent.createChooser(
                         sharingIntent,
-        //                        ctx.getResources().getString(R.string.share_via)
                         "Поделиться"
                     )
                 )
             }
 
             delete.setOnClickListener {
-                pVM.deleteOne_(item)
-                notifyDataSetChanged()
+                if (item.starred) {
+                    item.scanned = !item.scanned
+                    pVM.upsert_(item)
+                } else {
+                    pVM.deleteOne_(item)
+                }
+                Snackbar.make(itemView, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
             }
         }
     }

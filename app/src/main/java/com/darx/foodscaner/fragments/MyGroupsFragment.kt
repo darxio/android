@@ -20,6 +20,7 @@ import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.fragment_groups.view.*
 import java.io.Serializable
 
 
@@ -41,7 +42,7 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
                 startActivity(intent)
             }
         })
-        val myGroupsRecycler = view.findViewById<RecyclerView>(R.id.groupsRecycler)
+        val myGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_rv)
         myGroupsRecycler.adapter = myGroupAdapter
 
         groupViewModel.getAll_().observe(this, object : Observer<List<GroupModel>> {

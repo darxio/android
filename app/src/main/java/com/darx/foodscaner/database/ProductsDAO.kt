@@ -13,19 +13,19 @@ import java.util.*
 @Dao
 interface ProductsDAO {
     @Query("SELECT * from products WHERE scanned=1 ORDER BY date DESC") // ORDER BY
-    fun getAllScanned(): LiveData<List<ProductModel>>
+    fun getScanned(): LiveData<List<ProductModel>>
 
-    @Query("SELECT * from products ORDER BY date DESC") //??
+    @Query("SELECT * from products WHERE starred=1 ORDER BY date DESC") //??
     fun getFavourites(): LiveData<List<ProductModel>>
 
-//    @Query("SELECT * from products WHERE barcode = :barcode")
-//    fun getOne(barcode: Long): ProductModel
+    @Query("SELECT * from products WHERE barcode = :barcode")
+    fun getOne(barcode: Long): LiveData<ProductModel>
 
     @Insert(onConflict = IGNORE)
     fun add(product: ProductModel): Long
 
-    @Query("UPDATE products SET date = :date AND scanned=1 WHERE barcode = :barcode")
-    fun updateDateAndScanned(barcode: Long, date: Date)
+    @Query("UPDATE products SET date = :date AND scanned = :scanned AND starred = :starred WHERE barcode = :barcode")
+    fun updateDateAndScanned(barcode: Long, date: Date, scanned: Boolean, starred: Boolean)
 
     @Update
     fun updateStarred(product: ProductModel)
@@ -40,7 +40,7 @@ interface ProductsDAO {
     fun upsert(product: ProductModel) {
         val id = add(product)
         if (id.compareTo(-1) == 0) {
-            updateDateAndScanned(product.barcode, product.date)
+            updateStarred(product)
         }
     }
 }

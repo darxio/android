@@ -8,6 +8,8 @@ import android.speech.tts.TextToSpeech
 import android.os.Bundle
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.View.INVISIBLE
 import android.widget.*
@@ -19,15 +21,23 @@ import com.darx.foodscaner.fragments.FeedbackFragment
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_groups.*
 import okhttp3.*
 import java.io.IOException
 import java.util.*
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 
 class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
@@ -44,11 +54,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = null
 
     private var isAllowed: Boolean = true
-//    private var isGroupsMatched: Boolean = false
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            // set US English as language for tts
             val result = tts!!.setLanguage(Locale.US)
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -71,7 +79,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     override fun onDestroy() {
-        // Shutdown TTS
         if (tts != null) {
             tts!!.stop()
             tts!!.shutdown()
@@ -149,8 +156,13 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
+
+        setSupportActionBar(product_toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
         var spoke = false
-        info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+        info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
 
         speaker = findViewById(R.id.info_speaker_ib)
 
@@ -159,7 +171,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
                 override fun onDone(utteranceId: String?) {
-                    info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+                    info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 }
 
                 override fun onError(utteranceId: String?) {
@@ -189,11 +201,11 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         speaker!!.setOnClickListener {
             if (spoke) {
-                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker)
+                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 pause()
                 spoke = false
             } else {
-                info_speaker_ib.setBackgroundResource(R.drawable.ic_pause)
+                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_off_black)
                 speakOut(this.productToShow.contents!!)
                 spoke = true
             }
@@ -203,56 +215,27 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        val starred = findViewById<ImageButton>(R.id.info_starred_ib)
-        val share = findViewById<ImageButton>(R.id.info_share_btn)
-        val back = findViewById<Button>(R.id.back_btn)
+//        val starred = findViewById<ImageButton>(R.id.info_starred_ib)
+//        val share = findViewById<ImageButton>(R.id.info_share_ib)
 
         // logics with image buttons
-        if (productToShow.starred) {
-            starred.setBackgroundResource(R.drawable.ic_starred)
-        } else {
-            starred.setBackgroundResource(R.drawable.ic_unstarred)
-        }
 
-        starred.setOnClickListener {
-            val starred_ = productToShow.starred
-            if (starred_) {
-                starred.setBackgroundResource(R.drawable.ic_unstarred)
-            } else {
-                starred.setBackgroundResource(R.drawable.ic_starred)
-            }
 
-            productToShow.starred = !starred_
+//        starred.setOnClickListener {
+//
+//        }
 
-            pVM.updateStarred_(productToShow)
-        }
-
-        share.setOnClickListener {
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent.type = "text/plain"
-            val shareBody = productToShow.name;
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
-            this.startActivity(
-                Intent.createChooser(
-                    sharingIntent,
-                    //                        ctx.getResources().getString(R.string.share_via)
-                    "Поделиться"
-                )
-            )
-        }
-
-        back.setOnClickListener {
-            finish()
-        }
+//        share.setOnClickListener {
+//
+//        }
 
 //        logics with info text views
-        this.layout = findViewById(R.id.info_product_layout)
         info_product_name.text = productToShow.name
 
         if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
-            Picasso.get().load(productToShow.image).error(R.drawable.product).into(info_product_image);
+            Picasso.get().load(productToShow.image).error(R.drawable.ic_cereals__black).into(info_product_image);
         } else {
-            info_product_image.setImageResource(R.drawable.product)
+            info_product_image.setImageResource(R.drawable.ic_cereals__black)
         }
 
         // when the short version of the product is obtained
@@ -339,5 +322,60 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 //            info_material_card.setBackgroundColor(R.color.negativeColor)
 //            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
 //        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            R.id.action_share -> {
+                val sharingIntent = Intent(Intent.ACTION_SEND)
+                sharingIntent.type = "text/plain"
+                val shareBody = productToShow.name;
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+                this.startActivity(
+                    Intent.createChooser(
+                        sharingIntent,
+                        //                        ctx.getResources().getString(R.string.share_via)
+                        "Поделиться"
+                    )
+                )
+                return true
+            }
+            R.id.action_favourite -> {
+                productToShow.starred = !productToShow.starred
+                if (productToShow.starred) {
+                    pVM.upsert_(productToShow)
+                } else {
+                    if (productToShow.scanned) {
+                        pVM.upsert_(productToShow)
+                    } else {
+                        pVM.deleteOne_(productToShow)
+                    }
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.product_toolbar, menu)
+
+        val item = menu!!.findItem(R.id.action_favourite)
+
+        pVM.getOne_(productToShow.barcode)?.observe(this, object : Observer<ProductModel> {
+            override fun onChanged(t: ProductModel?) {
+                if (t != null && t.starred) {
+                    item.setIcon(R.drawable.ic_star_yellow)
+                } else {
+                    item.setIcon(R.drawable.ic_star_white)
+                }
+            }
+        })
+
+        return true
     }
 }

@@ -19,18 +19,18 @@ class IngredientActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ingredient)
 
-        setSupportActionBar(ingredientToolbar)
+        setSupportActionBar(ingredient_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
         ingredientToShow = intent.extras.get("INGREDIENT") as IngredientModel
 
 
-        collapsingToolbar.title = ingredientToShow.name
+//        collapsingToolbar.title = ingredientToShow.name
         val desc_html = if (ingredientToShow.description != "NULL") ingredientToShow.description else """
             <p>""" + resources.getString(R.string.no_ingredient_description) +"""</p>
         """.trimIndent()
-        webView.loadDataWithBaseURL("", desc_html, "text/html", "UTF-8", "")
+        ingredient_web_view.loadDataWithBaseURL("", desc_html, "text/html", "UTF-8", "")
         // collapsingToolbar.background = R.drawable.ingredient.toDrawable() IMAGE
 
 
@@ -55,7 +55,7 @@ class IngredientActivity : AppCompatActivity() {
             }
         })
 
-        exceptingButton.setOnClickListener {
+        ingredient_exclude_btn.setOnClickListener {
             if (!isAllowed) {
                 if (isGroupsMatched) {
                     ingredientToShow.allowed = true
@@ -76,11 +76,11 @@ class IngredientActivity : AppCompatActivity() {
 
     fun setSettingsByStatus(status: Boolean) {
         if (status) {
-            exceptingButton.text = resources.getString(R.string.except_ingredient)
-            exceptingButton.setBackgroundColor(resources.getColor(R.color.strongNegativeColor))
+            ingredient_exclude_btn.text = resources.getString(R.string.exclude_ingredient)
+            ingredient_exclude_btn.setBackgroundColor(resources.getColor(R.color.negativeColor))
         } else {
-            exceptingButton.text = resources.getString(R.string.add_ingredient)
-            exceptingButton.setBackgroundColor(resources.getColor(R.color.strongPositiveColor))
+            ingredient_exclude_btn.text = resources.getString(R.string.add_ingredient)
+            ingredient_exclude_btn.setBackgroundColor(resources.getColor(R.color.positiveColor))
         }
     }
 

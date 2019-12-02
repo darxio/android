@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="home_page_title_size">18sp</dimen>
-    <dimen name="home_page_title_padding_top">32dp</dimen>
-    <dimen name="home_page_title_padding_bottom">16dp</dimen>
-    <dimen name="home_page_mode_item_padding_horizontal">24dp</dimen>
-    <dimen name="home_page_mode_item_title_size">16sp</dimen>
-    <dimen name="home_page_mode_item_title_padding_top">16dp</dimen>
-    <dimen name="home_page_mode_item_title_padding_bottom">8dp</dimen>
-    <dimen name="home_page_mode_item_subtitle_size">14sp</dimen>
-    <dimen name="home_page_mode_item_subtitle_padding_bottom">24dp</dimen>
     <dimen name="top_action_bar_padding_horizontal">8dp</dimen>
     <dimen name="top_action_bar_height">64dp</dimen>
     <dimen name="top_action_button_padding">12dp</dimen>
@@ -18,8 +9,6 @@
     <dimen name="bottom_prompt_chip_text_size">14sp</dimen>
     <dimen name="bottom_prompt_chip_margin_bottom">28dp</dimen>
     <dimen name="bottom_prompt_chip_corner_radius">8dp</dimen>
-    <dimen name="bottom_sheet_title_margin">16dp</dimen>
-    <dimen name="bottom_sheet_title_size">16sp</dimen>
     <dimen name="bounding_box_stroke_width">1dp</dimen>
     <dimen name="bounding_box_confirmed_stroke_width">2dp</dimen>
     <dimen name="bounding_box_corner_radius">12dp</dimen>
@@ -40,12 +29,8 @@
     <dimen name="object_thumbnail_height">120dp</dimen>
     <dimen name="object_thumbnail_margin">24dp</dimen>
     <dimen name="object_thumbnail_stroke_width">@dimen/bounding_box_confirmed_stroke_width</dimen>
-    <dimen name="preview_card_carousel_padding_top">16dp</dimen>
-    <dimen name="preview_card_carousel_padding_bottom">8dp</dimen>
-    <dimen name="preview_card_carousel_height">120dp</dimen>
     <dimen name="preview_card_width">240dp</dimen>
     <dimen name="preview_card_height">96dp</dimen>
-    <dimen name="preview_card_spacing">8dp</dimen>
     <dimen name="preview_card_corner_radius">8dp</dimen>
     <dimen name="preview_card_image_size">80dp</dimen>
     <dimen name="preview_card_image_margin">8dp</dimen>
@@ -53,28 +38,21 @@
     <dimen name="preview_card_title_padding_top">12dp</dimen>
     <dimen name="preview_card_subtitle_text_size">14sp</dimen>
     <dimen name="preview_card_subtitle_padding_top">4dp</dimen>
-    <dimen name="static_image_dot_view_size">48dp</dimen>
     <dimen name="static_image_dot_radius_selected">14dp</dimen>
     <dimen name="static_image_dot_radius_unselected">10dp</dimen>
-    <dimen name="static_image_view_padding_horizontal">16dp</dimen>
-    <dimen name="static_image_loading_view_text_size">14sp</dimen>
-    <dimen name="static_image_loading_view_text_margin_bottom">32dp</dimen>
-    <dimen name="barcode_bottom_sheet_padding_vertical">12dp</dimen>
     <dimen name="barcode_reticle_ripple_stroke_width">4dp</dimen>
     <dimen name="barcode_reticle_ripple_size_offset">40dp</dimen>
     <dimen name="barcode_reticle_stroke_width">4dp</dimen>
     <dimen name="barcode_reticle_corner_radius">8dp</dimen>
-    <dimen name="barcode_field_padding_horizontal">24dp</dimen>
-    <dimen name="barcode_field_padding_vertical">12dp</dimen>
-    <dimen name="barcode_field_value_size">16sp</dimen>
-    <dimen name="barcode_field_value_padding">16dp</dimen>
-    <dimen name="barcode_field_label_size">12sp</dimen>
-    <dimen name="barcode_field_label_padding">4dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="appbar_height">56dp</dimen>
     <dimen name="appbar_padding">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="profile_fragment_title_padding">14dp</dimen>
+    <dimen name="collapsible_appbar_height">270dp</dimen>
+
+    <dimen name="product_property_title_size">15sp</dimen>
+    <dimen name="product_property_content_size">15sp</dimen>
 </resources>

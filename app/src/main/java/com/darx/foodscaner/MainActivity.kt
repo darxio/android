@@ -14,7 +14,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
-    private val pagerAdapter = PageAdapter(supportFragmentManager, lifecycle)
+
+    private val profileFragment = ProfileFragment()
+    private val cameraFragment = CameraFragment()
+    private val recentlyScannedFragment = RecentlyScannedFragment()
+
+    private var bottomNavigationView: BottomNavigationView? = null
 
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
@@ -29,44 +34,30 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_main)
 
-        pagerAdapter.addFragment(ProfileFragment(), "Profile")
-        pagerAdapter.addFragment(CameraFragment(), "Camera")
-        pagerAdapter.addFragment(RecentlyScannedFragment(), "RecentlyScanned")
-
-        setContentView(com.darx.foodscaner.R.layout.activity_main)
-
-        val bottomNavigationView =
-            findViewById<BottomNavigationView>(com.darx.foodscaner.R.id.bottom_navigation)
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(object :
-            BottomNavigationView.OnNavigationItemSelectedListener {
-            override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                when (item.getItemId()) {
-                    com.darx.foodscaner.R.id.action_profile ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("Profile")
-                    com.darx.foodscaner.R.id.action_camera ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("Camera")
-                    com.darx.foodscaner.R.id.action_recently_scanned ->
-                        viewPager.currentItem = pagerAdapter.getItemNum("RecentlyScanned")
-                }
-                return true
+        bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView?.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_profile ->
+                    supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, profileFragment).commit()//pagerAdapter.getItemNum("Profile")
+                R.id.action_camera ->
+                    supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment).commit()
+                R.id.action_recently_scanned ->
+                    supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, recentlyScannedFragment).commit()
             }
-        })
+            true
+        }
 
-        viewPager.setUserInputEnabled(false);
-        viewPager.adapter = pagerAdapter
-        viewPager.currentItem = pagerAdapter.getItemNum("Camera")
+        supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment).commit()
+        bottomNavigationView?.selectedItemId = R.id.action_camera
 
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        var firstLaunch = prefs.getBoolean("firstLaunch", true)
+        val firstLaunch = prefs.getBoolean("firstLaunch", true)
 
         if (firstLaunch) {
             val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
             startActivity(intent)
         }
     }
-
 }

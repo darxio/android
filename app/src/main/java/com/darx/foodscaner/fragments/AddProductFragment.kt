@@ -1,7 +1,6 @@
 package com.darx.foodscaner.fragments
 
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,8 +12,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.darx.foodscaner.R
-import com.darx.foodscaner.camerafragment.camera.WorkflowModel
-import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSource

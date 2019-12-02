@@ -1,5 +1,6 @@
 package com.darx.foodscaner.adapters
 
+import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,17 @@ import com.darx.foodscaner.R
 import com.darx.foodscaner.database.GroupModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.group_item.view.*
+import android.widget.LinearLayout
 
 
-class GroupAdapter(var items: List<GroupModel>, val callback: Callback) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+
+class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var size: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+
+    val Int.dp: Int
+        get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+    val Int.px: Int
+        get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.group_item, parent, false))
@@ -44,6 +53,16 @@ class GroupAdapter(var items: List<GroupModel>, val callback: Callback) : Recycl
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
+            }
+
+            if (size > 0) {
+                val params = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+
+                params.width = size.dp
+                itemView.layoutParams = params
             }
         }
     }

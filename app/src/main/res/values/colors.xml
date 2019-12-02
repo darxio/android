@@ -11,6 +11,9 @@
 
     <color name="emptyColor">#551544</color>
 
+    <color name="product_property_title_color">@color/black</color>
+    <color name="product_property_content_color">#273e45</color>
+
     <!-- <color name="colorPrimary">#008577</color> -->
     <!-- <color name="colorPrimaryDark">#00574B</color> -->
     <!-- <color name="colorAccent">#D81B60</color> -->

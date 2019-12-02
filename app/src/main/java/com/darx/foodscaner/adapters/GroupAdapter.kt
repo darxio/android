@@ -57,8 +57,8 @@ class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var size
 
             if (size > 0) {
                 val params = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
                 )
 
                 params.width = size.dp

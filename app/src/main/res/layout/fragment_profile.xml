@@ -25,6 +25,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -35,7 +36,7 @@
                 android:orientation="vertical">
 
 
-            <LinearLayout
+            <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -43,20 +44,31 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/profile_fragment_title_padding"
                         android:text="@string/all_groups"
                         android:textColor="@color/black"
-                        android:textSize="30sp"
-                        android:padding="@dimen/profile_fragment_title_padding"/>
+                        android:textSize="30sp" />
 
-                <TextView
+                <LinearLayout
                         android:id="@+id/more_groups"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/show_more"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:orientation="horizontal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="0dp">
 
-            </LinearLayout>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/show_more"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/groups_multi_rv"
@@ -69,13 +81,13 @@
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@color/colorPrimary"/>
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/colorPrimary" />
 
-<!--            Ingredients-->
+            <!--            Ingredients-->
 
-            <LinearLayout
+            <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -83,20 +95,31 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/profile_fragment_title_padding"
                         android:text="@string/all_ingredients"
                         android:textColor="@color/black"
-                        android:textSize="30sp"
-                        android:padding="@dimen/profile_fragment_title_padding"/>
+                        android:textSize="30sp" />
 
-                <TextView
+                <LinearLayout
                         android:id="@+id/more_ingredients"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/show_more"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:orientation="horizontal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="0dp">
 
-            </LinearLayout>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/show_more"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ingredients_multi_rv"
@@ -109,13 +132,13 @@
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@color/colorPrimary"/>
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/colorPrimary" />
 
-<!--            Favourites-->
+            <!--            Favourites-->
 
-            <LinearLayout
+            <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -123,20 +146,31 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/profile_fragment_title_padding"
                         android:text="@string/favourites"
                         android:textColor="@color/black"
-                        android:textSize="30sp"
-                        android:padding="@dimen/profile_fragment_title_padding"/>
+                        android:textSize="30sp" />
 
-                <TextView
+                <LinearLayout
                         android:id="@+id/more_favourites"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/show_more"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:orientation="horizontal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="0dp">
 
-            </LinearLayout>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/show_more"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/favourites_multi_recycler"
@@ -144,7 +178,7 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/favourite_product_preview_item"/>
+                    tools:listitem="@layout/favourite_product_preview_item" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

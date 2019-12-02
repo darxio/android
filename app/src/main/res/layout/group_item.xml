@@ -19,7 +19,7 @@
         <ImageView
                 android:id="@+id/group_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:tint="#70000000"/>
@@ -34,13 +34,13 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-<!--        <ImageView-->
-<!--                android:id="@+id/group_icon"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:src="@drawable/ic_success"/>-->
+        <!--        <ImageView-->
+        <!--                android:id="@+id/group_icon"-->
+        <!--                android:layout_width="50dp"-->
+        <!--                android:layout_height="50dp"-->
+        <!--                android:layout_alignParentRight="true"-->
+        <!--                android:layout_alignParentBottom="true"-->
+        <!--                android:src="@drawable/ic_success"/>-->
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

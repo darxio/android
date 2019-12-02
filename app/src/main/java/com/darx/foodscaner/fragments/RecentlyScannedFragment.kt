@@ -32,18 +32,21 @@ import com.google.android.material.snackbar.Snackbar
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.speech.RecognizerIntent
 import androidx.core.content.ContextCompat.getSystemService
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
+import android.widget.Toast
+import com.darx.foodscaner.R
 import com.google.android.material.tabs.TabLayout
-import android.R
-
-
-
-
+import com.darx.foodscaner.MainActivity
+import java.lang.Exception
+import java.util.*
 
 
 class RecentlyScannedFragment : Fragment() {
+
+    private val REQUEST_CODE_SPEECH_INPUT = 100
 
     private var productViewModel: ProductViewModel? = null
     private var networkDataSource: NetworkDataSourceImpl? = null
@@ -104,30 +107,40 @@ class RecentlyScannedFragment : Fragment() {
             scannedProductsAdapter?.addItems(matchMyProducts(newQuery))
         })
 
-//        rs_search_view.setOnMenuItemClickListener(object : FloatingSearchView.OnMenuItemClickListener {
-//            override fun onActionMenuItemSelected(item: MenuItem?) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//            }
-//
-//            fun onMenuItemSelected(item: MenuItem) {
-//
-//            }
-//        })
-
-        // HIDE KEYBOARD
-//        view.rs_need_scroll.setOnTouchListener(object : OnTouchListener {
-//            override fun onTouch(v: View, event: MotionEvent): Boolean {
-//                hideKeyboard(v)
-//                return false
-//            }
-//
-//            private fun hideKeyboard(view: View) {
-//                val inputMethodManger = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-//                inputMethodManger!!.hideSoftInputFromWindow(view.windowToken, 0)
-//            }
-//        })
+        view.rs_search_view.setOnMenuItemClickListener { item ->
+            when (item?.itemId) {
+                R.id.barcode_search -> (activity as MainActivity?)?.chooseFragment(1)
+                R.id.voice_search -> voiceGoogle()
+            }
+        }
 
         return view
+    }
+
+    fun voiceGoogle() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speach_prompt))
+
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
+        } catch (e: Exception) {
+            Toast.makeText(this.context, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            REQUEST_CODE_SPEECH_INPUT -> {
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    rs_search_view.setSearchText(result[0]?.toString())
+//                    rs_search_view.
+                }
+            }
+        }
     }
 
     fun matchMyProducts(typed: String): List<ProductModel> {

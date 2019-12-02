@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.darx.foodscaner.R
 import com.darx.foodscaner.database.GroupModel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.group_item.view.*
 
 
 class GroupAdapter(var items: List<GroupModel>, val callback: Callback) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {

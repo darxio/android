@@ -25,5 +25,20 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">#AEFFFFFF</item>
         <item name="android:hint">@string/searching</item>
+
+        <item name="floatingSearch_backgroundColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_viewSearchInputTextColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_viewSuggestionItemTextColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_hintTextColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_dividerColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_clearBtnColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_leftActionColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_menuItemIconColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_suggestionRightIconColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_actionMenuOverflowColor">@android:color/holo_green_dark</item>
+    </style>
+
+    <style name="BottomNavigation.ActiveItemTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

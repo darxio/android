@@ -27,6 +27,7 @@
       android:background="@color/colorPrimary"
       app:itemIconTint="@menu/tab_navigation_color"
       app:itemTextColor="@menu/tab_navigation_color"
+      app:itemTextAppearanceActive="@style/BottomNavigation.ActiveItemTextAppearance"
       android:layout_alignParentBottom="true"
       app:menu="@menu/bottom_navigation_menu" />
 

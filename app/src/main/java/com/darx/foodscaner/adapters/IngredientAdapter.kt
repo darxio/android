@@ -67,9 +67,9 @@ class IngredientAdapter(var items: List<IngredientModel>, val owner: LifecycleOw
 
         fun setSettingsByStatus(status: Boolean) {
             if (status) {
-                ingredientObject.setCardBackgroundColor(R.color.positiveColor)
+                ingredientObject.setCardBackgroundColor(R.drawable.bg_chip_state_list_positive)
             } else {
-                ingredientObject.setCardBackgroundColor(R.color.negativeColor)
+                ingredientObject.setCardBackgroundColor(R.drawable.bg_chip_state_list_negative)
             }
         }
 

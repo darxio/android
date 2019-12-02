@@ -26,7 +26,7 @@
                     app:floatingSearch_searchHint="@string/searching"
                     app:floatingSearch_suggestionsListAnimDuration="250"
                     app:floatingSearch_showSearchKey="false"
-                    app:floatingSearch_leftActionMode="noLeftAction"
+                    app:floatingSearch_leftActionMode="showSearch"
                     app:floatingSearch_menu="@menu/search_menu"
                     app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
         </FrameLayout>

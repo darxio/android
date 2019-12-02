@@ -121,4 +121,5 @@
 
 <!--    Toolbar -->
     <string name="searching">Поиск...</string>
+    <string name="speach_prompt">Назовите название продукта</string>
 </resources>

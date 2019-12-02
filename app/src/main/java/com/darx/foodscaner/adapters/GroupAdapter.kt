@@ -36,9 +36,9 @@ class GroupAdapter(var items: List<GroupModel>, val callback: Callback) : Recycl
 
         fun bind(item: GroupModel) {
             if (!item.imagePath.isEmpty() || item.imagePath == "NULL") {
-                Picasso.get().load(item.imagePath).error(R.drawable.product).into(groupImage);
+                Picasso.get().load(item.imagePath).error(R.drawable.ic_no_photo).into(groupImage);
             } else {
-                groupImage.setImageResource(R.drawable.product)
+                groupImage.setImageResource(R.drawable.ic_no_photo)
             }
             groupName.text = item.name
 

@@ -14,7 +14,7 @@
                 android:id="@+id/wizardImage"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/product"
+                android:src="@drawable/ic_no_photo"
                 android:tint="@color/black" />
 
 

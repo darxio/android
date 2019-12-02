@@ -52,9 +52,9 @@ class PreviewProductsAdapter(var items: List<ProductModel>, val callback: Callba
         fun bind(item: ProductModel) {
 
             if (!item.image.isNullOrEmpty() || item.image == "NULL") {
-                Picasso.get().load(item.image).error(R.drawable.product).into(productImage);
+                Picasso.get().load(item.image).error(R.drawable.ic_no_photo).into(productImage);
             } else {
-                productImage.setImageResource(R.drawable.product)
+                productImage.setImageResource(R.drawable.ic_no_photo)
             }
 
             itemView.setOnClickListener {

@@ -42,7 +42,7 @@ class GroupActivity : AppCompatActivity() {
 
 
         if (!groupToShow.imagePath.isNullOrEmpty() || groupToShow.imagePath == "NULL") {
-            Picasso.get().load(groupToShow.imagePath).error(R.drawable.product).into(
+            Picasso.get().load(groupToShow.imagePath).error(R.drawable.ic_no_photo).into(
                 object : com.squareup.picasso.Target {
                     override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
 
@@ -53,7 +53,7 @@ class GroupActivity : AppCompatActivity() {
                     override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
                 })
         } else {
-            group_name.setBackgroundResource(R.drawable.product)
+            group_name.setBackgroundResource(R.drawable.ic_no_photo)
         }
 
         // collapsingToolbar.background = R.drawable.group.toDrawable() IMAGE

@@ -46,7 +46,7 @@
                     android:layout_width="65dp"
                     android:layout_height="65dp"
                     android:padding="3dp"
-                    android:src="@drawable/product"/>
+                    android:src="@drawable/ic_no_photo"/>
 
 
             <LinearLayout

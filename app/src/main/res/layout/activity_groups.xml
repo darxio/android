@@ -10,13 +10,6 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             android:animateLayoutChanges="true">
 
-<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:contentScrim="?attr/colorPrimary"-->
-<!--                app:expandedTitleGravity="top"-->
-<!--                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">-->
-
         <FrameLayout
                 android:id="@+id/frame_toolbar"
                 android:layout_width="match_parent"
@@ -25,7 +18,7 @@
             <androidx.appcompat.widget.Toolbar
                     android:id="@+id/groups_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/appbar_height"
+                    android:layout_height="match_parent"
                     android:background="@color/colorPrimary"
                     android:backgroundTint="@color/colorPrimary"
                     android:theme="@style/AppTheme.AppBarOverlay"
@@ -37,7 +30,6 @@
                     android:layout_height="wrap_content"
                     style="@style/MaterialSearchViewStyle"/>
         </FrameLayout>
-<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
         <com.google.android.material.tabs.TabLayout
                 style="@style/Widget.MaterialComponents.TabLayout.Colored"
@@ -60,13 +52,11 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/groups_search_fab"
+    <FrameLayout
+            android:id="@+id/favorites_fragments_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_margin="16dp"/>
-
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

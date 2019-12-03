@@ -75,7 +75,7 @@
     <string name="enter_to_group">Вступить</string>
     <string name="exit_from_group">Выйти</string>
 
-    <string name="add_ingredient">Добавить</string>
+    <string name="add_ingredient">Добавить в рацион</string>
 
 
     <!--    New Strings -->
@@ -93,12 +93,12 @@
 
     <!--    Group Activity -->
     <string name="group">Группа</string>
-    <string name="group_ingredients">Ингредиенты</string>
+    <string name="group_ingredients">Исключаемые\nингредиенты</string>
     <string name="join_group">Вступить</string>
 
     <!--    Ingredient Activity -->
     <string name="ingredient">Ингредиент</string>
-    <string name="exclude_ingredient">Исключить</string>
+    <string name="exclude_ingredient">Исключить из рациона</string>
 
     <!--    Groups Activity -->
     <string name="groups">Группы</string>

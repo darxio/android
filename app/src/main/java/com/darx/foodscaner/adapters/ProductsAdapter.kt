@@ -78,8 +78,8 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 val dateFormat = SimpleDateFormat("dd MMM, HH:mm")
                 productScannedDate.text = dateFormat.format(item.date)
             } else {
-                productScannedDate.visibility = View.INVISIBLE
-                delete.visibility = View.INVISIBLE
+                productScannedDate.visibility = View.GONE
+                delete.visibility = View.GONE
             }
 
             itemView.setOnClickListener {

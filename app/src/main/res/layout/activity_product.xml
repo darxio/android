@@ -80,7 +80,7 @@
                         android:lines="3"
                         android:maxLines="4"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15dp" />
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>

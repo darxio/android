@@ -47,24 +47,30 @@
                         android:paddingLeft="@dimen/profile_fragment_title_padding"
                         android:text="@string/all_groups"
                         android:textColor="@color/black"
-                        android:textSize="30sp" />
+                        android:textSize="28dp" />
 
                 <LinearLayout
                         android:id="@+id/more_groups"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="0dp">
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal">
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/show_more"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
+
+                    <ImageView
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/ic_more" />
 
                 </LinearLayout>
 
@@ -98,24 +104,30 @@
                         android:paddingLeft="@dimen/profile_fragment_title_padding"
                         android:text="@string/all_ingredients"
                         android:textColor="@color/black"
-                        android:textSize="30sp" />
+                        android:textSize="28dp" />
 
                 <LinearLayout
                         android:id="@+id/more_ingredients"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="0dp">
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal">
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/show_more"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
+
+                    <ImageView
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/ic_more" />
 
                 </LinearLayout>
 
@@ -149,24 +161,30 @@
                         android:paddingLeft="@dimen/profile_fragment_title_padding"
                         android:text="@string/favourites"
                         android:textColor="@color/black"
-                        android:textSize="30sp" />
+                        android:textSize="28dp" />
 
                 <LinearLayout
                         android:id="@+id/more_favourites"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="0dp">
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal">
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/show_more"
                             android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="20dp" />
+
+                    <ImageView
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/ic_more" />
 
                 </LinearLayout>
 

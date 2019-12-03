@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:text="чай"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="20dp"
                 android:layout_gravity="center|left"/>
 
         <ImageButton

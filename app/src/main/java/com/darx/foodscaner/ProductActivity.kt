@@ -2,7 +2,6 @@ package com.darx.foodscaner
 
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.speech.tts.TextToSpeech
 import android.os.Bundle
@@ -17,25 +16,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
 import com.darx.foodscaner.database.IngredientExtended
-import com.darx.foodscaner.fragments.FeedbackFragment
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
-import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_groups.*
-import okhttp3.*
-import java.io.IOException
 import java.util.*
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 
 
@@ -130,6 +120,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
                 } else {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+//                    ok = false
                 }
             }
         })
@@ -319,8 +310,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
 //        if (ok == false) {
-//            info_material_card.setBackgroundColor(R.color.negativeColor)
-//            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
+////            info_material_card.setBackgroundColor(R.color.negativeColor)
+////            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
+//            Log.e("OK_VAR", "ok is false")
 //        }
     }
 

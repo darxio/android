@@ -70,6 +70,7 @@ import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.view.*
 import kotlinx.coroutines.joinAll
 import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
@@ -77,6 +78,10 @@ import java.io.OutputStream
 
 
 class ObjectDetectionFragment : Fragment(), OnClickListener {
+
+    init {
+        Log.d("TEST", "TEST OBJECT")
+    }
 
     private var CAMERA_REQUEST = 1;
 
@@ -148,7 +153,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         }
 
         networkDataSource?.fruit?.observe(this, Observer {
-           Toast.makeText(context, it.prediction, Toast.LENGTH_LONG).show()
+           Toast.makeText(context, it.prediction, Toast.LENGTH_SHORT).show()
         })
         return view
     }
@@ -269,10 +274,10 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
             }
             R.id.change_mode_button -> {
 //                changeModeButton?.setOnClickListener(null)
-                val transaction = fragmentManager?.beginTransaction()
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
                 cameraSource?.release()
                 transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                transaction?.replace(R.id.camera_preview, CameraFragment(), "CameraFragment")
+                transaction?.replace(R.id.fragments_frame, CameraFragment(), "CameraFragment")
                 transaction?.commit()
             }
         }
@@ -393,11 +398,12 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                 val productList = searchedObject.productList
 
                 objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail()
-                val file = bitmapToFile(searchedObject.getObjectThumbnail())
-                val fbody = RequestBody.create(MediaType.parse("image/*"), file);
-                GlobalScope.launch(Dispatchers.Main) {
+                GlobalScope.launch(Dispatchers.IO) {
+                    val file = bitmapToFile(searchedObject.getObjectThumbnail())
+                    val fbody = RequestBody.create(MediaType.parse("image/*"), file);
+                    val part = MultipartBody.Part.createFormData("file", file.name, fbody)
                     networkDataSource?.searchFruit(
-                        fbody, object : NetworkDataSource.Callback {
+                        part, object : NetworkDataSource.Callback {
                             override fun onTimeoutException() {
                                 Log.e("HTTP", "Wrong answer.")
                                 Toast.makeText(
@@ -456,7 +462,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         // Initialize a new file instance to save bitmap object
 //        var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
 //        file = File(file,"${UUID.randomUUID()}.jpg")
-        var file = File("")
+        val file = File(context!!.cacheDir, "" + System.currentTimeMillis() + ".jpg")
         try{
             // Compress the bitmap and save in jpg format
             val stream: OutputStream = FileOutputStream(file)

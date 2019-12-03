@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.content.Context
 import android.content.Intent
 import android.hardware.Camera
 import android.util.Log
@@ -40,18 +39,13 @@ import android.content.pm.PackageManager
 import android.view.View.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
-import com.darx.foodscaner.FoodApp
-import com.darx.foodscaner.WelcomeWizardActivity
 import com.darx.foodscaner.camerafragment.settings.SettingsActivity
 import com.darx.foodscaner.database.ProductViewModel
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSource
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.activity_live_barcode_kotlin.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
-import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.view.*
-import kotlinx.coroutines.joinAll
 
 
 class CameraFragment : Fragment(), OnClickListener {
@@ -66,6 +60,10 @@ class CameraFragment : Fragment(), OnClickListener {
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 //    }
+
+    init {
+        Log.d("TEST", "TEST CAMERA")
+    }
 
     private var CAMERA_REQUEST = 1;
 
@@ -87,69 +85,70 @@ class CameraFragment : Fragment(), OnClickListener {
     private var networkDataSource: NetworkDataSourceImpl? = null
     private var productViewModel: ProductViewModel? = null
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_REQUEST) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                onReadyToWork()
+            } else {
+                Toast.makeText(context!!, "We really need this permission", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ) : View?  {
         super.onCreate(savedInstanceState)
 
-        val viewGroupID: Int
-        val view: View
-
-        if (ActivityCompat.checkSelfPermission(
-                context!!,
-                android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context!!,
-                android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissions(
-                arrayOf(
-                    android.Manifest.permission.CAMERA
-                ),
-                CAMERA_REQUEST
-            )
-        }
-
-        if (ActivityCompat.checkSelfPermission(
-                context!!,
-                android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context!!,
-                android.Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            Toast.makeText(
-                context!!, "Дайте доступ к камере!",
-                Toast.LENGTH_SHORT
-            ).show()
-            viewGroupID = R.layout.no_camera
-            view = inflater.inflate(viewGroupID, container, false)
-        } else {
-            viewGroupID = R.layout.activity_live_barcode_kotlin
-            view = inflater.inflate(viewGroupID, container, false)
-
-            val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
-            networkDataSource = NetworkDataSourceImpl(apiService, context!!)
-            productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
-
-            networkDataSource?.product?.observe(this, Observer {
-                barcodeField.label = it.name ?: ""
-                barcodeField.value = it.description ?: ""
-                it.scanned = true
-                productViewModel?.upsert_(it)
-
-                BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
-            })
-        }
-
+        val view = inflater.inflate(R.layout.activity_live_barcode_kotlin, container, false)
 //            view.tutorial_button.setOnClickListener {
 //                val intent = Intent(this.context, WelcomeWizardActivity::class.java)
 //                startActivity(intent)
 //            }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (ActivityCompat.checkSelfPermission(
+                context!!,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(
+                context!!, "Дайте доступ к камере!",
+                Toast.LENGTH_SHORT
+            ).show()
+            requestPermissions(
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_REQUEST
+            )
+            no_permission_stub.visibility = VISIBLE
+        } else {
+            onReadyToWork()
+        }
+    }
+
+    private fun onReadyToWork() {
+        no_permission_stub.visibility = GONE
+        val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
+        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+
+        networkDataSource?.product?.observe(this, Observer {
+            barcodeField.label = it.name ?: ""
+            barcodeField.value = it.description ?: ""
+            it.scanned = true
+            productViewModel?.upsert_(it)
+
+            BarcodeResultFragment.show(activity!!.supportFragmentManager, barcodeField, it)
+        })
+
     }
 
     override fun onStop() {
@@ -164,18 +163,12 @@ class CameraFragment : Fragment(), OnClickListener {
         graphicOverlay = getView()?.findViewById<GraphicOverlay>(R.id.camera_preview_graphic_overlay)?.apply {
             if (ActivityCompat.checkSelfPermission(
                     context!!,
-                    android.Manifest.permission.CAMERA
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    context!!,
-                    android.Manifest.permission.CAMERA
+                    Manifest.permission.CAMERA
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 requestPermissions(
-                    arrayOf(
-                        android.Manifest.permission.CAMERA
-                    ),
-                    CAMERA_REQUEST
-                    )
+                    arrayOf(Manifest.permission.CAMERA), CAMERA_REQUEST
+                )
             }
 //            getView()?.setOnClickListener(this@CameraFragment)
 
@@ -246,19 +239,13 @@ class CameraFragment : Fragment(), OnClickListener {
                 startActivity(Intent(context, SettingsActivity::class.java))
             }
             R.id.change_mode_button -> {
-                val fragmentInFrame = fragmentManager?.findFragmentById(R.id.camera_preview);
-                var frag: Fragment
-                if (fragmentInFrame is CameraFragment ) {
-                    frag = ObjectDetectionFragment()
-                } else {
-                    frag = CameraFragment()
-                }
-                val transaction = fragmentManager?.beginTransaction()
+                var frag = ObjectDetectionFragment()
+                var tag = "OBJECT"
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
                 cameraSource?.release()
                 transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                transaction?.replace(R.id.camera_preview, frag)
+                transaction?.replace(R.id.fragments_frame, frag, tag)
                 transaction?.commit()
-
             }
         }
 //        fragment = ObjectDetectionFragment()
@@ -323,17 +310,17 @@ class CameraFragment : Fragment(), OnClickListener {
             when (workflowState) {
                 WorkflowState.DETECTING -> {
                     promtChipShown = false
-                    promptChip?.visibility = View.VISIBLE
+                    promptChip?.visibility = VISIBLE
                     promptChip?.setText(R.string.prompt_point_at_a_barcode)
                     startCameraPreview()
                 }
                 WorkflowState.CONFIRMING -> {
-                    promptChip?.visibility = View.VISIBLE
+                    promptChip?.visibility = VISIBLE
                     promptChip?.setText(R.string.prompt_move_camera_closer)
                     startCameraPreview()
                 }
                 WorkflowState.SEARCHING -> {
-                    promptChip?.visibility = View.VISIBLE
+                    promptChip?.visibility = VISIBLE
                     promptChip?.setText(R.string.prompt_searching)
                     stopCameraPreview()
                 }
@@ -344,7 +331,7 @@ class CameraFragment : Fragment(), OnClickListener {
                 else -> promptChip?.visibility = View.GONE
             }
 
-            val shouldPlayPromptChipEnteringAnimation = wasPromptChipGone && promptChip?.visibility == View.VISIBLE
+            val shouldPlayPromptChipEnteringAnimation = wasPromptChipGone && promptChip?.visibility == VISIBLE
             promptChipAnimator?.let {
                 if (shouldPlayPromptChipEnteringAnimation && !it.isRunning) it.start()
             }
@@ -391,7 +378,7 @@ class CameraFragment : Fragment(), OnClickListener {
                                     Toast.LENGTH_SHORT
                                 ).show()
 
-                                AddProductFragment.show(fragmentManager!!, barcode.rawValue!!.toLong())
+                                AddProductFragment.show(activity!!.supportFragmentManager, barcode.rawValue!!.toLong())
                                 workflowModel?.setWorkflowState(WorkflowState.DETECTING)
                             }
                         })

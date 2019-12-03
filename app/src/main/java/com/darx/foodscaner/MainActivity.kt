@@ -1,22 +1,30 @@
 package com.darx.foodscaner
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.darx.foodscaner.adapters.PageAdapter
 import com.darx.foodscaner.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_live_barcode_kotlin.*
 
 
 class MainActivity : AppCompatActivity() {
 
+    private var CAMERA_REQUEST = 1;
+
     private val profileFragment = ProfileFragment()
-    private val cameraFragment = CameraFragment()
+    private var cameraFragment: CameraFragment? = null
     private val recentlyScannedFragment = RecentlyScannedFragment()
 
     private var bottomNavigationView: BottomNavigationView? = null
@@ -31,25 +39,58 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_REQUEST) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                cameraFragment = CameraFragment()
+            } else {
+                Toast.makeText(this, "We really need this permission", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(
+                this, "Дайте доступ к камере!",
+                Toast.LENGTH_SHORT
+            ).show()
+            requestPermissions(
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_REQUEST
+            )
+            no_permission_stub.visibility = View.VISIBLE
+        } else {
+            cameraFragment = CameraFragment()
+        }
+
         bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+//        bottomNavigationView?.visibility= View.GONE
         bottomNavigationView?.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_profile ->
                     supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, profileFragment).commit()//pagerAdapter.getItemNum("Profile")
                 R.id.action_camera ->
-                    supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
                 R.id.action_recently_scanned ->
                     supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, recentlyScannedFragment).commit()
             }
             true
         }
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
         bottomNavigationView?.selectedItemId = R.id.action_camera
 
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)

@@ -10,6 +10,7 @@ import com.darx.foodscaner.database.FruitModel
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.ProductModel
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 interface NetworkDataSource {
@@ -35,7 +36,7 @@ interface NetworkDataSource {
     suspend fun fetchGroups(callback: Callback = DefaultCallback(ctx))
     suspend fun fetchGroupSearch(name: String, callback: Callback = DefaultCallback(ctx))
     suspend fun productAdd(barcode: Long, name: String, callback: Callback = DefaultCallback(ctx))
-    suspend fun searchFruit(file: RequestBody, callback: Callback = DefaultCallback(ctx))
+    suspend fun searchFruit(file: MultipartBody.Part, callback: Callback = DefaultCallback(ctx))
 
     interface Callback {
         fun onNoConnectivityException()

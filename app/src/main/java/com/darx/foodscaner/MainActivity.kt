@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                 bottomNavigationView?.selectedItemId = R.id.action_profile
             }
             1 -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
                 bottomNavigationView?.selectedItemId = R.id.action_camera
             }
             2 -> {

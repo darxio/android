@@ -53,7 +53,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         val ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        pagerAdapter.addFragment(IngredientsFragment(ingredientViewModel, groupViewModel), "ShearchIngredients")
+        pagerAdapter.addFragment(IngredientsFragment(ingredientViewModel, groupViewModel), "Ingredients")
         pagerAdapter.addFragment(MyIngredientsFragment(ingredientViewModel, groupViewModel), "MyIngredients")
 
         ingredients_view_pager.adapter = pagerAdapter

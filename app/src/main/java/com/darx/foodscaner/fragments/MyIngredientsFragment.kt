@@ -71,7 +71,7 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
     private fun matchMyIngredients(typed: String): List<IngredientModel> {
         val matched: MutableList<IngredientModel> = mutableListOf()
 
-        val data = ingredientViewModel.getAll_()
+        val data = ingredientViewModel.getNotAllowed_()
         for (ingredient in data.value!!) {
             if (ingredient.name.contains(typed, ignoreCase=true)) {
                 matched.add(ingredient)

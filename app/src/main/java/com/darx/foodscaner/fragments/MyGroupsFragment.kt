@@ -41,7 +41,7 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_groups, container, false)
 
         // my Groups
-        myGroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {
+        myGroupAdapter = GroupAdapter(emptyList(), groupViewModel, this, object : GroupAdapter.Callback {
             override fun onItemClicked(item: GroupModel) {
                 val intent = Intent(activity, GroupActivity::class.java)
                 intent.putExtra("GROUP", item as Serializable)

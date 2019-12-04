@@ -53,7 +53,7 @@ class ProfileFragment : Fragment() {
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
         // GROUPS
-        val allGroupAdapter: GroupAdapter = GroupAdapter(listOf(), object : GroupAdapter.Callback {
+        val allGroupAdapter: GroupAdapter = GroupAdapter(listOf(), groupViewModel!!, this, object : GroupAdapter.Callback {
             override fun onItemClicked(item: GroupModel) {
                 val intent = Intent(activity, GroupActivity::class.java)
                 intent.putExtra("GROUP", item as Serializable)

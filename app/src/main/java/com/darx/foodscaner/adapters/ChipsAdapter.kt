@@ -39,19 +39,15 @@ class ChipsAdapter(var items: List<IngredientModel>, val owner: LifecycleOwner, 
         fun bind(item: IngredientModel) {
             // check groups
             if (item.groups == null) item.groups = ArrayList()
-            groupViewModel?.checkAll_(item.groups)?.observe(owner, object : Observer<Boolean> {
-                override fun onChanged(t: Boolean?) {
+            groupViewModel?.checkAll_(item.groups)?.observe(owner,
+                Observer<Boolean> { t ->
                     isGroupsMatched = t ?: false
                     setSettingsByStatus(checkStatus(null))
-                }
-            })
+                })
 
             // check excepted ingredients
-            ingredientViewModel?.getOne_(item.id)?.observe(owner, object : Observer<IngredientModel> {
-                override fun onChanged(t: IngredientModel?) {
-                    setSettingsByStatus(checkStatus(t))
-                }
-            })
+            ingredientViewModel?.getOne_(item.id)?.observe(owner,
+                Observer<IngredientModel> { t -> setSettingsByStatus(checkStatus(t)) })
 
             ingredientObject.text = item.name
 

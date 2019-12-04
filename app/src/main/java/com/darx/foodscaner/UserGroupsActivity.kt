@@ -59,7 +59,7 @@ class UserGroupsActivity : AppCompatActivity() {
 
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        pagerAdapter.addFragment(GroupsFragment(groupViewModel), "SearchGroups")
+        pagerAdapter.addFragment(GroupsFragment(groupViewModel), "Groups")
         pagerAdapter.addFragment(MyGroupsFragment(groupViewModel), "MyGroups")
 
         groups_view_pager.adapter = pagerAdapter

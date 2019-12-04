@@ -1,5 +1,6 @@
 package com.darx.foodscaner.adapters
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.IngredientViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
+import com.google.android.material.color.MaterialColors.getColor
 
 
 class ChipsAdapter(var items: List<IngredientModel>, val owner: LifecycleOwner, val ingredientViewModel: IngredientViewModel?, val groupViewModel: GroupViewModel?, val callback: IngredientAdapter.Callback) : RecyclerView.Adapter<ChipsAdapter.ViewHolder>() {
@@ -56,7 +58,7 @@ class ChipsAdapter(var items: List<IngredientModel>, val owner: LifecycleOwner, 
             }
         }
 
-        fun setSettingsByStatus(status: Boolean) {
+        private fun setSettingsByStatus(status: Boolean) {
             if (status) {
                 ingredientObject.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
             } else {
@@ -64,7 +66,7 @@ class ChipsAdapter(var items: List<IngredientModel>, val owner: LifecycleOwner, 
             }
         }
 
-        fun checkStatus(ingredient: IngredientModel?): Boolean {
+        private fun checkStatus(ingredient: IngredientModel?): Boolean {
             var isAllowed = true
             if (isGroupsMatched) {
                 isAllowed = (ingredient != null && ingredient.allowed!!)

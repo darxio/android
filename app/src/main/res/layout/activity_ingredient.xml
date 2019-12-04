@@ -48,8 +48,8 @@
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/ingredient_exclude_btn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/negativeColor"
                 android:textColor="@color/white"
                 android:text="@string/exclude_ingredient" />
     </com.google.android.material.card.MaterialCardView>

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.database.*
+import kotlinx.android.synthetic.main.activity_group.*
 
 
 class IngredientActivity : AppCompatActivity() {
@@ -77,9 +78,11 @@ class IngredientActivity : AppCompatActivity() {
     fun setSettingsByStatus(status: Boolean) {
         if (status) {
             ingredient_exclude_btn.text = resources.getString(R.string.exclude_ingredient)
+            ingredient_exclude_btn.setTextColor(getColor(R.color.white))
             ingredient_exclude_btn.setBackgroundColor(resources.getColor(R.color.negativeColor))
         } else {
             ingredient_exclude_btn.text = resources.getString(R.string.add_ingredient)
+            ingredient_exclude_btn.setTextColor(getColor(R.color.black))
             ingredient_exclude_btn.setBackgroundColor(resources.getColor(R.color.positiveColor))
         }
     }

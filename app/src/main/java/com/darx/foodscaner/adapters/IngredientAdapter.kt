@@ -43,19 +43,15 @@ class IngredientAdapter(var items: List<IngredientModel>, val owner: LifecycleOw
         fun bind(item: IngredientModel) {
             // check groups
             if (item.groups == null) item.groups = ArrayList()
-            groupViewModel?.checkAll_(item.groups)?.observe(owner, object : Observer<Boolean> {
-                override fun onChanged(t: Boolean?) {
+            groupViewModel?.checkAll_(item.groups)?.observe(owner,
+                Observer<Boolean> { t ->
                     isGroupsMatched = t ?: false
                     setSettingsByStatus(checkStatus(null))
-                }
-            })
+                })
 
             // check excepted ingredients
-            ingredientViewModel?.getOne_(item.id)?.observe(owner, object : Observer<IngredientModel> {
-                override fun onChanged(t: IngredientModel?) {
-                    setSettingsByStatus(checkStatus(t))
-                }
-            })
+            ingredientViewModel?.getOne_(item.id)?.observe(owner,
+                Observer<IngredientModel> { t -> setSettingsByStatus(checkStatus(t)) })
 
             val ingredientName = itemView.findViewById<TextView>(R.id.ingredient_name)
             ingredientName.text = item.name
@@ -67,9 +63,9 @@ class IngredientAdapter(var items: List<IngredientModel>, val owner: LifecycleOw
 
         fun setSettingsByStatus(status: Boolean) {
             if (status) {
-                ingredientObject.setCardBackgroundColor(R.drawable.bg_chip_state_list_positive)
+                ingredientObject.setCardBackgroundColor((owner as Context).getColor(R.color.positiveColor))
             } else {
-                ingredientObject.setCardBackgroundColor(R.drawable.bg_chip_state_list_negative)
+                ingredientObject.setCardBackgroundColor((owner.lifecycle as Context).getColor(R.color.negativeColor))
             }
         }
 

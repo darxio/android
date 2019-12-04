@@ -208,8 +208,8 @@
 
                 <ImageButton
                         android:id="@+id/add_favs"
-                        android:layout_width="95dp"
-                        android:layout_height="95dp"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
                         android:background="@drawable/ic_plus_blue"
                         android:layout_gravity="center"/>
             </LinearLayout>

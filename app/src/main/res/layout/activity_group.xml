@@ -17,10 +17,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="@color/colorPrimary"
-                app:expandedTitleMarginEnd="64dp"
-                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleMarginStart="12dp"
                 app:layout_scrollFlags="exitUntilCollapsed|scroll"
-                app:title="@string/group">
+                app:title="@string/group"
+                app:collapsedTitleTextAppearance="@style/CollapsedAppBar">
 
             <ImageView
                     android:id="@+id/group_collapsing_image"

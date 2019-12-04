@@ -42,4 +42,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="CollapsedAppBar" parent="@android:style">
+        <item name="android:textSize">10dp</item>
+    </style>
+
 </resources>

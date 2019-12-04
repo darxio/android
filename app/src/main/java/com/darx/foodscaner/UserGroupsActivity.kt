@@ -41,6 +41,8 @@ import androidx.core.app.ComponentActivity.ExtraData
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.get
+import kotlinx.android.synthetic.main.activity_group_ingredients.*
 
 
 class UserGroupsActivity : AppCompatActivity() {
@@ -57,7 +59,7 @@ class UserGroupsActivity : AppCompatActivity() {
 
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        pagerAdapter.addFragment(GroupsFragment(groupViewModel), "SearchGroups")
+        pagerAdapter.addFragment(GroupsFragment(groupViewModel), "Groups")
         pagerAdapter.addFragment(MyGroupsFragment(groupViewModel), "MyGroups")
 
         groups_view_pager.adapter = pagerAdapter
@@ -95,19 +97,18 @@ class UserGroupsActivity : AppCompatActivity() {
         groups_search_view.setMenuItem(item)
 
         groups_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean { return false }
+            override fun onQueryTextSubmit(query: String): Boolean {
+                onQueryTextChange(query)
+                val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManger.hideSoftInputFromWindow(groups_view_pager.windowToken, 0)
+                return true
+            }
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                // take data for all groups
-                if (newText.length >= 3) {
-                    GlobalScope.launch(Dispatchers.Main) {
-//                        networkDataSource?.fetchGroupSearch(newText)
-                    }
+            override fun onQueryTextChange(query: String): Boolean {
+                when (val current = groups_view_pager.currentItem) {
+                    0 -> (pagerAdapter.createFragment(current) as GroupsFragment).searchGroups(query)
+                    1 -> (pagerAdapter.createFragment(current) as MyGroupsFragment).searchMyGroups(query)
                 }
-
-                // take data for my groups
-//                myGroupAdapter?.addItems(matchMyGroups(newText))
-
                 return false
             }
         })
@@ -115,37 +116,19 @@ class UserGroupsActivity : AppCompatActivity() {
         groups_search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
             override fun onSearchViewShown() {
                 groups_tabs.visibility = View.GONE
-                val params = frame_toolbar.getLayoutParams() as AppBarLayout.LayoutParams
+                val params = frame_toolbar.layoutParams as AppBarLayout.LayoutParams
                 params.scrollFlags = 0
-                groups_view_pager.setUserInputEnabled(false);
+                groups_view_pager.isUserInputEnabled = false;
             }
             override fun onSearchViewClosed() {
                 groups_tabs.visibility = View.VISIBLE
-                val params = frame_toolbar.getLayoutParams() as AppBarLayout.LayoutParams
+                val params = frame_toolbar.layoutParams as AppBarLayout.LayoutParams
                 params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
-                groups_view_pager.setUserInputEnabled(true);
+                groups_view_pager.isUserInputEnabled = true;
             }
         })
-
-//        groups_search_view.onFocusChangeListener.onFocusChange{
-//            if(!groups_search_view.isFocusable) {
-//                val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-//                inputMethodManger.hideSoftInputFromWindow(groups_search_view.getWindowToken(), 0)
-//            }
-//        }
 
         return true
     }
 
-//    fun matchMyGroups(typed: String): List<GroupModel> {
-//        val matched: MutableList<GroupModel> = mutableListOf()
-//
-//        val data = groupViewModel?.getAll_()!!
-//        for (group in data.value!!) {
-//            if (group.name.contains(typed, ignoreCase=true)) {
-//                matched.add(group)
-//            }
-//        }
-//        return matched
-//    }
 }

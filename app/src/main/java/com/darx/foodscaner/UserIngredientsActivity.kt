@@ -1,5 +1,6 @@
 package com.darx.foodscaner
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -30,7 +31,10 @@ import androidx.viewpager.widget.ViewPager
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_groups.*
 
 
@@ -49,7 +53,7 @@ class UserIngredientsActivity : AppCompatActivity() {
         val ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        pagerAdapter.addFragment(IngredientsFragment(ingredientViewModel, groupViewModel), "ShearchIngredients")
+        pagerAdapter.addFragment(IngredientsFragment(ingredientViewModel, groupViewModel), "Ingredients")
         pagerAdapter.addFragment(MyIngredientsFragment(ingredientViewModel, groupViewModel), "MyIngredients")
 
         ingredients_view_pager.adapter = pagerAdapter
@@ -81,44 +85,45 @@ class UserIngredientsActivity : AppCompatActivity() {
     }
 
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.toolbar_menu, menu)
-//
-//        val item = menu!!.findItem(R.id.action_search)
-//        ingredientsSearchView.setMenuItem(item)
-//
-//
-//        ingredientsSearchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                // take data for all ingredients
-//                if (newText.length >= 3) {
-//                    GlobalScope.launch(Dispatchers.Main) {
-//                        networkDataSource?.fetchIngredientSearch(newText)
-//                    }
-//                }
-//
-//                // take data for my ingredients
-//                myIngredientsAdapter?.addItems(matchMyIngredients(newText))
-//
-//                return false
-//            }
-//        })
-//
-//        ingredientsSearchView.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
-//            override fun onSearchViewShown() {
-//                //Do some magic
-//            }
-//
-//            override fun onSearchViewClosed() {
-//                //Do some magic
-//            }
-//        })
-//
-//
-//        return true
-//    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+
+        val item = menu!!.findItem(R.id.action_search)
+        ingredients_search_view.setMenuItem(item)
+
+        ingredients_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                onQueryTextChange(query)
+                val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManger.hideSoftInputFromWindow(ingredients_view_pager.windowToken, 0)
+                return true
+            }
+
+            override fun onQueryTextChange(query: String): Boolean {
+                when (val current = ingredients_view_pager.currentItem) {
+                    0 -> (pagerAdapter.createFragment(current) as IngredientsFragment).searchIngredients(query)
+                    1 -> (pagerAdapter.createFragment(current) as MyIngredientsFragment).searchMyIngredients(query)
+                }
+                return false
+            }
+        })
+
+        ingredients_search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
+            override fun onSearchViewShown() {
+                ingredients_tabs.visibility = View.GONE
+                val params = ingredient_frame_toolbar.layoutParams as AppBarLayout.LayoutParams
+                params.scrollFlags = 0
+                ingredients_view_pager.isUserInputEnabled = false;
+            }
+
+            override fun onSearchViewClosed() {
+                ingredients_tabs.visibility = View.VISIBLE
+                val params = ingredient_frame_toolbar.layoutParams as AppBarLayout.LayoutParams
+                params.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                ingredients_view_pager.isUserInputEnabled = true;
+            }
+        })
+
+        return true
+    }
 }

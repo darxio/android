@@ -36,6 +36,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+            android:id="@+id/group_ingredients_nead_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -43,11 +44,11 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group_ingredients_rv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/ingredient_item" />
+                tools:listitem="@layout/ingredient_item"
+                android:paddingTop="5dp"/>
 
     </androidx.core.widget.NestedScrollView>
-    
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

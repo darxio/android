@@ -1,9 +1,11 @@
 package com.darx.foodscaner.adapters
 
 import android.content.res.Resources
+import android.util.TypedValue
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -13,13 +15,18 @@ import com.darx.foodscaner.database.GroupModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.group_item.view.*
 import android.widget.LinearLayout
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import com.darx.foodscaner.database.GroupViewModel
 
 
-
-class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var size: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewModel, val owner: LifecycleOwner, val callback: Callback, var size: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
     val Int.dp: Int
         get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+    val Int.dpFloat: Float
+        get() = (this / Resources.getSystem().displayMetrics.density)
 
     val Int.px: Int
         get() = (this * Resources.getSystem().displayMetrics.density).toInt()
@@ -64,6 +71,15 @@ class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var size
                 params.width = size.dp
                 itemView.layoutParams = params
             }
+
+            groupName.textSize = 40.toFloat()
+
+            groupViewModel.getOne_(item.id)?.observe(owner,
+                Observer<GroupModel?> { t ->
+                    if (t != null) {
+                        itemView.group_icon.visibility = VISIBLE
+                    }
+                })
         }
     }
 

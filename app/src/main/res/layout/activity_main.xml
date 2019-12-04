@@ -7,12 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-  <androidx.viewpager2.widget.ViewPager2
-      android:id="@+id/fragments_view_pager"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_above="@id/bottom_navigation"/>
-
   <FrameLayout
       android:id="@+id/fragments_frame"
       android:layout_width="match_parent"
@@ -25,6 +19,7 @@
       android:layout_height="wrap_content"
       android:layout_gravity="bottom"
       android:background="@color/colorPrimary"
+      android:text="@string/give_permission_button_text"
       app:itemIconTint="@menu/tab_navigation_color"
       app:itemTextColor="@menu/tab_navigation_color"
       app:itemTextAppearanceActive="@style/BottomNavigation.ActiveItemTextAppearance"

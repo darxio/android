@@ -57,9 +57,21 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
         })
 
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchIngredients(30, 0)
+            networkDataSource?.fetchIngredients(20, 0)
         }
 
         return view
+    }
+
+    fun searchIngredients(query: String) {
+        if (query.isEmpty()) {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchIngredients(20, 0)
+            }
+        } else {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchIngredientSearch(query, 20, 0)
+            }
+        }
     }
 }

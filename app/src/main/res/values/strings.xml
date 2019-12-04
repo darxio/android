@@ -2,6 +2,8 @@
     <string name="app_name">FoodScaner</string>
 
     <!-- Camera fragment -->
+    <string name="give_permission_button_text">Дать доступ</string>
+
 
     <string name="cd_flash_button">Toggle camera flash</string>
     <string name="prompt_point_at_a_barcode">Point your camera at a barcode</string>
@@ -19,6 +21,13 @@
     <string name="pref_title_rear_camera_preview_size">Rear camera preview size</string>
 
     <!-- Strings for object detection settings. -->
+    <plurals name="bottom_sheet_title">
+        <item quantity="one">%d match found</item>
+        <item quantity="other">%d matches found</item>
+    </plurals>
+    <string name="prompt_hold_camera_steady">Keep camera still for a moment</string>
+    <string name="prompt_point_at_an_object">Point your camera at an object</string>
+
     <string name="pref_category_object_detection">Object detection</string>
     <string name="pref_key_object_detector_enable_multiple_objects" translatable="false">odemo</string>
     <string name="pref_title_object_detector_enable_multiple_objects">Enable multiple objects</string>
@@ -72,10 +81,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="description">Описание</string>
-    <string name="enter_to_group">Вступить</string>
-    <string name="exit_from_group">Выйти</string>
+    <string name="enter_to_group">Вступить в группу</string>
+    <string name="exit_from_group">Покинуть группу</string>
 
-    <string name="add_ingredient">Добавить</string>
+    <string name="add_ingredient">Добавить в рацион</string>
 
 
     <!--    New Strings -->
@@ -93,12 +102,12 @@
 
     <!--    Group Activity -->
     <string name="group">Группа</string>
-    <string name="group_ingredients">Ингредиенты</string>
+    <string name="group_ingredients">Исключаемые\nингредиенты</string>
     <string name="join_group">Вступить</string>
 
     <!--    Ingredient Activity -->
     <string name="ingredient">Ингредиент</string>
-    <string name="exclude_ingredient">Исключить</string>
+    <string name="exclude_ingredient">Исключить из рациона</string>
 
     <!--    Groups Activity -->
     <string name="groups">Группы</string>

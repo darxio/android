@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/no_permission_stub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+
+
+        android:visibility="visible">
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:src="@drawable/ic_no_photo" />
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/permission_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
+            android:textColor="@color/emptyColor"
+            android:text="@string/give_permission_button_text"
+            app:strokeColor="@color/emptyColor" />
+
+</LinearLayout>

@@ -12,10 +12,12 @@ class IngredientViewModel(application: Application) : AndroidViewModel(applicati
 
     private var excludedIngredients: LiveData<List<IngredientModel>>? = null
     private var exclIngredient: LiveData<IngredientModel>? = null
+    private var notAllowedIngredients: LiveData<List<IngredientModel>>? = null
 
     init {
         db = AppDatabase.getInstance(application.applicationContext)
         excludedIngredients = db?.ingredientsDAO()?.getAll()
+        notAllowedIngredients = db?.ingredientsDAO()?.getNotAllowed()
     }
 
     fun getAll_(): LiveData<List<IngredientModel>> {
@@ -23,8 +25,8 @@ class IngredientViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun getNotAllowed_(): LiveData<List<IngredientModel>> {
-        val excludedIngredients = db?.ingredientsDAO()?.getNotAllowed()
-        return excludedIngredients!!
+//        val excludedIngredients = db?.ingredientsDAO()?.getNotAllowed()
+        return notAllowedIngredients!!
     }
 
     // check if works

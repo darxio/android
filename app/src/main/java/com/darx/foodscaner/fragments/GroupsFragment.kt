@@ -19,6 +19,9 @@ import com.darx.foodscaner.database.IngredientViewModel
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.activity_groups.*
+import kotlinx.android.synthetic.main.fragment_add_product.view.*
+import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -36,13 +39,13 @@ class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_groups, container, false)
 
         // all Groups
-        val allGroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {
+        val allGroupAdapter = GroupAdapter(emptyList(), groupViewModel, this, object : GroupAdapter.Callback {
             override fun onItemClicked(item: GroupModel) {
                 val intent = Intent(activity, GroupActivity::class.java)
                 intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
-        }, 0)
+        },0)
         val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_rv)
         allGroupsRecycler.adapter = allGroupAdapter
 
@@ -61,5 +64,17 @@ class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
         }
 
         return view
+    }
+
+    fun searchGroups(query: String) {
+        if (query.isEmpty()) {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchGroups()
+            }
+        } else {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchGroupSearch(query)
+            }
+        }
     }
 }

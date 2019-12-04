@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.*
 import com.darx.foodscaner.adapters.IngredientAdapter
+import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.GroupViewModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.IngredientViewModel
@@ -62,15 +63,20 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
 
         return view
     }
-//    fun matchMyIngredients(typed: String): List<IngredientModel> {
-//        val matched: MutableList<IngredientModel> = mutableListOf()
-//
-//        val data = ingredientViewModel?.getAll_()!!
-//        for (ingredient in data.value!!) {
-//            if (ingredient.name.contains(typed, ignoreCase=true)) {
-//                matched.add(ingredient)
-//            }
-//        }
-//        return matched
-//    }
+
+    fun searchMyIngredients(query: String) {
+        myIngredientsAdapter?.addItems(matchMyIngredients(query))
+    }
+
+    private fun matchMyIngredients(typed: String): List<IngredientModel> {
+        val matched: MutableList<IngredientModel> = mutableListOf()
+
+        val data = ingredientViewModel.getAll_()
+        for (ingredient in data.value!!) {
+            if (ingredient.name.contains(typed, ignoreCase=true)) {
+                matched.add(ingredient)
+            }
+        }
+        return matched
+    }
 }

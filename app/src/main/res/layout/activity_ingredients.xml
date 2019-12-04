@@ -7,18 +7,29 @@
     <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:animateLayoutChanges="true">
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/ingredients_toolbar"
+        <FrameLayout
+                android:id="@+id/ingredient_frame_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/appbar_height"
-                android:background="@color/colorPrimary"
-                android:backgroundTint="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/ingredients">
-        </androidx.appcompat.widget.Toolbar>
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways">
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/ingredients_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:popupTheme="@style/AppTheme.AppBarOverlay"
+                    app:title="@string/ingredients"/>
+
+            <com.miguelcatalan.materialsearchview.MaterialSearchView
+                    android:id="@+id/ingredients_search_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MaterialSearchViewStyle"/>
+        </FrameLayout>
 
         <com.google.android.material.tabs.TabLayout
                 style="@style/Widget.MaterialComponents.TabLayout.Colored"
@@ -42,21 +53,12 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" >
     </androidx.viewpager2.widget.ViewPager2>
 
-
-    <!--    <RelativeLayout-->
-    <!--        android:id="@+id/fragment_empty_container"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent">-->
-    <!--        <include layout="@layout/fragment_empty"/>-->
-    <!--    </RelativeLayout>-->
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/ingredients_search_fab"
+    <FrameLayout
+            android:id="@+id/favorites_fragments_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_margin="16dp"/>
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

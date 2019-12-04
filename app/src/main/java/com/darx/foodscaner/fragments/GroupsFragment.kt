@@ -19,6 +19,9 @@ import com.darx.foodscaner.database.IngredientViewModel
 import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.activity_groups.*
+import kotlinx.android.synthetic.main.fragment_add_product.view.*
+import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -61,5 +64,17 @@ class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
         }
 
         return view
+    }
+
+    fun searchGroups(query: String) {
+        if (query.isEmpty()) {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchGroups()
+            }
+        } else {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchGroupSearch(query)
+            }
+        }
     }
 }

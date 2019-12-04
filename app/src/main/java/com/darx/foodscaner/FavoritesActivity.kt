@@ -3,7 +3,6 @@ package com.darx.foodscaner
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodscaner.adapters.ProductsAdapter
@@ -11,23 +10,15 @@ import com.darx.foodscaner.database.ProductModel
 import com.darx.foodscaner.database.ProductViewModel
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_favorites.*
-import kotlinx.android.synthetic.main.activity_groups.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.Serializable
-import android.R.attr.data
 import android.app.Activity
-import android.text.TextUtils
-import android.speech.RecognizerIntent
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.view.MotionEvent.*
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.*
+import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
-import kotlinx.android.synthetic.main.fragment_add_product.view.*
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.core.widget.NestedScrollView
+import com.darx.foodscaner.fragments.EmptyFragment
 
 
 class FavoritesActivity : AppCompatActivity() {
@@ -57,6 +48,19 @@ class FavoritesActivity : AppCompatActivity() {
 
         productViewModel!!.getFavourites_().observe(this@FavoritesActivity, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
+                if (l?.size == 0) {
+                    favorites_fragments_frame.visibility = VISIBLE
+                    val emptyFragment = EmptyFragment(
+                        R.drawable.ic_star_black,
+                        "У Вас пока нет любимых продуктов!",
+                        "Добавить",
+                        LinearLayout.VERTICAL,
+                        View.OnClickListener {
+                            Toast.makeText(this@FavoritesActivity, "yy", Toast.LENGTH_LONG)
+                        }
+                    )
+                    supportFragmentManager.beginTransaction().replace(R.id.favorites_fragments_frame, emptyFragment).commit()
+                }
                 productsAdapter!!.addItems(l ?: return)
             }
         })
@@ -82,7 +86,7 @@ class FavoritesActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 productsAdapter?.addItems(matchFavouritesGroups(query))
                 val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManger.hideSoftInputFromWindow(favourites_rv.getWindowToken(), 0)
+                inputMethodManger.hideSoftInputFromWindow(favourites_rv.windowToken, 0)
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
@@ -96,11 +100,10 @@ class FavoritesActivity : AppCompatActivity() {
             override fun onSearchViewClosed() {}
         })
 
-        // hide keyboard
-        //        favourites_rv.setOnTouchListener { view: View, motionEvent: MotionEvent ->
-        //            val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        //            inputMethodManger.hideSoftInputFromWindow(favourites_rv.getWindowToken(), 0)
-        //        }
+        favourites_nead_scroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
+            val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManger.hideSoftInputFromWindow(v.windowToken, 0)
+        })
 
         return true
     }

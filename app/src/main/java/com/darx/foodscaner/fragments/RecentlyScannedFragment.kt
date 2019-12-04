@@ -27,18 +27,23 @@ import android.widget.LinearLayout
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.google.android.material.snackbar.Snackbar
 import android.app.Activity
+import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.speech.RecognizerIntent
 import androidx.core.content.ContextCompat.getSystemService
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
+import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import com.darx.foodscaner.R
 import com.google.android.material.tabs.TabLayout
 import com.darx.foodscaner.MainActivity
 import java.lang.Exception
 import java.util.*
+
+
 
 
 class RecentlyScannedFragment : Fragment() {
@@ -89,12 +94,12 @@ class RecentlyScannedFragment : Fragment() {
         view.all_products_rv.adapter = searchedProductsAdapter
 
         networkDataSource?.productSearch?.observe(this@RecentlyScannedFragment, Observer {
-            searchedProductsAdapter?.addItems(it)
+            if (view.rs_search_view.query != "") searchedProductsAdapter?.addItems(it)
         })
 
         // searching
         view.rs_search_view.setOnQueryChangeListener(FloatingSearchView.OnQueryChangeListener { oldQuery, newQuery ->
-            if (newQuery.length == 0) {
+            if (newQuery.isEmpty()) {
                 searchedProductsAdapter?.addItems(listOf())
             } else {
                 GlobalScope.launch(Dispatchers.Main) {
@@ -110,10 +115,15 @@ class RecentlyScannedFragment : Fragment() {
             }
         }
 
+        view.rs_need_scroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
+            val inputMethodManger = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManger.hideSoftInputFromWindow(v.windowToken, 0)
+        })
+
         return view
     }
 
-    fun voiceGoogle() {
+    private fun voiceGoogle() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())

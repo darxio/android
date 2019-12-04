@@ -1,10 +1,13 @@
 package com.darx.foodscaner
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +19,10 @@ import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import kotlinx.android.synthetic.main.activity_favorites.*
 import kotlinx.android.synthetic.main.activity_group_ingredients.*
 import kotlinx.android.synthetic.main.activity_ingredients.*
+import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -87,11 +92,14 @@ class GroupIngredientsActivity : AppCompatActivity() {
 
         group_ingredients_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                return false
+                onQueryTextChange(query)
+                val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManger.hideSoftInputFromWindow(group_ingredients_rv.windowToken, 0)
+                return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.length == 0) {
+                if (newText.isEmpty()) {
                     GlobalScope.launch(Dispatchers.Main) {
                         networkDataSource?.fetchGroupIngredients(groupId ?: 0, 20, 0)
                     }
@@ -104,14 +112,9 @@ class GroupIngredientsActivity : AppCompatActivity() {
             }
         })
 
-        group_ingredients_search_view.setOnSearchViewListener(object : MaterialSearchView.SearchViewListener {
-            override fun onSearchViewShown() {
-                //Do some magic
-            }
-
-            override fun onSearchViewClosed() {
-                //Do some magic
-            }
+        group_ingredients_nead_scroll.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, _, _, _ ->
+            val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManger.hideSoftInputFromWindow(v.windowToken, 0)
         })
 
 

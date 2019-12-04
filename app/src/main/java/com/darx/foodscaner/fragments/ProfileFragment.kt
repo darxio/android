@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.*
 import com.darx.foodscaner.database.*
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_favorites.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -55,7 +59,7 @@ class ProfileFragment : Fragment() {
                 intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
-        }, 2000)
+        }, 2450)
         val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_multi_rv)
         val layoutManagerGroups = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         allGroupsRecycler.layoutManager = layoutManagerGroups
@@ -108,6 +112,19 @@ class ProfileFragment : Fragment() {
         favouritesRecycler.adapter = productsAdapter
         productViewModel!!.getFavourites_().observe(this, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
+                if (l?.size == 0) {
+                    favorites_recycler_frame.visibility = View.VISIBLE
+                    val emptyFragment = EmptyFragment(
+                        R.drawable.ic_star_black,
+                        "У Вас пока нет любимых продуктов!",
+                        "Добавить",
+                        LinearLayout.HORIZONTAL,
+                        View.OnClickListener {
+                            (activity as MainActivity?)?.chooseFragment(2)
+                        }
+                    )
+                    activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.favorites_recycler_frame, emptyFragment)?.commit()
+                }
                 productsAdapter.addItems(l ?: return)
             }
         })

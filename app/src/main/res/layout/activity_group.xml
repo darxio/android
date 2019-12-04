@@ -45,7 +45,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -54,8 +54,7 @@
                     android:orientation="horizontal"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="5dp">
+                    android:layout_marginRight="20dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/group_ingredients_btn"
@@ -63,15 +62,18 @@
                     android:layout_height="match_parent"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:textColor="@color/colorPrimary"
+                    app:strokeColor="@color/colorPrimary"
                     app:rippleColor="@color/colorPrimary"
-                    android:text="@string/group_ingredients"/>
+                    android:text="@string/group_ingredients"
+                    android:layout_marginEnd="3dp"/>
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/group_join_btn"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:backgroundTint="@color/colorPrimary"
                         android:textColor="@color/white"
+                        android:layout_marginStart="3dp"
                         android:text="@string/join_group" />
 
             </LinearLayout>

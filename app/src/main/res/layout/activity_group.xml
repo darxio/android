@@ -13,16 +13,21 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/group_name"
+                android:id="@+id/group_collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
                 app:contentScrim="@color/colorPrimary"
                 app:expandedTitleMarginEnd="64dp"
                 app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="exitUntilCollapsed|scroll"
                 app:title="@string/group">
+
+            <ImageView
+                    android:id="@+id/group_collapsing_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"/>
 
             <ImageView
                     android:layout_width="match_parent"

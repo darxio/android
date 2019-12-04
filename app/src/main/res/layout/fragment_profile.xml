@@ -201,7 +201,7 @@
             <LinearLayout
                     android:id="@+id/favorites_recycler_frame"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:orientation="horizontal"
                     android:layout_gravity="center"
                     android:layout_weight="1">
@@ -211,8 +211,7 @@
                         android:layout_width="95dp"
                         android:layout_height="95dp"
                         android:background="@drawable/ic_plus_blue"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"/>
+                        android:layout_gravity="center"/>
             </LinearLayout>
 
         </LinearLayout>

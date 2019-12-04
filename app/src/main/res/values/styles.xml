@@ -7,6 +7,39 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+<!--        <item name="android:windowTranslucentNavigation">true</item>-->
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="MaterialSearchViewStyle">
+        <item name="searchBackground">@color/colorPrimary</item>
+        <item name="searchVoiceIcon">@drawable/ic_action_voice_search_inverted</item>
+        <item name="searchCloseIcon">@drawable/ic_action_navigation_close_inverted</item>
+        <item name="searchBackIcon">@drawable/ic_action_navigation_arrow_back_inverted</item>
+        <item name="searchSuggestionIcon">@drawable/ic_suggestion</item>
+        <item name="searchSuggestionBackground">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">#AEFFFFFF</item>
+        <item name="android:hint">@string/searching</item>
+
+        <item name="floatingSearch_backgroundColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_viewSearchInputTextColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_viewSuggestionItemTextColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_hintTextColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_dividerColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_clearBtnColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_leftActionColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_menuItemIconColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_suggestionRightIconColor">@android:color/holo_green_dark</item>
+        <item name="floatingSearch_actionMenuOverflowColor">@android:color/holo_green_dark</item>
+    </style>
+
+    <style name="BottomNavigation.ActiveItemTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.darx.foodscaner.fragments
 
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 
 
@@ -8,105 +9,69 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-
-import android.content.Intent
-import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.*
-import com.darx.foodscaner.models.Ingredient
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.textfield.TextInputLayout
+import com.darx.foodscaner.adapters.IngredientAdapter
+import com.darx.foodscaner.database.GroupViewModel
+import com.darx.foodscaner.database.IngredientModel
+import com.darx.foodscaner.database.IngredientViewModel
+import com.darx.foodscaner.services.ApiService
+import com.darx.foodscaner.services.ConnectivityInterceptorImpl
+import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.Serializable
 
 
-class IngredientsFragment(private val isSearch: Boolean) : Fragment() {
+class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val groupViewModel: GroupViewModel) : Fragment() {
+
+    private var networkDataSource: NetworkDataSourceImpl? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_groups, container, false)
+        val view = inflater.inflate(R.layout.fragment_ingredients, container, false)
 
-//        var ingredients: List<Ingredient>? = null
-//        if (isSearch) {
-//            ingredients = getAllIngredients("")
-//        } else {
-//            val groupSearch = view.findViewById<TextInputLayout>(R.id.groupSearch)
-//            groupSearch?.visibility = View.GONE
-//            ingredients = getUsersIngredients()
-//        }
-//
-//        for (ingredient: Ingredient in ingredients) {
-//            val chip: Chip = Chip(this@IngredientsFragment.activity)
-//            chip.text = ingredient.name
-//
-//            chip.chipStrokeWidth = 1F
-//            chip.chipIcon = R.drawable.ingredient.toDrawable()
-//
-//            chip.setOnClickListener {
-//                val intent = Intent(this@IngredientsFragment.activity, IngredientActivity::class.java)
-////                intent.putExtra("PRODUCT", item as Serializable)
-//                startActivity(intent)
-//            }
-//
-//            val ingredientsChipsGroup = view.findViewById<ChipGroup>(R.id.ingredientsChipsGroup)
-//            ingredientsChipsGroup?.addView(chip)
-//        }
+        val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
+        networkDataSource = NetworkDataSourceImpl(apiService, this.context!!)
+
+        // all Ingredients
+        val allIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
+            override fun onItemClicked(item: IngredientModel) {
+                val intent = Intent(activity, IngredientActivity::class.java)
+                intent.putExtra("INGREDIENT", item as Serializable)
+                startActivity(intent)
+            }
+        })
+        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_rv)
+        ingredientRecycler.adapter = allIngredientsAdapter
+
+        networkDataSource?.ingredients?.observe(this, Observer {
+            allIngredientsAdapter.addItems(it)
+        })
+        networkDataSource?.ingredientSearch?.observe(this, Observer {
+            allIngredientsAdapter.addItems(it)
+        })
+
+        GlobalScope.launch(Dispatchers.Main) {
+            networkDataSource?.fetchIngredients(20, 0)
+        }
 
         return view
     }
 
-    private fun getUsersIngredients(): List<Ingredient> {
-        return listOf(
-            Ingredient("Сахар очень вк"),
-            Ingredient("Соль"),
-            Ingredient("Яблокоааа"),
-            Ingredient("Груша"),
-            Ingredient("Яб"),
-            Ingredient("Грушалвалфыва ваыв"),
-            Ingredient("Ябвафы"),
-            Ingredient("Ябвыфаваыав"),
-            Ingredient("Ябав")
-        )
-    }
-
-    private fun getAllIngredients(name: String): List<Ingredient> {
-        return listOf(
-            Ingredient("Сахар очень вк"),
-            Ingredient("Соль"),
-            Ingredient("Яблокоааа"),
-            Ingredient("Груша"),
-            Ingredient("Яб"),
-            Ingredient("Грушалвалфыва ваыв"),
-            Ingredient("Ябвафы"),
-            Ingredient("Ябвыфаваыав"),
-            Ingredient("Ябав"),
-            Ingredient("Сахар очень вк"),
-            Ingredient("Соль"),
-            Ingredient("Яблокоааа"),
-            Ingredient("Груша"),
-            Ingredient("Яб"),
-            Ingredient("Грушалвалфыва ваыв"),
-            Ingredient("Ябвафы"),
-            Ingredient("Ябвыфаваыав"),
-            Ingredient("Ябав"),
-            Ingredient("Сахар очень вк"),
-            Ingredient("Соль"),
-            Ingredient("Яблокоааа"),
-            Ingredient("Груша"),
-            Ingredient("Яб"),
-            Ingredient("Грушалвалфыва ваыв"),
-            Ingredient("Ябвафы"),
-            Ingredient("Ябвыфаваыав"),
-            Ingredient("Ябав"),
-            Ingredient("Сахар очень вк"),
-            Ingredient("Соль"),
-            Ingredient("Яблокоааа"),
-            Ingredient("Груша"),
-            Ingredient("Яб"),
-            Ingredient("Грушалвалфыва ваыв"),
-            Ingredient("Ябвафы"),
-            Ingredient("Ябвыфаваыав"),
-            Ingredient("Ябав")
-        )
+    fun searchIngredients(query: String) {
+        if (query.isEmpty()) {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchIngredients(20, 0)
+            }
+        } else {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchIngredientSearch(query, 20, 0)
+            }
+        }
     }
 }

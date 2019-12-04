@@ -1,6 +1,7 @@
 package com.darx.foodscaner.fragments
 
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 
 
@@ -8,67 +9,72 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-
-import android.content.Intent
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.*
 import com.darx.foodscaner.adapters.GroupAdapter
-import com.darx.foodscaner.models.Group
-import com.google.android.material.textfield.TextInputLayout
+import com.darx.foodscaner.database.GroupModel
+import com.darx.foodscaner.database.GroupViewModel
+import com.darx.foodscaner.database.IngredientViewModel
+import com.darx.foodscaner.services.ApiService
+import com.darx.foodscaner.services.ConnectivityInterceptorImpl
+import com.darx.foodscaner.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.activity_groups.*
+import kotlinx.android.synthetic.main.fragment_add_product.view.*
+import kotlinx.android.synthetic.main.fragment_recently_scanned.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.Serializable
 
 
-class GroupsFragment(private val isSearch: Boolean) : Fragment() {
+class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
+
+    private var networkDataSource: NetworkDataSourceImpl? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_groups, container, false)
 
-        var groups: List<Group>? = null
-        if (isSearch) {
-            groups = getAllGroups("")
-        } else {
-            val groupSearch = view.findViewById<TextInputLayout>(R.id.groupSearch)
-            groupSearch?.visibility = View.GONE
-            groups = getUsersGroups()
-        }
-
-        val groupAdapter = GroupAdapter(groups, object : GroupAdapter.Callback {
-            override fun onItemClicked(item: Group) {
-                val intent = Intent(this@GroupsFragment.activity, GroupActivity::class.java)
+        // all Groups
+        val allGroupAdapter = GroupAdapter(emptyList(), groupViewModel, this, object : GroupAdapter.Callback {
+            override fun onItemClicked(item: GroupModel) {
+                val intent = Intent(activity, GroupActivity::class.java)
+                intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
+        },0)
+        val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_rv)
+        allGroupsRecycler.adapter = allGroupAdapter
+
+        val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
+        networkDataSource = NetworkDataSourceImpl(apiService, this.context!!)
+
+        networkDataSource?.groups?.observe(this, Observer {
+            allGroupAdapter.addItems(it)
+        })
+        networkDataSource?.groupSearch?.observe(this, Observer {
+            allGroupAdapter.addItems(it)
         })
 
-        val groupsRecycler = view.findViewById<RecyclerView>(R.id.groupsRecycler)
-        groupsRecycler.adapter = groupAdapter
+        GlobalScope.launch(Dispatchers.Main) {
+            networkDataSource?.fetchGroups()
+        }
 
         return view
     }
 
-    private fun getUsersGroups(): List<Group> {
-        return listOf(
-            Group(1, "Вегетарианец", "Вкусно"),
-            Group(2, "Веган", "Очень вкусно"),
-            Group(3, "Мясоед", "Вкусно"),
-            Group(4, "Солнцеед", "Очень вкусно"),
-            Group(5, "Углеводная диета", "Вкусно")
-        )
-    }
-
-    private fun getAllGroups(name: String): List<Group> {
-        return listOf(
-            Group(1, "Вегетарианец", "Вкусно"),
-            Group(2, "Веган", "Очень вкусно"),
-            Group(3, "Мясоед", "Вкусно"),
-            Group(4, "Солнцеед", "Очень вкусно"),
-            Group(5, "Углеводная диета", "Вкусно"),
-            Group(6, "Вегетарианец", "Вкусно"),
-            Group(7, "Веган", "Очень вкусно"),
-            Group(8, "Мясоед", "Вкусно"),
-            Group(9, "Солнцеед", "Очень вкусно"),
-            Group(10, "Углеводная диета", "Вкусно")
-        )
+    fun searchGroups(query: String) {
+        if (query.isEmpty()) {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchGroups()
+            }
+        } else {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource?.fetchGroupSearch(query)
+            }
+        }
     }
 }

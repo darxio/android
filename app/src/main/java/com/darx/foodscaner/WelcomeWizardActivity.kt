@@ -1,19 +1,16 @@
 package com.darx.foodscaner
 
-import android.annotation.SuppressLint
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.graphics.toColor
 import androidx.viewpager2.widget.ViewPager2
 import com.darx.foodscaner.adapters.PageAdapter
+import com.darx.foodscaner.fragments.SuggestionFragment
 import com.darx.foodscaner.fragments.WizardFragment
 import kotlinx.android.synthetic.main.activity_welcome_wizard.*
-import kotlinx.android.synthetic.main.barcode_field.*
-import java.util.Collections.list
 
 class WelcomeWizardActivity : AppCompatActivity() {
 
@@ -26,8 +23,11 @@ class WelcomeWizardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome_wizard)
 
-        pagerAdapter.addFragment(WizardFragment("", "Существует 3 основных экрана:\n1. Пользователь\n2. Камера\n3. Поиск\nДля перемещения по экранам используйте свайп влево и вправо"), "Wizard1")
-        pagerAdapter.addFragment(WizardFragment("", "Выберете группы к которым вы относитесь и ингредиенты которые не едите: ..." ), "Wizard2")
+        val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        prefs.edit().putBoolean("firstLaunch", false).apply()
+
+        pagerAdapter.addFragment(WizardFragment("", "Группы, к которым вы относитесь:"), "Wizard1")
+        pagerAdapter.addFragment(WizardFragment("", "Ингредиенты, которые вы не едите:"), "Wizard2")
         pagerAdapter.addFragment(WizardFragment("", "Отсканируйте продукт, чтобы понять подходит он вам или нет"), "Wizard3")
 
         wizardPager.adapter = pagerAdapter

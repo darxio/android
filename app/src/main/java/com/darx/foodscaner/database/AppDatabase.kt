@@ -6,17 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(version = 4, entities = [GroupModel::class, IngredientModel::class, ExcludedIngredientModel::class
-    , ProductModel::class, FavouriteProductModel::class, ScannedProductModel::class])
-@TypeConverters(TimestampConverter::class, ProductIngredientsConverter::class)
+@Database(version = 43, entities = [GroupModel::class, IngredientModel::class, ProductModel::class])
+@TypeConverters(TimestampConverter::class, ProductIngredientsConverter::class, IngredientGroupsConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun groupsDAO(): GroupsDAO
     abstract fun ingredientsDAO(): IngredientsDAO
-    abstract fun excludedIngredientsDAO(): ExcludedIngredientsDAO
     abstract fun productsDAO(): ProductsDAO
-    abstract fun favouriteProductsDAO(): FavouriteProductsDAO
-    abstract fun scannedProductsDAO(): ScannedProductsDAO
-
 
     companion object {
         private var INSTANCE: AppDatabase? = null
@@ -28,6 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
                         context.getApplicationContext(),
                         AppDatabase::class.java, "app.db"
                     )
+                        .fallbackToDestructiveMigration()
                         .build()
                 }
             }

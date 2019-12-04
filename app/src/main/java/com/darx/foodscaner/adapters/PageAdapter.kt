@@ -28,4 +28,8 @@ class PageAdapter(manager: FragmentManager, lifecycle: Lifecycle) : FragmentStat
         return titleList.indexOf(title)
     }
 
+    fun getTitle(num: Int): String {
+        return titleList[num]
+    }
+
 }

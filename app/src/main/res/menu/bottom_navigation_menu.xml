@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/action_profile"
+            android:icon="@drawable/ic_avatar_white"
+            android:title="@string/profile" />
+
+    <item
+            android:id="@+id/action_camera"
+            android:icon="@drawable/ic_action_camera"
+            android:title="@string/camera" />
+
+    <item
+            android:id="@+id/action_recently_scanned"
+            android:icon="@drawable/ic_action_recently_scanned"
+            android:title="@string/history" />
+</menu>

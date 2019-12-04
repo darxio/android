@@ -1,65 +1,120 @@
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.MaterialComponents.CardView"
-    android:id="@+id/product_card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/mtrl_card_spacing"
-    android:layout_marginTop="@dimen/mtrl_card_spacing"
-    android:layout_marginRight="@dimen/mtrl_card_spacing"
-    android:layout_gravity="right">
-
-    <LinearLayout
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:id="@+id/product_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:elevation="0dp"
+        android:backgroundTint="@color/positiveColor">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/product_image"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:padding="3dp"
-            android:src="@drawable/product"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:animateLayoutChanges="true"
+            android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.MaterialComponents.CardView"
+                        android:id="@+id/image_container"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="@color/white"
+                        android:elevation="0dp"
+                        app:strokeWidth="0dp"
+                        app:strokeColor="@color/white">
+
+                    <ImageView
+                            android:id="@+id/pr_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+                android:id="@+id/pr_name"
+                android:layout_width="298dp"
+                android:layout_height="39dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="43dp"
+                android:layout_toEndOf="@+id/image_container"
+                android:lines="2"
+                android:maxLines="2"
+                android:textSize="15dp"
+                android:ellipsize="end"
+                android:textColor="@color/black"/>
 
         <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="15dp">
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="2dp"
+                android:orientation="horizontal">
 
-            <TextView
-                    android:id="@+id/product_name"
+            <ImageButton
+                    android:id="@+id/pr_starred_ib"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/product_name"
-                    android:textSize="15sp" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="11dp"
+                    android:layout_toStartOf="@+id/pr_share_ib" />
 
-            <TextView
-                    android:id="@+id/product_description"
+            <ImageButton
+                    android:id="@+id/pr_share_ib"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/product_information"
-                    android:textSize="13sp" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginRight="102dp"
+                    android:layout_marginBottom="11dp"
+                    android:layout_toStartOf="@+id/pr_delete_ib"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_share_black" />
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-            <TextView
-                    android:id="@+id/product_warning_text"
+            <ImageButton
+                    android:id="@+id/pr_delete_ib"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Опасно!"
-                    android:textSize="13sp" />
-
-<!--                <ImageView-->
-<!--                        android:id="@+id/product_warning_icon"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:src="@drawable/icons8_error_64" />-->
-
-            </LinearLayout>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginRight="102dp"
+                    android:layout_marginBottom="11dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_garbage_black" />
         </LinearLayout>
-    </LinearLayout>
+
+        <TextView
+                android:id="@+id/pr_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="133dp"
+                android:layout_marginBottom="11dp"
+                android:textSize="13dp"
+                android:textColor="@color/black"/>
+
+    </RelativeLayout>
+
 </com.google.android.material.card.MaterialCardView>

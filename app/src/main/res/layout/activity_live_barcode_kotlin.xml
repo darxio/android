@@ -5,23 +5,9 @@
         android:background="@color/colorPrimary"
         android:keepScreenOn="true">
 
-    <LinearLayout
-            android:id="@+id/no_permission_stub"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="1dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera" />
-
-    </LinearLayout>
-
     <com.darx.foodscaner.camerafragment.camera.CameraSourcePreview
             android:id="@+id/camera_preview"
+            android:elevation="1dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

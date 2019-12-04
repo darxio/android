@@ -45,6 +45,7 @@ import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSource
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import kotlinx.android.synthetic.main.activity_live_barcode_kotlin.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
 
 

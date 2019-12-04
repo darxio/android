@@ -12,6 +12,7 @@ import com.darx.foodscaner.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProviders
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == CAMERA_REQUEST) {
             if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 cameraFragment = CameraFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
             } else {
                 Toast.makeText(this, "We really need this permission", Toast.LENGTH_SHORT).show()
             }
@@ -63,15 +65,16 @@ class MainActivity : AppCompatActivity() {
                 this,
                 Manifest.permission.CAMERA
             ) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(
-                this, "Дайте доступ к камере!",
-                Toast.LENGTH_SHORT
-            ).show()
+//            Toast.makeText(
+//                this, "Дайте доступ к камере!",
+//                Toast.LENGTH_SHORT
+//            ).show()
             requestPermissions(
                 arrayOf(Manifest.permission.CAMERA),
                 CAMERA_REQUEST
             )
-            no_permission_stub.visibility = View.VISIBLE
+//            val n = no_permission_stub
+//            n.visibility = View.VISIBLE
         } else {
             cameraFragment = CameraFragment()
         }
@@ -82,15 +85,31 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.action_profile ->
                     supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, profileFragment).commit()//pagerAdapter.getItemNum("Profile")
-                R.id.action_camera ->
-                    supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
+                R.id.action_camera -> {
+                    if (cameraFragment != null) {
+                        supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
+                    } else {
+                        no_permission_stub.visibility = View.VISIBLE
+                    }
+                }
                 R.id.action_recently_scanned ->
                     supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, recentlyScannedFragment).commit()
             }
             true
         }
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
+        if (cameraFragment != null) {
+            supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
+        } else {
+            val emptyFragment = EmptyFragment(
+                R.drawable.ic_star_black,
+                "У Вас пока нет любимых продуктов!",
+                "Добавить",
+                View.OnClickListener {
+                    
+                }
+            )
+        }
         bottomNavigationView?.selectedItemId = R.id.action_camera
 
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)

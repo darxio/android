@@ -26,6 +26,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.squareup.picasso.Picasso
 import java.util.*
+import android.view.ViewGroup
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import sun.jvm.hotspot.utilities.IntArray
+
+
 
 
 class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
@@ -221,6 +228,14 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 //        logics with info text views
         info_product_name.text = productToShow.name
 
+//        val layoutParams = info_image_container.getLayoutParams() as ViewGroup.MarginLayoutParams
+//        layoutParams.setMargins(0, centered, 8.dp, 0)
+//        info_image_container.requestLayout()
+
+
+//        var collapsed_name = CollapseUtils(this, null, info_product_name)
+//        collapsed_name.initDescription(productToShow.name!!)
+
         if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
             Picasso.get().load(productToShow.image).error(R.drawable.ic_cereals__black).into(info_product_image);
         } else {
@@ -243,7 +258,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         } else {
             if (productToShow.contents != "NULL") {
                 info_product_contents.text = productToShow.contents
-                var collapsed = CollapseUtils(this, info_product_contents)
+                var collapsed = CollapseUtils(this, hide, info_product_contents)
                 collapsed.initDescription(productToShow.contents!!)
             } else {
                 info_product_contents.text = "Информация недоступна."

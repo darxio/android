@@ -19,6 +19,13 @@
     <string name="pref_title_rear_camera_preview_size">Rear camera preview size</string>
 
     <!-- Strings for object detection settings. -->
+    <plurals name="bottom_sheet_title">
+        <item quantity="one">%d match found</item>
+        <item quantity="other">%d matches found</item>
+    </plurals>
+    <string name="prompt_hold_camera_steady">Keep camera still for a moment</string>
+    <string name="prompt_point_at_an_object">Point your camera at an object</string>
+
     <string name="pref_category_object_detection">Object detection</string>
     <string name="pref_key_object_detector_enable_multiple_objects" translatable="false">odemo</string>
     <string name="pref_title_object_detector_enable_multiple_objects">Enable multiple objects</string>

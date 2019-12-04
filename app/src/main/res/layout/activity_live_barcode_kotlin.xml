@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:keepScreenOn="true">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:keepScreenOn="true">
 
-  <com.darx.foodscaner.camerafragment.camera.CameraSourcePreview
-      android:id="@+id/camera_preview"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
+    <LinearLayout
+            android:id="@+id/no_permission_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="1dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-    <include layout="@layout/camera_preview_overlay_kotlin"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_camera" />
 
-  </com.darx.foodscaner.camerafragment.camera.CameraSourcePreview>
+    </LinearLayout>
 
-  <include
-      layout="@layout/top_action_bar_in_live_camera"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="top"/>
+    <com.darx.foodscaner.camerafragment.camera.CameraSourcePreview
+            android:id="@+id/camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <include layout="@layout/camera_preview_overlay_kotlin" />
+
+    </com.darx.foodscaner.camerafragment.camera.CameraSourcePreview>
+
+    <include
+            layout="@layout/top_action_bar_in_live_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,7 @@
 package com.darx.foodscaner.services
 
 
+import com.darx.foodscaner.database.FruitModel
 import com.darx.foodscaner.database.GroupModel
 import com.darx.foodscaner.database.IngredientModel
 import com.darx.foodscaner.database.ProductModel
@@ -11,8 +12,8 @@ import kotlinx.coroutines.Deferred
 import okhttp3.*
 import retrofit2.http.*
 import retrofit2.http.POST
-
-
+import okhttp3.RequestBody
+import retrofit2.Call
 
 
 interface ApiService {
@@ -97,9 +98,20 @@ interface ApiService {
 
     @POST("/products/add")
     fun productAdd(
-        @Query("barcode") barcode: Long,
-        @Query("name") name: String
+        @Body data: ProductData
+    ): Deferred<Unit>
+
+    data class ProductData(
+        val barcode: Long,
+        val name: String
     )
+
+    @Multipart
+    @POST("/fruits/search")
+    fun searchFruit(
+        @Part file: MultipartBody.Part
+    ): Call<FruitModel>
+
 
     companion object {
         operator fun invoke(

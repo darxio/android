@@ -66,6 +66,11 @@
                             android:textColor="@color/black"
                             android:textSize="20sp" />
 
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_right_arrow"/>
+
                 </LinearLayout>
 
             </RelativeLayout>
@@ -117,6 +122,11 @@
                             android:textColor="@color/black"
                             android:textSize="20sp" />
 
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/ic_right_arrow"/>
+
                 </LinearLayout>
 
             </RelativeLayout>
@@ -167,6 +177,11 @@
                             android:text="@string/show_more"
                             android:textColor="@color/black"
                             android:textSize="20sp" />
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_right_arrow"/>
 
                 </LinearLayout>
 

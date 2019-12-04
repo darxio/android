@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -21,13 +22,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodscaner.adapters.*
 import com.darx.foodscaner.database.*
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_favorites.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.Serializable
+
+
 
 
 
@@ -113,17 +114,25 @@ class ProfileFragment : Fragment() {
         productViewModel!!.getFavourites_().observe(this, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
                 if (l?.size == 0) {
+                    more_favourites.visibility = View.GONE
                     favorites_recycler_frame.visibility = View.VISIBLE
-                    val emptyFragment = EmptyFragment(
-                        R.drawable.ic_star_black,
-                        "У Вас пока нет любимых продуктов!",
-                        "Добавить",
-                        LinearLayout.HORIZONTAL,
-                        View.OnClickListener {
-                            (activity as MainActivity?)?.chooseFragment(2)
-                        }
-                    )
-                    activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.favorites_recycler_frame, emptyFragment)?.commit()
+                    add_favs.setOnClickListener {
+                        val intent = Intent(this@ProfileFragment.activity, FavoritesActivity::class.java)
+                        startActivity(intent)
+                    }
+//                    val emptyFragment = EmptyFragment(
+//                        R.drawable.ic_star_black,
+//                        "У Вас пока нет любимых продуктов!",
+//                        "Добавить",
+//                        LinearLayout.HORIZONTAL,
+//                        View.OnClickListener {
+//                            (activity as MainActivity?)?.chooseFragment(2)
+//                        }
+//                    )
+//                    activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.favorites_recycler_frame, emptyFragment)?.commit()
+                } else {
+                    more_favourites.visibility = View.VISIBLE
+                    favorites_recycler_frame.visibility = View.GONE
                 }
                 productsAdapter.addItems(l ?: return)
             }

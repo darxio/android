@@ -11,7 +11,7 @@ import androidx.core.animation.doOnStart
 import com.darx.foodscaner.R
 
 class CollapseUtils(private val context: Context,
-                    private val hide: TextView?,
+                    private val hide: TextView,
                     private val textView: TextView) {
     fun initDescription(description: String) {
         textView.setOnClickListener {
@@ -21,10 +21,7 @@ class CollapseUtils(private val context: Context,
                 doOnStart { textView.maxLines = Int.MAX_VALUE }
             }.start()
             it.setOnClickListener { hideDescription(description, short) }
-
-            if (hide != null) {
-                hide.setOnClickListener { hideDescription(description, short) }
-            }
+            hide.setOnClickListener { hideDescription(description, short) }
             showHideBtn()
         }
     }
@@ -33,9 +30,7 @@ class CollapseUtils(private val context: Context,
         description: String,
         short: Int
     ) {
-        if (hide != null) {
-            hideHideBtn()
-        }
+        hideHideBtn()
         initDescription(description)
         showSmoothly(textView, short).apply { doOnEnd {
             textView.maxLines = 3 // context.resources.getInteger(R.integer.pet_desc_max_lines)
@@ -43,15 +38,11 @@ class CollapseUtils(private val context: Context,
     }
 
     private fun showHideBtn() {
-        if (hide != null) {
             hide.animate().alpha(1f).setDuration(1000L).setInterpolator(AccelerateDecelerateInterpolator()).start()
-        }
     }
 
     private fun hideHideBtn() {
-        if (hide != null) {
             hide.animate().alpha(0f).setDuration(450L).setInterpolator(AccelerateDecelerateInterpolator()).start()
-        }
     }
 
     private fun showSmoothly(view: View, targetHeight: Int): ValueAnimator {

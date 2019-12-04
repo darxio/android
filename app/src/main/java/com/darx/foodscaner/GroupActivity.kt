@@ -39,7 +39,7 @@ class GroupActivity : AppCompatActivity() {
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         groupToShow = intent.extras.get("GROUP") as GroupModel
-        group_name.title = groupToShow.name
+        group_collapsing_toolbar.title = groupToShow.name
         group_info.text = groupToShow.about
 
 
@@ -49,13 +49,13 @@ class GroupActivity : AppCompatActivity() {
                     override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
 
                     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        group_name.setBackground(bitmap?.toDrawable(resources));
+                        group_collapsing_image.setBackground(bitmap?.toDrawable(resources));
                     }
 
                     override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
                 })
         } else {
-            group_name.setBackgroundResource(R.drawable.ic_no_photo)
+            group_collapsing_image.setBackgroundResource(R.drawable.ic_no_photo)
         }
 
         // collapsingToolbar.background = R.drawable.group.toDrawable() IMAGE

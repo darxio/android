@@ -40,5 +40,4 @@
           android:padding="@dimen/top_action_button_padding"
           app:srcCompat="@drawable/ic_starred" />
 
-
 </RelativeLayout>

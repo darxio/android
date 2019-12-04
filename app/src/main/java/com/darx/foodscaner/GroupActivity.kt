@@ -15,7 +15,9 @@ import com.darx.foodscaner.R as R
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
+import android.view.Menu
 import androidx.core.graphics.drawable.toDrawable
+import com.darx.foodscaner.database.ProductModel
 
 
 class GroupActivity : AppCompatActivity() {
@@ -101,7 +103,11 @@ class GroupActivity : AppCompatActivity() {
                 return true
             }
         }
-
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.group_toolbar, menu)
+        return true
     }
 }

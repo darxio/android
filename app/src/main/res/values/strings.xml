@@ -2,6 +2,8 @@
     <string name="app_name">FoodScaner</string>
 
     <!-- Camera fragment -->
+    <string name="give_permission_button_text">Дать доступ</string>
+
 
     <string name="cd_flash_button">Toggle camera flash</string>
     <string name="prompt_point_at_a_barcode">Point your camera at a barcode</string>
@@ -79,8 +81,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="description">Описание</string>
-    <string name="enter_to_group">Вступить</string>
-    <string name="exit_from_group">Выйти</string>
+    <string name="enter_to_group">Вступить в группу</string>
+    <string name="exit_from_group">Покинуть группу</string>
 
     <string name="add_ingredient">Добавить в рацион</string>
 

@@ -55,4 +55,5 @@
 
     <dimen name="product_property_title_size">15dp</dimen>
     <dimen name="product_property_content_size">15dp</dimen>
+    <dimen name="editable_padding">10dp</dimen>
 </resources>

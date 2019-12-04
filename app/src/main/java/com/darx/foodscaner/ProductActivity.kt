@@ -28,8 +28,6 @@ import com.squareup.picasso.Picasso
 import java.util.*
 
 
-
-
 class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
@@ -245,6 +243,8 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         } else {
             if (productToShow.contents != "NULL") {
                 info_product_contents.text = productToShow.contents
+                var collapsed = CollapseUtils(this, info_product_contents)
+                collapsed.initDescription(productToShow.contents!!)
             } else {
                 info_product_contents.text = "Информация недоступна."
             }

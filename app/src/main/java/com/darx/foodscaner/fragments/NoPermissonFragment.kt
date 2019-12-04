@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.darx.foodscaner.MainActivity
 import com.darx.foodscaner.R
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.no_permission_fragment.*
@@ -47,8 +48,9 @@ class NoPermissonFragment() : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == CAMERA_REQUEST) {
             if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-
-                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragments_frame, CameraFragment())?.commit()
+                val frag= CameraFragment()
+                (activity as MainActivity).cameraFragment = frag
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragments_frame, frag)?.commit()
             } else {
                 Toast.makeText(context, "We really need this permission", Toast.LENGTH_SHORT).show()
             }

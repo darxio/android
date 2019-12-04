@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.darx.foodscaner">
+        package="com.darx.foodwise">
 
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-            android:name=".FoodApp"
+            android:name="com.darx.foodwise.FoodApp"
             android:allowBackup="true"
             android:icon="@mipmap/ic_logo"
             android:label="@string/app_name"
@@ -21,31 +21,31 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
         <activity
-                android:name=".WelcomeWizardActivity"
+                android:name="com.darx.foodwise.WelcomeWizardActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
-                android:name=".FavoritesActivity"
+                android:name="com.darx.foodwise.FavoritesActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
-                android:name=".GroupActivity"
+                android:name="com.darx.foodwise.GroupActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
-                android:name=".UserIngredientsActivity"
+                android:name="com.darx.foodwise.UserIngredientsActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
-                android:name=".UserGroupsActivity"
+                android:name="com.darx.foodwise.UserGroupsActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
-                android:name=".GroupIngredientsActivity"
+                android:name="com.darx.foodwise.GroupIngredientsActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
-                android:name=".IngredientActivity"
+                android:name="com.darx.foodwise.IngredientActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
-                android:name=".ProductActivity"
+                android:name="com.darx.foodwise.ProductActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
-                android:name=".MainActivity"
+                android:name="com.darx.foodwise.MainActivity"
                 android:screenOrientation="sensorPortrait"
                 android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -55,7 +55,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".camerafragment.settings.SettingsActivity"
+                android:name="com.darx.foodwise.camerafragment.settings.SettingsActivity"
                 android:screenOrientation="sensorPortrait"></activity>
     </application>
 

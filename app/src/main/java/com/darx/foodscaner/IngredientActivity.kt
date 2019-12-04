@@ -77,9 +77,11 @@ class IngredientActivity : AppCompatActivity() {
     fun setSettingsByStatus(status: Boolean) {
         if (status) {
             ingredient_exclude_btn.text = resources.getString(R.string.exclude_ingredient)
+            ingredient_exclude_btn.setTextColor(resources.getColor(R.color.white))
             ingredient_exclude_btn.setBackgroundColor(resources.getColor(R.color.negativeColor))
         } else {
             ingredient_exclude_btn.text = resources.getString(R.string.add_ingredient)
+            ingredient_exclude_btn.setTextColor(resources.getColor(R.color.black))
             ingredient_exclude_btn.setBackgroundColor(resources.getColor(R.color.positiveColor))
         }
     }

@@ -20,7 +20,7 @@
                 app:expandedTitleMarginStart="12dp"
                 app:layout_scrollFlags="exitUntilCollapsed|scroll"
                 app:title="@string/group"
-                app:collapsedTitleTextAppearance="@style/CollapsedAppBar">
+                >
 
             <ImageView
                     android:id="@+id/group_collapsing_image"

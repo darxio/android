@@ -129,14 +129,14 @@ class CameraFragment : Fragment(), OnClickListener {
                 arrayOf(Manifest.permission.CAMERA),
                 CAMERA_REQUEST
             )
-            no_permission_stub.visibility = VISIBLE
+//            no_permission_stub.visibility = VISIBLE
         } else {
             onReadyToWork()
         }
     }
 
     private fun onReadyToWork() {
-        no_permission_stub.visibility = GONE
+//        no_permission_stub.visibility = GONE
         val apiService = ApiService(ConnectivityInterceptorImpl(this.context!!))
         networkDataSource = NetworkDataSourceImpl(apiService, context!!)
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)

@@ -10,8 +10,7 @@
         <ImageView
                 android:id="@+id/empty_picture"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_garbage_black"/>
+                android:layout_height="wrap_content" />
 
         <LinearLayout
                 android:layout_width="wrap_content"
@@ -25,7 +24,7 @@
                         android:textColor="@color/emptyColor"/>
 
                 <com.google.android.material.button.MaterialButton
-                        android:id="@+id/empty_button"
+                        android:id="@+id/permission_button"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

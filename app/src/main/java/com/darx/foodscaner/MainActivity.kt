@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private var CAMERA_REQUEST = 1;
 
     private val profileFragment = ProfileFragment()
-    private var cameraFragment: CameraFragment? = null
+    var cameraFragment: CameraFragment? = null
     private val recentlyScannedFragment = RecentlyScannedFragment()
 
     private var bottomNavigationView: BottomNavigationView? = null

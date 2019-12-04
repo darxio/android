@@ -68,7 +68,6 @@ class CameraFragment : Fragment(), OnClickListener {
 
     private var CAMERA_REQUEST = 1;
 
-    private var camera: Camera? = null
     private var cameraSource: CameraSource? = null
     private var preview: CameraSourcePreview? = null
     private var graphicOverlay: GraphicOverlay? = null

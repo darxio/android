@@ -43,7 +43,7 @@ class GroupIngredientsActivity : AppCompatActivity() {
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         // group Ingredients
-        groupIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
+        groupIngredientsAdapter = IngredientAdapter(emptyList(), baseContext,this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(this@GroupIngredientsActivity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)

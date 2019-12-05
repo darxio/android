@@ -14,12 +14,14 @@ import kotlinx.android.synthetic.main.activity_group.*
 import com.darx.foodwise.R as R
 import android.graphics.drawable.Drawable
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.view.Menu
 import androidx.core.graphics.drawable.toDrawable
 
 
 class GroupActivity : AppCompatActivity() {
 
+    private var checkIcon: MenuItem? = null
     private var groupViewModel: GroupViewModel? = null
     private var ingredientViewModel: IngredientViewModel? = null
     private lateinit var groupToShow: GroupModel
@@ -70,11 +72,15 @@ class GroupActivity : AppCompatActivity() {
             override fun onChanged(t: GroupModel?) {
                 if (t?.id == groupToShow.id) {
                     group_join_btn.text = resources.getString(R.string.exit_from_group)
+                    group_join_btn.setTextColor(getColor(R.color.white))
                     group_join_btn.setBackgroundColor(resources.getColor(R.color.negativeColor))
+                    checkIcon?.isVisible = true
                     isEnter = true
                 } else {
                     group_join_btn.text = resources.getString(R.string.enter_to_group)
+                    group_join_btn.setTextColor(getColor(R.color.black))
                     group_join_btn.setBackgroundColor(resources.getColor(R.color.positiveColor))
+                    checkIcon?.isVisible = false
                     isEnter = false
                 }
             }
@@ -107,6 +113,9 @@ class GroupActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.group_toolbar, menu)
+        checkIcon = menu?.findItem(R.id.check_icon)
+
+        checkIcon?.isVisible = isEnter
         return true
     }
 }

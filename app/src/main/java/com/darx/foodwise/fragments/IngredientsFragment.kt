@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodwise.*
@@ -39,7 +40,7 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
         networkDataSource = NetworkDataSourceImpl(apiService, this.context!!)
 
         // all Ingredients
-        val allIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
+        val allIngredientsAdapter = IngredientAdapter(emptyList(), activity!!.baseContext, this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(activity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)

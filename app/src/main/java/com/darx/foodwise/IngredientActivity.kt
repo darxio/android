@@ -7,6 +7,11 @@ import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodwise.database.*
+import com.darx.foodwise.database.GroupViewModel
+import com.darx.foodwise.database.IngredientModel
+import com.darx.foodwise.database.IngredientViewModel
+import kotlinx.android.synthetic.main.activity_group.*
+import kotlinx.android.synthetic.main.ingredient_item.*
 
 
 class IngredientActivity : AppCompatActivity() {
@@ -25,6 +30,7 @@ class IngredientActivity : AppCompatActivity() {
 
         ingredientToShow = intent.extras.get("INGREDIENT") as IngredientModel
 
+        ingredient_name.text = ingredientToShow.name
 
 //        collapsingToolbar.title = ingredientToShow.name
         val desc_html = if (ingredientToShow.description != "NULL") ingredientToShow.description else """
@@ -40,20 +46,16 @@ class IngredientActivity : AppCompatActivity() {
 
         // check groups
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
-        groupViewModel.checkAll_(ingredientToShow.groups)?.observe(this@IngredientActivity, object : Observer<Boolean> {
-            override fun onChanged(t: Boolean?) {
+        groupViewModel.checkAll_(ingredientToShow.groups)?.observe(this@IngredientActivity,
+            Observer<Boolean> { t ->
                 isGroupsMatched = t ?: false
                 setSettingsByStatus(checkStatus(null))
-            }
-        })
+            })
 
         // check excepted ingredients
         val ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
-        ingredientViewModel.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity, object : Observer<IngredientModel> {
-            override fun onChanged(t: IngredientModel?) {
-                setSettingsByStatus(checkStatus(t))
-            }
-        })
+        ingredientViewModel.getOne_(ingredientToShow.id)?.observe(this@IngredientActivity,
+            Observer<IngredientModel> { t -> setSettingsByStatus(checkStatus(t)) })
 
         ingredient_exclude_btn.setOnClickListener {
             if (!isAllowed) {
@@ -74,19 +76,25 @@ class IngredientActivity : AppCompatActivity() {
         }
     }
 
-    fun setSettingsByStatus(status: Boolean) {
+    private fun setSettingsByStatus(status: Boolean) {
         if (status) {
             ingredient_exclude_btn.text = resources.getString(R.string.exclude_ingredient)
-            ingredient_exclude_btn.setTextColor(resources.getColor(R.color.white))
-            ingredient_exclude_btn.setBackgroundColor(resources.getColor(R.color.negativeColor))
+            ingredient_exclude_btn.setTextColor(getColor(R.color.white))
+            ingredient_exclude_btn.setBackgroundColor(getColor(R.color.negativeColor))
+            ingredient_name.setTextColor(getColor(R.color.black))
+            ingredient_object.setCardBackgroundColor(getColor(R.color.positiveColor))
+            ingredient_eligibility_image.setImageDrawable(getDrawable(R.drawable.ic_checkmark_black))
         } else {
             ingredient_exclude_btn.text = resources.getString(R.string.add_ingredient)
-            ingredient_exclude_btn.setTextColor(resources.getColor(R.color.black))
-            ingredient_exclude_btn.setBackgroundColor(resources.getColor(R.color.positiveColor))
+            ingredient_exclude_btn.setTextColor(getColor(R.color.black))
+            ingredient_exclude_btn.setBackgroundColor(getColor(R.color.positiveColor))
+            ingredient_name.setTextColor(getColor(R.color.white))
+            ingredient_object.setCardBackgroundColor(getColor(R.color.negativeColor))
+            ingredient_eligibility_image.setImageDrawable(getDrawable(R.drawable.ic_stop_white))
         }
     }
 
-    fun checkStatus(ingredient: IngredientModel?): Boolean {
+    private fun checkStatus(ingredient: IngredientModel?): Boolean {
         isAllowed = true
         if (isGroupsMatched) {
             isAllowed = (ingredient != null && ingredient.allowed!!)

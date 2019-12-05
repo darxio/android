@@ -83,7 +83,6 @@
                         android:id="@+id/group_join_btn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="@color/colorPrimary"
                         android:textColor="@color/white"
                         android:layout_marginStart="3dp"
                         android:text="@string/join_group" />

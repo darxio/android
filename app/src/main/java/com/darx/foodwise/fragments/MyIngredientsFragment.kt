@@ -32,7 +32,7 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
         val view = inflater.inflate(R.layout.fragment_ingredients, container, false)
 
         // my Ingredients
-        myIngredientsAdapter = IngredientAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
+        myIngredientsAdapter = IngredientAdapter(emptyList(), activity!!.baseContext, this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(activity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)

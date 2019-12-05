@@ -57,7 +57,7 @@ class ProfileFragment : Fragment() {
                 intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
-        }, 2450)
+        }, 2450, 20F)
         val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_multi_rv)
         val layoutManagerGroups = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         allGroupsRecycler.layoutManager = layoutManagerGroups
@@ -74,7 +74,7 @@ class ProfileFragment : Fragment() {
         }
 
         // INGREDIENTS
-        val allIngredientsAdapter = ChipsAdapter(emptyList(), this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
+        val allIngredientsAdapter = ChipsAdapter(emptyList(), activity!!.baseContext, this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
             override fun onItemClicked(item: IngredientModel) {
                 val intent = Intent(activity, IngredientActivity::class.java)
                 intent.putExtra("INGREDIENT", item as Serializable)

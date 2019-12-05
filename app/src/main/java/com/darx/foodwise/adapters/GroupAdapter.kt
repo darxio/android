@@ -4,6 +4,7 @@ import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -18,7 +19,7 @@ import androidx.lifecycle.Observer
 import com.darx.foodwise.database.GroupViewModel
 
 
-class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewModel, val owner: LifecycleOwner, val callback: Callback, var size: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewModel, val owner: LifecycleOwner, val callback: Callback, var imgSize: Int, var textSize: Float) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
     val Int.dp: Int
         get() = (this / Resources.getSystem().displayMetrics.density).toInt()
@@ -60,13 +61,13 @@ class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewMod
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
 
-            if (size > 0) {
+            if (imgSize > 0) {
                 val params = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
 
-                params.width = size.dp
+                params.width = imgSize.dp
                 itemView.layoutParams = params
             }
 
@@ -76,6 +77,8 @@ class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewMod
                 Observer<GroupModel?> { t ->
                     if (t != null) {
                         itemView.group_icon.visibility = VISIBLE
+                    } else {
+                        itemView.group_icon.visibility = INVISIBLE
                     }
                 })
         }

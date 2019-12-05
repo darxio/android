@@ -77,6 +77,8 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     }
 
     private var CAMERA_REQUEST = 1;
+    private var AUTO_MODE = false;
+    private var MULTIPLE_MODE = false;
 
     private var cameraSource: CameraSource? = null
     private var camera: Camera? = null
@@ -174,16 +176,18 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                     )
             }
             getView()?.setOnClickListener(this@ObjectDetectionFragment)
-//            if (cameraSource == null) {
-//                FoodApp.instance.cameraSource =  CameraSource(this)
-//                cameraSource = FoodApp.instance.cameraSource
-//            }
             cameraSource = CameraSource(this)
         }
+
+
+        val barcodeIcon = resources.getDrawable(R.drawable.ic_action_camera_small)
+        change_mode_button.setImageDrawable(barcodeIcon)
 
         searchButton = view?.findViewById<ExtendedFloatingActionButton>(R.id.product_search_button).apply {
             view?.setOnClickListener(this@ObjectDetectionFragment)
         }
+        searchButton?.setOnClickListener(this)
+
         searchButtonAnimator =
             (AnimatorInflater.loadAnimator(context, R.animator.search_button_enter) as AnimatorSet).apply {
                 setTarget(searchButton)
@@ -193,9 +197,6 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         flashButton = view?.findViewById<View>(R.id.flash_button).apply {
             view?.setOnClickListener(this@ObjectDetectionFragment)
         }
-//        settingsButton = view?.findViewById<View>(R.id.settings_button).apply {
-//            view?.setOnClickListener(this@ObjectDetectionFragment)
-//        }
 
         settingsButton = settings_button
         settingsButton?.setOnClickListener(this)
@@ -226,10 +227,12 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         currentWorkflowState = WorkflowState.NOT_STARTED
         cameraSource?.setFrameProcessor(
             if (PreferenceUtils.isMultipleObjectsMode(context!!)) {
-                MultiObjectProcessor(graphicOverlay!!, workflowModel!!)
+//            if (MULTIPLE_MODE) {
+            MultiObjectProcessor(graphicOverlay!!, workflowModel!!)
             } else {
                 ProminentObjectProcessor(graphicOverlay!!, workflowModel!!)
             }
+//        ProminentObjectProcessor(graphicOverlay!!, workflowModel!!)
         )
         workflowModel?.setWorkflowState(WorkflowState.DETECTING)
     }
@@ -250,6 +253,11 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     override fun onClick(view: View) {
         val id = view.id
         when (view.id) {
+            R.id.product_search_button -> {
+                searchButton?.isEnabled = false
+                workflowModel?.onSearchButtonClicked()
+            }
+            R.id.bottom_sheet_scrim_view -> bottomSheetBehavior?.setState(BottomSheetBehavior.STATE_HIDDEN)
             R.id.flash_button -> {
                 flashButton?.let {
                     if (it.isSelected) {
@@ -266,7 +274,6 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                 startActivity(Intent(context, SettingsActivity::class.java))
             }
             R.id.change_mode_button -> {
-//                changeModeButton?.setOnClickListener(null)
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 cameraSource?.release()
                 transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
@@ -370,7 +377,6 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                 Log.d(TAG, "Current workflow state: ${workflowState.name}")
 
                 if (PreferenceUtils.isAutoSearchEnabled(context!!)) {
-//                if (true) {
                     stateChangeInAutoSearchMode(workflowState)
                 } else {
                     stateChangeInManualSearchMode(workflowState)
@@ -387,63 +393,67 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
             // Observes changes on the object that has search completed, if happens, show the bottom sheet
             // to present search result.
             searchedObject.observe(this@ObjectDetectionFragment, Observer { nullableSearchedObject ->
-                val searchedObject = nullableSearchedObject ?: return@Observer
-                val productList = searchedObject.productList
+                if (currentWorkflowState == WorkflowState.DETECTED || currentWorkflowState == WorkflowState.SEARCHED) {
+                    val searchedObject = nullableSearchedObject ?: return@Observer
+                    val productList = searchedObject.productList
 
-                objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail()
-                GlobalScope.launch(Dispatchers.IO) {
-                    val file = bitmapToFile(searchedObject.getObjectThumbnail())
-                    val fbody = RequestBody.create(MediaType.parse("image/*"), file);
-                    val part = MultipartBody.Part.createFormData("file", file.name, fbody)
-                    networkDataSource?.searchFruit(
-                        part, object : NetworkDataSource.Callback {
-                            override fun onTimeoutException() {
-                                Log.e("HTTP", "Wrong answer.")
-                                Toast.makeText(
-                                    context!!, "Проблемы с интернетом!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
-                            }
+                    objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail()
+                    GlobalScope.launch(Dispatchers.IO) {
+                        val file = bitmapToFile(searchedObject.getObjectThumbnail())
+                        val fbody = RequestBody.create(MediaType.parse("image/*"), file);
+                        val part = MultipartBody.Part.createFormData("file", file.name, fbody)
+                        networkDataSource?.searchFruit(
+                            part, object : NetworkDataSource.Callback {
+                                override fun onTimeoutException() {
+                                    Log.e("HTTP", "Wrong answer.")
+                                    Toast.makeText(
+                                        context!!, "Проблемы с интернетом!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                }
 
-                            override fun onException() {
-                                Log.e("HTTP", "EXCEPTION CAUGHT.")
-                                Toast.makeText(
-                                    context!!, "Неизвестная ошибка",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
-                            }
+                                override fun onException() {
+                                    Log.e("HTTP", "EXCEPTION CAUGHT.")
+                                    Toast.makeText(
+                                        context!!, "Неизвестная ошибка",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                }
 
-                            override fun onNoConnectivityException() {
-                                Log.e("HTTP", "Wrong answer.")
-                                Toast.makeText(
-                                    context!!, "Проблемы с интернетом!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                NetworkDataSource.DefaultCallback(context!!).onNoConnectivityException()
-                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
-                            }
+                                override fun onNoConnectivityException() {
+                                    Log.e("HTTP", "Wrong answer.")
+                                    Toast.makeText(
+                                        context!!, "Проблемы с интернетом!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    NetworkDataSource.DefaultCallback(context!!)
+                                        .onNoConnectivityException()
+                                    workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                }
 
-                            override fun onHttpException() {
-                                Log.e("HTTP", "Wrong answer.")
-                                Toast.makeText(
-                                    context!!, "Продукт не найден!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                override fun onHttpException() {
+                                    Log.e("HTTP", "Wrong answer.")
+                                    Toast.makeText(
+                                        context!!, "Продукт не найден!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
 
-                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
-                            }
-                        })
+                                    workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                }
+                            })
+                    }
+                    bottomSheetTitleView?.text = resources
+                        .getQuantityString(
+                            R.plurals.bottom_sheet_title, productList.size, productList.size
+                        )
+//                    productRecyclerView?.adapter = ProductAdapter(productList)
+                    slidingSheetUpFromHiddenState = true
+                    bottomSheetBehavior?.peekHeight =
+                        preview?.height?.div(2) ?: BottomSheetBehavior.PEEK_HEIGHT_AUTO
+                    bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
                 }
-                bottomSheetTitleView?.text = resources
-                    .getQuantityString(
-                        R.plurals.bottom_sheet_title, productList.size, productList.size)
-//                productRecyclerView?.adapter = ProductAdapter(productList)
-                slidingSheetUpFromHiddenState = true
-                bottomSheetBehavior?.peekHeight =
-                    preview?.height?.div(2) ?: BottomSheetBehavior.PEEK_HEIGHT_AUTO
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             })
         }
     }
@@ -532,7 +542,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                 promptChip?.visibility = View.GONE
                 searchButton?.visibility = View.VISIBLE
                 searchButton?.isEnabled = false
-                searchButton?.setBackgroundColor(Color.GRAY)
+                searchButton?.setBackgroundColor(Color.DKGRAY)
                 searchProgressBar!!.visibility = View.VISIBLE
                 stopCameraPreview()
             }

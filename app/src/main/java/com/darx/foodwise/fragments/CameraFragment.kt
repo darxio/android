@@ -114,6 +114,10 @@ class CameraFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val barcodeIcon = resources.getDrawable(R.drawable.ic_fruits)
+        change_mode_button.setImageDrawable(barcodeIcon)
+
         if (ActivityCompat.checkSelfPermission(
                 context!!,
                 Manifest.permission.CAMERA
@@ -238,11 +242,10 @@ class CameraFragment : Fragment(), OnClickListener {
             }
             R.id.change_mode_button -> {
                 var frag = ObjectDetectionFragment()
-                var tag = "OBJECT"
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 cameraSource?.release()
                 transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                transaction?.replace(R.id.fragments_frame, frag, tag)
+                transaction?.replace(R.id.fragments_frame, frag)
                 transaction?.commit()
             }
         }

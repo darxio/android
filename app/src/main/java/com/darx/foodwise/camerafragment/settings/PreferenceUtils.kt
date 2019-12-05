@@ -31,7 +31,7 @@ import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode
 object PreferenceUtils {
 
     fun isAutoSearchEnabled(context: Context): Boolean =
-        getBooleanPref(context, R.string.pref_key_enable_auto_search, true)
+        getBooleanPref(context, R.string.pref_key_enable_auto_search, false)
 
     fun isMultipleObjectsMode(context: Context): Boolean =
         getBooleanPref(context, R.string.pref_key_object_detector_enable_multiple_objects, false)

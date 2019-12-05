@@ -72,11 +72,6 @@
                             android:layout_marginTop="8dp"
                             android:src="@drawable/ic_more" />
 
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ic_right_arrow"/>
-
                 </LinearLayout>
 
             </RelativeLayout>
@@ -133,11 +128,6 @@
                             android:layout_height="13dp"
                             android:layout_marginTop="8dp"
                             android:src="@drawable/ic_more" />
-
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/ic_right_arrow"/>
 
                 </LinearLayout>
 
@@ -196,11 +186,6 @@
                             android:layout_marginTop="8dp"
                             android:src="@drawable/ic_more" />
 
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/ic_right_arrow"/>
-
                 </LinearLayout>
 
             </RelativeLayout>
@@ -213,11 +198,21 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/favourite_product_preview_item" />
 
-            <FrameLayout
+            <LinearLayout
                     android:id="@+id/favorites_recycler_frame"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                <ImageButton
+                        android:id="@+id/add_favs"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:background="@drawable/ic_plus_blue"
+                        android:layout_gravity="center"/>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -5,7 +5,7 @@
         android:background="@color/colorPrimary"
         android:keepScreenOn="true">
 
-    <com.darx.foodscaner.camerafragment.camera.CameraSourcePreview
+    <com.darx.foodwise.camerafragment.camera.CameraSourcePreview
             android:id="@+id/camera_preview"
 
             android:layout_width="match_parent"
@@ -13,7 +13,7 @@
 
         <include layout="@layout/camera_preview_overlay_kotlin" />
 
-    </com.darx.foodscaner.camerafragment.camera.CameraSourcePreview>
+    </com.darx.foodwise.camerafragment.camera.CameraSourcePreview>
 
     <include
             layout="@layout/top_action_bar_in_live_camera"

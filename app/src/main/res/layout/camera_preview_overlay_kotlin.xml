@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <com.darx.foodscaner.camerafragment.camera.GraphicOverlay
+  <com.darx.foodwise.camerafragment.camera.GraphicOverlay
       android:id="@+id/camera_preview_graphic_overlay"
       android:layout_width="match_parent"
       android:layout_height="match_parent"/>
@@ -34,6 +34,7 @@
         android:clickable="false"
         android:fontFamily="sans-serif"
         android:textColor="@color/white"
+            app:chipBackgroundColor="@color/dark"
         android:textSize="@dimen/bottom_prompt_chip_text_size"
         android:visibility="gone"
         app:chipCornerRadius="@dimen/bottom_prompt_chip_corner_radius"

@@ -11,10 +11,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.darx.foodscaner"
+        applicationId "com.darx.foodwise"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         testInstrumentationRunner "androidx.product.runner.AndroidJUnitRunner"
     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FoodScaner</string>
+    <string name="app_name">Foodwise</string>
 
     <!-- Camera fragment -->
     <string name="give_permission_button_text">Дать доступ</string>

@@ -72,7 +72,7 @@ class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewMod
                 itemView.layoutParams = params
             }
 
-            groupName.textSize = 20.toFloat()
+            groupName.textSize = 40.toFloat()
 
             groupViewModel.getOne_(item.id)?.observe(owner,
                 Observer<GroupModel?> { t ->

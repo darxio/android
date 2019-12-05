@@ -36,7 +36,7 @@
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:animateLayoutChanges="true"
                     android:orientation="horizontal">
 
@@ -88,29 +88,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-
-<!--            <ImageButton-->
-<!--                    android:id="@+id/info_starred_ib"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentBottom="true"-->
-<!--                    android:layout_marginEnd="9dp"-->
-<!--                    android:layout_marginBottom="11dp"-->
-<!--                    android:layout_toStartOf="@+id/info_share_ib" />-->
-
-<!--            <ImageButton-->
-<!--                    android:id="@+id/info_share_ib"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:layout_alignParentBottom="true"-->
-<!--                    android:layout_marginStart="0dp"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:layout_marginRight="102dp"-->
-<!--                    android:layout_marginBottom="11dp"-->
-<!--                    android:background="@android:color/transparent"-->
-<!--                    android:src="@drawable/ic_share" />-->
-
             <!--  Ingredients -->
 
                 <LinearLayout
@@ -142,6 +119,14 @@
                                 android:layout_toEndOf="@+id/tmp_ingredients"
                                 android:textColor="@color/product_property_content_color"
                                 android:textSize="@dimen/product_property_content_size"/>
+
+                        <ImageButton
+                                android:id="@+id/info_warning_ib"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginEnd="15dp"
+                                android:layout_toStartOf="@+id/info_speaker_ib" />
 
                         <ImageButton
                                 android:id="@+id/info_speaker_ib"

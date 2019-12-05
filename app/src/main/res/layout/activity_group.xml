@@ -19,20 +19,25 @@
                 app:contentScrim="@color/colorPrimary"
                 app:expandedTitleMarginStart="12dp"
                 app:layout_scrollFlags="exitUntilCollapsed|scroll"
-                app:title="@string/group"
-                app:collapsedTitleTextAppearance="@style/CollapsedAppBar">
+                app:title="@string/group">
 
-            <ImageView
-                    android:id="@+id/group_collapsing_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitEnd"/>
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content">-->
 
-            <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/bottom_action_bar_scrim"/>
+                <ImageView
+                        android:id="@+id/group_collapsing_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"/>
+
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/bottom_action_bar_scrim"/>
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/group_toolbar"

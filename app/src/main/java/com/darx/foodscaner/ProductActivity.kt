@@ -20,6 +20,7 @@ import com.darx.foodscaner.services.ApiService
 import com.darx.foodscaner.services.ConnectivityInterceptorImpl
 import com.darx.foodscaner.services.NetworkDataSourceImpl
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -35,7 +36,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var gVM: GroupViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
     var chips: ArrayList<Chip>? = ArrayList()
-    private lateinit var layout: LinearLayout
 //    var ok: Boolean = true
 
     private var speaker: ImageButton? = null
@@ -86,7 +86,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         return isAllowed
     }
 
-    private fun preorder(ingredient: IngredientExtended?) {
+    private fun preorder(ingredient: IngredientExtended?, showDanger: Boolean) {
         if (ingredient == null) {
             return
         }
@@ -116,6 +116,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             override fun onChanged(t: IngredientModel?) {
                 if (checkStatus(t, isGroupsMatched)) {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                    if (ingredient.danger!! > 1 && showDanger) {
+                        chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
+                    }
                 } else {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
 //                    ok = false
@@ -131,7 +134,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         if (!ingredient.ingredients.isNullOrEmpty()) {
             for (i in ingredient.ingredients!!) {
-                preorder(i)
+                preorder(i, showDanger)
             }
         }
 
@@ -151,6 +154,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         var spoke = false
+//        var warned = false
+        info_warning_ib.visibility = View.GONE
+//        info_warning_ib.setBackgroundResource(R.drawable.ic_warning_non_colored)
         info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
 
         speaker = findViewById(R.id.info_speaker_ib)
@@ -204,30 +210,53 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-//        val starred = findViewById<ImageButton>(R.id.info_starred_ib)
-//        val share = findViewById<ImageButton>(R.id.info_share_ib)
 
-        // logics with image buttons
+//        val warning = findViewById<ImageButton>(R.id.info_warning_ib)
 
+        val chipGroup = findViewById<ChipGroup>(R.id.info_ingredient_chips)
 
-//        starred.setOnClickListener {
+//        warning.setOnClickListener {
+//            if (warned) {
+//                info_ingredient_chips.removeAllViews()
+//                chips!!.clear()
 //
+//                info_warning_ib.setBackgroundResource(R.drawable.ic_warning_non_colored)
+//
+//                if (!productToShow.ingredients.isNullOrEmpty()) {
+//                    for (i in productToShow.ingredients!!) {
+//                        preorder(i, false)
+//                    }
+//                }
+//
+//                if (this.chips != null) {
+//                    for (i in this.chips!!) {
+//                        info_ingredient_chips.addView(i)
+//                    }
+//                }
+//
+//                warned = false
+//            } else {
+//                info_ingredient_chips.removeAllViews()
+//                chips!!.clear()
+//
+//                info_warning_ib.setBackgroundResource(R.drawable.ic_warning_colored)
+//                warned = true
+//
+//                if (!productToShow.ingredients.isNullOrEmpty()) {
+//                    for (i in productToShow.ingredients!!) {
+//                        preorder(i, true)
+//                    }
+//                }
+//
+//                if (this.chips != null) {
+//                    for (i in this.chips!!) {
+//                        info_ingredient_chips.addView(i)
+//                    }
+//                }
+//            }
 //        }
 
-//        share.setOnClickListener {
-//
-//        }
-
-//        logics with info text views
         info_product_name.text = productToShow.name
-
-//        val layoutParams = info_image_container.getLayoutParams() as ViewGroup.MarginLayoutParams
-//        layoutParams.setMargins(0, centered, 8.dp, 0)
-//        info_image_container.requestLayout()
-
-
-//        var collapsed_name = CollapseUtils(this, null, info_product_name)
-//        collapsed_name.initDescription(productToShow.name!!)
 
         if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
             Picasso.get().load(productToShow.image).error(R.drawable.ic_cereals__black).into(info_product_image);
@@ -290,7 +319,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         if (!productToShow.ingredients.isNullOrEmpty()) {
             for (i in productToShow.ingredients!!) {
-                preorder(i)
+                preorder(i, true)
             }
         }
 

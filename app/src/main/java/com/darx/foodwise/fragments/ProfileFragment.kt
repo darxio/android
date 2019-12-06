@@ -26,10 +26,6 @@ import kotlinx.coroutines.launch
 import java.io.Serializable
 
 
-
-
-
-
 class ProfileFragment : Fragment() {
 
     private var networkDataSource: NetworkDataSourceImpl? = null

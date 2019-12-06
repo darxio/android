@@ -95,7 +95,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : FrameLayout(c
         val childHeight = (childWidth / previewSizeRatio).toInt()
         if (childHeight <= layoutHeight) {
             for (i in 0 until childCount) {
-                getChildAt(i).layout(0, 0, childWidth, childHeight)
+                getChildAt(i).layout(0, 0, childWidth, layoutHeight)
             }
         } else {
             // When the child view is too tall to be fitted in its parent: If the child view is

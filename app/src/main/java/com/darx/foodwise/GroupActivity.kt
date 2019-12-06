@@ -15,8 +15,11 @@ import com.darx.foodwise.R as R
 import android.graphics.drawable.Drawable
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.view.Menu
 import androidx.core.graphics.drawable.toDrawable
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 
 class GroupActivity : AppCompatActivity() {
@@ -43,20 +46,32 @@ class GroupActivity : AppCompatActivity() {
         group_collapsing_toolbar.title = groupToShow.name
         group_info.text = groupToShow.about
 
+//        if (!groupToShow.imagePath.isNullOrEmpty() || groupToShow.imagePath == "NULL") {
+//            Picasso.get().load(groupToShow.imagePath).error(R.drawable.ic_no_photo).into(
+//                object : com.squareup.picasso.Target {
+//                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
+//
+//                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+//                        group_collapsing_image.setBackground(bitmap?.toDrawable(resources));
+//                    }
+//
+//                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+//                })
+//        } else {
+//            group_collapsing_image.setBackgroundResource(R.drawable.ic_no_photo)
+//        }
 
-        if (!groupToShow.imagePath.isNullOrEmpty() || groupToShow.imagePath == "NULL") {
-            Picasso.get().load(groupToShow.imagePath).error(R.drawable.ic_no_photo).into(
-                object : com.squareup.picasso.Target {
-                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
-
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        group_collapsing_image.setBackground(bitmap?.toDrawable(resources));
-                    }
-
-                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-                })
+        if (!groupToShow.imagePath.isEmpty() || groupToShow.imagePath == "NULL") {
+            val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(groupToShow.imagePath))
+                .setProgressiveRenderingEnabled(true)
+                .build()
+            val controller = Fresco.newDraweeControllerBuilder()
+                .setImageRequest(request)
+                .setOldController(group_collapsing_image.getController())
+                .build()
+            group_collapsing_image.setController(controller)
         } else {
-            group_collapsing_image.setBackgroundResource(R.drawable.ic_no_photo)
+            group_collapsing_image.setImageResource(com.darx.foodwise.R.drawable.ic_no_photo)
         }
 
         // collapsingToolbar.background = R.drawable.group.toDrawable() IMAGE

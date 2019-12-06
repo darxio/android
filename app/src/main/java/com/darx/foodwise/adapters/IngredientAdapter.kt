@@ -39,6 +39,7 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
         private val ingredientName = itemView.findViewById<TextView>(R.id.ingredient_name)
         private val ingredientImage = itemView.findViewById<ImageView>(R.id.ingredient_eligibility_image)
         private val ingredientInfoIcon = itemView.findViewById<ImageView>(R.id.ingredient_information_ib)
+        private val ingredientWarningIcon = itemView.findViewById<ImageView>(R.id.warning_icon)
         private var isAllowed: Boolean = true
         private var isGroupsMatched: Boolean = false
 
@@ -53,10 +54,20 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
 
             // check excepted ingredients
             ingredientViewModel?.getOne_(item.id)?.observe(owner,
-                Observer<IngredientModel> { t -> setSettingsByStatus(checkStatus(t)) })
+                Observer<IngredientModel> { t ->
+                    setSettingsByStatus(checkStatus(t)) })
 
             val ingredientName = itemView.findViewById<TextView>(R.id.ingredient_name)
             ingredientName.text = item.name
+
+            if (item.danger != 0 && item.danger!! > -1) {
+                when (item.danger) {
+                    3 -> ingredientWarningIcon.setImageDrawable(ctx.getDrawable(R.drawable.ic_warning_first))
+                    4 -> ingredientWarningIcon.setImageDrawable(ctx.getDrawable(R.drawable.ic_warning_second))
+                    5 -> ingredientWarningIcon.setImageDrawable(ctx.getDrawable(R.drawable.ic_warning_third))
+                }
+                ingredientWarningIcon.visibility = VISIBLE
+            }
 
             itemView.setOnClickListener {
                 if (!isAllowed) {

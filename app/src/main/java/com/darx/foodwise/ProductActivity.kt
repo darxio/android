@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -26,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.products_preview_card.*
 import java.util.*
 
 
@@ -36,12 +38,13 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var gVM: GroupViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
     var chips: ArrayList<Chip>? = ArrayList()
-//    var ok: Boolean = true
+    var warningLevel: Int = 0
+    var ok: Int = 0
 
     private var speaker: ImageButton? = null
     private var tts: TextToSpeech? = null
 
-    private var isAllowed: Boolean = true
+//    private var isAllowed: Boolean = true
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
@@ -75,7 +78,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     fun checkStatus(ingredient: IngredientModel?, isGroupsMatched: Boolean): Boolean {
-        isAllowed = true
+        var isAllowed = true
         if (isGroupsMatched) {
             isAllowed = (ingredient != null && ingredient.allowed!!)
         } else {
@@ -101,27 +104,41 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if (ingredient.groups.isNullOrEmpty()) {
             ingredient.groups = ArrayList()
         }
+
+        var isAllowed = true
         gVM.checkAll_(ingredient.groups)?.observe(this@ProductActivity, object : Observer<Boolean> {
             override fun onChanged(t: Boolean?) {
                 isGroupsMatched = t ?: false
-                if (checkStatus(null, isGroupsMatched)) {
+                isAllowed = checkStatus(null, isGroupsMatched)
+                if (isAllowed) {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
                 } else {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                }
+                if (ok > 0) {
+                    info_product_card.setCardBackgroundColor(getColorStateList(R.color.negativeColor))
+                } else {
+                    info_product_card.setCardBackgroundColor(getColorStateList(R.color.positiveColor))
                 }
             }
         })
 
         iVM.getOne_(ingredient.id)?.observe(this@ProductActivity, object : Observer<IngredientModel> {
             override fun onChanged(t: IngredientModel?) {
-                if (checkStatus(t, isGroupsMatched)) {
+                isAllowed = checkStatus(t, isGroupsMatched)
+                if (isAllowed) {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
                     if (ingredient.danger!! > 1 && showDanger) {
                         chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
                     }
                 } else {
                     chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-//                    ok = false
+                    ok++
+                }
+                if (ok > 0) {
+                    info_product_card.setCardBackgroundColor(getColorStateList(R.color.negativeColor))
+                } else {
+                    info_product_card.setCardBackgroundColor(getColorStateList(R.color.positiveColor))
                 }
             }
         })
@@ -139,8 +156,22 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
         chip.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                networkDataSource!!.getIngredientByID(ingredient.id)
+            val ingr = IngredientModel(ingredient)
+            if (!isAllowed) {
+                ok--
+                if (isGroupsMatched) {
+                    ingr.allowed = true
+                    iVM.add_(ingr)
+                } else {
+                    iVM.deleteOne_(ingr)
+                }
+            } else {
+                if (isGroupsMatched) {
+                    iVM.deleteOne_(ingr)
+                } else {
+                    ingr.allowed = false
+                    iVM.add_(ingr)
+                }
             }
         }
     }
@@ -188,21 +219,21 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
 
         if (this.productToShow.contents.isNullOrEmpty()) {
-            speaker!!.isEnabled == false
-            speaker!!.visibility = View.INVISIBLE
+            !speaker!!.isEnabled
+            speaker!!.visibility = INVISIBLE
         } else {
-            speaker!!.visibility = View.VISIBLE
+            speaker!!.visibility = VISIBLE
         }
 
         speaker!!.setOnClickListener {
-            if (spoke) {
+            spoke = if (spoke) {
                 info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 pause()
-                spoke = false
+                false
             } else {
                 info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_off_black)
                 speakOut(this.productToShow.contents!!)
-                spoke = true
+                true
             }
         }
 
@@ -212,8 +243,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
 
 //        val warning = findViewById<ImageButton>(R.id.info_warning_ib)
-
-        val chipGroup = findViewById<ChipGroup>(R.id.info_ingredient_chips)
 
 //        warning.setOnClickListener {
 //            if (warned) {
@@ -280,7 +309,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         } else {
             if (productToShow.contents != "NULL") {
                 info_product_contents.text = productToShow.contents
-                var collapsed = CollapseUtils(this, hide, info_product_contents)
+                val collapsed = CollapseUtils(this, hide, info_product_contents)
                 collapsed.initDescription(productToShow.contents!!)
             } else {
                 info_product_contents.text = "Информация недоступна."
@@ -319,7 +348,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         if (!productToShow.ingredients.isNullOrEmpty()) {
             for (i in productToShow.ingredients!!) {
-                preorder(i, true)
+                if (i.name.isNotEmpty()) {
+                    preorder(i, true)
+                }
             }
         }
 

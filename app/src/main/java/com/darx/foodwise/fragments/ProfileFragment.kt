@@ -66,9 +66,6 @@ class ProfileFragment : Fragment() {
         networkDataSource?.groups?.observe(this, Observer {
             allGroupAdapter.addItems(it)
         })
-        networkDataSource?.groupSearch?.observe(this, Observer {
-            allGroupAdapter.addItems(it)
-        })
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchGroups()
         }
@@ -87,9 +84,6 @@ class ProfileFragment : Fragment() {
         ingredientRecycler.adapter = allIngredientsAdapter
 
         networkDataSource?.ingredients?.observe(this, Observer {
-            allIngredientsAdapter.addItems(it)
-        })
-        networkDataSource?.ingredientSearch?.observe(this, Observer {
             allIngredientsAdapter.addItems(it)
         })
         GlobalScope.launch(Dispatchers.Main) {

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_ingredient.*
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodwise.database.*
@@ -31,6 +32,15 @@ class IngredientActivity : AppCompatActivity() {
         ingredientToShow = intent.extras.get("INGREDIENT") as IngredientModel
 
         ingredient_name.text = ingredientToShow.name
+
+        if (ingredientToShow.danger != 0 && ingredientToShow.danger!! > -1) {
+            when (ingredientToShow.danger) {
+                3 -> warning_icon.setImageDrawable(getDrawable(R.drawable.ic_warning_first))
+                4 -> warning_icon.setImageDrawable(getDrawable(R.drawable.ic_warning_second))
+                5 -> warning_icon.setImageDrawable(getDrawable(R.drawable.ic_warning_third))
+            }
+            warning_icon.visibility = View.VISIBLE
+        }
 
 //        collapsingToolbar.title = ingredientToShow.name
         val desc_html = if (ingredientToShow.description != "NULL") ingredientToShow.description else """

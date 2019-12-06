@@ -24,7 +24,7 @@ class EmptyFragment(val backgroundResId: Int, val informationText: String, val b
 
         (view as LinearLayout).orientation = orientation
 
-        picture.setBackgroundResource(backgroundResId)
+        picture.setImageResource(backgroundResId)
 
         info.text = informationText
 

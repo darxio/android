@@ -51,7 +51,7 @@ class FavoritesActivity : AppCompatActivity() {
                 if (l?.size == 0) {
                     favorites_fragments_frame.visibility = VISIBLE
                     val emptyFragment = EmptyFragment(
-                        R.drawable.ic_star_black,
+                        R.drawable.empty_favourites,
                         "У Вас пока нет любимых продуктов!",
                         "Добавить",
                         LinearLayout.VERTICAL,

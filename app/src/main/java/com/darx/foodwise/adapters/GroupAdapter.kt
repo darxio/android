@@ -19,7 +19,7 @@ import androidx.lifecycle.Observer
 import com.darx.foodwise.database.GroupViewModel
 
 
-class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewModel, val owner: LifecycleOwner, val callback: Callback, var imgSize: Int, var textSize: Float) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewModel, val owner: LifecycleOwner, val callback: Callback, var imgSize: Int, var textSize: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
     val Int.dp: Int
         get() = (this / Resources.getSystem().displayMetrics.density).toInt()
@@ -71,7 +71,7 @@ class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewMod
                 itemView.layoutParams = params
             }
 
-            groupName.textSize = 40.toFloat()
+            groupName.textSize = textSize.dpFloat
 
             groupViewModel.getOne_(item.id)?.observe(owner,
                 Observer<GroupModel?> { t ->

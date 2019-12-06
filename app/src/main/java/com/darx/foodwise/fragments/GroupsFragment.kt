@@ -41,7 +41,7 @@ class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
                 intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
-        },0, 30F)
+        },0, 60)
         val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_rv)
         allGroupsRecycler.adapter = allGroupAdapter
 

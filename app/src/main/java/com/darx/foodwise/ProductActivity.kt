@@ -26,7 +26,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.squareup.picasso.Picasso
-import ru.yandex.speechkit.*
 import java.util.*
 
 

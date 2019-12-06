@@ -9,6 +9,7 @@ import android.os.Bundle
 import com.darx.foodwise.fragments.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Fresco.initialize(this)
 
         setContentView(R.layout.activity_main)
 

@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import com.darx.foodwise.*
 import com.darx.foodwise.services.ApiService
@@ -19,11 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodwise.adapters.*
 import com.darx.foodwise.database.*
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.Serializable
+import java.util.ArrayList
 
 
 class ProfileFragment : Fragment() {
@@ -32,6 +33,8 @@ class ProfileFragment : Fragment() {
     private var ingredientViewModel: IngredientViewModel? = null
     private var productViewModel: ProductViewModel? = null
     private var groupViewModel: GroupViewModel? = null
+
+    var chips: ArrayList<Chip>? = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,32 +65,27 @@ class ProfileFragment : Fragment() {
         networkDataSource?.groups?.observe(this, Observer {
             allGroupAdapter.addItems(it)
         })
-        networkDataSource?.groupSearch?.observe(this, Observer {
-            allGroupAdapter.addItems(it)
-        })
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchGroups()
         }
 
-        // INGREDIENTS
-        val allIngredientsAdapter = ChipsAdapter(emptyList(), activity!!.baseContext, this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: IngredientModel) {
-                val intent = Intent(activity, IngredientActivity::class.java)
-                intent.putExtra("INGREDIENT", item as Serializable)
-                startActivity(intent)
-            }
-        })
-        val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_multi_rv)
-        val layoutManagerIngredients = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false)
-        ingredientRecycler.layoutManager = layoutManagerIngredients
-        ingredientRecycler.adapter = allIngredientsAdapter
+//        val ingredientRecycler = view.findViewById<ChipGroup>(R.id.ingredients_multi_rv)
 
         networkDataSource?.ingredients?.observe(this, Observer {
-            allIngredientsAdapter.addItems(it)
+            var chip = Chip(context!!)
+            for (i in it) {
+                chip.text = i.name
+                this.chips?.add(chip)
+//                ingredients_multi_rv.addView(chip)
+            }
         })
-        networkDataSource?.ingredientSearch?.observe(this, Observer {
-            allIngredientsAdapter.addItems(it)
-        })
+
+//        if (this.chips != null) {
+//            for (i in this.chips!!) {
+//                ingredients_multi_rv.addView(i)
+//            }
+//        }
+
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchIngredients(30, 0)
         }
@@ -113,16 +111,6 @@ class ProfileFragment : Fragment() {
                         val intent = Intent(this@ProfileFragment.activity, FavoritesActivity::class.java)
                         startActivity(intent)
                     }
-//                    val emptyFragment = EmptyFragment(
-//                        R.drawable.ic_star_black,
-//                        "У Вас пока нет любимых продуктов!",
-//                        "Добавить",
-//                        LinearLayout.HORIZONTAL,
-//                        View.OnClickListener {
-//                            (activity as MainActivity?)?.chooseFragment(2)
-//                        }
-//                    )
-//                    activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.favorites_recycler_frame, emptyFragment)?.commit()
                 } else {
                     more_favourites.visibility = View.VISIBLE
                     favorites_recycler_frame.visibility = View.GONE
@@ -130,7 +118,6 @@ class ProfileFragment : Fragment() {
                 productsAdapter.addItems(l ?: return)
             }
         })
-
 
         // New activities
         view.more_groups.setOnClickListener {

@@ -34,8 +34,6 @@ class ProfileFragment : Fragment() {
     private var productViewModel: ProductViewModel? = null
     private var groupViewModel: GroupViewModel? = null
 
-    var chips: ArrayList<Chip>? = ArrayList()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -69,22 +67,20 @@ class ProfileFragment : Fragment() {
             networkDataSource?.fetchGroups()
         }
 
-//        val ingredientRecycler = view.findViewById<ChipGroup>(R.id.ingredients_multi_rv)
-
         networkDataSource?.ingredients?.observe(this, Observer {
-            var chip = Chip(context!!)
+            var j: Int = 0
             for (i in it) {
+                val chip = Chip(context!!)
                 chip.text = i.name
-                this.chips?.add(chip)
-//                ingredients_multi_rv.addView(chip)
+                if (j < 15) {
+                    ingredients_chip_group_1.addView(chip)
+                } else {
+                    ingredients_chip_group_2.addView(chip)
+                }
+                j = j + 1
             }
         })
 
-//        if (this.chips != null) {
-//            for (i in this.chips!!) {
-//                ingredients_multi_rv.addView(i)
-//            }
-//        }
 
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchIngredients(30, 0)

@@ -64,28 +64,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/group_ingredients_btn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="170dp"
                     android:layout_height="match_parent"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:textColor="@color/colorPrimary"
                     app:strokeColor="@color/colorPrimary"
                     app:rippleColor="@color/colorPrimary"
                     android:text="@string/group_ingredients"
-                    android:layout_marginEnd="3dp"/>
+                    android:lines="2"
+                    android:maxLines="2"/>
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/group_join_btn"
-                        android:layout_width="match_parent"
+                        android:layout_width="170dp"
                         android:layout_height="match_parent"
                         android:textColor="@color/white"
-                        android:layout_marginStart="3dp"
-                        android:text="@string/join_group" />
+                        android:lines="2"
+                        android:maxLines="2"
+                        android:layout_marginStart="30dp"/>
 
             </LinearLayout>
 
@@ -93,7 +96,9 @@
                     android:id="@+id/group_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp" />
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
 
             </LinearLayout>
 

@@ -67,9 +67,9 @@
                             android:textSize="20dp" />
 
                     <ImageView
-                            android:layout_width="13dp"
-                            android:layout_height="13dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginTop="11dp"
                             android:src="@drawable/ic_more" />
 
                 </LinearLayout>
@@ -124,40 +124,50 @@
                             android:textSize="20dp" />
 
                     <ImageView
-                            android:layout_width="13dp"
-                            android:layout_height="13dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginTop="11dp"
                             android:src="@drawable/ic_more" />
 
                 </LinearLayout>
 
             </RelativeLayout>
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/ingredients_multi_rv"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                    tools:listitem="@layout/ingredient_chip" />-->
-
-<!--            <HorizontalScrollView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:scrollbars="none">-->
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
 
                 <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/ingredients_multi_rv"
-                        android:layout_width="match_parent"
+                        android:id="@+id/ingredients_chip_group_1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         app:chipSpacing="8dp"
-                        app:singleSelection="true" />
+                        app:singleSelection="true"/>
 
-<!--            </HorizontalScrollView>-->
+            </HorizontalScrollView>
+
+            <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/ingredients_chip_group_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        app:chipSpacing="8dp"
+                        app:singleSelection="true"/>
+
+            </HorizontalScrollView>
 
             <View
                     android:layout_width="match_parent"
@@ -199,9 +209,9 @@
                             android:textSize="20dp" />
 
                     <ImageView
-                            android:layout_width="13dp"
-                            android:layout_height="13dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginTop="11dp"
                             android:src="@drawable/ic_more" />
 
                 </LinearLayout>

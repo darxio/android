@@ -28,9 +28,12 @@ class EmptyFragment(val backgroundResId: Int, val informationText: String, val b
 
         info.text = informationText
 
-        button.text = buttonText
-        button.setOnClickListener(buttonOnClickListner as View.OnClickListener?)
-
+        if (buttonText.isEmpty()) {
+            button.visibility = View.INVISIBLE
+        } else {
+            button.text = buttonText
+            button.setOnClickListener(buttonOnClickListner as View.OnClickListener?)
+        }
         return view
     }
 }

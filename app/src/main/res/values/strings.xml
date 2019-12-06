@@ -131,4 +131,6 @@
 <!--    Toolbar -->
     <string name="searching">Поиск...</string>
     <string name="speach_prompt">Назовите название продукта</string>
+    <string name="empty_favourites_message">У Вас пока нет любимых продуктов!</string>
+    <string name="empty_favourites_button">Добавить</string>
 </resources>

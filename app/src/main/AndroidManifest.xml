@@ -25,7 +25,8 @@
                 android:screenOrientation="sensorPortrait" />
         <activity
                 android:name="com.darx.foodwise.FavoritesActivity"
-                android:screenOrientation="sensorPortrait" />
+                android:screenOrientation="sensorPortrait"
+                android:windowSoftInputMode="adjustPan"/>
         <activity
                 android:name="com.darx.foodwise.GroupActivity"
                 android:screenOrientation="sensorPortrait" />

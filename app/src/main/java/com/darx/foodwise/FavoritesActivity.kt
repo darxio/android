@@ -52,12 +52,10 @@ class FavoritesActivity : AppCompatActivity() {
                     favorites_fragments_frame.visibility = VISIBLE
                     val emptyFragment = EmptyFragment(
                         R.drawable.empty_favourites,
-                        "У Вас пока нет любимых продуктов!",
-                        "Добавить",
+                        getString(R.string.empty_favourites_message),
+                        getString(R.string.empty_favourites_button),
                         LinearLayout.VERTICAL,
-                        View.OnClickListener {
-                            Toast.makeText(this@FavoritesActivity, "yy", Toast.LENGTH_LONG)
-                        }
+                        View.OnClickListener {}
                     )
                     supportFragmentManager.beginTransaction().replace(R.id.favorites_fragments_frame, emptyFragment).commit()
                 }

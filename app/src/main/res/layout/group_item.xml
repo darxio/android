@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fresco="http://schemas.android.com/tools"
         android:id="@+id/group_card"
         android:orientation="horizontal"
         android:layout_marginRight="5dp"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/group_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

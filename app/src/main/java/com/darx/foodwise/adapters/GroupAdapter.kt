@@ -1,5 +1,6 @@
 package com.darx.foodwise.adapters
 
+import android.content.Context
 import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,19 +8,21 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.darx.foodwise.R
 import com.darx.foodwise.database.GroupModel
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.group_item.view.*
 import android.widget.LinearLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.darx.foodwise.database.GroupViewModel
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.imagepipeline.request.ImageRequestBuilder
+import android.net.Uri
+import com.facebook.drawee.view.SimpleDraweeView
 
 
-class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewModel, val owner: LifecycleOwner, val callback: Callback, var imgSize: Int, var textSize: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewModel, val owner: LifecycleOwner, val callback: Callback, var imgSize: Int, var textSize: Int, var ctx: Context) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
     val Int.dp: Int
         get() = (this / Resources.getSystem().displayMetrics.density).toInt()
@@ -46,15 +49,29 @@ class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewMod
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val groupImage = itemView.findViewById<ImageView>(R.id.group_image)
+        private val groupImage = itemView.findViewById<SimpleDraweeView>(R.id.group_image)
         private val groupName = itemView.findViewById<TextView>(R.id.group_name)
 
         fun bind(item: GroupModel) {
+//            if (!item.imagePath.isEmpty() || item.imagePath == "NULL") {
+//                Picasso.get().load(item.imagePath).error(R.drawable.ic_no_photo).into(groupImage);
+//            } else {
+//                groupImage.setImageResource(R.drawable.ic_no_photo)
+//            }
+
             if (!item.imagePath.isEmpty() || item.imagePath == "NULL") {
-                Picasso.get().load(item.imagePath).error(R.drawable.ic_no_photo).into(groupImage);
+                val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(item.imagePath))
+                    .setProgressiveRenderingEnabled(true)
+                    .build()
+                val controller = Fresco.newDraweeControllerBuilder()
+                    .setImageRequest(request)
+                    .setOldController(groupImage.getController())
+                    .build()
+                groupImage.setController(controller)
             } else {
-                groupImage.setImageResource(R.drawable.ic_no_photo)
+                groupImage.setImageResource(com.darx.foodwise.R.drawable.ic_no_photo)
             }
+
             groupName.text = item.name
 
             itemView.setOnClickListener {

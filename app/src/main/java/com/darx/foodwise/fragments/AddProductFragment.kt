@@ -1,6 +1,8 @@
 package com.darx.foodwise.fragments
 
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,6 +44,8 @@ class AddProductFragment: AppCompatDialogFragment() {
             }
 
         val view = inflater.inflate(R.layout.fragment_add_product, container, false)
+        dialog!!.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         val skip = view.findViewById<Button>(R.id.skip_btn)
         val add = view.findViewById<Button>(R.id.add_btn)
         val name = view.findViewById<EditText>(R.id.name_et)

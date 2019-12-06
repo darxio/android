@@ -121,7 +121,7 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
     override suspend fun fetchIngredients(count: Int, page: Int, callback: Callback) {
         try {
             val fetchedIngredients = apiService.ingredientsTop(count, page).await()
-            _ingredientSearch.postValue(fetchedIngredients)
+            _ingredients.postValue(fetchedIngredients)
         }
         catch (e: NoConnectivityException) {
             callback.onNoConnectivityException()

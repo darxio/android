@@ -79,363 +79,358 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-                android:id="@+id/info_product_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+             android:id="@+id/container"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
 
-            <!--  Ingredients -->
-
-                <LinearLayout
-                    android:id="@+id/info_ingredients_layout"
+            <LinearLayout
+                    android:id="@+id/info_product_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                <!--  Ingredients -->
 
-                        <TextView
-                                android:id="@+id/tmp_ingredients"
+                    <LinearLayout
+                        android:id="@+id/info_ingredients_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="15dp">
+
+                        <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="8dp"
-                                android:text="@string/Constitution"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="8dp"
+                                    android:text="@string/Constitution"
+                                    android:textColor="@color/product_property_title_color"
+                                    android:textSize="@dimen/product_property_title_size"/>
+
+                            <ImageButton
+                                    android:id="@+id/info_speaker_ib"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"/>
+
+                        </RelativeLayout>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/info_ingredient_chips"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:singleSelection="true"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            app:chipSpacingHorizontal="4dp"
+                            app:chipSpacingVertical="4dp"/>
+
+                    </LinearLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/colorPrimary"/>
+
+            <!--  Description -->
+
+                <LinearLayout
+                        android:id="@+id/info_description_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="15dp">
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Описание:"
                                 android:textColor="@color/product_property_title_color"
                                 android:textSize="@dimen/product_property_title_size"/>
 
-                        <TextView
-                                android:id="@+id/info_product_ingredients_temp_text_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_toEndOf="@+id/tmp_ingredients"
-                                android:textColor="@color/product_property_content_color"
-                                android:textSize="@dimen/product_property_content_size"/>
-
-                        <ImageButton
-                                android:id="@+id/info_warning_ib"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginEnd="15dp"
-                                android:layout_toStartOf="@+id/info_speaker_ib" />
-
-                        <ImageButton
-                                android:id="@+id/info_speaker_ib"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentEnd="true"/>
-
-                    </RelativeLayout>
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/info_ingredient_chips"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:singleSelection="true"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        app:chipSpacingHorizontal="4dp"
-                        app:chipSpacingVertical="4dp"/>
+                    <TextView
+                            android:id="@+id/info_product_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:textColor="@color/product_property_content_color"
+                            android:textSize="@dimen/product_property_content_size"/>
 
                 </LinearLayout>
 
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
-
-        <!--  Description -->
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Описание:"
-                            android:textColor="@color/product_property_title_color"
-                            android:textSize="@dimen/product_property_title_size"/>
-
-                <TextView
-                        android:id="@+id/info_product_description"
+                <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:textColor="@color/product_property_content_color"
-                        android:textSize="@dimen/product_property_content_size"/>
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/colorPrimary"/>
 
-            </LinearLayout>
+            <!--    Nutrition Facts -->
 
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
-
-        <!--    Nutrition Facts -->
-
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="БЖУ:"
-                        android:layout_marginRight="8dp"
-                        android:textColor="@color/product_property_title_color"
-                        android:textSize="@dimen/product_property_title_size"/>
-
-                <TextView
-                        android:id="@+id/info_product_nutrition_facts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/product_property_content_color"
-                        android:textSize="@dimen/product_property_content_size"/>
-
-            </LinearLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
-
-        <!--   Mass -->
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Масса:"
-                        android:layout_marginRight="8dp"
-                        android:textColor="@color/product_property_title_color"
-                        android:textSize="@dimen/product_property_title_size"/>
-
-                <TextView
-                        android:id="@+id/info_product_mass"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/product_property_content_color"
-                        android:textSize="@dimen/product_property_content_size"/>
-
-            </LinearLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
-
-        <!-- Best Before-->
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Срок хранения:"
-                        android:layout_marginRight="8dp"
-                        android:textColor="@color/product_property_title_color"
-                        android:textSize="@dimen/product_property_title_size"/>
-
-                <TextView
-                        android:id="@+id/info_product_bestbefore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/product_property_content_color"
-                        android:textSize="@dimen/product_property_content_size"/>
-
-            </LinearLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
-
-        <!--    Manufacturer -->
-
-            <LinearLayout
+                <LinearLayout
+                        android:id="@+id/info_nutrition_facts_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="15dp">
 
                     <TextView
-                            android:id="@+id/info_product_manufacturer_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Производитель:"
+                            android:text="БЖУ:"
                             android:layout_marginRight="8dp"
                             android:textColor="@color/product_property_title_color"
                             android:textSize="@dimen/product_property_title_size"/>
 
                     <TextView
-                            android:id="@+id/info_product_manufacturer"
+                            android:id="@+id/info_product_nutrition_facts"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/product_property_content_color"
                             android:textSize="@dimen/product_property_content_size"/>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/colorPrimary"/>
 
-            <!--    Category URL -->
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Категория:"
-                        android:layout_marginRight="8dp"
-                        android:textColor="@color/product_property_title_color"
-                        android:textSize="@dimen/product_property_title_size"/>
-
-                <TextView
-                        android:id="@+id/info_product_category_URL"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/product_property_content_color"
-                        android:textSize="@dimen/product_property_content_size"/>
-
-            </LinearLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
-
-            <!-- Contents -->
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Текст состава:"
-                        android:textColor="@color/product_property_title_color"
-                        android:textSize="@dimen/product_property_title_size"/>
-
-                    <TextView
-                            android:id="@+id/info_product_contents"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:textColor="@color/product_property_content_color"
-                            android:textSize="@dimen/product_property_content_size"
-                            android:maxLines="3"
-                            android:ellipsize="end"/>
-
-                    <TextView
-                            android:id="@+id/hide"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Свернуть"
-                            android:layout_marginRight="5dp"
-                            android:alpha="0"/>
-
-            </LinearLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
-
-    <!--        Feedback -->
-
-            <LinearLayout
-                    android:id="@+id/feedback_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:text="Вам понравилось разделение состава по ингредиентам?"
-                        android:layout_marginRight="8dp"
-                        android:textColor="@color/product_property_title_color"
-                        android:textSize="@dimen/product_property_title_size"/>
+            <!--   Mass -->
 
                 <LinearLayout
+                        android:id="@+id/info_mass_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_gravity="center"
-                        android:layout_weight="1">
+                        android:padding="15dp">
 
-                    <ImageButton
-                            android:id="@+id/bad"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_bad"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Масса:"
+                            android:layout_marginRight="8dp"
+                            android:textColor="@color/product_property_title_color"
+                            android:textSize="@dimen/product_property_title_size"/>
 
-                    <ImageButton
-                            android:id="@+id/good"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_good"/>
+                    <TextView
+                            android:id="@+id/info_product_mass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/product_property_content_color"
+                            android:textSize="@dimen/product_property_content_size"/>
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/colorPrimary"/>
 
+            <!-- Best Before-->
+
+                <LinearLayout
+                        android:id="@+id/info_best_before_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="15dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Срок хранения:"
+                            android:layout_marginRight="8dp"
+                            android:textColor="@color/product_property_title_color"
+                            android:textSize="@dimen/product_property_title_size"/>
+
+                    <TextView
+                            android:id="@+id/info_product_bestbefore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/product_property_content_color"
+                            android:textSize="@dimen/product_property_content_size"/>
+
+                </LinearLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/colorPrimary"/>
+
+            <!--    Manufacturer -->
+
+                <LinearLayout
+                            android:id="@+id/info_manufacturer_container"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="15dp">
+
+                        <TextView
+                                android:id="@+id/info_product_manufacturer_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Производитель:"
+                                android:layout_marginRight="8dp"
+                                android:textColor="@color/product_property_title_color"
+                                android:textSize="@dimen/product_property_title_size"/>
+
+                        <TextView
+                                android:id="@+id/info_product_manufacturer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/product_property_content_color"
+                                android:textSize="@dimen/product_property_content_size"/>
+
+                </LinearLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/colorPrimary"/>
+
+                <!--    Category URL -->
+
+                <LinearLayout
+                        android:id="@+id/info_category_url_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="15dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Категория:"
+                            android:layout_marginRight="8dp"
+                            android:textColor="@color/product_property_title_color"
+                            android:textSize="@dimen/product_property_title_size"/>
+
+                    <TextView
+                            android:id="@+id/info_product_category_URL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/product_property_content_color"
+                            android:textSize="@dimen/product_property_content_size"/>
+
+                </LinearLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/colorPrimary"/>
+
+                <!-- Contents -->
+
+                <LinearLayout
+                        android:id="@+id/info_contents_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="15dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Текст состава:"
+                            android:textColor="@color/product_property_title_color"
+                            android:textSize="@dimen/product_property_title_size"/>
+
+                        <TextView
+                                android:id="@+id/info_product_contents"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="8dp"
+                                android:paddingBottom="8dp"
+                                android:textColor="@color/product_property_content_color"
+                                android:textSize="@dimen/product_property_content_size"
+                                android:maxLines="3"
+                                android:ellipsize="end"/>
+
+                        <TextView
+                                android:id="@+id/hide"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Свернуть"
+                                android:layout_marginRight="5dp"
+                                android:alpha="0"/>
+
+                </LinearLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/colorPrimary"/>
+
+        <!--        Feedback -->
+
+                <LinearLayout
+                        android:id="@+id/info_feedback_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="15dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Вам понравилось разделение состава по ингредиентам?"
+                            android:textAlignment="center"
+                            android:textColor="@color/product_property_title_color"
+                            android:textSize="@dimen/product_property_title_size"
+                            android:layout_marginBottom="10dp"/>
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:layout_weight="1">
+
+                        <ImageButton
+                                android:id="@+id/bad"
+                                android:layout_width="60dp"
+                                android:layout_height="50dp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_bad"
+                                android:background="@color/transparent"/>
+
+                        <ImageButton
+                                android:id="@+id/good"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_good"
+                                android:background="@color/transparent"
+                                android:layout_marginStart="10dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>>
+    </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -23,9 +23,6 @@
                 fresco:actualImageScaleType="fitCenter"
                 android:tint="#70000000"/>
 
-<!--        android:adjustViewBounds="true"-->
-<!--        android:scaleType="centerCrop"-->
-
         <TextView
                 android:id="@+id/group_name"
                 android:layout_width="wrap_content"
@@ -33,8 +30,8 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="25dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_margin="1dp"/>
 
         <ImageView
                 android:id="@+id/group_icon"

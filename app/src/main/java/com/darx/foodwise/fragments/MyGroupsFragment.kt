@@ -11,12 +11,17 @@ import android.view.ViewGroup
 
 
 import android.content.Intent
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodwise.*
 import com.darx.foodwise.adapters.GroupAdapter
 import com.darx.foodwise.database.GroupModel
 import com.darx.foodwise.database.GroupViewModel
+import kotlinx.android.synthetic.main.activity_favorites.*
+import kotlinx.android.synthetic.main.activity_groups.*
+import kotlinx.android.synthetic.main.fragment_groups.*
 import java.io.Serializable
 
 
@@ -43,6 +48,17 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
 
         groupViewModel.getAll_().observe(this, object : Observer<List<GroupModel>> {
             override fun onChanged(l: List<GroupModel>?) {
+                if (l?.size == 0) {
+                    groups_fragments_frame.visibility = View.VISIBLE
+                    val emptyFragment = EmptyFragment(
+                        R.drawable.empty_favourites,
+                        "У Вас пока нет любимых продуктов!",
+                        "Добавить",
+                        LinearLayout.VERTICAL,
+                        View.OnClickListener {}
+                    )
+                    activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.groups_fragments_frame, emptyFragment)?.commit()
+                }
                 myGroupAdapter?.addItems(l ?: return)
             }
         })

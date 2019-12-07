@@ -131,4 +131,14 @@
 <!--    Toolbar -->
     <string name="searching">Поиск...</string>
     <string name="speach_prompt">Назовите название продукта</string>
+
+
+    <string name="empty_favourites_message">У Вас пока нет любимых продуктов!</string>
+    <string name="empty_favourites_button">Добавить</string>
+    <string name="empty_rs_scanned_message">Вы пока ничего не сканировали!</string>
+    <string name="empty_rs_scanned_button">Сканировать</string>
+    <string name="empty_search_message">Ничего не найдено!</string>
+    <string name="empty_search_button"></string>
+    <string name="empty_ingredients_message">У Вас пока нет исключенных ингредиентов!</string>
+    <string name="empty_ingredients_button">Добавить</string>
 </resources>

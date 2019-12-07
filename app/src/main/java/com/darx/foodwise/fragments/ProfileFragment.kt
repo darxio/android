@@ -54,7 +54,7 @@ class ProfileFragment : Fragment() {
                 intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
-        }, 2450, 75, context!!)
+        }, 2450, 65, context!!)
         val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_multi_rv)
         val layoutManagerGroups = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         allGroupsRecycler.layoutManager = layoutManagerGroups
@@ -77,11 +77,9 @@ class ProfileFragment : Fragment() {
                 } else {
                     ingredients_chip_group_2.addView(chip)
                 }
-                j = j + 1
+                j += 1
             }
         })
-
-
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchIngredients(30, 0)
         }

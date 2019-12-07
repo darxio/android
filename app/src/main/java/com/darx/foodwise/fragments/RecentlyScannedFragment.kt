@@ -24,9 +24,12 @@ import com.arlib.floatingsearchview.FloatingSearchView
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager
 import android.speech.RecognizerIntent
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
+import com.darx.foodwise.MainActivity
 import com.darx.foodwise.R
+import kotlinx.android.synthetic.main.activity_favorites.*
 import java.lang.Exception
 import java.util.*
 
@@ -63,11 +66,15 @@ class RecentlyScannedFragment : Fragment() {
         })
         view.history_rv.adapter = scannedProductsAdapter
 
-        productViewModel?.getScanned_()?.observe(this@RecentlyScannedFragment, object : Observer<List<ProductModel>> {
-            override fun onChanged(l: List<ProductModel>?) {
+        productViewModel?.getScanned_()?.observe(this@RecentlyScannedFragment,
+            Observer<List<ProductModel>> { l ->
+                if (l?.size == 0 && searchedProductsAdapter?.itemCount == 0) {
+                    showEmptyFragment(view)
+                } else {
+                    view.rs_fragments_frame.visibility = View.GONE
+                }
                 scannedProductsAdapter?.addItems(matchMyProducts(rs_search_view?.query.toString()))
-            }
-        })
+            })
 
 
         // search products
@@ -81,19 +88,28 @@ class RecentlyScannedFragment : Fragment() {
         view.all_products_rv.adapter = searchedProductsAdapter
 
         networkDataSource?.productSearch?.observe(this@RecentlyScannedFragment, Observer {
-            if (view.rs_search_view.query != "") searchedProductsAdapter?.addItems(it)
+            if (it.isEmpty() && scannedProductsAdapter?.itemCount == 0) {
+                showEmptyFragment(view)
+            } else {
+                view.rs_fragments_frame.visibility = View.GONE
+            }
+
+            if (view.rs_search_view.query.isNotEmpty()) {
+                searchedProductsAdapter?.addItems(it)
+            }
         })
 
         // searching
         view.rs_search_view.setOnQueryChangeListener(FloatingSearchView.OnQueryChangeListener { oldQuery, newQuery ->
+            scannedProductsAdapter?.addItems(matchMyProducts(newQuery))
             if (newQuery.isEmpty()) {
                 searchedProductsAdapter?.addItems(listOf())
+                showEmptyFragment(view)
             } else {
                 GlobalScope.launch(Dispatchers.Main) {
                     networkDataSource?.fetchProductSearch(newQuery, 15, 0)
                 }
             }
-            scannedProductsAdapter?.addItems(matchMyProducts(newQuery))
         })
 
         view.rs_search_view.setOnMenuItemClickListener { item ->
@@ -108,6 +124,31 @@ class RecentlyScannedFragment : Fragment() {
         })
 
         return view
+    }
+
+    private fun showEmptyFragment(view: View) {
+        var emptyFragment: EmptyFragment? = null
+        if (view.rs_search_view.query.isEmpty()) {
+            emptyFragment = EmptyFragment(
+                R.drawable.empty_history,
+                getString(R.string.empty_rs_scanned_message),
+                getString(R.string.empty_rs_scanned_button),
+                LinearLayout.VERTICAL,
+                View.OnClickListener {
+                    (activity as MainActivity).chooseFragment(1)
+                }
+            )
+        } else {
+            emptyFragment = EmptyFragment(
+                R.drawable.empty_product_info,
+                getString(R.string.empty_search_message),
+                getString(R.string.empty_search_button),
+                LinearLayout.VERTICAL,
+                View.OnClickListener {}
+            )
+        }
+        view.rs_fragments_frame.visibility = View.VISIBLE
+        activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.rs_fragments_frame, emptyFragment)?.commit()
     }
 
     private fun voiceGoogle() {
@@ -138,7 +179,7 @@ class RecentlyScannedFragment : Fragment() {
         }
     }
 
-    fun matchMyProducts(typed: String): List<ProductModel> {
+    private fun matchMyProducts(typed: String): List<ProductModel> {
         val matched: MutableList<ProductModel> = mutableListOf()
 
         val data = productViewModel?.getScanned_()!! //?.observe(this@UserIngredientsActivity, object : Observer<List<IngredientModel>>

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodwise.*
@@ -18,6 +19,8 @@ import com.darx.foodwise.database.GroupViewModel
 import com.darx.foodwise.services.ApiService
 import com.darx.foodwise.services.ConnectivityInterceptorImpl
 import com.darx.foodwise.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.activity_groups.*
+import kotlinx.android.synthetic.main.fragment_groups.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -49,9 +52,31 @@ class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
         networkDataSource = NetworkDataSourceImpl(apiService, this.context!!)
 
         networkDataSource?.groups?.observe(this, Observer {
+            if (it?.size == 0) {
+                groups_fragments_frame.visibility = View.VISIBLE
+                val emptyFragment = EmptyFragment(
+                    R.drawable.empty_product_info,
+                    "Ничего не найдено!",
+                    "",
+                    LinearLayout.VERTICAL,
+                    View.OnClickListener {}
+                )
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.groups_fragments_frame, emptyFragment)?.commit()
+            }
             allGroupAdapter.addItems(it)
         })
         networkDataSource?.groupSearch?.observe(this, Observer {
+            if (it?.size == 0) {
+                groups_fragments_frame.visibility = View.VISIBLE
+                val emptyFragment = EmptyFragment(
+                    R.drawable.empty_product_info,
+                    "Ничего не найдено!",
+                    "",
+                    LinearLayout.VERTICAL,
+                    View.OnClickListener {}
+                )
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.groups_fragments_frame, emptyFragment)?.commit()
+            }
             allGroupAdapter.addItems(it)
         })
 

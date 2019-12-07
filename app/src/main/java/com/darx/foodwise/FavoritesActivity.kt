@@ -19,6 +19,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import com.darx.foodwise.fragments.EmptyFragment
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import com.darx.foodwise.fragments.RecentlyScannedFragment
 
 
 class FavoritesActivity : AppCompatActivity() {
@@ -48,20 +52,10 @@ class FavoritesActivity : AppCompatActivity() {
 
         productViewModel!!.getFavourites_().observe(this@FavoritesActivity, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
-                if (l?.size == 0) {
-                    favorites_fragments_frame.visibility = VISIBLE
-                    val emptyFragment = EmptyFragment(
-                        R.drawable.ic_star_black,
-                        "У Вас пока нет любимых продуктов!",
-                        "Добавить",
-                        LinearLayout.VERTICAL,
-                        View.OnClickListener {
-                            Toast.makeText(this@FavoritesActivity, "yy", Toast.LENGTH_LONG)
-                        }
-                    )
-                    supportFragmentManager.beginTransaction().replace(R.id.favorites_fragments_frame, emptyFragment).commit()
-                }
                 productsAdapter!!.addItems(l ?: return)
+                if (l.isEmpty()) {
+                    showEmptyFragment()
+                }
             }
         })
     }
@@ -90,7 +84,11 @@ class FavoritesActivity : AppCompatActivity() {
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                productsAdapter?.addItems(matchFavouritesGroups(newText))
+                val data = matchFavouritesGroups(newText)
+                productsAdapter?.addItems(data)
+//                if (data.isEmpty()) {
+//                    showEmptyFragment()
+//                }
                 return false
             }
         })
@@ -118,5 +116,31 @@ class FavoritesActivity : AppCompatActivity() {
             }
         }
         return matched
+    }
+
+    private fun showEmptyFragment() {
+        var emptyFragment: EmptyFragment? = null
+//        if (favourites_search_view.query.isEmpty()) {
+            emptyFragment = EmptyFragment(
+                R.drawable.empty_favourites,
+                getString(R.string.empty_favourites_message),
+                getString(R.string.empty_favourites_button),
+                LinearLayout.VERTICAL,
+                View.OnClickListener {
+                    val intent = Intent(this, RecentlyScannedFragment::class.java)
+                    startActivity(intent)
+                }
+            )
+//        } else {
+//            emptyFragment = EmptyFragment(
+//                R.drawable.empty_product_info,
+//                getString(R.string.empty_search_message),
+//                getString(R.string.empty_search_button),
+//                LinearLayout.VERTICAL,
+//                View.OnClickListener {}
+//            )
+//        }
+        favorites_fragments_frame.visibility = VISIBLE
+        supportFragmentManager.beginTransaction().replace(R.id.favorites_fragments_frame, emptyFragment).commit()
     }
 }

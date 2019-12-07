@@ -31,8 +31,7 @@ class IngredientViewModel(application: Application) : AndroidViewModel(applicati
 
     // check if works
     fun getOne_(id: Int): LiveData<IngredientModel>? {
-        exclIngredient = db?.ingredientsDAO()?.getOne(id)
-        return exclIngredient
+        return db?.ingredientsDAO()?.getOne(id)
     }
 
     fun add_(eI: IngredientModel) {

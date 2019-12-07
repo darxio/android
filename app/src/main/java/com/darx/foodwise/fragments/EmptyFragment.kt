@@ -24,13 +24,16 @@ class EmptyFragment(val backgroundResId: Int, val informationText: String, val b
 
         (view as LinearLayout).orientation = orientation
 
-        picture.setBackgroundResource(backgroundResId)
+        picture.setImageResource(backgroundResId)
 
         info.text = informationText
 
-        button.text = buttonText
-        button.setOnClickListener(buttonOnClickListner as View.OnClickListener?)
-
+        if (buttonText.isEmpty()) {
+            button.visibility = View.GONE
+        } else {
+            button.text = buttonText
+            button.setOnClickListener(buttonOnClickListner as View.OnClickListener?)
+        }
         return view
     }
 }

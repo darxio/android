@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.darx.foodwise.database.ProductModel
 import com.darx.foodwise.database.ProductViewModel
 import java.text.SimpleDateFormat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.darx.foodwise.R
+import com.darx.foodwise.database.IngredientExtended
+import com.darx.foodwise.database.IngredientModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.card.MaterialCardView
 import com.squareup.picasso.Picasso
@@ -74,57 +77,45 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
 
-//            pVM.getOne_(item.barcode)?.observe(owner, object : Observer<ProductModel> {
-//                override fun onChanged(t: ProductModel?) {
-//                    item.starred = t?.starred ?: item.starred
-//
-//                    if (t != null) {
-//                            productCard.setBackgroundColor(R.color.positiveColor)
-//                            productName.setTextColor(R.color.black)
-//                            if (productScannedDate.isVisible) {
-//                                productScannedDate.setTextColor(R.color.black)
-//                            }
-//                            //                      black delete & share
-//                            //                        delete.setBackgroundResource()
-//                            //                        share.setBackgroundResource()
-//                            productScannedDate.setTextColor(R.color.black)
-//                            if (t.starred) {
-//                                starred.setBackgroundResource(R.drawable.ic_starred)
-//                            } else {
-//                                starred.setBackgroundResource(R.drawable.ic_unstarred)
-//                            }
-////                        } else {
-////                            productCard.setBackgroundColor(R.color.negativeColor)
-////                            productName.setTextColor(R.color.white)
-////                            if (productScannedDate.isVisible) {
-////                                productScannedDate.setTextColor(R.color.white)
-////                            }
-////                            //                      white delete & share
-////                            //                        delete.setBackgroundResource()
-////                            //                        share.setBackgroundResource()
-////                            productScannedDate.setTextColor(R.color.white)
-////                            if (t.starred) {
-////                                starred.setBackgroundResource(R.drawable.ic_starred)
-////                            } else {
-////                                starred.setBackgroundResource(R.drawable.ic_unstarred)
-////                            }
-////                        }
-//                    } else {
-//                        starred.setBackgroundResource(R.drawable.ic_unstarred)
-//                    }
-//                }
-//            })
-
-            pVM.getOne_(item.barcode)?.observe(owner, object : Observer<ProductModel> {
-                override fun onChanged(t: ProductModel?) {
+            pVM.getOne_(item.barcode)?.observe(owner,
+                Observer<ProductModel> { t ->
                     item.starred = t?.starred ?: item.starred
-                    if (t != null && t.starred) {
-                        starred.setBackgroundResource(R.drawable.ic_star_yellow)
+
+                    if (t != null) {
+//                        setSettingsByStatus(checkStatus(t.ingredients))
+                        productCard.setBackgroundColor(ctx.getColor(R.color.positiveColor))
+                        productName.setTextColor(ctx.getColor(R.color.black))
+
+//                        if () {
+//                            productScannedDate.setTextColor(R.color.black)
+                        //                        delete.setBackgroundResource()
+                        //                        share.setBackgroundResource()
+                        if (t.starred) {
+                            starred.setBackgroundResource(R.drawable.ic_star_yellow)
+                        } else {
+                            starred.setBackgroundResource(R.drawable.ic_star_black)
+                        }
+//                        }
+                        //                        } else {
+                        //                            productCard.setBackgroundColor(R.color.negativeColor)
+                        //                            productName.setTextColor(R.color.white)
+                        //                            if (productScannedDate.isVisible) {
+                        //                                productScannedDate.setTextColor(R.color.white)
+                        //                            }
+                        //                            //                      white delete & share
+                        //                            //                        delete.setBackgroundResource()
+                        //                            //                        share.setBackgroundResource()
+                        //                            productScannedDate.setTextColor(R.color.white)
+                        //                            if (t.starred) {
+                        //                                starred.setBackgroundResource(R.drawable.ic_starred)
+                        //                            } else {
+                        //                                starred.setBackgroundResource(R.drawable.ic_unstarred)
+                        //                            }
+                        //                        }
                     } else {
-                        starred.setBackgroundResource(R.drawable.ic_star_black)
+                        starred.setBackgroundResource(R.drawable.ic_unstarred)
                     }
-                }
-            })
+                })
 
             // logics with image buttons
             starred.setOnClickListener {
@@ -164,6 +155,36 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                     .setAction("Action", null).show();
             }
         }
+
+//        private fun setSettingsByStatus(status: Boolean) {
+//            if (status) {
+//                ingredientObject.setTextColor(ctx.getColor(R.color.black))
+//                ingredientObject.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+//            } else {
+//                ingredientObject.setTextColor(ctx.getColor(R.color.white))
+//                ingredientObject.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+//            }
+//        }
+//
+//        private fun checkStatus(ingredients: ArrayList<IngredientExtended>?): Boolean {
+//            var isAllowed = true
+//            if (ingredients == null) {
+//                return isAllowed
+//            }
+//            for (ingr in ingredients) {
+//
+//            }
+//
+//            isAllowed = true
+//            if (isGroupsMatched) {
+//                isAllowed = (ingredient != null && ingredient.allowed!!)
+//            } else {
+//                if (ingredient != null) {
+//                    isAllowed = ingredient.allowed!!
+//                }
+//            }
+//            return isAllowed
+//        }
     }
 
     interface Callback {

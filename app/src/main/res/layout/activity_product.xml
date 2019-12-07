@@ -32,7 +32,7 @@
                 android:layout_marginRight="@dimen/mtrl_card_spacing"
                 android:layout_marginBottom="@dimen/mtrl_card_spacing"
                 android:elevation="0dp"
-                android:backgroundTint="@color/positiveColor">
+                app:cardBackgroundColor="@color/positiveColor">
 
             <LinearLayout
                     android:layout_width="match_parent"

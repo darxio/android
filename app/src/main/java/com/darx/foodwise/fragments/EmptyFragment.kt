@@ -29,7 +29,7 @@ class EmptyFragment(val backgroundResId: Int, val informationText: String, val b
         info.text = informationText
 
         if (buttonText.isEmpty()) {
-            button.visibility = View.INVISIBLE
+            button.visibility = View.GONE
         } else {
             button.text = buttonText
             button.setOnClickListener(buttonOnClickListner as View.OnClickListener?)

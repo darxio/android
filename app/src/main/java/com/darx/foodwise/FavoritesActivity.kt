@@ -13,22 +13,27 @@ import kotlinx.android.synthetic.main.activity_favorites.*
 import java.io.Serializable
 import android.app.Activity
 import android.view.*
-import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import com.darx.foodwise.fragments.EmptyFragment
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.View.*
+import com.darx.foodwise.fragments.RecentlyScannedFragment
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import com.darx.foodwise.fragments.RecentlyScannedFragment
+
+
 
 
 class FavoritesActivity : AppCompatActivity() {
 
     private var productViewModel: ProductViewModel? = null
     private var productsAdapter: ProductsAdapter? = null
+    private var queryString: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +57,13 @@ class FavoritesActivity : AppCompatActivity() {
 
         productViewModel!!.getFavourites_().observe(this@FavoritesActivity, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
-                productsAdapter!!.addItems(l ?: return)
-                if (l.isEmpty()) {
+                if (l == null || l.isEmpty()) {
                     showEmptyFragment()
+                    favorites_fragments_frame.visibility = VISIBLE
+                } else {
+                    favorites_fragments_frame.visibility = GONE
                 }
+                productsAdapter!!.addItems(l ?: return)
             }
         })
     }
@@ -78,17 +86,29 @@ class FavoritesActivity : AppCompatActivity() {
 
         favourites_search_view.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                productsAdapter?.addItems(matchFavouritesGroups(query))
+                queryString = query
+                val data = matchFavouritesGroups(query)
+                productsAdapter?.addItems(data)
+                if (data.isEmpty()) {
+                    showEmptyFragment()
+                    favorites_fragments_frame.visibility = VISIBLE
+                } else {
+                    favorites_fragments_frame.visibility = GONE
+                }
                 val inputMethodManger = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManger.hideSoftInputFromWindow(favourites_rv.windowToken, 0)
                 return true
             }
-            override fun onQueryTextChange(newText: String): Boolean {
-                val data = matchFavouritesGroups(newText)
+            override fun onQueryTextChange(query: String): Boolean {
+                queryString = query
+                val data = matchFavouritesGroups(query)
                 productsAdapter?.addItems(data)
-//                if (data.isEmpty()) {
-//                    showEmptyFragment()
-//                }
+                if (data.isEmpty()) {
+                    showEmptyFragment()
+                    favorites_fragments_frame.visibility = VISIBLE
+                } else {
+                    favorites_fragments_frame.visibility = GONE
+                }
                 return false
             }
         })
@@ -120,27 +140,28 @@ class FavoritesActivity : AppCompatActivity() {
 
     private fun showEmptyFragment() {
         var emptyFragment: EmptyFragment? = null
-//        if (favourites_search_view.query.isEmpty()) {
+        if (queryString.isEmpty()) {
             emptyFragment = EmptyFragment(
                 R.drawable.empty_favourites,
                 getString(R.string.empty_favourites_message),
                 getString(R.string.empty_favourites_button),
                 LinearLayout.VERTICAL,
                 View.OnClickListener {
-                    val intent = Intent(this, RecentlyScannedFragment::class.java)
-                    startActivity(intent)
+                    val resultInt = Intent()
+                    resultInt.putExtra("Result", "Done")
+                    setResult(Activity.RESULT_OK, resultInt)
+                    super.onBackPressed()
                 }
             )
-//        } else {
-//            emptyFragment = EmptyFragment(
-//                R.drawable.empty_product_info,
-//                getString(R.string.empty_search_message),
-//                getString(R.string.empty_search_button),
-//                LinearLayout.VERTICAL,
-//                View.OnClickListener {}
-//            )
-//        }
-        favorites_fragments_frame.visibility = VISIBLE
+        } else {
+            emptyFragment = EmptyFragment(
+                R.drawable.empty_search,
+                getString(R.string.empty_search_message),
+                getString(R.string.empty_search_button),
+                LinearLayout.VERTICAL,
+                View.OnClickListener {}
+            )
+        }
         supportFragmentManager.beginTransaction().replace(R.id.favorites_fragments_frame, emptyFragment).commit()
     }
 }

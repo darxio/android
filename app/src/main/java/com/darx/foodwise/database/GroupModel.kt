@@ -11,8 +11,9 @@ data class GroupModel(@PrimaryKey(autoGenerate = true) var id: Int,
                       @ColumnInfo(name = "name") var name: String,
                       @ColumnInfo(name = "about") var about: String,
                       @SerializedName("image_link")
-                      @ColumnInfo(name = "image") var imagePath: String
+                      @ColumnInfo(name = "image") var imagePath: String,
+                      var isInBase: Boolean
 
 ): Serializable {
-    constructor():this(0,"","", "")
+    constructor():this(0,"","", "", false)
 }

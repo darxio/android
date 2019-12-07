@@ -11,6 +11,8 @@ import android.view.ViewGroup
 
 
 import android.content.Intent
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -28,6 +30,7 @@ import java.io.Serializable
 class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
 
     private var myGroupAdapter: GroupAdapter? = null
+    private var queryString: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,28 +39,23 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_groups, container, false)
 
         // my Groups
-        myGroupAdapter = GroupAdapter(emptyList(), groupViewModel, this, object : GroupAdapter.Callback {
+        myGroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {
             override fun onItemClicked(item: GroupModel) {
                 val intent = Intent(activity, GroupActivity::class.java)
                 intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
-        }, 0, 90, context!!)
+        }, 0, 90)
         val myGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_rv)
         myGroupsRecycler.adapter = myGroupAdapter
 
         groupViewModel.getAll_().observe(this, object : Observer<List<GroupModel>> {
             override fun onChanged(l: List<GroupModel>?) {
-                if (l?.size == 0) {
-                    groups_fragments_frame.visibility = View.VISIBLE
-                    val emptyFragment = EmptyFragment(
-                        R.drawable.empty_favourites,
-                        "У Вас пока нет любимых продуктов!",
-                        "Добавить",
-                        LinearLayout.VERTICAL,
-                        View.OnClickListener {}
-                    )
-                    activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.groups_fragments_frame, emptyFragment)?.commit()
+                if (l != null && l.isNotEmpty()) {
+                    groups_fragments_frame.visibility = GONE
+                } else {
+                    showEmptyFragment()
+                    groups_fragments_frame.visibility = VISIBLE
                 }
                 myGroupAdapter?.addItems(l ?: return)
             }
@@ -67,7 +65,15 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
     }
 
     fun searchMyGroups(query: String) {
-        myGroupAdapter?.addItems(matchMyGroups(query))
+        queryString = query
+        val data = matchMyGroups(query)
+        if (data.isEmpty()) {
+            showEmptyFragment()
+            groups_fragments_frame.visibility = VISIBLE
+        } else {
+            groups_fragments_frame.visibility = GONE
+        }
+        myGroupAdapter?.addItems(data)
     }
 
     private fun matchMyGroups(typed: String): List<GroupModel> {
@@ -80,5 +86,27 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
             }
         }
         return matched
+    }
+
+    private fun showEmptyFragment() {
+        var emptyFragment: EmptyFragment? = null
+        if (queryString.isEmpty()) {
+            emptyFragment = EmptyFragment(
+                R.drawable.empty_groups,
+                getString(R.string.empty_groups_message),
+                getString(R.string.empty_groups_button),
+                LinearLayout.VERTICAL,
+                View.OnClickListener {}
+            )
+        } else {
+            emptyFragment = EmptyFragment(
+                R.drawable.empty_search,
+                getString(R.string.empty_search_message),
+                getString(R.string.empty_search_button),
+                LinearLayout.VERTICAL,
+                View.OnClickListener {}
+            )
+        }
+        activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.groups_fragments_frame, emptyFragment)?.commit()
     }
 }

@@ -1,6 +1,7 @@
 package com.darx.foodwise.fragments
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -20,10 +21,12 @@ import com.darx.foodwise.adapters.*
 import com.darx.foodwise.database.*
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.group_item.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.Serializable
+import java.security.acl.Group
 import java.util.ArrayList
 
 
@@ -33,6 +36,11 @@ class ProfileFragment : Fragment() {
     private var ingredientViewModel: IngredientViewModel? = null
     private var productViewModel: ProductViewModel? = null
     private var groupViewModel: GroupViewModel? = null
+
+    private var groups: List<GroupModel> = listOf()
+    private var groupsDB: List<GroupModel> = listOf()
+
+    private var TO_HISTORY: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,20 +56,27 @@ class ProfileFragment : Fragment() {
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
 
         // GROUPS
-        val allGroupAdapter: GroupAdapter = GroupAdapter(listOf(), groupViewModel!!, this, object : GroupAdapter.Callback {
+        val allGroupAdapter: GroupAdapter = GroupAdapter(listOf(), object : GroupAdapter.Callback {
             override fun onItemClicked(item: GroupModel) {
                 val intent = Intent(activity, GroupActivity::class.java)
                 intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
-        }, 2450, 65, context!!)
+        }, 2450, 65)
         val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_multi_rv)
         val layoutManagerGroups = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         allGroupsRecycler.layoutManager = layoutManagerGroups
         allGroupsRecycler.adapter = allGroupAdapter
 
+        groupViewModel?.getAll_()?.observe(this, Observer {
+            groupsDB = it
+            filter()
+            allGroupAdapter.addItems(groups)
+        })
         networkDataSource?.groups?.observe(this, Observer {
-            allGroupAdapter.addItems(it)
+            groups = it
+            filter()
+            allGroupAdapter.addItems(groups)
         })
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchGroups()
@@ -102,8 +117,7 @@ class ProfileFragment : Fragment() {
                     more_favourites.visibility = View.GONE
                     favorites_recycler_frame.visibility = View.VISIBLE
                     add_favs.setOnClickListener {
-                        val intent = Intent(this@ProfileFragment.activity, FavoritesActivity::class.java)
-                        startActivity(intent)
+                        (activity as MainActivity).chooseFragment(2)
                     }
                 } else {
                     more_favourites.visibility = View.VISIBLE
@@ -124,9 +138,30 @@ class ProfileFragment : Fragment() {
         }
         view.more_favourites.setOnClickListener {
             val intent = Intent(this@ProfileFragment.activity, FavoritesActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, TO_HISTORY)
         }
         
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            TO_HISTORY -> {
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    (activity as MainActivity).chooseFragment(2)
+                }
+            }
+        }
+    }
+
+    private fun filter() {
+        for (element in groupsDB) {
+            for (group in groups) {
+                if (element.id == group.id) {
+                    group.isInBase = true
+                }
+            }
+        }
     }
 }

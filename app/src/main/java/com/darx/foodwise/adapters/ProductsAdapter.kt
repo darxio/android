@@ -113,7 +113,7 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                         //                            }
                         //                        }
                     } else {
-                        starred.setBackgroundResource(R.drawable.ic_unstarred)
+                        starred.setBackgroundResource(R.drawable.ic_star_black)
                     }
                 })
 

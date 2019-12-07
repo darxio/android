@@ -5,8 +5,6 @@ import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import com.darx.foodwise.R
@@ -19,10 +17,11 @@ import com.darx.foodwise.database.GroupViewModel
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import android.net.Uri
+import android.view.View.*
 import com.facebook.drawee.view.SimpleDraweeView
 
 
-class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewModel, val owner: LifecycleOwner, val callback: Callback, var imgSize: Int, var textSize: Int, var ctx: Context) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var imgSize: Int, var textSize: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
     val Int.dp: Int
         get() = (this / Resources.getSystem().displayMetrics.density).toInt()
@@ -73,6 +72,7 @@ class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewMod
             }
 
             groupName.text = item.name
+            itemView.group_icon.visibility = if (item.isInBase) VISIBLE  else GONE
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
@@ -89,15 +89,6 @@ class GroupAdapter(var items: List<GroupModel>, val groupViewModel: GroupViewMod
             }
 
             groupName.textSize = textSize.dpFloat
-
-            groupViewModel.getOne_(item.id)?.observe(owner,
-                Observer<GroupModel?> { t ->
-                    if (t != null) {
-                        itemView.group_icon.visibility = VISIBLE
-                    } else {
-                        itemView.group_icon.visibility = INVISIBLE
-                    }
-                })
         }
     }
 

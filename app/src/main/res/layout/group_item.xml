@@ -43,7 +43,7 @@
                 android:padding="10dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:src="@drawable/ic_success" />
     </RelativeLayout>
 

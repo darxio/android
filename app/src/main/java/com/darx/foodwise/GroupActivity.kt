@@ -77,11 +77,10 @@ class GroupActivity : AppCompatActivity() {
         // collapsingToolbar.background = R.drawable.group.toDrawable() IMAGE
 
         // observer for deleting ingredients of groups
-        groupViewModel?.getAllIds()?.observe(this@GroupActivity, object : Observer<List<Int>> {
-            override fun onChanged(t: List<Int>?) {
+        groupViewModel?.getAllIds()?.observe(this@GroupActivity,
+            Observer<List<Int>> { t ->
                 if (t != null) ingredientViewModel?.deleteIngrOfGroup_(t)
-            }
-        })
+            })
 
         groupViewModel?.getOne_(groupToShow.id)?.observe(this@GroupActivity, object : Observer<GroupModel> {
             override fun onChanged(t: GroupModel?) {
@@ -105,6 +104,7 @@ class GroupActivity : AppCompatActivity() {
             if (isEnter) {
                 groupViewModel?.deleteOne_(groupToShow)
             } else {
+                groupToShow.isInBase = true
                 groupViewModel?.add_(groupToShow)
             }
         }

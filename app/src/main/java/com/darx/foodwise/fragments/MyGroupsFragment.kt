@@ -24,6 +24,7 @@ import com.darx.foodwise.database.GroupViewModel
 import kotlinx.android.synthetic.main.activity_favorites.*
 import kotlinx.android.synthetic.main.activity_groups.*
 import kotlinx.android.synthetic.main.fragment_groups.*
+import kotlinx.android.synthetic.main.fragment_groups.view.*
 import java.io.Serializable
 
 
@@ -32,11 +33,14 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
     private var myGroupAdapter: GroupAdapter? = null
     private var queryString: String = ""
 
+    private var viewCurrent = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_groups, container, false)
+        viewCurrent = view as Nothing?
 
         // my Groups
         myGroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {
@@ -96,7 +100,9 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
                 getString(R.string.empty_groups_message),
                 getString(R.string.empty_groups_button),
                 LinearLayout.VERTICAL,
-                View.OnClickListener {}
+                View.OnClickListener {
+                    (activity as UserGroupsActivity).changeTab(0)
+                }
             )
         } else {
             emptyFragment = EmptyFragment(
@@ -107,6 +113,6 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
                 View.OnClickListener {}
             )
         }
-        activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.groups_fragments_frame, emptyFragment)?.commit()
+        activity?.supportFragmentManager?.beginTransaction()?.replace(groups_fragments_frame, emptyFragment)?.commit()
     }
 }

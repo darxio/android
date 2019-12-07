@@ -106,4 +106,12 @@ class UserGroupsActivity : AppCompatActivity() {
         return true
     }
 
+    fun changeTab(position: Int) {
+        if (position < 0 || position > 1) {
+            return
+        }
+        groups_view_pager.currentItem = position
+        groups_tabs.getTabAt(position)?.select()
+    }
+
 }

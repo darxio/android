@@ -82,6 +82,7 @@ class ProfileFragment : Fragment() {
             networkDataSource?.fetchGroups()
         }
 
+        // INGREDIENTS
         networkDataSource?.ingredients?.observe(this, Observer {
             var j: Int = 0
             for (i in it) {

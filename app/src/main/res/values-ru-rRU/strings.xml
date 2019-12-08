@@ -12,7 +12,7 @@
     <string name="prompt_point_at_a_barcode">Направьте камеру на штрихкод</string>
     <string name="prompt_move_camera_closer">Пододвиньте поближе</string>
     <string name="prompt_searching">Ищем...</string>
-    <string name="product_search_button">Поиск</string>
+    <string name="product_search_button">Искать</string>
     <string name="static_image_card_no_result_title">Ничего не найдено!</string>
     <string name="static_image_card_no_result_subtitle">Support text place holder</string>
     <string name="static_image_preview_card_subtitle">+%d more results</string>

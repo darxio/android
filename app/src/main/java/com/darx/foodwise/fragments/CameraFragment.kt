@@ -94,7 +94,7 @@ class CameraFragment : Fragment(), OnClickListener {
             if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 onReadyToWork()
             } else {
-                Toast.makeText(context!!, "We really need this permission", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context!!, R.string.ask_fpermission_on_deny, Toast.LENGTH_SHORT).show()
             }
         }
     }

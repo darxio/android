@@ -11,6 +11,8 @@ import android.view.ViewGroup
 
 
 import android.content.Intent
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +23,7 @@ import com.darx.foodwise.database.GroupViewModel
 import com.darx.foodwise.database.IngredientModel
 import com.darx.foodwise.database.IngredientViewModel
 import kotlinx.android.synthetic.main.fragment_groups.*
+import kotlinx.android.synthetic.main.fragment_ingredients.*
 import java.io.Serializable
 
 
@@ -54,14 +57,18 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
 
         ingredientViewModel.getNotAllowed_().observe(this, object : Observer<List<IngredientModel>> {
             override fun onChanged(l: List<IngredientModel>?) {
+                if (l != null) {
+                    for (ingredient in l) {
+                        ingredient.ok = false
+                    }
+                    if (l.isEmpty()) {
+                        showEmptyFragment()
+                        ingredients_fragments_frame.visibility = VISIBLE
+                    } else {
+                        ingredients_fragments_frame.visibility = GONE
+                    }
+                }
                 myIngredientsAdapter?.addItems(l ?: return)
-
-//                if (myIngredientsAdapter?.items.isNullOrEmpty()) {
-//                    fragmentManager!!.beginTransaction()
-//                        .replace(R.id.fragment_empty_container, EmptyFragment("Текст", "Добавить"))
-//                        .addToBackStack(null)
-//                        .commit()
-//                }
             }
         })
 
@@ -69,7 +76,14 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
     }
 
     fun searchMyIngredients(query: String) {
-        myIngredientsAdapter?.addItems(matchMyIngredients(query))
+        val data = matchMyIngredients(query)
+        myIngredientsAdapter?.addItems(data)
+        if (data.isEmpty()) {
+            showEmptyFragment()
+            ingredients_fragments_frame.visibility = VISIBLE
+        } else {
+            ingredients_fragments_frame.visibility = GONE
+        }
     }
 
     private fun matchMyIngredients(typed: String): List<IngredientModel> {

@@ -141,6 +141,7 @@
     <string name="empty_search_button"></string>
     <string name="empty_internet_message">Нет интернет соединения!</string>
     <string name="empty_internet_button"></string>
+    <string name="empty_internet_retry_button">Повторить</string>
     <string name="empty_ingredients_message">У Вас пока нет исключенных ингредиентов!</string>
     <string name="empty_ingredients_button">Добавить</string>
     <string name="empty_groups_message">Вы пока не добавили ни одной группы!</string>

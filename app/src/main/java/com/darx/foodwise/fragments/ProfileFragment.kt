@@ -4,10 +4,14 @@ package com.darx.foodwise.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_profile.view.*
@@ -19,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodwise.adapters.*
 import com.darx.foodwise.database.*
+import com.darx.foodwise.services.NetworkDataSource
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.group_item.view.*
@@ -82,9 +87,21 @@ class ProfileFragment : Fragment() {
             filter()
             allGroupAdapter.addItems(groups)
             addChips()
+            elements_block.visibility = VISIBLE
+            profile_fragments_frame.visibility = GONE
         })
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchGroups()
+            networkDataSource?.fetchGroups(object : NetworkDataSource.Callback {
+                override fun onNoConnectivityException() {
+                    Log.e("HTTP", "Wrong answer.")
+                    showEmptyFragment()
+                    elements_block.visibility = GONE
+                    profile_fragments_frame.visibility = VISIBLE
+                }
+                override fun onHttpException() {}
+                override fun onTimeoutException() {}
+                override fun onException() {}
+            })
         }
 
         // INGREDIENTS
@@ -92,6 +109,8 @@ class ProfileFragment : Fragment() {
             ingredients = it
             filter()
             addChips()
+            elements_block.visibility = VISIBLE
+            profile_fragments_frame.visibility = GONE
         })
         ingredientViewModel?.getAll_()?.observe(this, Observer<List<IngredientModel>> {
             ingredientsDB = it
@@ -99,7 +118,17 @@ class ProfileFragment : Fragment() {
             addChips()
         })
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchIngredients(30, 0)
+            networkDataSource?.fetchIngredients(30, 0, object : NetworkDataSource.Callback {
+                override fun onNoConnectivityException() {
+                    Log.e("HTTP", "Wrong answer.")
+                    showEmptyFragment()
+                    elements_block.visibility = GONE
+                    profile_fragments_frame.visibility = VISIBLE
+                }
+                override fun onHttpException() {}
+                override fun onTimeoutException() {}
+                override fun onException() {}
+            })
         }
 
         // FAVOURITES
@@ -116,14 +145,14 @@ class ProfileFragment : Fragment() {
         productViewModel!!.getFavourites_().observe(this, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
                 if (l?.size == 0) {
-                    more_favourites.visibility = View.GONE
-                    favorites_recycler_frame.visibility = View.VISIBLE
+                    more_favourites.visibility = GONE
+                    favorites_recycler_frame.visibility = VISIBLE
                     add_favs.setOnClickListener {
                         (activity as MainActivity).chooseFragment(2)
                     }
                 } else {
-                    more_favourites.visibility = View.VISIBLE
-                    favorites_recycler_frame.visibility = View.GONE
+                    more_favourites.visibility = VISIBLE
+                    favorites_recycler_frame.visibility = GONE
                 }
                 productsAdapter.addItems(l ?: return)
             }
@@ -236,4 +265,39 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun showEmptyFragment() {
+        val emptyFragment = EmptyFragment(
+            R.drawable.empty_no_internet,
+            getString(R.string.empty_internet_message),
+            getString(R.string.empty_internet_retry_button),
+            LinearLayout.VERTICAL,
+            View.OnClickListener {
+                GlobalScope.launch(Dispatchers.Main) {
+                    networkDataSource?.fetchGroups(object : NetworkDataSource.Callback {
+                        override fun onNoConnectivityException() {
+                            Log.e("HTTP", "Wrong answer.")
+                            profile_fragments_frame.visibility = VISIBLE
+                            showEmptyFragment()
+                        }
+
+                        override fun onHttpException() {}
+                        override fun onTimeoutException() {}
+                        override fun onException() {}
+                    })
+                    networkDataSource?.fetchIngredients(30, 0, object : NetworkDataSource.Callback {
+                        override fun onNoConnectivityException() {
+                            Log.e("HTTP", "Wrong answer.")
+                            profile_fragments_frame.visibility = VISIBLE
+                            showEmptyFragment()
+                        }
+
+                        override fun onHttpException() {}
+                        override fun onTimeoutException() {}
+                        override fun onException() {}
+                    })
+                }
+            }
+        )
+        activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.profile_fragments_frame, emptyFragment)?.commit()
+    }
 }

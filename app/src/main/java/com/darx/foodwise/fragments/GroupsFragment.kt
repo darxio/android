@@ -135,7 +135,6 @@ class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
                     override fun onHttpException() {}
                     override fun onTimeoutException() {}
                     override fun onException() {}
-
                 })
             }
         }

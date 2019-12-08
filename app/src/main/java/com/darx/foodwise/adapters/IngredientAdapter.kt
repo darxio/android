@@ -44,19 +44,6 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
         private var isGroupsMatched: Boolean = false
 
         fun bind(item: IngredientModel) {
-            // check groups
-//            if (item.groups == null) item.groups = ArrayList()
-//            groupViewModel?.checkAll_(item.groups)?.observe(owner,
-//                Observer<Boolean> { t ->
-//                    isGroupsMatched = t ?: false
-//                    setSettingsByStatus(checkStatus(null))
-//                })
-//
-//            // check excepted ingredients
-//            ingredientViewModel?.getOne_(item.id)?.observe(owner,
-//                Observer<IngredientModel> { t ->
-//                    setSettingsByStatus(checkStatus(t)) })
-
             val ingredientName = itemView.findViewById<TextView>(R.id.ingredient_name)
             ingredientName.text = item.name
 
@@ -73,12 +60,14 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
                 callback.onItemClicked(items[adapterPosition])
             }
 
-            if (item.description != null && (item.description != "NULL" || item.description != "")) {
+            if (item.description != null && item.description != "NULL" && item.description != "") {
                 ingredientInfoIcon.visibility = VISIBLE
                 ingredientInfoIcon.setOnClickListener {
                     if (adapterPosition != RecyclerView.NO_POSITION) callbackInfo.onItemClicked(items[adapterPosition])
                 }
             }
+
+            setSettingsByStatus(item.ok)
         }
 
         private fun setSettingsByStatus(status: Boolean) {

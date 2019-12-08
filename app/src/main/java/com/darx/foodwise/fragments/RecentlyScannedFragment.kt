@@ -140,7 +140,7 @@ class RecentlyScannedFragment : Fragment() {
             )
         } else {
             emptyFragment = EmptyFragment(
-                R.drawable.empty_product_info,
+                R.drawable.empty_search,
                 getString(R.string.empty_search_message),
                 getString(R.string.empty_search_button),
                 LinearLayout.VERTICAL,

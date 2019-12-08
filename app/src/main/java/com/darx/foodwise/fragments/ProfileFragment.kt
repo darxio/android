@@ -40,6 +40,9 @@ class ProfileFragment : Fragment() {
     private var groups: List<GroupModel> = listOf()
     private var groupsDB: List<GroupModel> = listOf()
 
+    private var ingredients: List<IngredientModel> = listOf()
+    private var ingredientsDB: List<IngredientModel> = listOf()
+
     private var TO_HISTORY: Int = 0
 
     override fun onCreateView(
@@ -70,12 +73,12 @@ class ProfileFragment : Fragment() {
 
         groupViewModel?.getAll_()?.observe(this, Observer {
             groupsDB = it
-            filter()
+            filterGroups()
             allGroupAdapter.addItems(groups)
         })
         networkDataSource?.groups?.observe(this, Observer {
             groups = it
-            filter()
+            filterGroups()
             allGroupAdapter.addItems(groups)
         })
         GlobalScope.launch(Dispatchers.Main) {
@@ -84,10 +87,41 @@ class ProfileFragment : Fragment() {
 
         // INGREDIENTS
         networkDataSource?.ingredients?.observe(this, Observer {
+            ingredients = it
+            filterIngredients()
+
             var j: Int = 0
-            for (i in it) {
+
+            for (i in ingredients) {
                 val chip = Chip(context!!)
                 chip.text = i.name
+                if (i.ok) {
+                    chip.setChipBackgroundColorResource(R.color.positiveColor)
+                } else {
+                    chip.setChipBackgroundColorResource(R.color.negativeColor)
+                }
+                if (j < 15) {
+                    ingredients_chip_group_1.addView(chip)
+                } else {
+                    ingredients_chip_group_2.addView(chip)
+                }
+                j += 1
+            }
+        })
+        ingredientViewModel?.getAll_()?.observe(this, Observer<List<IngredientModel>> {
+            ingredientsDB = it
+            filterIngredients()
+
+            var j: Int = 0
+            for (i in ingredients) {
+                val chip = Chip(context!!)
+                chip.text = i.name
+
+                if (i.ok) {
+                    chip.setChipBackgroundColorResource(R.color.positiveColor)
+                } else {
+                    chip.setChipBackgroundColorResource(R.color.negativeColor)
+                }
                 if (j < 15) {
                     ingredients_chip_group_1.addView(chip)
                 } else {
@@ -99,7 +133,6 @@ class ProfileFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchIngredients(30, 0)
         }
-
 
         // FAVOURITES
         val productsAdapter = PreviewProductsAdapter(emptyList(), object : PreviewProductsAdapter.Callback {
@@ -156,7 +189,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun filter() {
+    private fun filterGroups() {
         for (element in groupsDB) {
             for (group in groups) {
                 if (element.id == group.id) {
@@ -165,4 +198,26 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
+    private fun filterIngredients() {
+        for (element in ingredientsDB) {
+            for (ingredient in ingredients) {
+                if (element.id == ingredient.id && !element.allowed!!) {
+                    ingredient.ok = false
+                }
+            }
+        }
+    }
+
+//    private fun checkStatus(ingredient: IngredientModel?): Boolean {
+//        isAllowed = true
+//        if (isGroupsMatched) {
+//            isAllowed = (ingredient != null && ingredient.allowed!!)
+//        } else {
+//            if (ingredient != null) {
+//                isAllowed = ingredient.allowed!!
+//            }
+//        }
+//        return isAllowed
+//    }
 }

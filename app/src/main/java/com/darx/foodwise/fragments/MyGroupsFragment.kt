@@ -113,6 +113,6 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
                 View.OnClickListener {}
             )
         }
-        activity?.supportFragmentManager?.beginTransaction()?.replace(groups_fragments_frame, emptyFragment)?.commit()
+        activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.groups_fragments_frame, emptyFragment)?.commit()
     }
 }

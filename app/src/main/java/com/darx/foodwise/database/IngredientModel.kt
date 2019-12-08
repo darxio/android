@@ -17,10 +17,11 @@ data class IngredientModel(
     @ColumnInfo(name = "image") var imagePath: String?,
     @TypeConverters(IngredientGroupsConverter::class)
     @ColumnInfo(name = "groups") var groups: ArrayList<Int> = ArrayList(),
-    @ColumnInfo(name = "allowed") var allowed: Boolean? = true
+    @ColumnInfo(name = "allowed") var allowed: Boolean? = true,
+    var ok: Boolean = true
 )
     : Serializable {
-    constructor():this(0,"", -1,"", "", "", ArrayList(), true)
+    constructor():this(0,"", -1,"", "", "", ArrayList(), true, true)
     constructor(ing: IngredientExtended):this() {
         this.id = ing.id
         this.name = ing.name

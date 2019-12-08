@@ -40,13 +40,17 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
         networkDataSource = NetworkDataSourceImpl(apiService, this.context!!)
 
         // all Ingredients
-        val allIngredientsAdapter = IngredientAdapter(emptyList(), activity!!.baseContext, this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: IngredientModel) {
-                val intent = Intent(activity, IngredientActivity::class.java)
-                intent.putExtra("INGREDIENT", item as Serializable)
-                startActivity(intent)
-            }
-        })
+        val allIngredientsAdapter = IngredientAdapter(emptyList(), activity!!.baseContext,
+            object : IngredientAdapter.Callback {
+                override fun onItemClicked(item: IngredientModel) {}
+            },
+            object : IngredientAdapter.CallbackInfo {
+                override fun onItemClicked(item: IngredientModel) {
+                    val intent = Intent(activity, IngredientActivity::class.java)
+                    intent.putExtra("INGREDIENT", item as Serializable)
+                    startActivity(intent)
+                }
+            })
         val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_rv)
         ingredientRecycler.adapter = allIngredientsAdapter
 

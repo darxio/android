@@ -11,19 +11,23 @@ import android.view.ViewGroup
 
 
 import android.content.Intent
+import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodwise.*
 import com.darx.foodwise.adapters.IngredientAdapter
+import com.darx.foodwise.database.GroupModel
 import com.darx.foodwise.database.GroupViewModel
 import com.darx.foodwise.database.IngredientModel
 import com.darx.foodwise.database.IngredientViewModel
+import kotlinx.android.synthetic.main.fragment_groups.*
 import java.io.Serializable
 
 
 class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val groupViewModel: GroupViewModel) : Fragment() {
 
     private var myIngredientsAdapter: IngredientAdapter? = null
+    private var queryString: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,13 +36,19 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
         val view = inflater.inflate(R.layout.fragment_ingredients, container, false)
 
         // my Ingredients
-        myIngredientsAdapter = IngredientAdapter(emptyList(), activity!!.baseContext, this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: IngredientModel) {
-                val intent = Intent(activity, IngredientActivity::class.java)
-                intent.putExtra("INGREDIENT", item as Serializable)
-                startActivity(intent)
-            }
-        })
+        myIngredientsAdapter = IngredientAdapter(emptyList(), activity!!.baseContext,
+            object : IngredientAdapter.Callback {
+                override fun onItemClicked(item: IngredientModel) {
+                    ingredientViewModel.deleteOne_(item)
+                }
+            },
+            object : IngredientAdapter.CallbackInfo {
+                override fun onItemClicked(item: IngredientModel) {
+                    val intent = Intent(activity, IngredientActivity::class.java)
+                    intent.putExtra("INGREDIENT", item as Serializable)
+                    startActivity(intent)
+                }
+            })
         val ingredientRecycler = view.findViewById<RecyclerView>(R.id.ingredients_rv)
         ingredientRecycler.adapter = myIngredientsAdapter
 
@@ -72,5 +82,29 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
             }
         }
         return matched
+    }
+
+    private fun showEmptyFragment() {
+        var emptyFragment: EmptyFragment? = null
+        if (queryString.isEmpty()) {
+            emptyFragment = EmptyFragment(
+                R.drawable.empty_ingredients,
+                getString(R.string.empty_ingredients_message),
+                getString(R.string.empty_ingredients_button),
+                LinearLayout.VERTICAL,
+                View.OnClickListener {
+                    (activity as UserIngredientsActivity).changeTab(0)
+                }
+            )
+        } else {
+            emptyFragment = EmptyFragment(
+                R.drawable.empty_search,
+                getString(R.string.empty_search_message),
+                getString(R.string.empty_search_button),
+                LinearLayout.VERTICAL,
+                View.OnClickListener {}
+            )
+        }
+        activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.ingredients_fragments_frame, emptyFragment)?.commit()
     }
 }

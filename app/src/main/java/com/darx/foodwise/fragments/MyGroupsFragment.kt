@@ -33,7 +33,6 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
     private var myGroupAdapter: GroupAdapter? = null
     private var queryString: String = ""
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

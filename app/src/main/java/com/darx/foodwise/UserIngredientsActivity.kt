@@ -108,4 +108,12 @@ class UserIngredientsActivity : AppCompatActivity() {
 
         return true
     }
+
+    fun changeTab(position: Int) {
+        if (position < 0 || position > 1) {
+            return
+        }
+        ingredients_view_pager.currentItem = position
+        ingredients_tabs.getTabAt(position)?.select()
+    }
 }

@@ -17,7 +17,7 @@ import com.darx.foodwise.database.IngredientViewModel
 import com.google.android.material.card.MaterialCardView
 
 
-class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val owner: LifecycleOwner, val ingredientViewModel: IngredientViewModel?, val groupViewModel: GroupViewModel?, val callback: Callback) : RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
+class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val callback: Callback, val callbackInfo: CallbackInfo) : RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.ingredient_item, parent, false))
@@ -45,17 +45,17 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
 
         fun bind(item: IngredientModel) {
             // check groups
-            if (item.groups == null) item.groups = ArrayList()
-            groupViewModel?.checkAll_(item.groups)?.observe(owner,
-                Observer<Boolean> { t ->
-                    isGroupsMatched = t ?: false
-                    setSettingsByStatus(checkStatus(null))
-                })
-
-            // check excepted ingredients
-            ingredientViewModel?.getOne_(item.id)?.observe(owner,
-                Observer<IngredientModel> { t ->
-                    setSettingsByStatus(checkStatus(t)) })
+//            if (item.groups == null) item.groups = ArrayList()
+//            groupViewModel?.checkAll_(item.groups)?.observe(owner,
+//                Observer<Boolean> { t ->
+//                    isGroupsMatched = t ?: false
+//                    setSettingsByStatus(checkStatus(null))
+//                })
+//
+//            // check excepted ingredients
+//            ingredientViewModel?.getOne_(item.id)?.observe(owner,
+//                Observer<IngredientModel> { t ->
+//                    setSettingsByStatus(checkStatus(t)) })
 
             val ingredientName = itemView.findViewById<TextView>(R.id.ingredient_name)
             ingredientName.text = item.name
@@ -70,27 +70,13 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
             }
 
             itemView.setOnClickListener {
-                if (!isAllowed) {
-                    if (isGroupsMatched) {
-                        item.allowed = true
-                        ingredientViewModel?.add_(item)
-                    } else {
-                        ingredientViewModel?.deleteOne_(item)
-                    }
-                } else {
-                    if (isGroupsMatched) {
-                        ingredientViewModel?.deleteOne_(item)
-                    } else {
-                        item.allowed = false
-                        ingredientViewModel?.add_(item)
-                    }
-                }
+                callback.onItemClicked(items[adapterPosition])
             }
 
             if (item.description != null && (item.description != "NULL" || item.description != "")) {
                 ingredientInfoIcon.visibility = VISIBLE
                 ingredientInfoIcon.setOnClickListener {
-                    if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
+                    if (adapterPosition != RecyclerView.NO_POSITION) callbackInfo.onItemClicked(items[adapterPosition])
                 }
             }
         }
@@ -121,6 +107,10 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
     }
 
     interface Callback {
+        fun onItemClicked(item: IngredientModel)
+    }
+
+    interface CallbackInfo {
         fun onItemClicked(item: IngredientModel)
     }
 

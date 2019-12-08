@@ -43,13 +43,17 @@ class GroupIngredientsActivity : AppCompatActivity() {
         val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         // group Ingredients
-        groupIngredientsAdapter = IngredientAdapter(emptyList(), baseContext,this, ingredientViewModel, groupViewModel, object : IngredientAdapter.Callback {
-            override fun onItemClicked(item: IngredientModel) {
-                val intent = Intent(this@GroupIngredientsActivity, IngredientActivity::class.java)
-                intent.putExtra("INGREDIENT", item as Serializable)
-                startActivity(intent)
-            }
-        })
+        groupIngredientsAdapter = IngredientAdapter(emptyList(), baseContext,
+            object : IngredientAdapter.Callback {
+                override fun onItemClicked(item: IngredientModel) {}
+            },
+            object : IngredientAdapter.CallbackInfo {
+                override fun onItemClicked(item: IngredientModel) {
+                    val intent = Intent(this@GroupIngredientsActivity, IngredientActivity::class.java)
+                    intent.putExtra("INGREDIENT", item as Serializable)
+                    startActivity(intent)
+                }
+            })
         val groupIngredientsRecycler = this.findViewById<RecyclerView>(R.id.group_ingredients_rv)
         groupIngredientsRecycler.adapter = groupIngredientsAdapter
 

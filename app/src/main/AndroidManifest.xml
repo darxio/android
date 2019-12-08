@@ -46,6 +46,9 @@
                 android:name="com.darx.foodwise.ProductActivity"
                 android:screenOrientation="sensorPortrait" />
         <activity
+                android:name="com.darx.foodwise.LoaderActivity"
+                android:screenOrientation="sensorPortrait" />
+        <activity
                 android:name="com.darx.foodwise.MainActivity"
                 android:screenOrientation="sensorPortrait"
                 android:windowSoftInputMode="adjustPan">

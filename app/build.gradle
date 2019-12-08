@@ -109,7 +109,7 @@ dependencies {
 
     api 'com.google.guava:guava:27.1-jre'
     implementation 'io.coil-kt:coil:0.8.0'
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.18'
     implementation 'com.facebook.fresco:fresco:2.0.0'
 }
 

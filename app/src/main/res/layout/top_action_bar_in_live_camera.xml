@@ -23,6 +23,7 @@
           android:layout_height="wrap_content"
           android:layout_alignParentTop="true"
           android:layout_alignParentEnd="true"
+          android:visibility="gone"
           android:layout_marginTop="1dp"
           android:layout_marginEnd="285dp"
           android:padding="@dimen/top_action_button_padding"
@@ -34,10 +35,9 @@
           android:layout_height="wrap_content"
           android:layout_alignParentTop="true"
           android:layout_alignParentEnd="true"
-          android:layout_centerHorizontal="true"
           android:layout_marginTop="2dp"
           android:layout_marginEnd="75dp"
           android:padding="@dimen/top_action_button_padding"
-          app:srcCompat="@drawable/ic_starred" />
+          />
 
 </RelativeLayout>

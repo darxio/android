@@ -58,4 +58,7 @@
     <dimen name="product_property_title_size">15dp</dimen>
     <dimen name="product_property_content_size">15dp</dimen>
     <dimen name="editable_padding">10dp</dimen>
+
+    <dimen name="group_text_size_profile">20dp</dimen>
+    <dimen name="group_text_size_groups">30dp</dimen>
 </resources>

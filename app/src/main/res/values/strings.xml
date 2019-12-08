@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">FoodScaner</string>
+    <string name="app_name">Foodwise</string>
+
+    <string name="ask_fpermission_on_deny">"Дайте пожалуйста доступ к камере!"</string>
 
     <!-- Camera fragment -->
     <string name="give_permission_button_text">Дать доступ</string>
@@ -131,4 +133,19 @@
 <!--    Toolbar -->
     <string name="searching">Поиск...</string>
     <string name="speach_prompt">Назовите название продукта</string>
+
+
+    <string name="empty_favourites_message">У Вас пока нет любимых продуктов!</string>
+    <string name="empty_favourites_button">Добавить</string>
+    <string name="empty_rs_scanned_message">Вы пока ничего не сканировали!</string>
+    <string name="empty_rs_scanned_button">Сканировать</string>
+    <string name="empty_search_message">Ничего не найдено!</string>
+    <string name="empty_search_button"></string>
+    <string name="empty_internet_message">Нет интернет соединения!</string>
+    <string name="empty_internet_button"></string>
+    <string name="empty_internet_retry_button">Повторить</string>
+    <string name="empty_ingredients_message">У Вас пока нет исключенных ингредиентов!</string>
+    <string name="empty_ingredients_button">Добавить</string>
+    <string name="empty_groups_message">Вы пока не добавили ни одной группы!</string>
+    <string name="empty_groups_button">Добавить</string>
 </resources>

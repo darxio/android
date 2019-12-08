@@ -9,7 +9,6 @@
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/preview_card_corner_radius"
         app:cardElevation="0dp"
-        android:backgroundTint="@color/positiveColor"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
@@ -37,12 +36,22 @@
                 android:textSize="20sp"
                 android:layout_weight="1"/>
 
+        <ImageView
+                android:id="@+id/warning_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_warning_first"
+                android:layout_marginLeft="4dp"
+                android:visibility="gone" />
+
         <ImageButton
                 android:id="@+id/ingredient_information_ib"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_info_blue"
-                android:background="@color/transparent" />
+                android:background="@color/transparent"
+                android:layout_marginLeft="4dp"
+                android:visibility="gone"/>
 
     </LinearLayout>
 

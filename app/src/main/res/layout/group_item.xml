@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fresco="http://schemas.android.com/tools"
         android:id="@+id/group_card"
         android:orientation="horizontal"
         android:layout_marginRight="5dp"
@@ -16,12 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/group_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:layout_height="250dp"
+                fresco:actualImageScaleType="fitCenter"
                 android:tint="#70000000"/>
 
         <TextView
@@ -31,8 +30,8 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="25dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_margin="1dp"/>
 
         <ImageView
                 android:id="@+id/group_icon"
@@ -41,7 +40,7 @@
                 android:padding="10dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:src="@drawable/ic_success" />
     </RelativeLayout>
 

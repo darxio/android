@@ -14,19 +14,17 @@
             android:layout_width="match_parent"
             android:layout_height="94dp"
             android:animateLayoutChanges="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="0dp">
 
                 <com.google.android.material.card.MaterialCardView
                         style="@style/Widget.MaterialComponents.CardView"
                         android:id="@+id/image_container"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
                         android:backgroundTint="@color/white"
                         android:elevation="0dp"
                         app:strokeWidth="0dp"
@@ -48,8 +46,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
                 android:layout_marginBottom="43dp"
                 android:layout_toEndOf="@+id/image_container"
                 android:lines="2"
@@ -59,12 +55,11 @@
                 android:textColor="@color/black"/>
 
         <LinearLayout
+                android:id="@+id/image_button_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="2dp"
                 android:orientation="horizontal">
 
             <ImageButton
@@ -107,13 +102,13 @@
                 android:id="@+id/pr_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="45dp"
-                android:layout_marginEnd="133dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginBottom="11dp"
-                android:textSize="13dp"
-                android:textColor="@color/black"/>
+                android:layout_toStartOf="@+id/image_button_container"
+                android:textColor="@color/black"
+                android:textSize="13dp" />
 
     </RelativeLayout>
 

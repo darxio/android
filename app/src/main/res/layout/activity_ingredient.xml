@@ -36,22 +36,23 @@
         <WebView
                 android:id="@+id/ingredient_web_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"/>
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/ingredient_exclude_btn"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:cardCornerRadius="0dp">
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/ingredient_exclude_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/white"
-                android:text="@string/exclude_ingredient" />
-    </com.google.android.material.card.MaterialCardView>
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:text="@string/exclude_ingredient"
+            android:layout_gravity="center|bottom"
+            android:textSize="14dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -61,6 +61,7 @@ import com.darx.foodwise.camerafragment.productsearch.ProductAdapter
 import com.darx.foodwise.camerafragment.settings.PreferenceUtils
 import com.darx.foodwise.camerafragment.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_live_object_kotlin.*
+import kotlinx.android.synthetic.main.product_bottom_sheet.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -99,10 +100,10 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     private var networkDataSource: NetworkDataSourceImpl? = null
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
     private var bottomSheetScrimView: BottomSheetScrimView? = null
-    private var productRecyclerView: RecyclerView? = null
-    private var bottomSheetTitleView: TextView? = null
     private var objectThumbnailForBottomSheet: Bitmap? = null
     private var slidingSheetUpFromHiddenState: Boolean = false
+
+    var voted: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -148,7 +149,49 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         }
 
         networkDataSource?.fruit?.observe(this, Observer {
-           Toast.makeText(context, it.prediction, Toast.LENGTH_SHORT).show()
+            if (it.mass!!.toFloat() > 0.90) {
+                voted = false
+                slidingSheetUpFromHiddenState = true
+                bottomSheetBehavior?.peekHeight =
+                    preview?.height?.div(2) ?: BottomSheetBehavior.PEEK_HEIGHT_AUTO
+                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+
+                fruit_good.setOnClickListener {
+                    if (voted == false) {
+                        Toast.makeText(
+                            context!!, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            context!!, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                fruit_bad.setOnClickListener {
+                    if (voted == false) {
+                        Toast.makeText(
+                            context!!, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            context!!, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                workflowModel?.setWorkflowState(WorkflowState.SEARCHED)
+            } else {
+                Toast.makeText(context, "Попробуйте снова!", Toast.LENGTH_SHORT).show()
+
+                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+            }
         })
         return view
     }
@@ -355,13 +398,13 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
             view?.setOnClickListener(this@ObjectDetectionFragment)
         }
 
-        bottomSheetTitleView = view?.findViewById(R.id.bottom_sheet_title)
-        productRecyclerView = view?.findViewById<RecyclerView>(R.id.product_recycler_view)?.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
-            adapter = ProductAdapter(ImmutableList.of())
-            }
-        }
+//        bottomSheetTitleView = view?.findViewById(R.id.bottom_sheet_title)
+//        productRecyclerView = view?.findViewById<RecyclerView>(R.id.product_recycler_view)?.apply {
+//            setHasFixedSize(true)
+//            layoutManager = LinearLayoutManager(context)
+//            adapter = ProductAdapter(ImmutableList.of())
+//            }
+    }
 
 
     private fun setUpWorkflowModel() {
@@ -444,15 +487,12 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                                 }
                             })
                     }
-                    bottomSheetTitleView?.text = resources
-                        .getQuantityString(
-                            R.plurals.bottom_sheet_title, productList.size, productList.size
-                        )
+//                    bottomSheetTitleView?.text = resources
+//                        .getQuantityString(
+//                            R.plurals.bottom_sheet_title, productList.size, productList.size
+//                        )
 //                    productRecyclerView?.adapter = ProductAdapter(productList)
-                    slidingSheetUpFromHiddenState = true
-                    bottomSheetBehavior?.peekHeight =
-                        preview?.height?.div(2) ?: BottomSheetBehavior.PEEK_HEIGHT_AUTO
-                    bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+
                 }
             })
         }

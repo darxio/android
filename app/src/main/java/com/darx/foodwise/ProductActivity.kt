@@ -37,6 +37,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var gVM: GroupViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
     var chips: ArrayList<Chip>? = ArrayList()
+    var voted: Boolean = false
 
     val Int.pxFromDp: Int
         get() = (this * Resources.getSystem().displayMetrics.density).toInt()
@@ -293,18 +294,33 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             if (info_feedback_container.visibility == View.VISIBLE) {
                 good.setOnClickListener {
-                    Toast.makeText(
-                        this, "Спасибо за отзыв!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (voted == false) {
+                        Toast.makeText(
+                            this, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            this, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
 
                 bad.setOnClickListener {
-                    // запрос в сеть
-                    Toast.makeText(
-                        this, "Спасибо за отзыв!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (voted == false) {
+                        Toast.makeText(
+                            this, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            this, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }

@@ -1,30 +1,305 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-  <TextView
-      android:id="@+id/bottom_sheet_title"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_margin="@dimen/bottom_sheet_title_margin"
-      android:ellipsize="end"
-      android:fontFamily="sans-serif"
-      android:maxLines="1"
-      android:textColor="@color/black"
-      android:textSize="@dimen/bottom_sheet_title_size"/>
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-  <View
-      android:layout_width="match_parent"
-      android:layout_height="@dimen/divider_height"
-      android:background="@color/lighter_grey"/>
+      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="15dp">
 
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/product_recycler_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scrollbars="vertical"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Пищевая ценность на 100 гр"/>
 
-</LinearLayout>
+            <TextView
+                    android:id="@+id/fruit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="сырой томат"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/colorPrimary"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="Калории"/>
+
+                <TextView
+                        android:id="@+id/fruit_calories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="50"/>
+
+            </LinearLayout>
+
+          <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:background="@color/colorPrimary"/>
+
+          <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="Жиры"/>
+
+            <TextView
+                    android:id="@+id/fruit_fats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50"/>
+
+          </LinearLayout>
+
+          <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:background="@color/colorPrimary"/>
+
+          <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="Углеводы"/>
+
+            <TextView
+                    android:id="@+id/fruit_carbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50"/>
+
+          </LinearLayout>
+
+          <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:background="@color/colorPrimary"/>
+
+          <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="Белки"/>
+
+            <TextView
+                    android:id="@+id/fruit_protein"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50"/>
+
+          </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/colorPrimary"/>
+
+          <GridLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:columnCount="2">
+
+              <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="A"/>
+
+                  <TextView
+                          android:id="@+id/vitamin_A"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="1"/>
+
+              </LinearLayout>
+
+              <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="C"/>
+
+              <TextView
+                      android:id="@+id/vitamin_C"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="2"/>
+
+              <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Каротин"/>
+
+              <TextView
+                      android:id="@+id/karotin"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="3"/>
+
+              <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="B1"/>
+
+              <TextView
+                      android:id="@+id/vitamin_B1"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="4"/>
+
+              <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="B2"/>
+
+              <TextView
+                      android:id="@+id/vitamin_B2"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="5"/>
+
+              <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="B3"/>
+
+              <TextView
+                      android:id="@+id/vitamin_B3"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="6"/>
+
+          </GridLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+          <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginRight="8dp"
+                  android:text="Описание"/>
+
+          <TextView
+                  android:id="@+id/fruit_description"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Aaaaaaaa"/>
+
+        </LinearLayout>
+
+        <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_marginTop="4dp"
+              android:layout_marginBottom="4dp"
+              android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+                android:id="@+id/fruit_feedback_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+          <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Оцените точность распознавания"
+                  android:textAlignment="center"
+                  android:textColor="@color/product_property_title_color"
+                  android:textSize="@dimen/product_property_title_size"
+                  android:layout_marginBottom="10dp"/>
+
+          <LinearLayout
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_gravity="center"
+                  android:layout_weight="1">
+
+            <ImageButton
+                    android:id="@+id/fruit_bad"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_bad"
+                    android:background="@color/transparent"/>
+
+            <ImageButton
+                    android:id="@+id/fruit_good"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_good"
+                    android:background="@color/transparent"
+                    android:layout_marginStart="10dp"/>
+
+          </LinearLayout>
+        </LinearLayout>
+      </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

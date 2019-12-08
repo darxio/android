@@ -44,16 +44,15 @@
                     android:orientation="horizontal">
 
                 <TextView
+                        android:id="@+id/fruit_container_1_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="8dp"
-                        android:text="Калории"/>
+                        android:layout_marginRight="8dp"/>
 
                 <TextView
-                        android:id="@+id/fruit_calories"
+                        android:id="@+id/fruit_container_1_value"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="50"/>
+                        android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -69,43 +68,16 @@
                   android:layout_height="wrap_content"
                   android:orientation="horizontal">
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:text="Жиры"/>
+              <TextView
+                      android:id="@+id/fruit_container_2_name"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginRight="8dp"/>
 
-            <TextView
-                    android:id="@+id/fruit_fats"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="50"/>
-
-          </LinearLayout>
-
-          <View
-                  android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:layout_marginTop="4dp"
-                  android:layout_marginBottom="4dp"
-                  android:background="@color/colorPrimary"/>
-
-          <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:text="Углеводы"/>
-
-            <TextView
-                    android:id="@+id/fruit_carbs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="50"/>
+              <TextView
+                      android:id="@+id/fruit_container_2_value"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
 
           </LinearLayout>
 
@@ -121,17 +93,41 @@
                   android:layout_height="wrap_content"
                   android:orientation="horizontal">
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:text="Белки"/>
+              <TextView
+                      android:id="@+id/fruit_container_3_name"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginRight="8dp"/>
 
-            <TextView
-                    android:id="@+id/fruit_protein"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="50"/>
+              <TextView
+                      android:id="@+id/fruit_container_3_value"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+
+          </LinearLayout>
+
+          <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:background="@color/colorPrimary"/>
+
+          <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+              <TextView
+                      android:id="@+id/fruit_container_4_name"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginRight="8dp"/>
+
+              <TextView
+                      android:id="@+id/fruit_container_4_value"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
 
           </LinearLayout>
 
@@ -153,72 +149,107 @@
                       android:orientation="horizontal">
 
                   <TextView
+                          android:id="@+id/fruit_vitamin_1_name"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="A"/>
+                          android:layout_marginRight="8dp"/>
 
                   <TextView
-                          android:id="@+id/vitamin_A"
+                          android:id="@+id/fruit_vitamin_1_value"
                           android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="1"/>
+                          android:layout_height="wrap_content"/>
 
               </LinearLayout>
 
-              <TextView
+              <LinearLayout
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="C"/>
+                      android:orientation="horizontal">
 
-              <TextView
-                      android:id="@+id/vitamin_C"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="2"/>
+                  <TextView
+                          android:id="@+id/fruit_vitamin_2_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
 
-              <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="Каротин"/>
+                  <TextView
+                          android:id="@+id/fruit_vitamin_2_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
 
-              <TextView
-                      android:id="@+id/karotin"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="3"/>
+              </LinearLayout>
 
-              <TextView
+              <LinearLayout
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="B1"/>
+                      android:orientation="horizontal">
 
-              <TextView
-                      android:id="@+id/vitamin_B1"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="4"/>
+                  <TextView
+                          android:id="@+id/fruit_vitamin_3_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
 
-              <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="B2"/>
+                  <TextView
+                          android:id="@+id/fruit_vitamin_3_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
 
-              <TextView
-                      android:id="@+id/vitamin_B2"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="5"/>
+              </LinearLayout>
 
-              <TextView
+              <LinearLayout
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="B3"/>
+                      android:orientation="horizontal">
 
-              <TextView
-                      android:id="@+id/vitamin_B3"
+                  <TextView
+                          android:id="@+id/fruit_vitamin_4_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_4_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
+
+              <LinearLayout
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="6"/>
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_5_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_5_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
+
+              <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_6_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_6_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
 
           </GridLayout>
 
@@ -243,8 +274,7 @@
           <TextView
                   android:id="@+id/fruit_description"
                   android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="Aaaaaaaa"/>
+                  android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

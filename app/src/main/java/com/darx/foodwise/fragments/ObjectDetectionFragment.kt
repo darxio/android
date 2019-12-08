@@ -60,6 +60,7 @@ import com.google.common.collect.ImmutableList
 import com.darx.foodwise.camerafragment.productsearch.ProductAdapter
 import com.darx.foodwise.camerafragment.settings.PreferenceUtils
 import com.darx.foodwise.camerafragment.settings.SettingsActivity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_live_object_kotlin.*
 import kotlinx.android.synthetic.main.product_bottom_sheet.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
@@ -155,6 +156,15 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                 bottomSheetBehavior?.peekHeight =
                     preview?.height?.div(2) ?: BottomSheetBehavior.PEEK_HEIGHT_AUTO
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+
+                fruit_name.text = it.name
+
+
+                val nutritionFacts = Gson().fromJson(it.nutrition, Array<Array<String>>::class.java)
+//                fruit_calories.text = nutritionFacts[1][3]
+//                fruit_protein.text = nutritionFacts[1][0]
+//                fruit_fats.text = nutritionFacts[1][1]
+//                fruit_carbs.text = nutritionFacts[1][2]
 
                 fruit_good.setOnClickListener {
                     if (voted == false) {

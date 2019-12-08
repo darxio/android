@@ -158,17 +158,21 @@ class ProfileFragment : Fragment() {
     }
 
     private fun addChips() {
+        ingredients_chip_group_1.removeAllViews()
+        ingredients_chip_group_2.removeAllViews()
         var j: Int = 0
         for (i in ingredients) {
             val chip = Chip(context!!)
             chip.text = i.name
 
             if (i.ok) {
-//                chip.setTextColor(ctx.getColor(R.color.black))
+                chip.setTextAppearanceResource(R.style.ChipTextStyle_positive)
                 chip.setChipBackgroundColorResource(R.color.positiveColor)
+                chip.setChipIconResource(R.drawable.ic_checkmark_black)
             } else {
-//                ingredientObject.setTextColor(ctx.getColor(R.color.white))
+                chip.setTextAppearanceResource(R.style.ChipTextStyle_negative)
                 chip.setChipBackgroundColorResource(R.color.negativeColor)
+                chip.setChipIconResource(R.drawable.ic_stop_white)
             }
 
             chip.setOnClickListener {
@@ -198,20 +202,15 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
-//    private fun checkStatus(ingredient: IngredientModel?): Boolean {
-//        var isAllowed = ingredient!!.ok
-//        if (ingredient?.groupMached!!) {
-//            isAllowed = (ingredient != null && ingredient.allowed!!)
-//        } else {
-//            if (ingredient != null) {
-//                isAllowed = ingredient.allowed!!
-//            }
-//        }
-//        return isAllowed
-//    }
-
     private fun filter() {
+        for (group in groups) {
+            group.isInBase = false
+        }
+        for (ingredient in ingredients) {
+            ingredient.groupMached = false
+            ingredient.ok = true
+        }
+
         for (element in groupsDB) {
             for (group in groups) {
                 if (element.id == group.id) {
@@ -236,16 +235,5 @@ class ProfileFragment : Fragment() {
             }
         }
     }
-
-//    private fun filterIngredients() {
-//        for (element in ingredientsDB) {
-//            for (ingredient in ingredients) {
-//                if (element.id == ingredient.id) {
-//                    ingredient.ok = element.allowed!!
-//                }
-//            }
-//        }
-//    }
-
 
 }

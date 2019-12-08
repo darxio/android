@@ -33,14 +33,12 @@ class MyGroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
     private var myGroupAdapter: GroupAdapter? = null
     private var queryString: String = ""
 
-    private var viewCurrent = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_groups, container, false)
-        viewCurrent = view as Nothing?
 
         // my Groups
         myGroupAdapter = GroupAdapter(emptyList(), object : GroupAdapter.Callback {

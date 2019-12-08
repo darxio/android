@@ -87,7 +87,7 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
                 }
             }
 
-            if (item.description != null && item.description != "NULL") {
+            if (item.description != null && (item.description != "NULL" || item.description != "")) {
                 ingredientInfoIcon.visibility = VISIBLE
                 ingredientInfoIcon.setOnClickListener {
                     if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])

@@ -75,11 +75,13 @@ class ProfileFragment : Fragment() {
             groupsDB = it
             filterGroups()
             allGroupAdapter.addItems(groups)
+            addChips()
         })
         networkDataSource?.groups?.observe(this, Observer {
             groups = it
             filterGroups()
             allGroupAdapter.addItems(groups)
+            addChips()
         })
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchGroups()
@@ -89,46 +91,12 @@ class ProfileFragment : Fragment() {
         networkDataSource?.ingredients?.observe(this, Observer {
             ingredients = it
             filterIngredients()
-
-            var j: Int = 0
-
-            for (i in ingredients) {
-                val chip = Chip(context!!)
-                chip.text = i.name
-                if (i.ok) {
-                    chip.setChipBackgroundColorResource(R.color.positiveColor)
-                } else {
-                    chip.setChipBackgroundColorResource(R.color.negativeColor)
-                }
-                if (j < 15) {
-                    ingredients_chip_group_1.addView(chip)
-                } else {
-                    ingredients_chip_group_2.addView(chip)
-                }
-                j += 1
-            }
+            addChips()
         })
         ingredientViewModel?.getAll_()?.observe(this, Observer<List<IngredientModel>> {
             ingredientsDB = it
             filterIngredients()
-
-            var j: Int = 0
-            for (i in ingredients) {
-                val chip = Chip(context!!)
-                chip.text = i.name
-
-                if (i.ok) {
-                    chip.setChipBackgroundColorResource(R.color.positiveColor)
-                } else {
-                    chip.setChipBackgroundColorResource(R.color.negativeColor)
-                }
-                if (j < 15) {
-                    ingredients_chip_group_1.addView(chip)
-                } else {
-                    ingredients_chip_group_2.addView(chip)
-                }
-                j += 1
-            }
+            addChips()
         })
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchIngredients(30, 0)
@@ -189,11 +157,56 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun addChips() {
+        var j: Int = 0
+        for (i in ingredients) {
+            val chip = Chip(context!!)
+            chip.text = i.name
+            if (i.ok) {
+                chip.setChipBackgroundColorResource(R.color.positiveColor)
+            } else {
+                chip.setChipBackgroundColorResource(R.color.negativeColor)
+            }
+
+            chip.setOnClickListener {
+                if (!i.) {
+                    if (isGroupsMatched) {
+                        item.allowed = true
+                        ingredientViewModel?.add_(item)
+                    } else {
+                        ingredientViewModel?.deleteOne_(item)
+                    }
+                } else {
+                    if (isGroupsMatched) {
+                        ingredientViewModel?.deleteOne_(item)
+                    } else {
+                        item.allowed = false
+                        ingredientViewModel?.add_(item)
+                    }
+                }
+            }
+
+            if (j < 15) {
+                ingredients_chip_group_1.addView(chip)
+            } else {
+                ingredients_chip_group_2.addView(chip)
+            }
+            j += 1
+        }
+    }
+
     private fun filterGroups() {
         for (element in groupsDB) {
             for (group in groups) {
                 if (element.id == group.id) {
                     group.isInBase = true
+                }
+            }
+            for (ingredient in ingredients) {
+                for (group in ingredient.groups) {
+                    if (element.id == group) {
+                        ingredient.groupMached = true
+                    }
                 }
             }
         }
@@ -202,8 +215,8 @@ class ProfileFragment : Fragment() {
     private fun filterIngredients() {
         for (element in ingredientsDB) {
             for (ingredient in ingredients) {
-                if (element.id == ingredient.id && !element.allowed!!) {
-                    ingredient.ok = false
+                if (element.id == ingredient.id) {
+                    ingredient.ok = element.allowed!!
                 }
             }
         }

@@ -18,10 +18,11 @@ data class IngredientModel(
     @TypeConverters(IngredientGroupsConverter::class)
     @ColumnInfo(name = "groups") var groups: ArrayList<Int> = ArrayList(),
     @ColumnInfo(name = "allowed") var allowed: Boolean? = true,
+    var groupMached: Boolean = false,
     var ok: Boolean = true
 )
     : Serializable {
-    constructor():this(0,"", -1,"", "", "", ArrayList(), true, true)
+    constructor():this(0,"", -1,"", "", "", ArrayList(), true, false, true)
     constructor(ing: IngredientExtended):this() {
         this.id = ing.id
         this.name = ing.name

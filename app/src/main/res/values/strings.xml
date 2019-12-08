@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Foodwise</string>
 
+    <string name="ask_fpermission_on_deny">"Дайте пожалуйста доступ к камере!"</string>
+
     <!-- Camera fragment -->
     <string name="give_permission_button_text">Дать доступ</string>
 

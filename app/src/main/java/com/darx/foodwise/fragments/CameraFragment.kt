@@ -188,7 +188,7 @@ class CameraFragment : Fragment(), OnClickListener {
             }
 
         settingsButton = settings_button
-        settingsButton?.visibility = INVISIBLE
+//        settingsButton?.visibility = INVISIBLE
 
         changeModeButton = change_mode_button
         changeModeButton?.setOnClickListener(this@CameraFragment)

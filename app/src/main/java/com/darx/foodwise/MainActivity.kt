@@ -45,13 +45,15 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, cameraFragment!!).commit()
             } else {
                 supportFragmentManager.beginTransaction().replace(R.id.fragments_frame, NoPermissonFragment()).commit()
-                Toast.makeText(this, "We really need this permission", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.ask_fpermission_on_deny, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val loader = Intent(this@MainActivity, LoaderActivity::class.java)
+        startActivity(loader)
         Fresco.initialize(this)
 
         setContentView(R.layout.activity_main)
@@ -102,8 +104,10 @@ class MainActivity : AppCompatActivity() {
 
         if (firstLaunch) {
             val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent)
         }
+
     }
 
     fun chooseFragment(id: Int) {

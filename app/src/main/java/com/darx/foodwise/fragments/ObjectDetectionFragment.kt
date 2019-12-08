@@ -253,7 +253,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
 
         settingsButton = settings_button
         settingsButton?.setOnClickListener(this)
-        settingsButton?.visibility = VISIBLE
+//        settingsButton?.visibility = VISIBLE
 
         changeModeButton = getView()?.findViewById(R.id.change_mode_button)
         changeModeButton?.setOnClickListener(this@ObjectDetectionFragment)
@@ -415,7 +415,6 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
 //            adapter = ProductAdapter(ImmutableList.of())
 //            }
     }
-
 
     private fun setUpWorkflowModel() {
         workflowModel = ViewModelProviders.of(this).get(WorkflowModel::class.java).apply {

@@ -8,6 +8,7 @@
     <dimen name="search_button_margin_bottom">24dp</dimen>
     <dimen name="bottom_prompt_chip_text_size">14sp</dimen>
     <dimen name="bottom_prompt_chip_margin_bottom">28dp</dimen>
+    <dimen name="bottom_prompt_chip_margin_top">40dp</dimen>
     <dimen name="bottom_prompt_chip_corner_radius">8dp</dimen>
     <dimen name="bottom_sheet_title_margin">16dp</dimen>
     <dimen name="bottom_sheet_title_size">16sp</dimen>

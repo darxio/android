@@ -60,11 +60,9 @@ private lateinit var productToShow: ProductModel
     private lateinit var gVM: GroupViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
     var chips: ArrayList<Chip>? = ArrayList()
-    private lateinit var info_speaker_ib_: ImageButton
+    var voted: Boolean = false
 
-    val Int.pxFromDp: Int
-        get() = (this * Resources.getSystem().displayMetrics.density).toInt()
-
+    private var speaker: ImageButton? = null
     private var tts: TextToSpeech? = null
 
     private var isAllowed: Boolean = true
@@ -77,7 +75,7 @@ private lateinit var productToShow: ProductModel
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS","The Language specified is not supported!")
             } else {
-                info_speaker_ib.isEnabled = true
+                speaker!!.isEnabled = true
             }
 
         } else {
@@ -201,7 +199,6 @@ private lateinit var productToShow: ProductModel
 //        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         val product_toolbar_ = root.findViewById<androidx.appcompat.widget.Toolbar>(R.id.product_toolbar)
         product_toolbar_.visibility = View.GONE
-        this.info_speaker_ib_ = root.findViewById<ImageButton>(R.id.info_speaker_ib)
         val info_product_name_ = root.findViewById<TextView>(R.id.info_product_name)
         val info_product_image_ = root.findViewById<ImageView>(R.id.info_product_image)
         val info_product_layout_ = root.findViewById<LinearLayout>(R.id.info_product_layout)
@@ -221,20 +218,19 @@ private lateinit var productToShow: ProductModel
         val info_nutrition_facts_container_ = root.findViewById<LinearLayout>(R.id.info_nutrition_facts_container)
         val info_ingredient_chips_ = root.findViewById<ChipGroup>(R.id.info_ingredient_chips)
         val info_ingredients_container_ = root.findViewById<LinearLayout>(R.id.info_ingredients_container)
-        val line_contents_ = root.findViewById<View>(R.id.line_contents)
         val info_feedback_container_ = root.findViewById<LinearLayout>(R.id.info_feedback_container)
         val good_ = root.findViewById<ImageButton>(R.id.good)
         val bad_ = root.findViewById<ImageButton>(R.id.bad)
 
         var spoke = false
-        info_speaker_ib_.setBackgroundResource(R.drawable.ic_speaker_on_black)
+        speaker = root.findViewById(R.id.info_speaker_ib)
+        speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
 
-        info_speaker_ib_.isEnabled = false
         tts = TextToSpeech(context!!, this)
 
         tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
             override fun onDone(utteranceId: String?) {
-                info_speaker_ib_.setBackgroundResource(R.drawable.ic_speaker_on_black)
+                speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
             }
 
             override fun onError(utteranceId: String?) {}
@@ -242,33 +238,24 @@ private lateinit var productToShow: ProductModel
         }
         )
 
-//        val apiService = ApiService(ConnectivityInterceptorImpl(context!!))
-//        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
-//
-//        networkDataSource?.ingredient?.observe(this, Observer {
-//            val intent = Intent(this, IngredientActivity::class.java)
-//            intent.putExtra("INGREDIENT", it)
-//            startActivity(intent)
-//        })
-//
-//        this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
-
-        if (this.productToShow.contents.isNullOrEmpty()) {
-            info_speaker_ib_.isEnabled == false
-            info_speaker_ib_.visibility = View.INVISIBLE
+        if (this.productToShow.contents.isNullOrEmpty() || this.productToShow.contents == "NULL") {
+            speaker!!.isEnabled = false
+            speaker!!.visibility = View.GONE
         } else {
-            info_speaker_ib_.visibility = View.VISIBLE
+            speaker!!.visibility = View.VISIBLE
         }
 
-        info_speaker_ib_.setOnClickListener {
-            if (spoke) {
-                info_speaker_ib_.setBackgroundResource(R.drawable.ic_speaker_on_black)
-                pause()
-                spoke = false
-            } else {
-                info_speaker_ib_.setBackgroundResource(R.drawable.ic_speaker_off_black)
-                speakOut(this.productToShow.contents!!)
-                spoke = true
+        if (speaker!!.visibility != View.GONE) {
+            speaker!!.setOnClickListener {
+                if (spoke) {
+                    speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
+                    pause()
+                    spoke = false
+                } else {
+                    speaker!!.setBackgroundResource(R.drawable.ic_speaker_off_black)
+                    speakOut(this.productToShow.contents!!)
+                    spoke = true
+                }
             }
         }
 
@@ -286,51 +273,55 @@ private lateinit var productToShow: ProductModel
         }
 
         // short version of the product
-        if (productToShow.contents == "") {
+        if (productToShow.shrinked == true) {
             info_product_layout_.removeAllViews()
 
-        } else {
-            if (productToShow.contents != "NULL") {
+            // to do -- empty fragment here
+
+        } else if (productToShow.shrinked == false) {
+            if (productToShow.contents == "NULL" || productToShow.contents == "") {
+                info_contents_container_.visibility = View.GONE
+            } else {
                 info_product_contents_.text = productToShow.contents
 //                var collapsed = CollapseUtils(this, hide, info_product_contents)
 //                collapsed.initDescription(productToShow.contents!!)
-            } else {
-                info_contents_container_.visibility = View.GONE
             }
-            if (productToShow.manufacturer != "NULL") {
-                info_product_manufacturer_.text = productToShow.manufacturer
-            } else {
+            if (productToShow.manufacturer == "NULL" || productToShow.manufacturer == "") {
                 info_manufacturer_container_.visibility = View.GONE
-            }
-            if (productToShow.description != "NULL") {
-                info_product_description_.text = productToShow.description
             } else {
+                info_product_manufacturer_.text = productToShow.manufacturer
+            }
+            if (productToShow.description == "NULL" || productToShow.description == "") {
                 info_description_container_.visibility = View.GONE
-            }
-            if (productToShow.categoryURL != "NULL") {
-                info_product_category_URL_.text = productToShow.categoryURL
             } else {
+                info_product_description_.text = productToShow.description
+            }
+            if (productToShow.categoryURL == "NULL" || productToShow.categoryURL == "") {
                 info_category_url_container_.visibility = View.GONE
-            }
-            if (productToShow.mass != "NULL") {
-                info_product_mass_.text = productToShow.mass
             } else {
+                info_product_category_URL_.text = productToShow.categoryURL
+            }
+            if (productToShow.mass == "NULL" || productToShow.mass == "") {
                 info_mass_container_.visibility = View.GONE
-            }
-            if (productToShow.bestBefore != "NULL") {
-                info_product_bestbefore_.text = productToShow.bestBefore
             } else {
+                info_product_mass_.text = productToShow.mass
+            }
+            if (productToShow.bestBefore == "NULL" || productToShow.bestBefore == "") {
                 info_best_before_container_.visibility = View.GONE
-            }
-            if (productToShow.nutrition != "NULL") {
-                info_product_nutrition_facts_.text = productToShow.nutrition
             } else {
+                info_product_bestbefore_.text = productToShow.bestBefore
+            }
+            if (productToShow.nutrition == "NULL" || productToShow.nutrition == "") {
                 info_nutrition_facts_container_.visibility = View.GONE
+            } else {
+                info_product_nutrition_facts_.text = productToShow.nutrition
             }
 
             if (!productToShow.ingredients.isNullOrEmpty()) {
                 for (i in productToShow.ingredients!!) {
-                    preorder(i, true)
+                    if (i.name.isNotEmpty()) {
+                        preorder(i, true)
+                    }
                 }
 
                 if (this.chips != null) {
@@ -340,23 +331,38 @@ private lateinit var productToShow: ProductModel
                 }
             } else {
                 info_ingredients_container_.visibility = View.GONE
-                line_contents_.visibility = View.GONE
                 info_feedback_container_.visibility = View.GONE
             }
 
             if (info_feedback_container_.visibility == View.VISIBLE) {
                 good_.setOnClickListener {
-                    Toast.makeText(
-                        context!!, "Спасибо за отзыв!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (voted == false) {
+                        Toast.makeText(
+                            context!!, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            context!!, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
 
                 bad_.setOnClickListener {
-                    Toast.makeText(
-                        context!!, "Спасибо за отзыв!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (voted == false) {
+                        Toast.makeText(
+                            context!!, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            context!!, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }

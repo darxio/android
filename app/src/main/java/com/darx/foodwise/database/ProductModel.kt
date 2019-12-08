@@ -11,6 +11,7 @@ import java.util.*
 @Entity(tableName = "products")
 data class ProductModel(
     @PrimaryKey @ColumnInfo(name = "barcode") var barcode: Long,
+    @ColumnInfo(name = "shrinked") var shrinked: Boolean,
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "description") var description: String?,
     @ColumnInfo(name = "contents") var contents: String?,
@@ -32,6 +33,6 @@ data class ProductModel(
     @ColumnInfo(name = "scanned") var scanned: Boolean = false,
     @ColumnInfo(name = "ok") var ok: Boolean = true
 ): Serializable {
-    constructor():this(0,"","", "", ArrayList(), "",
+    constructor():this(0, false,"","", "", null, "",
         "","","","","", java.util.Calendar.getInstance().time, false, false,true)
 }

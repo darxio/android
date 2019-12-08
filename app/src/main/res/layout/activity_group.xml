@@ -61,7 +61,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:gravity="center">
+                    android:gravity="left">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/group_ingredients_btn"

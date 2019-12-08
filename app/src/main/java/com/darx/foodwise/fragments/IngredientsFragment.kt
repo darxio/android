@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.darx.foodwise.*
 import com.darx.foodwise.adapters.IngredientAdapter
+import com.darx.foodwise.database.GroupModel
 import com.darx.foodwise.database.GroupViewModel
 import com.darx.foodwise.database.IngredientModel
 import com.darx.foodwise.database.IngredientViewModel
@@ -25,6 +26,7 @@ import com.darx.foodwise.services.NetworkDataSource
 import com.darx.foodwise.services.NetworkDataSourceImpl
 import kotlinx.android.synthetic.main.fragment_groups.*
 import kotlinx.android.synthetic.main.fragment_ingredients.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,6 +36,11 @@ import java.io.Serializable
 class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val groupViewModel: GroupViewModel) : Fragment() {
 
     private var networkDataSource: NetworkDataSourceImpl? = null
+
+    private var groupsDB: List<GroupModel> = listOf()
+
+    private var ingredients: List<IngredientModel> = listOf()
+    private var ingredientsDB: List<IngredientModel> = listOf()
 
     private var queryString: String = ""
 
@@ -49,7 +56,23 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
         // all Ingredients
         val allIngredientsAdapter = IngredientAdapter(emptyList(), activity!!.baseContext,
             object : IngredientAdapter.Callback {
-                override fun onItemClicked(item: IngredientModel) {}
+                override fun onItemClicked(item: IngredientModel) {
+                    if (!item.ok) {
+                        if (item.groupMached) {
+                            item.allowed = true
+                            ingredientViewModel.add_(item)
+                        } else {
+                            ingredientViewModel.deleteOne_(item)
+                        }
+                    } else {
+                        if (item.groupMached) {
+                            ingredientViewModel.deleteOne_(item)
+                        } else {
+                            item.allowed = false
+                            ingredientViewModel.add_(item)
+                        }
+                    }
+                }
             },
             object : IngredientAdapter.CallbackInfo {
                 override fun onItemClicked(item: IngredientModel) {
@@ -62,16 +85,54 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
         ingredientRecycler.adapter = allIngredientsAdapter
 
         networkDataSource?.ingredients?.observe(this, Observer {
-            allIngredientsAdapter.addItems(it)
+            ingredients = it
+            filter()
+            if (ingredients.isEmpty()){
+                showEmptyFragment()
+                ingredients_fragments_frame.visibility = View.VISIBLE
+            } else {
+                ingredients_fragments_frame.visibility = View.GONE
+            }
+            allIngredientsAdapter.addItems(ingredients)
         })
         networkDataSource?.ingredientSearch?.observe(this, Observer {
-            allIngredientsAdapter.addItems(it)
+            ingredients = it
+            filter()
+            if (ingredients.isEmpty()){
+                showEmptyFragment()
+                ingredients_fragments_frame.visibility = View.VISIBLE
+            } else {
+                ingredients_fragments_frame.visibility = View.GONE
+            }
+            allIngredientsAdapter.addItems(ingredients)
+        })
+
+        groupViewModel.getAll_().observe(this, Observer {
+            groupsDB = it
+            filter()
+            if (ingredients.isEmpty()){
+                showEmptyFragment()
+                ingredients_fragments_frame.visibility = View.VISIBLE
+            } else {
+                ingredients_fragments_frame.visibility = View.GONE
+            }
+            allIngredientsAdapter.addItems(ingredients)
+        })
+        ingredientViewModel.getAll_().observe(this, Observer<List<IngredientModel>> {
+            ingredientsDB = it
+            filter()
+            if (ingredients.isEmpty()){
+                showEmptyFragment()
+                ingredients_fragments_frame.visibility = View.VISIBLE
+            } else {
+                ingredients_fragments_frame.visibility = View.GONE
+            }
+            allIngredientsAdapter.addItems(ingredients)
         })
 
         GlobalScope.launch(Dispatchers.Main) {
             networkDataSource?.fetchIngredients(20, 0)
         }
-
         return view
     }
 
@@ -127,5 +188,32 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
             )
         }
         activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.ingredients_fragments_frame, emptyFragment)?.commit()
+    }
+
+    private fun filter() {
+        for (ingredient in ingredients) {
+            ingredient.groupMached = false
+            ingredient.ok = true
+        }
+
+        for (group in groupsDB) {
+            group.isInBase = true
+            for (ingredient in ingredients) {
+                for (g in ingredient.groups) {
+                    if (group.id == g) {
+                        ingredient.groupMached = true
+                        ingredient.ok = false
+                    }
+                }
+            }
+        }
+
+        for (ingredient in ingredients) {
+            for (i in ingredientsDB) {
+                if (ingredient.id == i.id) {
+                    ingredient.ok = i.allowed!!
+                }
+            }
+        }
     }
 }

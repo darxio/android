@@ -26,7 +26,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/emptyColor"
                         android:layout_gravity="center"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center"
+                        android:layout_margin="10dp"/>
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/permission_button"

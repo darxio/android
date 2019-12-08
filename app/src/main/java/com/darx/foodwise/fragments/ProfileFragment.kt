@@ -70,7 +70,7 @@ class ProfileFragment : Fragment() {
                 intent.putExtra("GROUP", item as Serializable)
                 startActivity(intent)
             }
-        }, 2450, 65)
+        }, 350, 13)
         val allGroupsRecycler = view.findViewById<RecyclerView>(R.id.groups_multi_rv)
         val layoutManagerGroups = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         allGroupsRecycler.layoutManager = layoutManagerGroups

@@ -18,14 +18,15 @@ package com.darx.foodwise.camerafragment.barcodedetection
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -41,71 +42,116 @@ import com.darx.foodwise.services.ConnectivityInterceptorImpl
 import com.darx.foodwise.services.NetworkDataSourceImpl
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.android.synthetic.main.barcode_bottom_sheet.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 /** Displays the bottom sheet to present barcode fields contained in the detected barcode.  */
-class BarcodeResultFragment : BottomSheetDialogFragment() {
+class BarcodeResultFragment : BottomSheetDialogFragment(), TextToSpeech.OnInitListener {
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    private lateinit var productToShow: ProductModel
+private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
     private lateinit var iVM: IngredientViewModel
     private lateinit var gVM: GroupViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
     var chips: ArrayList<Chip>? = ArrayList()
-    private lateinit var layout: LinearLayout
-    var ok: Boolean = true
-    var cautious: Boolean = false
+    private lateinit var info_speaker_ib_: ImageButton
 
-    val states = arrayOf(
-        intArrayOf(android.R.attr.state_enabled), // enabled
-        intArrayOf(-android.R.attr.state_enabled), // disabled
-        intArrayOf(-android.R.attr.state_checked), // unchecked
-        intArrayOf(android.R.attr.state_pressed)  // pressed
-    )
+    val Int.pxFromDp: Int
+        get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
-    val positiveColors = intArrayOf(R.color.positiveColor, R.color.positiveColor, R.color.positiveColor, R.color.positiveColor)
-    val negativeColors = intArrayOf(R.color.negativeColor, R.color.negativeColor, R.color.negativeColor, R.color.negativeColor)
+    private var tts: TextToSpeech? = null
 
-    private fun preorder(ingredient: IngredientExtended?) {
+    private var isAllowed: Boolean = true
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val locale = Locale("ru")
+            val result = tts!!.setLanguage(locale)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS","The Language specified is not supported!")
+            } else {
+                info_speaker_ib.isEnabled = true
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!")
+        }
+    }
+
+    private fun speakOut(text: String) {
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
+    }
+
+    private fun pause() {
+        tts!!.playSilentUtterance(10, TextToSpeech.QUEUE_FLUSH,"")
+    }
+
+    override fun onDestroy() {
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+        super.onDestroy()
+    }
+
+    fun checkStatus(ingredient: IngredientModel?, isGroupsMatched: Boolean): Boolean {
+        isAllowed = true
+        if (isGroupsMatched) {
+            isAllowed = (ingredient != null && ingredient.allowed!!)
+        } else {
+            if (ingredient != null) {
+                isAllowed = ingredient.allowed!!
+            }
+        }
+        return isAllowed
+    }
+
+    private fun preorder(ingredient: IngredientExtended?, showDanger: Boolean) {
         if (ingredient == null) {
             return
         }
 
-        // logics
         val chip = Chip(context!!)
         if (ingredient.name != "") {
             chip.text = ingredient.name
         }
 
-        chip.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                networkDataSource!!.getIngredientByID(ingredient.id)
-            }
-        }
+        var isGroupsMatched = false
 
-        if (iVM != null) {
-            iVM?.getOne_(ingredient.id)
-                ?.observe(this@BarcodeResultFragment, object : Observer<IngredientModel> {
-                    override fun onChanged(t: IngredientModel?) {
-                        if (t?.id == ingredient.id) {
-                            chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-                            this@BarcodeResultFragment.ok = false
-                        } else {
-                            if (ingredient.danger!! > 0) {
-                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
-                                this@BarcodeResultFragment.cautious = true
-                            } else {
-                                chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
-                            }
-                        }
-                    }
-                })
+        if (ingredient.groups.isNullOrEmpty()) {
+            ingredient.groups = ArrayList()
         }
+        gVM.checkAll_(ingredient.groups)?.observe(this, object : Observer<Boolean> {
+            override fun onChanged(t: Boolean?) {
+                isGroupsMatched = t ?: false
+                if (checkStatus(null, isGroupsMatched)) {
+                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                } else {
+                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                }
+            }
+        })
+
+        iVM.getOne_(ingredient.id)?.observe(this, object : Observer<IngredientModel> {
+            override fun onChanged(t: IngredientModel?) {
+                if (checkStatus(t, isGroupsMatched)) {
+                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
+                    if (ingredient.danger!! > 1 && showDanger) {
+                        chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
+                    }
+                } else {
+                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
+                }
+            }
+        })
+
 
         chip.isClickable = true
         if (chip.text != "") {
@@ -114,7 +160,13 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
 
         if (!ingredient.ingredients.isNullOrEmpty()) {
             for (i in ingredient.ingredients!!) {
-                preorder(i)
+                preorder(i, showDanger)
+            }
+        }
+
+        chip.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                networkDataSource!!.getIngredientByID(ingredient.id)
             }
         }
     }
@@ -146,177 +198,167 @@ class BarcodeResultFragment : BottomSheetDialogFragment() {
             ProductModel()
         }
 
-//        val title: TextView = view.findViewById(R.id.info_product_name)
-//        title.text = barcodeField.label
-//
-//        val desc: TextView = view.findViewById(R.id.info_product_description)
-
-
 //        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        val product_toolbar_ = root.findViewById<androidx.appcompat.widget.Toolbar>(R.id.product_toolbar)
+        product_toolbar_.visibility = View.GONE
+        this.info_speaker_ib_ = root.findViewById<ImageButton>(R.id.info_speaker_ib)
+        val info_product_name_ = root.findViewById<TextView>(R.id.info_product_name)
+        val info_product_image_ = root.findViewById<ImageView>(R.id.info_product_image)
+        val info_product_layout_ = root.findViewById<LinearLayout>(R.id.info_product_layout)
+        val info_product_contents_ = root.findViewById<TextView>(R.id.info_product_contents)
+        val info_contents_container_ = root.findViewById<LinearLayout>(R.id.info_contents_container)
+        val info_product_manufacturer_ = root.findViewById<TextView>(R.id.info_product_manufacturer)
+        val info_manufacturer_container_ = root.findViewById<LinearLayout>(R.id.info_manufacturer_container)
+        val info_product_description_ = root.findViewById<TextView>(R.id.info_product_description)
+        val info_description_container_ = root.findViewById<LinearLayout>(R.id.info_description_container)
+        val info_product_mass_ = root.findViewById<TextView>(R.id.info_product_mass)
+        val info_mass_container_ = root.findViewById<LinearLayout>(R.id.info_mass_container)
+        val info_product_category_URL_ = root.findViewById<TextView>(R.id.info_product_category_URL)
+        val info_category_url_container_ = root.findViewById<LinearLayout>(R.id.info_category_url_container)
+        val info_product_bestbefore_ = root.findViewById<TextView>(R.id.info_product_bestbefore)
+        val info_best_before_container_ = root.findViewById<LinearLayout>(R.id.info_best_before_container)
+        val info_product_nutrition_facts_ = root.findViewById<TextView>(R.id.info_product_nutrition_facts)
+        val info_nutrition_facts_container_ = root.findViewById<LinearLayout>(R.id.info_nutrition_facts_container)
+        val info_ingredient_chips_ = root.findViewById<ChipGroup>(R.id.info_ingredient_chips)
+        val info_ingredients_container_ = root.findViewById<LinearLayout>(R.id.info_ingredients_container)
+        val line_contents_ = root.findViewById<View>(R.id.line_contents)
+        val info_feedback_container_ = root.findViewById<LinearLayout>(R.id.info_feedback_container)
+        val good_ = root.findViewById<ImageButton>(R.id.good)
+        val bad_ = root.findViewById<ImageButton>(R.id.bad)
 
-        val scale = resources.displayMetrics.density
+        var spoke = false
+        info_speaker_ib_.setBackgroundResource(R.drawable.ic_speaker_on_black)
 
-        val apiService = ApiService(ConnectivityInterceptorImpl(context!!))
-        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
-        networkDataSource?.ingredient?.observe(this, Observer {
-            val intent = Intent(context!!, IngredientActivity::class.java)
-            intent.putExtra("INGREDIENT", it)
-            startActivity(intent)
-        })
+        info_speaker_ib_.isEnabled = false
+        tts = TextToSpeech(context!!, this)
 
+        tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
+            override fun onDone(utteranceId: String?) {
+                info_speaker_ib_.setBackgroundResource(R.drawable.ic_speaker_on_black)
+            }
+
+            override fun onError(utteranceId: String?) {}
+            override fun onStart(utteranceId: String?) {}
+        }
+        )
+
+//        val apiService = ApiService(ConnectivityInterceptorImpl(context!!))
+//        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
+//
+//        networkDataSource?.ingredient?.observe(this, Observer {
+//            val intent = Intent(this, IngredientActivity::class.java)
+//            intent.putExtra("INGREDIENT", it)
+//            startActivity(intent)
+//        })
+//
 //        this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
+
+        if (this.productToShow.contents.isNullOrEmpty()) {
+            info_speaker_ib_.isEnabled == false
+            info_speaker_ib_.visibility = View.INVISIBLE
+        } else {
+            info_speaker_ib_.visibility = View.VISIBLE
+        }
+
+        info_speaker_ib_.setOnClickListener {
+            if (spoke) {
+                info_speaker_ib_.setBackgroundResource(R.drawable.ic_speaker_on_black)
+                pause()
+                spoke = false
+            } else {
+                info_speaker_ib_.setBackgroundResource(R.drawable.ic_speaker_off_black)
+                speakOut(this.productToShow.contents!!)
+                spoke = true
+            }
+        }
+
         this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
         this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        var starred = root.findViewById<ImageButton>(R.id.barcode_info_starred_ib)
-        var share = root.findViewById<ImageButton>(R.id.barcode_info_share_btn)
+//        Setting correct views for 2 types of products
+        info_product_name_.text = productToShow.name
 
-        // logics with image buttons
-        if (productToShow.starred) {
-            starred.setBackgroundResource(R.drawable.ic_starred)
+        if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
+            Picasso.get().load(productToShow.image).error(R.drawable.ic_cereals__black).into(info_product_image_);
         } else {
-            starred.setBackgroundResource(R.drawable.ic_unstarred)
+            info_product_image_.setImageResource(R.drawable.ic_cereals__black)
         }
 
-        starred.setOnClickListener {
-            val starred_ = productToShow.starred
-            if (starred_) {
-                starred.setBackgroundResource(R.drawable.ic_unstarred)
-            } else {
-                starred.setBackgroundResource(R.drawable.ic_starred)
-            }
-
-            productToShow.starred = !starred_
-
-            pVM.updateStarred_(productToShow)
-        }
-
-        share.setOnClickListener {
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent.type = "text/plain"
-            val shareBody = productToShow.name;
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
-            this.startActivity(
-                Intent.createChooser(
-                    sharingIntent,
-                    //                        ctx.getResources().getString(R.string.share_via)
-                    "Поделиться"
-                )
-            )
-        }
-
-//        back.setOnClickListener {
-//            finish()
-//        }
-
-//        logics with info text views
-
-        this.layout = root.findViewById(R.id.barcode_info_product_layout)
-
-        val barcode_info_product_name_ = root.findViewById<View>(R.id.barcode_info_product_name) as TextView
-        val barcode_info_product_ingredients_temp_text_view_ = root.findViewById<View>(R.id.barcode_info_product_ingredients_temp_text_view) as TextView
-        val barcode_info_product_manufacturer_ = root.findViewById<View>(R.id.barcode_info_product_manufacturer) as TextView
-        val barcode_info_product_description_ = root.findViewById<View>(R.id.barcode_info_product_description) as TextView
-        val barcode_info_product_category_URL_ = root.findViewById<View>(R.id.barcode_info_product_category_URL) as TextView
-        val barcode_info_product_mass_ = root.findViewById<View>(R.id.barcode_info_product_mass) as TextView
-        val barcode_info_product_bestbefore_ = root.findViewById<View>(R.id.barcode_info_product_bestbefore) as TextView
-        val barcode_info_product_nutrition_facts_ = root.findViewById<View>(R.id.barcode_info_product_nutrition_facts) as TextView
-
-
-        barcode_info_product_name_.text = productToShow.name
-        // when the short version of the product is obtained
+        // short version of the product
         if (productToShow.contents == "") {
-//            contents
-            barcode_info_product_ingredients_temp_text_view_.text = "Информация недоступна."
-            barcode_info_product_manufacturer_.text = "Информация недоступна."
-            barcode_info_product_description_.text = "Информация недоступна."
-            barcode_info_product_category_URL_.text = "Информация недоступна."
-            barcode_info_product_mass_.text = "Информация недоступна."
-            barcode_info_product_bestbefore_.text = "Информация недоступна."
-            barcode_info_product_nutrition_facts_.text = "Информация недоступна."
+            info_product_layout_.removeAllViews()
+
         } else {
-            if (productToShow.manufacturer != "NULL") {
-                barcode_info_product_manufacturer_.text = productToShow.manufacturer
+            if (productToShow.contents != "NULL") {
+                info_product_contents_.text = productToShow.contents
+//                var collapsed = CollapseUtils(this, hide, info_product_contents)
+//                collapsed.initDescription(productToShow.contents!!)
             } else {
-                barcode_info_product_manufacturer_.text = "Информация недоступна."
+                info_contents_container_.visibility = View.GONE
+            }
+            if (productToShow.manufacturer != "NULL") {
+                info_product_manufacturer_.text = productToShow.manufacturer
+            } else {
+                info_manufacturer_container_.visibility = View.GONE
             }
             if (productToShow.description != "NULL") {
-                barcode_info_product_description_.text = productToShow.description
+                info_product_description_.text = productToShow.description
             } else {
-                barcode_info_product_description_.text = "Информация недоступна."
+                info_description_container_.visibility = View.GONE
             }
             if (productToShow.categoryURL != "NULL") {
-                barcode_info_product_category_URL_.text = productToShow.categoryURL
+                info_product_category_URL_.text = productToShow.categoryURL
             } else {
-                barcode_info_product_category_URL_.text = "Информация недоступна."
+                info_category_url_container_.visibility = View.GONE
             }
             if (productToShow.mass != "NULL") {
-                barcode_info_product_mass_.text = productToShow.mass
+                info_product_mass_.text = productToShow.mass
             } else {
-                barcode_info_product_mass_.text = "Информация недоступна."
+                info_mass_container_.visibility = View.GONE
             }
             if (productToShow.bestBefore != "NULL") {
-                barcode_info_product_bestbefore_.text = productToShow.bestBefore
+                info_product_bestbefore_.text = productToShow.bestBefore
             } else {
-                barcode_info_product_bestbefore_.text = "Информация недоступна."
+                info_best_before_container_.visibility = View.GONE
             }
             if (productToShow.nutrition != "NULL") {
-                barcode_info_product_nutrition_facts_.text = productToShow.nutrition
+                info_product_nutrition_facts_.text = productToShow.nutrition
             } else {
-                barcode_info_product_nutrition_facts_.text = "Информация недоступна."
+                info_nutrition_facts_container_.visibility = View.GONE
             }
-        }
 
-        if (productToShow.ingredients.isNullOrEmpty()) {
-            if (productToShow.contents != null || productToShow.contents != "" || productToShow.contents != "NULL") {
-                val layout_contents = LinearLayout(context!!)
-                layout_contents.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                layout_contents.orientation = LinearLayout.VERTICAL
+            if (!productToShow.ingredients.isNullOrEmpty()) {
+                for (i in productToShow.ingredients!!) {
+                    preorder(i, true)
+                }
 
-//                ???
-                val layoutPadding = (15 * scale + 0.5f).toInt()
-
-                layout_contents.setPadding(
-                    layoutPadding,
-                    layoutPadding,
-                    layoutPadding,
-                    layoutPadding
-                )
-                this.layout.addView(layout_contents)
-
-                val contentsLabelTextView = TextView(context!!)
-                contentsLabelTextView.text = "Текст состава:"
-
-                val contentsTextView = TextView(context!!)
-
-//                ???
-                val textViewPadding = (8 * scale + 0.5f).toInt()
-                contentsTextView.setPadding(0, textViewPadding, 0, textViewPadding)
-                contentsTextView.text = productToShow.contents
-
-                layout.addView(contentsLabelTextView)
-                layout.addView(contentsTextView)
+                if (this.chips != null) {
+                    for (i in this.chips!!) {
+                        info_ingredient_chips_.addView(i)
+                    }
+                }
+            } else {
+                info_ingredients_container_.visibility = View.GONE
+                line_contents_.visibility = View.GONE
+                info_feedback_container_.visibility = View.GONE
             }
-        } else {
-            for (i in productToShow.ingredients!!) {
-                preorder(i)
+
+            if (info_feedback_container_.visibility == View.VISIBLE) {
+                good_.setOnClickListener {
+                    Toast.makeText(
+                        context!!, "Спасибо за отзыв!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                bad_.setOnClickListener {
+                    Toast.makeText(
+                        context!!, "Спасибо за отзыв!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-        }
-
-        val barcode_info_ingredient_chips_ = root.findViewById<View>(R.id.barcode_info_ingredient_chips) as ChipGroup
-
-        if (this.chips != null) {
-            for (i in this.chips!!) {
-                barcode_info_ingredient_chips_.addView(i)
-            }
-        }
-
-        if (ok == false) {
-            barcode_info_material_card.setBackgroundColor(R.color.negativeColor)
-            barcode_info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
         }
 
 //        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

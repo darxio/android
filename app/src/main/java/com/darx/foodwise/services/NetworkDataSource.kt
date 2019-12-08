@@ -20,7 +20,7 @@ interface NetworkDataSource {
     val groupIngredientsSearch: LiveData<List<IngredientModel>>
     val groups: LiveData<List<GroupModel>>
     val groupSearch: LiveData<List<GroupModel>>
-    val fruit: LiveData<FruitModel>
+    val fruit: LiveData<ProductModel>
     val ctx: Context
 
     suspend fun fetchProductByBarcode(barcode: Long, callback: Callback = DefaultCallback(ctx))

@@ -26,7 +26,7 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
     private val _groupIngredientsSearch = MutableLiveData<List<IngredientModel>>()
     private val _groups = MutableLiveData<List<GroupModel>>()
     private val _groupSearch = MutableLiveData<List<GroupModel>>()
-    private val _fruit = MutableLiveData<FruitModel>()
+    private val _fruit = MutableLiveData<ProductModel>()
 
     override val ctx: Context
         get() = _ctx
@@ -58,7 +58,7 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
     override val groupSearch: LiveData<List<GroupModel>>
         get() = _groupSearch
 
-    override val fruit: LiveData<FruitModel>
+    override val fruit: LiveData<ProductModel>
         get() = _fruit
 
     override suspend fun fetchProductByBarcode(barcode: Long, callback: Callback) {

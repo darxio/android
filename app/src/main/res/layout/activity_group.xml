@@ -22,17 +22,6 @@
                 app:layout_scrollFlags="exitUntilCollapsed|scroll"
                 app:title="@string/group">
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content">-->
-
-<!--                <ImageView-->
-<!--                        android:id="@+id/group_collapsing_image"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:scaleType="centerCrop"/>-->
-
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/group_collapsing_image"
                     android:layout_width="match_parent"
@@ -43,8 +32,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/bottom_action_bar_scrim"/>
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/group_toolbar"
@@ -78,7 +65,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/group_ingredients_btn"
-                    android:layout_width="170dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:textColor="@color/colorPrimary"
@@ -90,12 +77,12 @@
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/group_join_btn"
-                        android:layout_width="170dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textColor="@color/white"
                         android:lines="2"
                         android:maxLines="2"
-                        android:layout_marginStart="30dp"/>
+                        android:layout_marginStart="10dp"/>
 
             </LinearLayout>
 

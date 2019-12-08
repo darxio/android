@@ -23,14 +23,17 @@ import com.facebook.drawee.view.SimpleDraweeView
 
 class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var imgSize: Int, var textSize: Int) : RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
-    val Int.dp: Int
+    val Int.pxToDp: Int
         get() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
-    val Int.dpFloat: Float
+    val Int.pxToDpFloat: Float
         get() = (this / Resources.getSystem().displayMetrics.density)
 
-    val Int.px: Int
+    val Int.dpToPx: Int
         get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+    val Int.dpToPxFloat: Float
+        get() = (this * Resources.getSystem().displayMetrics.density)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.group_item, parent, false))
@@ -84,11 +87,11 @@ class GroupAdapter(var items: List<GroupModel>, val callback: Callback, var imgS
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
 
-                params.width = imgSize.dp
+                params.width = imgSize.dpToPx
                 itemView.layoutParams = params
             }
 
-            groupName.textSize = textSize.dpFloat
+            groupName.textSize = textSize.dpToPxFloat
         }
     }
 

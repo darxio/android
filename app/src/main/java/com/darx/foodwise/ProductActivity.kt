@@ -2,9 +2,11 @@ package com.darx.foodwise
 
 
 import android.content.Intent
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.speech.tts.TextToSpeech
 import android.os.Bundle
+import android.provider.Contacts.PresenceColumns.INVISIBLE
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.view.Menu
@@ -13,6 +15,8 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.*
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodwise.database.*
@@ -39,8 +43,11 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     var chips: ArrayList<Chip>? = ArrayList()
     var warningLevel: Int = 0
     var ok: Int = 0
+    var voted: Boolean = false
 
-    private var speaker: ImageButton? = null
+    val Int.pxFromDp: Int
+        get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
     private var tts: TextToSpeech? = null
 
 //    private var isAllowed: Boolean = true
@@ -53,7 +60,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS","The Language specified is not supported!")
             } else {
-                speaker!!.isEnabled = true
+                info_speaker_ib.isEnabled = true
             }
 
         } else {
@@ -185,14 +192,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         var spoke = false
-//        var warned = false
-        info_warning_ib.visibility = View.GONE
-//        info_warning_ib.setBackgroundResource(R.drawable.ic_warning_non_colored)
         info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
 
-        speaker = findViewById(R.id.info_speaker_ib)
-
-        speaker!!.isEnabled = false
+        info_speaker_ib.isEnabled = false
         tts = TextToSpeech(this, this)
 
         tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
@@ -200,16 +202,14 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 }
 
-                override fun onError(utteranceId: String?) {
-                    Log.d("TTS","OnError: something went wrong")
-                }
-
+                override fun onError(utteranceId: String?) {}
                 override fun onStart(utteranceId: String?) {}
             }
         )
 
         val apiService = ApiService(ConnectivityInterceptorImpl(this))
         networkDataSource = NetworkDataSourceImpl(apiService, this)
+
         networkDataSource?.ingredient?.observe(this, Observer {
             val intent = Intent(this, IngredientActivity::class.java)
             intent.putExtra("INGREDIENT", it)
@@ -219,14 +219,14 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
 
         if (this.productToShow.contents.isNullOrEmpty()) {
-            !speaker!!.isEnabled
-            speaker!!.visibility = INVISIBLE
+            info_speaker_ib.isEnabled == false
+            info_speaker_ib.visibility = View.INVISIBLE
         } else {
-            speaker!!.visibility = VISIBLE
+            info_speaker_ib.visibility = View.VISIBLE
         }
 
-        speaker!!.setOnClickListener {
-            spoke = if (spoke) {
+        info_speaker_ib.setOnClickListener {
+            if (spoke) {
                 info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 pause()
                 false
@@ -241,50 +241,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-
-//        val warning = findViewById<ImageButton>(R.id.info_warning_ib)
-
-//        warning.setOnClickListener {
-//            if (warned) {
-//                info_ingredient_chips.removeAllViews()
-//                chips!!.clear()
-//
-//                info_warning_ib.setBackgroundResource(R.drawable.ic_warning_non_colored)
-//
-//                if (!productToShow.ingredients.isNullOrEmpty()) {
-//                    for (i in productToShow.ingredients!!) {
-//                        preorder(i, false)
-//                    }
-//                }
-//
-//                if (this.chips != null) {
-//                    for (i in this.chips!!) {
-//                        info_ingredient_chips.addView(i)
-//                    }
-//                }
-//
-//                warned = false
-//            } else {
-//                info_ingredient_chips.removeAllViews()
-//                chips!!.clear()
-//
-//                info_warning_ib.setBackgroundResource(R.drawable.ic_warning_colored)
-//                warned = true
-//
-//                if (!productToShow.ingredients.isNullOrEmpty()) {
-//                    for (i in productToShow.ingredients!!) {
-//                        preorder(i, true)
-//                    }
-//                }
-//
-//                if (this.chips != null) {
-//                    for (i in this.chips!!) {
-//                        info_ingredient_chips.addView(i)
-//                    }
-//                }
-//            }
-//        }
-
+//        Setting correct views for 2 types of products
         info_product_name.text = productToShow.name
 
         if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
@@ -293,58 +250,66 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             info_product_image.setImageResource(R.drawable.ic_cereals__black)
         }
 
-        // when the short version of the product is obtained
+        // short version of the product
         if (productToShow.contents == "") {
-            info_product_ingredients_temp_text_view.text = "Информация недоступна."
-            info_product_manufacturer.text = "Информация недоступна."
-            info_product_description.text = "Информация недоступна."
-            info_product_category_URL.text = "Информация недоступна."
-            info_product_mass.text = "Информация недоступна."
-            info_product_bestbefore.text = "Информация недоступна."
-            info_product_nutrition_facts.text = "Информация недоступна."
-            bad.isEnabled = false
-            good.isEnabled = false
-            bad.visibility = INVISIBLE
-            good.visibility = INVISIBLE
+            info_product_layout.removeAllViews()
+
+//            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.MATCH_PARENT).apply {
+//                weight = 1.0f
+//                gravity = Gravity.CENTER
+//            }
+//
+//            info_product_layout.layoutParams = params
+//
+//            val image = ImageView(this)
+//
+//            val imageParams = LinearLayout.LayoutParams(250.pxFromDp, 250.pxFromDp)
+//            image.setBackgroundResource(R.drawable.empty_product_info)
+//            image.layoutParams = imageParams
+//
+//            info_product_layout.addView(image)
+
+            // to do -- empty fragment here
+
         } else {
             if (productToShow.contents != "NULL") {
                 info_product_contents.text = productToShow.contents
-                val collapsed = CollapseUtils(this, hide, info_product_contents)
-                collapsed.initDescription(productToShow.contents!!)
+//                var collapsed = CollapseUtils(this, hide, info_product_contents)
+//                collapsed.initDescription(productToShow.contents!!)
             } else {
-                info_product_contents.text = "Информация недоступна."
+                info_contents_container.visibility = View.GONE
             }
             if (productToShow.manufacturer != "NULL") {
                 info_product_manufacturer.text = productToShow.manufacturer
             } else {
-                info_product_manufacturer.text = "Информация недоступна."
+                info_manufacturer_container.visibility = View.GONE
             }
             if (productToShow.description != "NULL") {
                 info_product_description.text = productToShow.description
             } else {
-                info_product_description.text = "Информация недоступна."
+                info_description_container.visibility = View.GONE
             }
             if (productToShow.categoryURL != "NULL") {
                 info_product_category_URL.text = productToShow.categoryURL
             } else {
-                info_product_category_URL.text = "Информация недоступна."
+                info_category_url_container.visibility = View.GONE
             }
             if (productToShow.mass != "NULL") {
                 info_product_mass.text = productToShow.mass
             } else {
-                info_product_mass.text = "Информация недоступна."
+                info_mass_container.visibility = View.GONE
             }
             if (productToShow.bestBefore != "NULL") {
                 info_product_bestbefore.text = productToShow.bestBefore
             } else {
-                info_product_bestbefore.text = "Информация недоступна."
+                info_best_before_container.visibility = View.GONE
             }
             if (productToShow.nutrition != "NULL") {
                 info_product_nutrition_facts.text = productToShow.nutrition
             } else {
-                info_product_nutrition_facts.text = "Информация недоступна."
+                info_nutrition_facts_container.visibility = View.GONE
             }
-        }
 
         if (!productToShow.ingredients.isNullOrEmpty()) {
             for (i in productToShow.ingredients!!) {
@@ -352,36 +317,50 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     preorder(i, true)
                 }
             }
-        }
 
-        if (this.chips != null) {
-            for (i in this.chips!!) {
-               info_ingredient_chips.addView(i)
-            }
-        }
-
-        if (good.isEnabled && bad.isEnabled) {
-            good.setOnClickListener {
-                Toast.makeText(
-                    this, "Спасибо за отзыв!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (this.chips != null) {
+                    for (i in this.chips!!) {
+                        info_ingredient_chips.addView(i)
+                    }
+                }
+            } else {
+                info_ingredients_container.visibility = View.GONE
+                line_contents.visibility = View.GONE
+                info_feedback_container.visibility = View.GONE
             }
 
-            bad.setOnClickListener {
-                // запрос в сеть
-                Toast.makeText(
-                    this, "Спасибо за отзыв!",
-                    Toast.LENGTH_SHORT
-                ).show()
+            if (info_feedback_container.visibility == View.VISIBLE) {
+                good.setOnClickListener {
+                    if (voted == false) {
+                        Toast.makeText(
+                            this, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            this, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                bad.setOnClickListener {
+                    if (voted == false) {
+                        Toast.makeText(
+                            this, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            this, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         }
-
-//        if (ok == false) {
-////            info_material_card.setBackgroundColor(R.color.negativeColor)
-////            info_product_warning_text.text = "Cодержит ингредиенты, которые вы не хотите есть!"
-//            Log.e("OK_VAR", "ok is false")
-//        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

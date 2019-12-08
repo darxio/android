@@ -1,30 +1,335 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-  <TextView
-      android:id="@+id/bottom_sheet_title"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_margin="@dimen/bottom_sheet_title_margin"
-      android:ellipsize="end"
-      android:fontFamily="sans-serif"
-      android:maxLines="1"
-      android:textColor="@color/black"
-      android:textSize="@dimen/bottom_sheet_title_size"/>
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-  <View
-      android:layout_width="match_parent"
-      android:layout_height="@dimen/divider_height"
-      android:background="@color/lighter_grey"/>
+      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="15dp">
 
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/product_recycler_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:scrollbars="vertical"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Пищевая ценность на 100 гр"/>
 
-</LinearLayout>
+            <TextView
+                    android:id="@+id/fruit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="сырой томат"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/colorPrimary"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/fruit_container_1_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"/>
+
+                <TextView
+                        android:id="@+id/fruit_container_1_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+          <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:background="@color/colorPrimary"/>
+
+          <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+              <TextView
+                      android:id="@+id/fruit_container_2_name"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginRight="8dp"/>
+
+              <TextView
+                      android:id="@+id/fruit_container_2_value"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+
+          </LinearLayout>
+
+          <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:background="@color/colorPrimary"/>
+
+          <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+              <TextView
+                      android:id="@+id/fruit_container_3_name"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginRight="8dp"/>
+
+              <TextView
+                      android:id="@+id/fruit_container_3_value"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+
+          </LinearLayout>
+
+          <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:background="@color/colorPrimary"/>
+
+          <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+              <TextView
+                      android:id="@+id/fruit_container_4_name"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginRight="8dp"/>
+
+              <TextView
+                      android:id="@+id/fruit_container_4_value"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"/>
+
+          </LinearLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/colorPrimary"/>
+
+          <GridLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:columnCount="2">
+
+              <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_1_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_1_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
+
+              <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_2_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_2_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
+
+              <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_3_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_3_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
+
+              <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_4_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_4_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
+
+              <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_5_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_5_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
+
+              <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_6_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginRight="8dp"/>
+
+                  <TextView
+                          android:id="@+id/fruit_vitamin_6_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+
+              </LinearLayout>
+
+          </GridLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+          <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginRight="8dp"
+                  android:text="Описание"/>
+
+          <TextView
+                  android:id="@+id/fruit_description"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_marginTop="4dp"
+              android:layout_marginBottom="4dp"
+              android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+                android:id="@+id/fruit_feedback_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+          <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Оцените точность распознавания"
+                  android:textAlignment="center"
+                  android:textColor="@color/product_property_title_color"
+                  android:textSize="@dimen/product_property_title_size"
+                  android:layout_marginBottom="10dp"/>
+
+          <LinearLayout
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_gravity="center"
+                  android:layout_weight="1">
+
+            <ImageButton
+                    android:id="@+id/fruit_bad"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_bad"
+                    android:background="@color/transparent"/>
+
+            <ImageButton
+                    android:id="@+id/fruit_good"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_good"
+                    android:background="@color/transparent"
+                    android:layout_marginStart="10dp"/>
+
+          </LinearLayout>
+        </LinearLayout>
+      </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

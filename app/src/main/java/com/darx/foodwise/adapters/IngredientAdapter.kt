@@ -40,8 +40,6 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
         private val ingredientImage = itemView.findViewById<ImageView>(R.id.ingredient_eligibility_image)
         private val ingredientInfoIcon = itemView.findViewById<ImageView>(R.id.ingredient_information_ib)
         private val ingredientWarningIcon = itemView.findViewById<ImageView>(R.id.warning_icon)
-        private var isAllowed: Boolean = true
-        private var isGroupsMatched: Boolean = false
 
         fun bind(item: IngredientModel) {
             val ingredientName = itemView.findViewById<TextView>(R.id.ingredient_name)
@@ -80,18 +78,6 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
                 ingredientObject.setCardBackgroundColor(ctx.getColor(R.color.negativeColor))
                 ingredientImage.setImageDrawable(ctx.getDrawable(R.drawable.ic_stop_white))
             }
-        }
-
-        private fun checkStatus(ingredient: IngredientModel?): Boolean {
-            isAllowed = true
-            if (isGroupsMatched) {
-                isAllowed = (ingredient != null && ingredient.allowed!!)
-            } else {
-                if (ingredient != null) {
-                    isAllowed = ingredient.allowed!!
-                }
-            }
-            return isAllowed
         }
     }
 

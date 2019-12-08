@@ -110,23 +110,11 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
         groupViewModel.getAll_().observe(this, Observer {
             groupsDB = it
             filter()
-            if (ingredients.isEmpty()){
-                showEmptyFragment()
-                ingredients_fragments_frame.visibility = View.VISIBLE
-            } else {
-                ingredients_fragments_frame.visibility = View.GONE
-            }
             allIngredientsAdapter.addItems(ingredients)
         })
         ingredientViewModel.getAll_().observe(this, Observer<List<IngredientModel>> {
             ingredientsDB = it
             filter()
-            if (ingredients.isEmpty()){
-                showEmptyFragment()
-                ingredients_fragments_frame.visibility = View.VISIBLE
-            } else {
-                ingredients_fragments_frame.visibility = View.GONE
-            }
             allIngredientsAdapter.addItems(ingredients)
         })
 

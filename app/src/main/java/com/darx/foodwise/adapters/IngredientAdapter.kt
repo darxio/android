@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -52,6 +53,8 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
                     5 -> ingredientWarningIcon.setImageDrawable(ctx.getDrawable(R.drawable.ic_warning_third))
                 }
                 ingredientWarningIcon.visibility = VISIBLE
+            } else {
+                ingredientWarningIcon.visibility = GONE
             }
 
             itemView.setOnClickListener {
@@ -63,6 +66,8 @@ class IngredientAdapter(var items: List<IngredientModel>, val ctx: Context, val 
                 ingredientInfoIcon.setOnClickListener {
                     if (adapterPosition != RecyclerView.NO_POSITION) callbackInfo.onItemClicked(items[adapterPosition])
                 }
+            } else {
+                ingredientInfoIcon.visibility = GONE
             }
 
             setSettingsByStatus(item.ok)

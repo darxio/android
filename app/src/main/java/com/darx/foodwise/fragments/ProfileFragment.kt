@@ -73,13 +73,13 @@ class ProfileFragment : Fragment() {
 
         groupViewModel?.getAll_()?.observe(this, Observer {
             groupsDB = it
-            filterGroups()
+            filter()
             allGroupAdapter.addItems(groups)
             addChips()
         })
         networkDataSource?.groups?.observe(this, Observer {
             groups = it
-            filterGroups()
+            filter()
             allGroupAdapter.addItems(groups)
             addChips()
         })
@@ -90,12 +90,12 @@ class ProfileFragment : Fragment() {
         // INGREDIENTS
         networkDataSource?.ingredients?.observe(this, Observer {
             ingredients = it
-            filterIngredients()
+            filter()
             addChips()
         })
         ingredientViewModel?.getAll_()?.observe(this, Observer<List<IngredientModel>> {
             ingredientsDB = it
-            filterIngredients()
+            filter()
             addChips()
         })
         GlobalScope.launch(Dispatchers.Main) {
@@ -162,26 +162,29 @@ class ProfileFragment : Fragment() {
         for (i in ingredients) {
             val chip = Chip(context!!)
             chip.text = i.name
+
             if (i.ok) {
+//                chip.setTextColor(ctx.getColor(R.color.black))
                 chip.setChipBackgroundColorResource(R.color.positiveColor)
             } else {
+//                ingredientObject.setTextColor(ctx.getColor(R.color.white))
                 chip.setChipBackgroundColorResource(R.color.negativeColor)
             }
 
             chip.setOnClickListener {
-                if (!i.) {
-                    if (isGroupsMatched) {
-                        item.allowed = true
-                        ingredientViewModel?.add_(item)
+                if (!i.ok) {
+                    if (i.groupMached) {
+                        i.allowed = true
+                        ingredientViewModel?.add_(i)
                     } else {
-                        ingredientViewModel?.deleteOne_(item)
+                        ingredientViewModel?.deleteOne_(i)
                     }
                 } else {
-                    if (isGroupsMatched) {
-                        ingredientViewModel?.deleteOne_(item)
+                    if (i.groupMached) {
+                        ingredientViewModel?.deleteOne_(i)
                     } else {
-                        item.allowed = false
-                        ingredientViewModel?.add_(item)
+                        i.allowed = false
+                        ingredientViewModel?.add_(i)
                     }
                 }
             }
@@ -195,7 +198,20 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun filterGroups() {
+
+//    private fun checkStatus(ingredient: IngredientModel?): Boolean {
+//        var isAllowed = ingredient!!.ok
+//        if (ingredient?.groupMached!!) {
+//            isAllowed = (ingredient != null && ingredient.allowed!!)
+//        } else {
+//            if (ingredient != null) {
+//                isAllowed = ingredient.allowed!!
+//            }
+//        }
+//        return isAllowed
+//    }
+
+    private fun filter() {
         for (element in groupsDB) {
             for (group in groups) {
                 if (element.id == group.id) {
@@ -206,31 +222,30 @@ class ProfileFragment : Fragment() {
                 for (group in ingredient.groups) {
                     if (element.id == group) {
                         ingredient.groupMached = true
+                        ingredient.ok = false
                     }
                 }
             }
         }
-    }
 
-    private fun filterIngredients() {
-        for (element in ingredientsDB) {
-            for (ingredient in ingredients) {
-                if (element.id == ingredient.id) {
-                    ingredient.ok = element.allowed!!
+        for (ingredient in ingredients) {
+            for (i in ingredientsDB) {
+                if (ingredient.id == i.id) {
+                    ingredient.ok = i.allowed!!
                 }
             }
         }
     }
 
-//    private fun checkStatus(ingredient: IngredientModel?): Boolean {
-//        isAllowed = true
-//        if (isGroupsMatched) {
-//            isAllowed = (ingredient != null && ingredient.allowed!!)
-//        } else {
-//            if (ingredient != null) {
-//                isAllowed = ingredient.allowed!!
+//    private fun filterIngredients() {
+//        for (element in ingredientsDB) {
+//            for (ingredient in ingredients) {
+//                if (element.id == ingredient.id) {
+//                    ingredient.ok = element.allowed!!
+//                }
 //            }
 //        }
-//        return isAllowed
 //    }
+
+
 }

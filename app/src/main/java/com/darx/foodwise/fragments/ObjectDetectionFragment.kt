@@ -60,6 +60,7 @@ import com.google.common.collect.ImmutableList
 import com.darx.foodwise.camerafragment.productsearch.ProductAdapter
 import com.darx.foodwise.camerafragment.settings.PreferenceUtils
 import com.darx.foodwise.camerafragment.settings.SettingsActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_live_object_kotlin.*
 import kotlinx.android.synthetic.main.product_bottom_sheet.*
@@ -91,7 +92,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     private var promptChip: Chip? = null
     private var promptChipAnimator: AnimatorSet? = null
     private var searchButton: ExtendedFloatingActionButton? = null
-    private var changeModeButton: View? = null
+    private var changeModeButton: FloatingActionButton? = null
     private var searchButtonAnimator: AnimatorSet? = null
     private var searchProgressBar: ProgressBar? = null
     private var workflowModel: WorkflowModel? = null
@@ -232,10 +233,6 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
             cameraSource = CameraSource(this)
         }
 
-
-        val barcodeIcon = resources.getDrawable(R.drawable.ic_action_camera_small)
-        change_mode_button.setImageDrawable(barcodeIcon)
-
         searchButton = view?.findViewById<ExtendedFloatingActionButton>(R.id.product_search_button).apply {
             view?.setOnClickListener(this@ObjectDetectionFragment)
         }
@@ -255,8 +252,10 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         settingsButton?.setOnClickListener(this)
 //        settingsButton?.visibility = VISIBLE
 
-        changeModeButton = getView()?.findViewById(R.id.change_mode_button)
+        changeModeButton = getView()?.findViewById(R.id.change_mode_fab)
         changeModeButton?.setOnClickListener(this@ObjectDetectionFragment)
+        val barcodeIcon = resources.getDrawable(R.drawable.ic_action_camera_small)
+        changeModeButton?.setImageDrawable(barcodeIcon)
 
         promptChip = getView()?.findViewById(R.id.bottom_prompt_chip)
         promptChipAnimator =
@@ -326,7 +325,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
 //                settingsButton?.isEnabled = false
                 startActivity(Intent(context, SettingsActivity::class.java))
             }
-            R.id.change_mode_button -> {
+            R.id.change_mode_fab -> {
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 cameraSource?.release()
                 transaction?.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)

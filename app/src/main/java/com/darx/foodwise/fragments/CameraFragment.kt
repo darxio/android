@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Intent
@@ -44,6 +44,7 @@ import com.darx.foodwise.database.ProductViewModel
 import com.darx.foodwise.services.ConnectivityInterceptorImpl
 import com.darx.foodwise.services.NetworkDataSource
 import com.darx.foodwise.services.NetworkDataSourceImpl
+import kotlinx.android.synthetic.main.camera_preview_overlay_kotlin.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
 
 
@@ -76,7 +77,7 @@ class CameraFragment : Fragment(), OnClickListener {
     private var workflowModel: WorkflowModel? = null
     private var currentWorkflowState: WorkflowState? = null
     private var promtChipShown: Boolean = false
-    private var changeModeButton: View? = null
+    private var changeModeButton: FloatingActionButton? = null
 
     private var barcodeField = BarcodeField("", "")
 
@@ -115,8 +116,6 @@ class CameraFragment : Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val barcodeIcon = resources.getDrawable(R.drawable.ic_fruits)
-        change_mode_button.setImageDrawable(barcodeIcon)
 
         if (ActivityCompat.checkSelfPermission(
                 context!!,
@@ -190,8 +189,11 @@ class CameraFragment : Fragment(), OnClickListener {
         settingsButton = settings_button
 //        settingsButton?.visibility = INVISIBLE
 
-        changeModeButton = change_mode_button
+        changeModeButton = change_mode_fab
         changeModeButton?.setOnClickListener(this@CameraFragment)
+        val fruitsIcon = resources.getDrawable(R.drawable.ic_fruits)
+        changeModeButton?.setImageDrawable(fruitsIcon)
+
 
         flashButton = getView()?.findViewById<View>(R.id.flash_button)
         flashButton?.setOnClickListener(this)
@@ -240,7 +242,7 @@ class CameraFragment : Fragment(), OnClickListener {
 //                settingsButton?.isEnabled = false
                 startActivity(Intent(context, SettingsActivity::class.java))
             }
-            R.id.change_mode_button -> {
+            R.id.change_mode_fab -> {
                 var frag = ObjectDetectionFragment()
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 cameraSource?.release()

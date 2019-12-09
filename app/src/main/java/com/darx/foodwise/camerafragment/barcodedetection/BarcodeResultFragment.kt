@@ -163,6 +163,15 @@ private lateinit var productToShow: ProductModel
             }
         }
 
+        val apiService = ApiService(ConnectivityInterceptorImpl(context!!))
+        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
+
+        networkDataSource?.ingredient?.observe(this, Observer {
+            val intent = Intent(context!!, IngredientActivity::class.java)
+            intent.putExtra("INGREDIENT", it)
+            startActivity(intent)
+        })
+
         chip.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 networkDataSource!!.getIngredientByID(ingredient.id)

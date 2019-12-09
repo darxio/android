@@ -40,7 +40,8 @@
                 android:windowSoftInputMode="adjustPan"/>
         <activity
                 android:name="com.darx.foodwise.GroupIngredientsActivity"
-                android:screenOrientation="sensorPortrait" />
+                android:screenOrientation="sensorPortrait"
+                android:windowSoftInputMode="adjustPan"/>
         <activity
                 android:name="com.darx.foodwise.IngredientActivity"
                 android:screenOrientation="sensorPortrait" />

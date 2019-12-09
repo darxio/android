@@ -80,7 +80,7 @@
 
     <!--  Ingredient activity  -->
     <string name="no_ingredient_description">Информация об игредиенте пока не добавлена</string>
-    <string name="Constitution">Composition</string>
+    <string name="Constitution">Состав</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="description">Описание</string>

@@ -119,12 +119,22 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
         })
 
         GlobalScope.launch(Dispatchers.Main) {
-            networkDataSource?.fetchIngredients(20, 0)
+            networkDataSource?.fetchIngredients(20, 0, object : NetworkDataSource.Callback {
+                override fun onNoConnectivityException() {
+                    Log.e("HTTP", "Wrong answer.")
+                    ingredients_fragments_frame.visibility = View.VISIBLE
+                    showEmptyFragment()
+                }
+                override fun onHttpException() {}
+                override fun onTimeoutException() {}
+                override fun onException() {}
+            })
         }
         return view
     }
 
     fun searchIngredients(query: String) {
+        queryString = query
         if (query.isEmpty()) {
             GlobalScope.launch(Dispatchers.Main) {
                 networkDataSource?.fetchIngredients(20, 0, object : NetworkDataSource.Callback {
@@ -136,7 +146,6 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
                     override fun onHttpException() {}
                     override fun onTimeoutException() {}
                     override fun onException() {}
-
                 })
             }
         } else {
@@ -150,7 +159,6 @@ class IngredientsFragment(val ingredientViewModel: IngredientViewModel, val grou
                     override fun onHttpException() {}
                     override fun onTimeoutException() {}
                     override fun onException() {}
-
                 })
             }
         }

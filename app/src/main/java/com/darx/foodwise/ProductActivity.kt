@@ -40,14 +40,13 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var iVM: IngredientViewModel
     private lateinit var gVM: GroupViewModel
     private var networkDataSource: NetworkDataSourceImpl? = null
+
     var chips: ArrayList<Chip>? = ArrayList()
     var warningLevel: Int = 0
     var ok: Int = 0
     var voted: Boolean = false
 
-    val Int.pxFromDp: Int
-        get() = (this * Resources.getSystem().displayMetrics.density).toInt()
-
+    private var speaker: ImageButton? = null
     private var tts: TextToSpeech? = null
 
 //    private var isAllowed: Boolean = true
@@ -60,7 +59,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS","The Language specified is not supported!")
             } else {
-                info_speaker_ib.isEnabled = true
+                speaker!!.isEnabled = true
             }
 
         } else {
@@ -192,14 +191,14 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         var spoke = false
-        info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
+        speaker = findViewById(R.id.info_speaker_ib)
+        speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
 
-        info_speaker_ib.isEnabled = false
         tts = TextToSpeech(this, this)
 
         tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener(){
                 override fun onDone(utteranceId: String?) {
-                    info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
+                    speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 }
 
                 override fun onError(utteranceId: String?) {}
@@ -218,22 +217,24 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
 
-        if (this.productToShow.contents.isNullOrEmpty()) {
-            info_speaker_ib.isEnabled == false
-            info_speaker_ib.visibility = View.INVISIBLE
+        if (this.productToShow.contents.isNullOrEmpty() || this.productToShow.contents == "NULL") {
+            speaker!!.isEnabled = false
+            speaker!!.visibility = View.GONE
         } else {
-            info_speaker_ib.visibility = View.VISIBLE
+            speaker!!.visibility = View.VISIBLE
         }
 
-        info_speaker_ib.setOnClickListener {
-            if (spoke) {
-                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_on_black)
-                pause()
-                false
-            } else {
-                info_speaker_ib.setBackgroundResource(R.drawable.ic_speaker_off_black)
-                speakOut(this.productToShow.contents!!)
-                true
+        if (speaker!!.visibility != View.GONE) {
+            speaker!!.setOnClickListener {
+                if (spoke) {
+                    speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
+                    pause()
+                    spoke = false
+                } else {
+                    speaker!!.setBackgroundResource(R.drawable.ic_speaker_off_black)
+                    speakOut(this.productToShow.contents!!)
+                    spoke = true
+                }
             }
         }
 
@@ -251,72 +252,55 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
         // short version of the product
-        if (productToShow.contents == "") {
+        if (productToShow.shrinked == true) {
             info_product_layout.removeAllViews()
-
-//            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.MATCH_PARENT).apply {
-//                weight = 1.0f
-//                gravity = Gravity.CENTER
-//            }
-//
-//            info_product_layout.layoutParams = params
-//
-//            val image = ImageView(this)
-//
-//            val imageParams = LinearLayout.LayoutParams(250.pxFromDp, 250.pxFromDp)
-//            image.setBackgroundResource(R.drawable.empty_product_info)
-//            image.layoutParams = imageParams
-//
-//            info_product_layout.addView(image)
 
             // to do -- empty fragment here
 
-        } else {
-            if (productToShow.contents != "NULL") {
+        } else if (productToShow.shrinked == false) {
+            if (productToShow.contents == "NULL" || productToShow.contents == "") {
+                info_contents_container.visibility = View.GONE
+            } else {
                 info_product_contents.text = productToShow.contents
 //                var collapsed = CollapseUtils(this, hide, info_product_contents)
 //                collapsed.initDescription(productToShow.contents!!)
-            } else {
-                info_contents_container.visibility = View.GONE
             }
-            if (productToShow.manufacturer != "NULL") {
-                info_product_manufacturer.text = productToShow.manufacturer
-            } else {
+            if (productToShow.manufacturer == "NULL" || productToShow.manufacturer == "") {
                 info_manufacturer_container.visibility = View.GONE
-            }
-            if (productToShow.description != "NULL") {
-                info_product_description.text = productToShow.description
             } else {
+                info_product_manufacturer.text = productToShow.manufacturer
+            }
+            if (productToShow.description == "NULL" || productToShow.description == "") {
                 info_description_container.visibility = View.GONE
-            }
-            if (productToShow.categoryURL != "NULL") {
-                info_product_category_URL.text = productToShow.categoryURL
             } else {
+                info_product_description.text = productToShow.description
+            }
+            if (productToShow.categoryURL == "NULL" || productToShow.categoryURL == "") {
                 info_category_url_container.visibility = View.GONE
-            }
-            if (productToShow.mass != "NULL") {
-                info_product_mass.text = productToShow.mass
             } else {
+                info_product_category_URL.text = productToShow.categoryURL
+            }
+            if (productToShow.mass == "NULL" || productToShow.mass == "") {
                 info_mass_container.visibility = View.GONE
-            }
-            if (productToShow.bestBefore != "NULL") {
-                info_product_bestbefore.text = productToShow.bestBefore
             } else {
+                info_product_mass.text = productToShow.mass
+            }
+            if (productToShow.bestBefore == "NULL" || productToShow.bestBefore == "") {
                 info_best_before_container.visibility = View.GONE
-            }
-            if (productToShow.nutrition != "NULL") {
-                info_product_nutrition_facts.text = productToShow.nutrition
             } else {
+                info_product_bestbefore.text = productToShow.bestBefore
+            }
+            if (productToShow.nutrition == "NULL" || productToShow.nutrition == "") {
                 info_nutrition_facts_container.visibility = View.GONE
+            } else {
+                info_product_nutrition_facts.text = productToShow.nutrition
             }
-
-        if (!productToShow.ingredients.isNullOrEmpty()) {
-            for (i in productToShow.ingredients!!) {
-                if (i.name.isNotEmpty()) {
-                    preorder(i, true)
+            if (!productToShow.ingredients.isNullOrEmpty()) {
+                for (i in productToShow.ingredients!!) {
+                    if (i.name.isNotEmpty()) {
+                        preorder(i, true)
+                    }
                 }
-            }
 
                 if (this.chips != null) {
                     for (i in this.chips!!) {
@@ -324,41 +308,40 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     }
                 }
             } else {
-                info_ingredients_container.visibility = View.GONE
-                line_contents.visibility = View.GONE
-                info_feedback_container.visibility = View.GONE
+                    info_ingredients_container.visibility = View.GONE
+                    info_feedback_container.visibility = View.GONE
             }
 
-            if (info_feedback_container.visibility == View.VISIBLE) {
-                good.setOnClickListener {
-                    if (voted == false) {
-                        Toast.makeText(
-                            this, "Спасибо за отзыв!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        voted = true
-                    } else {
-                        Toast.makeText(
-                            this, "Вы уже проголосовали!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+                    if (info_feedback_container.visibility == View.VISIBLE) {
+                        good.setOnClickListener {
+                            if (voted == false) {
+                                Toast.makeText(
+                                    this, "Спасибо за отзыв!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                voted = true
+                            } else {
+                                Toast.makeText(
+                                    this, "Вы уже проголосовали!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
 
-                bad.setOnClickListener {
-                    if (voted == false) {
-                        Toast.makeText(
-                            this, "Спасибо за отзыв!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        voted = true
-                    } else {
-                        Toast.makeText(
-                            this, "Вы уже проголосовали!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+                        bad.setOnClickListener {
+                            if (voted == false) {
+                                Toast.makeText(
+                                    this, "Спасибо за отзыв!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                voted = true
+                            } else {
+                                Toast.makeText(
+                                    this, "Вы уже проголосовали!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
             }
         }
     }

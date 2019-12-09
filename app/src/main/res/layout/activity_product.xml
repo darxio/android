@@ -97,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="15dp">
+                        android:padding="@dimen/product_padding">
 
                         <RelativeLayout
                                 android:layout_width="wrap_content"
@@ -107,10 +107,11 @@
                             <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginRight="8dp"
-                                    android:text="@string/Constitution"
+                                    android:text="СОСТАВ"
+                                    android:textAllCaps="true"
                                     android:textColor="@color/product_property_title_color"
-                                    android:textSize="@dimen/product_property_title_size"/>
+                                    android:textSize="@dimen/product_property_title_size"
+                                    android:textStyle="bold" />
 
                             <ImageButton
                                     android:id="@+id/info_speaker_ib"
@@ -126,17 +127,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:singleSelection="true"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
                             app:chipSpacingHorizontal="4dp"
                             app:chipSpacingVertical="4dp"/>
 
-                        <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginBottom="4dp"
-                                android:background="@color/colorPrimary"/>
+<!--                        <View-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="1dp"-->
+<!--                                android:layout_marginTop="4dp"-->
+<!--                                android:layout_marginBottom="4dp"-->
+<!--                                android:background="@color/colorPrimary"/>-->
 
                     </LinearLayout>
 
@@ -147,29 +146,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="15dp">
+                        android:padding="@dimen/product_padding">
 
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="Описание:"
-                                android:textColor="@color/product_property_title_color"
-                                android:textSize="@dimen/product_property_title_size"/>
-
-                    <TextView
-                            android:id="@+id/info_product_description"
+                    <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="8dp"
-                            android:textColor="@color/product_property_content_color"
-                            android:textSize="@dimen/product_property_content_size"/>
+                            android:orientation="vertical">
 
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:background="@color/colorPrimary"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ОПИСАНИЕ"
+                                android:textColor="@color/product_property_title_color"
+                                android:textAllCaps="true"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/product_property_title_size"/>
+
+                        <TextView
+                                android:id="@+id/info_product_description"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/product_property_content_color"
+                                android:textSize="@dimen/product_property_content_size"/>
+
+<!--                    <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:layout_marginBottom="4dp"-->
+<!--                            android:background="@color/colorPrimary"/>-->
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -180,19 +187,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="15dp">
+                        android:padding="@dimen/product_padding">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="БЖУ:"
-                                android:layout_marginRight="8dp"
+                                android:text="ПИЩЕВАЯ ЦЕННОСТЬ"
                                 android:textColor="@color/product_property_title_color"
+                                android:textAllCaps="true"
+                                android:textStyle="bold"
                                 android:textSize="@dimen/product_property_title_size"/>
 
                         <TextView
@@ -204,12 +212,12 @@
 
                     </LinearLayout>
 
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:background="@color/colorPrimary"/>
+<!--                    <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:layout_marginBottom="4dp"-->
+<!--                            android:background="@color/colorPrimary"/>-->
 
                 </LinearLayout>
 
@@ -220,19 +228,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="15dp">
+                        android:padding="@dimen/product_padding">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Масса:"
-                                android:layout_marginRight="8dp"
+                                android:text="МАССА"
                                 android:textColor="@color/product_property_title_color"
+                                android:textAllCaps="true"
+                                android:textStyle="bold"
                                 android:textSize="@dimen/product_property_title_size"/>
 
                         <TextView
@@ -244,12 +253,12 @@
 
                     </LinearLayout>
 
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:background="@color/colorPrimary"/>
+<!--                    <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:layout_marginBottom="4dp"-->
+<!--                            android:background="@color/colorPrimary"/>-->
 
                 </LinearLayout>
 
@@ -260,19 +269,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="15dp">
+                        android:padding="@dimen/product_padding">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Срок хранения:"
-                                android:layout_marginRight="8dp"
+                                android:text="Срок хранения"
                                 android:textColor="@color/product_property_title_color"
+                                android:textAllCaps="true"
+                                android:textStyle="bold"
                                 android:textSize="@dimen/product_property_title_size"/>
 
                         <TextView
@@ -284,12 +294,12 @@
 
                     </LinearLayout>
 
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:background="@color/colorPrimary"/>
+<!--                    <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:layout_marginBottom="4dp"-->
+<!--                            android:background="@color/colorPrimary"/>-->
 
                 </LinearLayout>
 
@@ -299,26 +309,27 @@
                         android:id="@+id/info_manufacturer_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="@dimen/product_padding">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="15dp">
+                            android:orientation="vertical">
 
                         <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
+                                    android:orientation="vertical">
 
                                 <TextView
                                         android:id="@+id/info_product_manufacturer_label"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Производитель:"
-                                        android:layout_marginRight="8dp"
+                                        android:text="ПРОИЗВОДИТЕЛЬ"
                                         android:textColor="@color/product_property_title_color"
+                                        android:textAllCaps="true"
+                                        android:textStyle="bold"
                                         android:textSize="@dimen/product_property_title_size"/>
 
                                 <TextView
@@ -332,12 +343,12 @@
 
                     </LinearLayout>
 
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:background="@color/colorPrimary"/>
+<!--                    <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:layout_marginBottom="4dp"-->
+<!--                            android:background="@color/colorPrimary"/>-->
                 </LinearLayout>
 
                 <!--    Category URL -->
@@ -347,19 +358,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="15dp">
+                        android:padding="@dimen/product_padding">
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Категория:"
-                                android:layout_marginRight="8dp"
+                                android:text="КАТЕГОРИЯ"
                                 android:textColor="@color/product_property_title_color"
+                                android:textAllCaps="true"
+                                android:textStyle="bold"
                                 android:textSize="@dimen/product_property_title_size"/>
 
                         <TextView
@@ -371,12 +383,12 @@
 
                     </LinearLayout>
 
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:background="@color/colorPrimary"/>
+<!--                    <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:layout_marginBottom="4dp"-->
+<!--                            android:background="@color/colorPrimary"/>-->
 
                 </LinearLayout>
 
@@ -387,20 +399,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="15dp">
+                        android:padding="@dimen/product_padding">
 
-                    <TextView
-                            android:layout_width="wrap_content"
+                    <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Текст состава:"
-                            android:textColor="@color/product_property_title_color"
-                            android:textSize="@dimen/product_property_title_size"/>
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ТЕКСТ СОСТАВА"
+                                android:textColor="@color/product_property_title_color"
+                                android:textAllCaps="true"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/product_property_title_size"/>
 
                         <TextView
                                 android:id="@+id/info_product_contents"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingTop="8dp"
                                 android:textColor="@color/product_property_content_color"
                                 android:textSize="@dimen/product_property_content_size"/>
 <!--                                android:maxLines="3"-->
@@ -414,13 +432,7 @@
 <!--                                android:layout_marginRight="5dp"-->
 <!--                                android:alpha="0"/>-->
 
-                    <View
-                            android:id="@+id/line_contents"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="4dp"
-                            android:background="@color/colorPrimary"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -431,9 +443,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="15dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1">
+                        android:padding="@dimen/product_feedback_padding">
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -441,32 +451,35 @@
                             android:text="Вам понравилось разделение состава по ингредиентам?"
                             android:textAlignment="center"
                             android:textColor="@color/product_property_title_color"
+                            android:textStyle="bold"
                             android:textSize="@dimen/product_property_title_size"
                             android:layout_marginBottom="10dp"/>
 
                     <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:orientation="horizontal"
                             android:layout_gravity="center"
                             android:layout_weight="1">
 
                         <ImageButton
                                 android:id="@+id/bad"
-                                android:layout_width="60dp"
+                                android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:scaleType="fitCenter"
+                                android:layout_marginEnd="10dp"
                                 android:src="@drawable/ic_bad"
                                 android:background="@color/transparent"/>
+
 
                         <ImageButton
                                 android:id="@+id/good"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:scaleType="fitCenter"
+                                android:layout_marginStart="10dp"
                                 android:src="@drawable/ic_good"
-                                android:background="@color/transparent"
-                                android:layout_marginStart="10dp"/>
+                                android:background="@color/transparent"/>
 
                     </LinearLayout>
                 </LinearLayout>

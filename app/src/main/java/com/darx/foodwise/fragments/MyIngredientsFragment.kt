@@ -76,6 +76,7 @@ class MyIngredientsFragment(val ingredientViewModel: IngredientViewModel, val gr
     }
 
     fun searchMyIngredients(query: String) {
+        queryString = query
         val data = matchMyIngredients(query)
         myIngredientsAdapter?.addItems(data)
         if (data.isEmpty()) {

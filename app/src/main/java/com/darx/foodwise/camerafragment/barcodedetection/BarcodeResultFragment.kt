@@ -17,8 +17,6 @@
 package com.darx.foodwise.camerafragment.barcodedetection
 
 import android.content.DialogInterface
-import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -30,43 +28,89 @@ import android.widget.*
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.darx.foodwise.IngredientActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.darx.foodwise.R
 import com.darx.foodwise.camerafragment.camera.WorkflowModel
 import com.darx.foodwise.camerafragment.camera.WorkflowModel.WorkflowState
 import com.darx.foodwise.database.*
 import com.darx.foodwise.database.IngredientExtended
-import com.darx.foodwise.services.ApiService
-import com.darx.foodwise.services.ConnectivityInterceptorImpl
-import com.darx.foodwise.services.NetworkDataSourceImpl
-import com.google.android.gms.vision.text.Line
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_product.*
-import kotlinx.android.synthetic.main.barcode_bottom_sheet.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 
 /** Displays the bottom sheet to present barcode fields contained in the detected barcode.  */
 class BarcodeResultFragment : BottomSheetDialogFragment(), TextToSpeech.OnInitListener {
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-private lateinit var productToShow: ProductModel
+//    ******************************************
+
+    private lateinit var product_toolbar_ :  androidx.appcompat.widget.Toolbar
+    private lateinit var info_product_name_ :  TextView
+    private lateinit var info_product_image_ :  ImageView
+    private lateinit var info_product_layout_ :  LinearLayout
+    private lateinit var info_product_contents_ :  TextView
+    private lateinit var info_contents_container_ :  LinearLayout
+    private lateinit var info_product_manufacturer_ :  TextView
+    private lateinit var info_manufacturer_container_ :  LinearLayout
+    private lateinit var info_product_description_ :  TextView
+    private lateinit var info_description_container_ :  LinearLayout
+    private lateinit var info_product_mass_ :  TextView
+    private lateinit var info_mass_container_ :  LinearLayout
+    private lateinit var info_product_category_URL_ :  TextView
+    private lateinit var info_category_url_container_ :  LinearLayout
+    private lateinit var info_product_bestbefore_ :  TextView
+    private lateinit var info_best_before_container_ :  LinearLayout
+    private lateinit var info_product_nutrition_facts_ :  TextView
+    private lateinit var info_nutrition_facts_container_ :  LinearLayout
+    private lateinit var info_ingredient_chips_ :  ChipGroup
+    private lateinit var info_ingredients_container_ :  LinearLayout
+    private lateinit var info_feedback_container_ :  LinearLayout
+    private lateinit var good_ :  ImageButton
+    private lateinit var bad_ :  ImageButton
+    private lateinit var info_product_card_ : MaterialCardView
+
+    private lateinit var fruit_name_ : TextView
+    private lateinit var fruit_container_1_name_ : TextView
+    private lateinit var fruit_container_1_value_  : TextView
+    private lateinit var fruit_container_2_name_  : TextView
+    private lateinit var fruit_container_2_value_  : TextView
+    private lateinit var fruit_container_3_name_  : TextView
+    private lateinit var fruit_container_3_value_  : TextView
+    private lateinit var fruit_container_4_name_  : TextView
+    private lateinit var fruit_container_4_value_  : TextView
+    private lateinit var fruit_description_ : TextView
+    private lateinit var fruit_vitamin_1_name_ : TextView
+    private lateinit var fruit_vitamin_1_value_ : TextView
+    private lateinit var fruit_vitamin_2_name_ : TextView
+    private lateinit var fruit_vitamin_2_value_ : TextView
+    private lateinit var fruit_vitamin_3_name_ : TextView
+    private lateinit var fruit_vitamin_3_value_ : TextView
+    private lateinit var fruit_vitamin_4_name_ : TextView
+    private lateinit var fruit_vitamin_4_value_ : TextView
+    private lateinit var fruit_vitamin_5_name_ : TextView
+    private lateinit var fruit_vitamin_5_value_ : TextView
+    private lateinit var fruit_vitamin_6_name_ : TextView
+    private lateinit var fruit_vitamin_6_value_ : TextView
+    private lateinit var fruit_feedback_container_ : LinearLayout
+
+//    ******************************************
+
+
+    private lateinit var productToShow: ProductModel
     private lateinit var pVM: ProductViewModel
     private lateinit var iVM: IngredientViewModel
     private lateinit var gVM: GroupViewModel
-    private var networkDataSource: NetworkDataSourceImpl? = null
+
+    private var groupsDB: List<GroupModel> = listOf()
+    private var ingredientsDB: List<IngredientModel> = listOf()
+
     var chips: ArrayList<Chip>? = ArrayList()
     var voted: Boolean = false
 
     private var speaker: ImageButton? = null
     private var tts: TextToSpeech? = null
-
-    private var isAllowed: Boolean = true
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
@@ -100,83 +144,129 @@ private lateinit var productToShow: ProductModel
         super.onDestroy()
     }
 
-    fun checkStatus(ingredient: IngredientModel?, isGroupsMatched: Boolean): Boolean {
-        isAllowed = true
-        if (isGroupsMatched) {
-            isAllowed = (ingredient != null && ingredient.allowed!!)
-        } else {
-            if (ingredient != null) {
-                isAllowed = ingredient.allowed!!
+    private fun draw() {
+        this.chips?.clear()
+        if (productToShow.ingredients != null) {
+            for (ingredient in productToShow.ingredients!!) {
+                addItems(ingredient, false)
             }
         }
-        return isAllowed
+        if (info_ingredient_chips_ != null) {
+            info_ingredient_chips_.removeAllViews()
+        }
+        if (this.chips != null) {
+            for (i in this.chips!!) {
+                info_ingredient_chips_.addView(i)
+            }
+        }
+
+        if (productToShow.ok == 0) {
+            info_product_name_.setTextColor(context!!.getColor(R.color.black))
+            info_product_card_.setCardBackgroundColor(context!!.getColor(R.color.positiveColor))
+        } else {
+            info_product_name_.setTextColor(context!!.getColor(R.color.white))
+            info_product_card_.setCardBackgroundColor(context!!.getColor(R.color.negativeColor))
+        }
     }
 
-    private fun preorder(ingredient: IngredientExtended?, showDanger: Boolean) {
-        if (ingredient == null) {
-            return
+    private fun addItems(ingredient: IngredientExtended, showDanger: Boolean) {
+        if (ingredient.ingredients != null) {
+            for (ingr in ingredient.ingredients!!) {
+                addItems(ingr, showDanger)
+            }
         }
 
         val chip = Chip(context!!)
-        if (ingredient.name != "") {
-            chip.text = ingredient.name
-        }
-
-        var isGroupsMatched = false
-
-        if (ingredient.groups.isNullOrEmpty()) {
-            ingredient.groups = ArrayList()
-        }
-        gVM.checkAll_(ingredient.groups)?.observe(this, object : Observer<Boolean> {
-            override fun onChanged(t: Boolean?) {
-                isGroupsMatched = t ?: false
-                if (checkStatus(null, isGroupsMatched)) {
-                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
-                } else {
-                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-                }
-            }
-        })
-
-        iVM.getOne_(ingredient.id)?.observe(this, object : Observer<IngredientModel> {
-            override fun onChanged(t: IngredientModel?) {
-                if (checkStatus(t, isGroupsMatched)) {
-                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
-                    if (ingredient.danger!! > 1 && showDanger) {
-                        chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
-                    }
-                } else {
-                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-                }
-            }
-        })
-
-
         chip.isClickable = true
-        if (chip.text != "") {
-            this.chips?.add(chip)
+
+        if (ingredient.ok) {
+            chip.setTextAppearanceResource(R.style.ChipTextStyle_positive)
+            chip.setChipBackgroundColorResource(R.color.positiveColor)
+            chip.setChipIconResource(R.drawable.ic_checkmark_black)
+        } else {
+            chip.setTextAppearanceResource(R.style.ChipTextStyle_negative)
+            chip.setChipBackgroundColorResource(R.color.negativeColor)
+            chip.setChipIconResource(R.drawable.ic_stop_white)
         }
 
-        if (!ingredient.ingredients.isNullOrEmpty()) {
-            for (i in ingredient.ingredients!!) {
-                preorder(i, showDanger)
-            }
-        }
-
-        val apiService = ApiService(ConnectivityInterceptorImpl(context!!))
-        networkDataSource = NetworkDataSourceImpl(apiService, context!!)
-
-        networkDataSource?.ingredient?.observe(this, Observer {
-            val intent = Intent(context!!, IngredientActivity::class.java)
-            intent.putExtra("INGREDIENT", it)
-            startActivity(intent)
-        })
 
         chip.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                networkDataSource!!.getIngredientByID(ingredient.id)
+            var ingr = IngredientModel(ingredient)
+            if (!ingredient.ok) {
+                if (ingredient.groupMached) {
+                    ingr.allowed = true
+                    iVM.add_(ingr)
+                } else {
+                    iVM.deleteOne_(ingr)
+                }
+            } else {
+                if (ingredient.groupMached) {
+                    iVM.deleteOne_(ingr)
+                } else {
+                    ingr.allowed = false
+                    iVM.add_(ingr)
+                }
             }
         }
+
+        if (ingredient.name != "") {
+            chip.text = ingredient.name
+            this.chips?.add(chip)
+        }
+    }
+
+    private fun filter() {
+        productToShow.ok = 0
+        if (productToShow.ingredients != null) {
+            for (ingr in productToShow.ingredients!!) {
+                cleanInfo(ingr)
+            }
+        }
+
+        if (productToShow.ingredients != null) {
+            for (ingredient in productToShow.ingredients!!) {
+                productToShow.ok += preorder(ingredient)
+            }
+        }
+    }
+
+    private fun preorder(ingredient: IngredientExtended): Int {
+        var count: Int = 0
+        if (ingredient.ingredients != null) {
+            for (ingr in ingredient.ingredients!!) {
+                count += preorder(ingr)
+            }
+        }
+
+
+        if (ingredient.groups != null) {
+            for (g in ingredient.groups) {
+                for (group in groupsDB) {
+                    if (group.id == g) {
+                        ingredient.groupMached = true
+                        ingredient.ok = false
+                    }
+                }
+            }
+        }
+        for (ingredientDB in ingredientsDB) {
+            if (ingredientDB.id == ingredient.id) {
+                ingredient.allowed = ingredientDB.allowed!!
+                ingredient.ok = ingredient.allowed
+            }
+        }
+        return count + if (!ingredient.ok) 1 else 0
+    }
+
+    private fun cleanInfo(ingredient: IngredientExtended) {
+        if (ingredient.ingredients != null) {
+            for (ingr in ingredient.ingredients!!) {
+                cleanInfo(ingr)
+            }
+        }
+        ingredient.ok = true
+        ingredient.allowed = true
+        ingredient.groupMached = false
     }
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -189,6 +279,64 @@ private lateinit var productToShow: ProductModel
         bundle: Bundle?
     ): View {
         val root: View = layoutInflater.inflate(R.layout.barcode_bottom_sheet, viewGroup, false)
+
+//        ALLOCATION OF VIEW ELEMENTS - START
+
+        product_toolbar_ = root.findViewById<androidx.appcompat.widget.Toolbar>(R.id.product_toolbar)
+        product_toolbar_.visibility = View.GONE
+        info_product_name_ = root.findViewById<TextView>(R.id.info_product_name)
+        info_product_image_ = root.findViewById<ImageView>(R.id.info_product_image)
+        info_product_layout_ = root.findViewById<LinearLayout>(R.id.info_product_layout)
+        info_product_contents_ = root.findViewById<TextView>(R.id.info_product_contents)
+        info_contents_container_ = root.findViewById<LinearLayout>(R.id.info_contents_container)
+        info_product_manufacturer_ = root.findViewById<TextView>(R.id.info_product_manufacturer)
+        info_manufacturer_container_ = root.findViewById<LinearLayout>(R.id.info_manufacturer_container)
+        info_product_description_ = root.findViewById<TextView>(R.id.info_product_description)
+        info_description_container_ = root.findViewById<LinearLayout>(R.id.info_description_container)
+        info_product_mass_ = root.findViewById<TextView>(R.id.info_product_mass)
+        info_mass_container_ = root.findViewById<LinearLayout>(R.id.info_mass_container)
+        info_product_category_URL_ = root.findViewById<TextView>(R.id.info_product_category_URL)
+        info_category_url_container_ = root.findViewById<LinearLayout>(R.id.info_category_url_container)
+        info_product_bestbefore_ = root.findViewById<TextView>(R.id.info_product_bestbefore)
+        info_best_before_container_ = root.findViewById<LinearLayout>(R.id.info_best_before_container)
+        info_product_nutrition_facts_ = root.findViewById<TextView>(R.id.info_product_nutrition_facts)
+        info_nutrition_facts_container_ = root.findViewById<LinearLayout>(R.id.info_nutrition_facts_container)
+        info_ingredient_chips_ = root.findViewById<ChipGroup>(R.id.info_ingredient_chips)
+        info_ingredients_container_ = root.findViewById<LinearLayout>(R.id.info_ingredients_container)
+        info_feedback_container_ = root.findViewById<LinearLayout>(R.id.info_feedback_container)
+        good_ = root.findViewById<ImageButton>(R.id.good)
+        bad_ = root.findViewById<ImageButton>(R.id.bad)
+        speaker = root.findViewById(R.id.info_speaker_ib)
+
+
+        info_product_card_ = root.findViewById(R.id.info_product_card)
+
+
+        fruit_name_ = root.findViewById(R.id.fruit_name)
+        fruit_container_1_name_ = root.findViewById(R.id.fruit_container_1_name)
+        fruit_container_1_value_ = root.findViewById(R.id.fruit_container_1_value)
+        fruit_container_2_name_ = root.findViewById(R.id.fruit_container_2_name)
+        fruit_container_2_value_ = root.findViewById(R.id.fruit_container_2_value)
+        fruit_container_3_name_ = root.findViewById(R.id.fruit_container_3_name)
+        fruit_container_3_value_= root.findViewById(R.id.fruit_container_3_value)
+        fruit_container_4_name_= root.findViewById(R.id.fruit_container_4_name)
+        fruit_container_4_value_= root.findViewById(R.id.fruit_container_4_value)
+        fruit_description_= root.findViewById(R.id.fruit_description)
+        fruit_vitamin_1_name_= root.findViewById(R.id.fruit_vitamin_1_name)
+        fruit_vitamin_1_value_= root.findViewById(R.id.fruit_vitamin_1_value)
+        fruit_vitamin_2_name_= root.findViewById(R.id.fruit_vitamin_2_name)
+        fruit_vitamin_2_value_= root.findViewById(R.id.fruit_vitamin_2_value)
+        fruit_vitamin_3_name_= root.findViewById(R.id.fruit_vitamin_3_name)
+        fruit_vitamin_3_value_= root.findViewById(R.id.fruit_vitamin_3_value)
+        fruit_vitamin_4_name_= root.findViewById(R.id.fruit_vitamin_4_name)
+        fruit_vitamin_4_value_= root.findViewById(R.id.fruit_vitamin_4_value)
+        fruit_vitamin_5_name_= root.findViewById(R.id.fruit_vitamin_5_name)
+        fruit_vitamin_5_value_= root.findViewById(R.id.fruit_vitamin_5_value)
+        fruit_vitamin_6_name_= root.findViewById(R.id.fruit_vitamin_6_name)
+        fruit_vitamin_6_value_= root.findViewById(R.id.fruit_vitamin_6_value)
+        fruit_feedback_container_= root.findViewById(R.id.fruit_feedback_container)
+
+//        ALLOCATION OF VIEW ELEMENTS - END
 
         val arguments = arguments
         var barcodeField: BarcodeField =
@@ -207,80 +355,13 @@ private lateinit var productToShow: ProductModel
         }
 
 //        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        val favourite_bottom_sheet_container_ = root.findViewById<LinearLayout>(R.id.favourite_bottom_sheet_container)
-        favourite_bottom_sheet_container_.visibility = View.VISIBLE
-        val bottom_sheet_starred_ib_ = root.findViewById<ImageButton>(R.id.bottom_sheet_starred_ib)
-        val bottom_sheet_share_ib_ = root.findViewById<ImageButton>(R.id.bottom_sheet_share_ib)
 
-        // todo: favourites in barcode
-//        pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
-//        pVM.getOne_(productToShow.barcode)?.observe(this,
-//            Observer<ProductModel> { t ->
-//                productToShow.starred = t?.starred ?: productToShow.starred
-//                if (t != null) {
-//                    if (t.starred) {
-//                        bottom_sheet_starred_ib_.setBackgroundResource(R.drawable.ic_star_yellow)
-//                    } else {
-//                        bottom_sheet_starred_ib_.setBackgroundResource(R.drawable.ic_star_black)
-//                    }
-//                } else {
-//                    bottom_sheet_starred_ib_.setBackgroundResource(R.drawable.ic_star_black)
-//                }
-//            })
-//
-        bottom_sheet_starred_ib_.setOnClickListener {
-            productToShow.starred = !productToShow.starred
-            if (productToShow.starred) {
-                pVM.upsert_(productToShow)
-            } else {
-                if (productToShow.scanned) {
-                    pVM.upsert_(productToShow)
-                } else {
-                    pVM.deleteOne_(productToShow)
-                }
-            }
-        }
 
-        bottom_sheet_share_ib_.setOnClickListener {
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent.type = "text/plain"
-            val shareBody = productToShow.name;
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
-            context!!.startActivity(
-                Intent.createChooser(
-                    sharingIntent,
-                    "Поделиться"
-                )
-            )
-        }
-
-        val product_toolbar_ = root.findViewById<androidx.appcompat.widget.Toolbar>(R.id.product_toolbar)
-        product_toolbar_.visibility = View.GONE
-        val info_product_name_ = root.findViewById<TextView>(R.id.info_product_name)
-        val info_product_image_ = root.findViewById<ImageView>(R.id.info_product_image)
-        val info_product_layout_ = root.findViewById<LinearLayout>(R.id.info_product_layout)
-        val info_product_contents_ = root.findViewById<TextView>(R.id.info_product_contents)
-        val info_contents_container_ = root.findViewById<LinearLayout>(R.id.info_contents_container)
-        val info_product_manufacturer_ = root.findViewById<TextView>(R.id.info_product_manufacturer)
-        val info_manufacturer_container_ = root.findViewById<LinearLayout>(R.id.info_manufacturer_container)
-        val info_product_description_ = root.findViewById<TextView>(R.id.info_product_description)
-        val info_description_container_ = root.findViewById<LinearLayout>(R.id.info_description_container)
-        val info_product_mass_ = root.findViewById<TextView>(R.id.info_product_mass)
-        val info_mass_container_ = root.findViewById<LinearLayout>(R.id.info_mass_container)
-        val info_product_category_URL_ = root.findViewById<TextView>(R.id.info_product_category_URL)
-        val info_category_url_container_ = root.findViewById<LinearLayout>(R.id.info_category_url_container)
-        val info_product_bestbefore_ = root.findViewById<TextView>(R.id.info_product_bestbefore)
-        val info_best_before_container_ = root.findViewById<LinearLayout>(R.id.info_best_before_container)
-        val info_product_nutrition_facts_ = root.findViewById<TextView>(R.id.info_product_nutrition_facts)
-        val info_nutrition_facts_container_ = root.findViewById<LinearLayout>(R.id.info_nutrition_facts_container)
-        val info_ingredient_chips_ = root.findViewById<ChipGroup>(R.id.info_ingredient_chips)
-        val info_ingredients_container_ = root.findViewById<LinearLayout>(R.id.info_ingredients_container)
-        val info_feedback_container_ = root.findViewById<LinearLayout>(R.id.info_feedback_container)
-        val good_ = root.findViewById<ImageButton>(R.id.good)
-        val bad_ = root.findViewById<ImageButton>(R.id.bad)
+        this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
         var spoke = false
-        speaker = root.findViewById(R.id.info_speaker_ib)
         speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
 
         tts = TextToSpeech(context!!, this)
@@ -289,142 +370,188 @@ private lateinit var productToShow: ProductModel
             override fun onDone(utteranceId: String?) {
                 speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
             }
-
             override fun onError(utteranceId: String?) {}
             override fun onStart(utteranceId: String?) {}
         }
         )
 
-        if (this.productToShow.contents.isNullOrEmpty() || this.productToShow.contents == "NULL") {
-            speaker!!.isEnabled = false
-            speaker!!.visibility = View.GONE
-        } else {
-            speaker!!.visibility = View.VISIBLE
-        }
-
-        if (speaker!!.visibility != View.GONE) {
-            speaker!!.setOnClickListener {
-                if (spoke) {
-                    speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
-                    pause()
-                    spoke = false
-                } else {
-                    speaker!!.setBackgroundResource(R.drawable.ic_speaker_off_black)
-                    speakOut(this.productToShow.contents!!)
-                    spoke = true
-                }
-            }
-        }
-
-        this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
-        this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
-        this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
-
-//        Setting correct views for 2 types of products
-        info_product_name_.text = productToShow.name
-
-        if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
-            Picasso.get().load(productToShow.image).error(R.drawable.ic_cereals__black).into(info_product_image_);
-        } else {
-            info_product_image_.setImageResource(R.drawable.ic_cereals__black)
-        }
-
-        // short version of the product
-        if (productToShow.shrinked == true) {
+        if (this.productToShow.categoryURL == "Fruit") {
             info_product_layout_.removeAllViews()
 
-            // to do -- empty fragment here
+            val fruitView = root.findViewById<LinearLayout>(R.id.fruit_stub)
+            fruitView.visibility = View.VISIBLE
 
-        } else if (productToShow.shrinked == false) {
-            if (productToShow.contents == "NULL" || productToShow.contents == "") {
-                info_contents_container_.visibility = View.GONE
+            fruit_name_.text = this.productToShow.name
+            info_product_name_.text = productToShow.name
+            if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
+                Picasso.get().load(productToShow.image).error(R.drawable.ic_cereals__black)
+                    .into(info_product_image_);
             } else {
-                info_product_contents_.text = productToShow.contents
+                info_product_image_.setImageResource(R.drawable.ic_cereals__black)
+            }
+
+            val nutritionFacts = Gson().fromJson(this.productToShow.nutrition, Array<Array<String>>::class.java)
+            fruit_container_1_name_.text = nutritionFacts[0][0]
+            fruit_container_1_value_.text = nutritionFacts[1][0]
+            fruit_container_2_name_.text = nutritionFacts[0][1]
+            fruit_container_2_value_.text = nutritionFacts[1][1]
+            fruit_container_3_name_.text = nutritionFacts[0][2]
+            fruit_container_3_value_.text = nutritionFacts[1][2]
+            fruit_container_4_name_.text = nutritionFacts[0][3]
+            fruit_container_4_value_.text = nutritionFacts[1][3]
+
+            fruit_description_.text = this.productToShow.description
+
+            val vitamins = Gson().fromJson(this.productToShow.contents, Array<Array<String>>::class.java)
+
+            fruit_vitamin_1_name_.text = vitamins[0][0]
+            fruit_vitamin_1_value_.text = vitamins[1][0]
+            fruit_vitamin_2_name_.text = vitamins[0][1]
+            fruit_vitamin_2_value_.text = vitamins[1][1]
+            fruit_vitamin_3_name_.text = vitamins[0][2]
+            fruit_vitamin_3_value_.text = vitamins[1][2]
+            fruit_vitamin_4_name_.text = vitamins[0][3]
+            fruit_vitamin_4_value_.text = vitamins[1][3]
+            fruit_vitamin_5_name_.text = vitamins[0][4]
+            fruit_vitamin_5_value_.text = vitamins[1][4]
+            fruit_vitamin_6_name_.text = vitamins[0][5]
+            fruit_vitamin_6_value_.text = vitamins[1][5]
+
+            fruit_feedback_container_.visibility = View.GONE
+        } else {
+            gVM.getAll_().observe(this, Observer {
+                groupsDB = it
+                if (productToShow != null) {
+                    filter()
+                    draw()
+                }
+            })
+            iVM.getAll_().observe(this, Observer<List<IngredientModel>> {
+                ingredientsDB = it
+                if (productToShow != null) {
+                    filter()
+                    draw()
+                }
+            })
+
+            if (this.productToShow.contents.isNullOrEmpty() || this.productToShow.contents == "NULL") {
+                speaker!!.isEnabled = false
+                speaker!!.visibility = View.GONE
+            } else {
+                speaker!!.visibility = View.VISIBLE
+            }
+
+            if (speaker!!.visibility != View.GONE) {
+                speaker!!.setOnClickListener {
+                    if (spoke) {
+                        speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
+                        pause()
+                        spoke = false
+                    } else {
+                        speaker!!.setBackgroundResource(R.drawable.ic_speaker_off_black)
+                        speakOut(this.productToShow.contents!!)
+                        spoke = true
+                    }
+                }
+            }
+
+//        Setting correct views for 2 types of products
+            info_product_name_.text = productToShow.name
+
+            if (!productToShow.image.isNullOrEmpty() || productToShow.image == "NULL") {
+                Picasso.get().load(productToShow.image).error(R.drawable.ic_cereals__black)
+                    .into(info_product_image_);
+            } else {
+                info_product_image_.setImageResource(R.drawable.ic_cereals__black)
+            }
+
+            // short version of the product
+            if (productToShow.shrinked == true) {
+                info_product_layout_.removeAllViews()
+                info_product_layout_.visibility = View.GONE
+            } else if (productToShow.shrinked == false) {
+                if (productToShow.contents == "NULL" || productToShow.contents == "") {
+                    info_contents_container_.visibility = View.GONE
+                } else {
+                    info_product_contents_.text = productToShow.contents
 //                var collapsed = CollapseUtils(this, hide, info_product_contents)
 //                collapsed.initDescription(productToShow.contents!!)
-            }
-            if (productToShow.manufacturer == "NULL" || productToShow.manufacturer == "") {
-                info_manufacturer_container_.visibility = View.GONE
-            } else {
-                info_product_manufacturer_.text = productToShow.manufacturer
-            }
-            if (productToShow.description == "NULL" || productToShow.description == "") {
-                info_description_container_.visibility = View.GONE
-            } else {
-                info_product_description_.text = productToShow.description
-            }
-            if (productToShow.categoryURL == "NULL" || productToShow.categoryURL == "") {
-                info_category_url_container_.visibility = View.GONE
-            } else {
-                info_product_category_URL_.text = productToShow.categoryURL
-            }
-            if (productToShow.mass == "NULL" || productToShow.mass == "") {
-                info_mass_container_.visibility = View.GONE
-            } else {
-                info_product_mass_.text = productToShow.mass
-            }
-            if (productToShow.bestBefore == "NULL" || productToShow.bestBefore == "") {
-                info_best_before_container_.visibility = View.GONE
-            } else {
-                info_product_bestbefore_.text = productToShow.bestBefore
-            }
-            if (productToShow.nutrition == "NULL" || productToShow.nutrition == "") {
-                info_nutrition_facts_container_.visibility = View.GONE
-            } else {
-                info_product_nutrition_facts_.text = productToShow.nutrition
-            }
-
-            if (!productToShow.ingredients.isNullOrEmpty()) {
-                for (i in productToShow.ingredients!!) {
-                    if (i.name.isNotEmpty()) {
-                        preorder(i, true)
+                }
+                if (productToShow.manufacturer == "NULL" || productToShow.manufacturer == "") {
+                    info_manufacturer_container_.visibility = View.GONE
+                } else {
+                    info_product_manufacturer_.text = productToShow.manufacturer
+                }
+                if (productToShow.description == "NULL" || productToShow.description == "") {
+                    info_description_container_.visibility = View.GONE
+                } else {
+                    info_product_description_.text = productToShow.description
+                }
+                if (productToShow.categoryURL == "NULL" || productToShow.categoryURL == "") {
+                    info_category_url_container_.visibility = View.GONE
+                } else {
+                    info_product_category_URL_.text = productToShow.categoryURL
+                }
+                if (productToShow.mass == "NULL" || productToShow.mass == "") {
+                    info_mass_container_.visibility = View.GONE
+                } else {
+                    info_product_mass_.text = productToShow.mass
+                }
+                if (productToShow.bestBefore == "NULL" || productToShow.bestBefore == "") {
+                    info_best_before_container_.visibility = View.GONE
+                } else {
+                    info_product_bestbefore_.text = productToShow.bestBefore
+                }
+                if (productToShow.nutrition == "NULL" || productToShow.nutrition == "") {
+                    info_nutrition_facts_container_.visibility = View.GONE
+                } else {
+                    info_product_nutrition_facts_.text = productToShow.nutrition
+                }
+                if (!productToShow.ingredients.isNullOrEmpty()) {
+                    if (productToShow != null) {
+                        filter()
+                        draw()
                     }
+                } else {
+                    info_ingredients_container_.visibility = View.GONE
+                    info_feedback_container_.visibility = View.GONE
                 }
 
-                if (this.chips != null) {
-                    for (i in this.chips!!) {
-                        info_ingredient_chips_.addView(i)
+                if (info_feedback_container_.visibility == View.VISIBLE) {
+                    good_.setOnClickListener {
+                        if (voted == false) {
+                            Toast.makeText(
+                                context!!, "Спасибо за отзыв!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            voted = true
+                        } else {
+                            Toast.makeText(
+                                context!!, "Вы уже проголосовали!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                }
-            } else {
-                info_ingredients_container_.visibility = View.GONE
-                info_feedback_container_.visibility = View.GONE
-            }
 
-            if (info_feedback_container_.visibility == View.VISIBLE) {
-                good_.setOnClickListener {
-                    if (voted == false) {
-                        Toast.makeText(
-                            context!!, "Спасибо за отзыв!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        voted = true
-                    } else {
-                        Toast.makeText(
-                            context!!, "Вы уже проголосовали!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-                bad_.setOnClickListener {
-                    if (voted == false) {
-                        Toast.makeText(
-                            context!!, "Спасибо за отзыв!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        voted = true
-                    } else {
-                        Toast.makeText(
-                            context!!, "Вы уже проголосовали!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    bad_.setOnClickListener {
+                        if (voted == false) {
+                            Toast.makeText(
+                                context!!, "Спасибо за отзыв!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            voted = true
+                        } else {
+                            Toast.makeText(
+                                context!!, "Вы уже проголосовали!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }
         }
 
-//        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         return root
     }

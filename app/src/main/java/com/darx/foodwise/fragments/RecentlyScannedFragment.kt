@@ -47,6 +47,7 @@ class RecentlyScannedFragment : Fragment() {
     private var ingredientsDB: List<IngredientModel> = listOf()
 
     private var scanedProducts: List<ProductModel> = listOf()
+    private var staredProducts: List<ProductModel> = listOf()
     private var products: List<ProductModel> = listOf()
 
     override fun onCreateView(
@@ -98,6 +99,15 @@ class RecentlyScannedFragment : Fragment() {
                     view.rs_fragments_frame.visibility = View.GONE
                 }
                 scannedProductsAdapter?.addItems(matchMyProducts(rs_search_view?.query.toString()))
+            })
+
+        productViewModel?.getFavourites_()?.observe(this@RecentlyScannedFragment,
+            Observer<List<ProductModel>> { l ->
+                staredProducts = l
+                filter()
+                if (view.rs_search_view.query.isNotEmpty()) {
+                    searchedProductsAdapter?.addItems(products)
+                }
             })
 
 
@@ -228,6 +238,11 @@ class RecentlyScannedFragment : Fragment() {
             if (product.ingredients != null) {
                 for (ingredient in product.ingredients!!) {
                     product.ok += preorder(ingredient)
+                }
+            }
+            for (pr in staredProducts) {
+                if (product.barcode == pr.barcode) {
+                    product.starred = pr.starred
                 }
             }
         }

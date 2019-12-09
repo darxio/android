@@ -52,8 +52,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val loader = Intent(this@MainActivity, LoaderActivity::class.java)
-        startActivity(loader)
+        val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val firstLaunch = prefs.getBoolean("firstLaunch", true)
+        if  (!firstLaunch) {
+            val loader = Intent(this@MainActivity, LoaderActivity::class.java)
+            startActivity(loader)
+        }
         Fresco.initialize(this)
 
         setContentView(R.layout.activity_main)
@@ -99,8 +103,8 @@ class MainActivity : AppCompatActivity() {
         }
         bottomNavigationView?.selectedItemId = R.id.action_camera
 
-        val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        val firstLaunch = prefs.getBoolean("firstLaunch", true)
+//        val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+//        val firstLaunch = prefs.getBoolean("firstLaunch", true)
 
         if (firstLaunch) {
             val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)

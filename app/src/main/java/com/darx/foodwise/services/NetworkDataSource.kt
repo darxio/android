@@ -45,10 +45,6 @@ interface NetworkDataSource {
     class DefaultCallback(var ctx: Context): Callback {
         override fun onNoConnectivityException() {
             Log.e("Connectivity", "No internet connection.")
-            Toast.makeText(
-                this.ctx, "Нет интернета!",
-                Toast.LENGTH_SHORT
-            ).show()
         }
         override fun onHttpException() {
             Log.e("HTTP", "Wrong answer.")

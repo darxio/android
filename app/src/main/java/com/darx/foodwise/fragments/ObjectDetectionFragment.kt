@@ -461,42 +461,55 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                             networkDataSource?.searchFruit(
                             part, object : NetworkDataSource.Callback {
                                 override fun onTimeoutException() {
+                                    searchingFruit = false
                                     Log.e("HTTP", "Wrong answer.")
-                                    Toast.makeText(
-                                        context!!, "Проблемы с интернетом!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                    activity!!.runOnUiThread {
+                                        Toast.makeText(
+                                            context!!, "Проблемы с интернетом!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                    }
                                 }
 
                                 override fun onException() {
+                                    searchingFruit = false
                                     Log.e("HTTP", "EXCEPTION CAUGHT.")
-                                    Toast.makeText(
-                                        context!!, "Неизвестная ошибка",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                    activity!!.runOnUiThread {
+                                        Toast.makeText(
+                                            context!!, "Неизвестная ошибка",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                    }
                                 }
 
                                 override fun onNoConnectivityException() {
+                                    searchingFruit = false
                                     Log.e("HTTP", "Wrong answer.")
-                                    Toast.makeText(
-                                        context!!, "Проблемы с интернетом!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    activity!!.runOnUiThread {
+                                        Toast.makeText(
+                                            context!!, "Проблемы с интернетом!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                    }
+
                                     NetworkDataSource.DefaultCallback(context!!)
                                         .onNoConnectivityException()
-                                    workflowModel?.setWorkflowState(WorkflowState.DETECTING)
                                 }
 
                                 override fun onHttpException() {
+                                    searchingFruit = false
                                     Log.e("HTTP", "Wrong answer.")
-                                    Toast.makeText(
-                                        context!!, "Объект не найден!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    activity!!.runOnUiThread {
+                                        Toast.makeText(
+                                            context!!, "Объект не найден!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
 
-                                    workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                        workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                                    }
                                 }
                             })} else {
                             withContext(Dispatchers.Main.immediate) {

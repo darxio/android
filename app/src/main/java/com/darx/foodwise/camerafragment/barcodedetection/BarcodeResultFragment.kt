@@ -228,18 +228,18 @@ private lateinit var productToShow: ProductModel
 //                }
 //            })
 //
-//        bottom_sheet_starred_ib_.setOnClickListener {
-//            productToShow.starred = !productToShow.starred
-//            if (productToShow.starred) {
-//                pVM.upsert_(productToShow)
-//            } else {
-//                if (productToShow.scanned) {
-//                    pVM.upsert_(productToShow)
-//                } else {
-//                    pVM.deleteOne_(productToShow)
-//                }
-//            }
-//        }
+        bottom_sheet_starred_ib_.setOnClickListener {
+            productToShow.starred = !productToShow.starred
+            if (productToShow.starred) {
+                pVM.upsert_(productToShow)
+            } else {
+                if (productToShow.scanned) {
+                    pVM.upsert_(productToShow)
+                } else {
+                    pVM.deleteOne_(productToShow)
+                }
+            }
+        }
 
         bottom_sheet_share_ib_.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)

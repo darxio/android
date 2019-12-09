@@ -1,6 +1,7 @@
 package com.darx.foodwise
 
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
@@ -25,9 +26,9 @@ class WelcomeWizardActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("firstLaunch", false).apply()
 
-        pagerAdapter.addFragment(WizardFragment("", "Группы, к которым вы относитесь:"), "Wizard1")
-        pagerAdapter.addFragment(WizardFragment("", "Ингредиенты, которые вы не едите:"), "Wizard2")
-        pagerAdapter.addFragment(WizardFragment("", "Отсканируйте продукт, чтобы понять подходит он вам или нет"), "Wizard3")
+        pagerAdapter.addFragment(WizardFragment("Нажимайте на ингредиенты, чтобы исключать их из рациона",R.drawable.first,"Обращайте внимание на уровни опасности ингредиентов и читайте информацию о них",R.drawable.ic_warning_first), "Wizard1")
+        pagerAdapter.addFragment(WizardFragment("Вступайте в группы, чтобы сразу исключать целый набор ингредиентов", R.drawable.third,"Изучайте списки ингредиентов каждой из 6 групп",R.drawable.fourth), "Wizard2")
+        pagerAdapter.addFragment(WizardFragment("Сканируйте штрих-коды продуктов, чтобы понять, подходят они вам или нет", R.drawable.fifth,"Переходите в режим распознавания фруктов и овощей, чтобы узнать о их пищевой ценности", R.drawable.sixth), "Wizard3")
 
         wizardPager.adapter = pagerAdapter
 
@@ -42,8 +43,6 @@ class WelcomeWizardActivity : AppCompatActivity() {
             wizardPager.setCurrentItem(currentPage - 1)
         }
 
-//        addDotsIndicator(pagerAdapter.itemCount, currentPage)
-
         wizardPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -54,22 +53,22 @@ class WelcomeWizardActivity : AppCompatActivity() {
                     buttonPrev.isEnabled = false
                     buttonPrev.visibility = View.INVISIBLE
 
-                    buttonNext.text = "Next"
+                    buttonNext.text = "ВПЕРЁД"
                     buttonPrev.text = ""
                 } else if (position == dots?.size!! - 1) {
                     buttonNext.isEnabled = true
                     buttonPrev.isEnabled = true
                     buttonPrev.visibility = View.VISIBLE
 
-                    buttonNext.text = "Finish"
-                    buttonPrev.text = "Back"
+                    buttonNext.text = "ЗАКОНЧИТЬ"
+                    buttonPrev.text = "НАЗАД"
                 } else {
                     buttonNext.isEnabled = true
                     buttonPrev.isEnabled = true
                     buttonPrev.visibility = View.VISIBLE
 
-                    buttonNext.text = "Next"
-                    buttonPrev.text = "Back"
+                    buttonNext.text = "ВПЕРЁД"
+                    buttonPrev.text = "НАЗАД"
                 }
 
                 addDotsIndicator(pagerAdapter.itemCount, position)
@@ -78,7 +77,7 @@ class WelcomeWizardActivity : AppCompatActivity() {
     }
 
     private fun addDotsIndicator(count: Int, current: Int) {
-        dots = arrayOfNulls<TextView>(count)
+        dots = arrayOfNulls(count)
         wizardLayout.removeAllViews()
 
         for (i in 0 until dots?.size!!) {
@@ -86,9 +85,9 @@ class WelcomeWizardActivity : AppCompatActivity() {
             dots!![i]?.text = Html.fromHtml("&#8226")
             dots!![i]?.textSize = 35F
             if (i == current) {
-                dots!![i]?.setTextColor(0xff00ff00.toInt())
+                dots!![i]?.setTextColor(Color.WHITE)
             } else {
-                dots!![i]?.setTextColor(0xff0000ff.toInt())
+                dots!![i]?.setTextColor(Color.GRAY)
             }
             wizardLayout.addView(dots!![i])
         }

@@ -159,12 +159,17 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
 
                 fruit_name.text = it.name
 
-
                 val nutritionFacts = Gson().fromJson(it.nutrition, Array<Array<String>>::class.java)
-//                fruit_calories.text = nutritionFacts[1][3]
-//                fruit_protein.text = nutritionFacts[1][0]
-//                fruit_fats.text = nutritionFacts[1][1]
-//                fruit_carbs.text = nutritionFacts[1][2]
+                fruit_container_1_name.text = nutritionFacts[0][0]
+                fruit_container_1_value.text = nutritionFacts[1][0]
+                fruit_container_2_name.text = nutritionFacts[0][1]
+                fruit_container_2_value.text = nutritionFacts[1][1]
+                fruit_container_3_name.text = nutritionFacts[0][2]
+                fruit_container_3_value.text = nutritionFacts[1][2]
+                fruit_container_4_name.text = nutritionFacts[0][3]
+                fruit_container_4_value.text = nutritionFacts[1][3]
+
+                fruit_description.text = it.description
 
                 fruit_good.setOnClickListener {
                     if (voted == false) {

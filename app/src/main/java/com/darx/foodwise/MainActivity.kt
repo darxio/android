@@ -102,10 +102,11 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val firstLaunch = prefs.getBoolean("firstLaunch", true)
 
-        if (firstLaunch) {
+//        if (firstLaunch) {
+        if (true) {
             val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(intent)
+            startActivity(intent)
         }
 
     }

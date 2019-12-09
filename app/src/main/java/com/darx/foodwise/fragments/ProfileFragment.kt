@@ -145,12 +145,14 @@ class ProfileFragment : Fragment() {
         productViewModel!!.getFavourites_().observe(this, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
                 if (l?.size == 0) {
+                    fav_label.text = "Избранного пока нет"
                     more_favourites.visibility = GONE
                     favorites_recycler_frame.visibility = VISIBLE
                     add_favs.setOnClickListener {
                         (activity as MainActivity).chooseFragment(2)
                     }
                 } else {
+                    fav_label.text = "Избранное"
                     more_favourites.visibility = VISIBLE
                     favorites_recycler_frame.visibility = GONE
                 }

@@ -65,6 +65,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_live_object_kotlin.*
 import kotlinx.android.synthetic.main.product_bottom_sheet.*
 import kotlinx.android.synthetic.main.top_action_bar_in_live_camera.*
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -104,6 +105,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     private var bottomSheetScrimView: BottomSheetScrimView? = null
     private var objectThumbnailForBottomSheet: Bitmap? = null
     private var slidingSheetUpFromHiddenState: Boolean = false
+    private var searchingFruit: Boolean = false
 
     var voted: Boolean = false
 
@@ -151,6 +153,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
         }
 
         networkDataSource?.fruit?.observe(this, Observer {
+            searchingFruit = false
             if (it.mass!!.toFloat() > 0.90) {
                 voted = false
                 slidingSheetUpFromHiddenState = true
@@ -450,10 +453,12 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
 
                     objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail()
                     GlobalScope.launch(Dispatchers.IO) {
+                        if (searchingFruit == false) {
                         val file = bitmapToFile(searchedObject.getObjectThumbnail())
                         val fbody = RequestBody.create(MediaType.parse("image/*"), file);
                         val part = MultipartBody.Part.createFormData("file", file.name, fbody)
-                        networkDataSource?.searchFruit(
+                            searchingFruit = true
+                            networkDataSource?.searchFruit(
                             part, object : NetworkDataSource.Callback {
                                 override fun onTimeoutException() {
                                     Log.e("HTTP", "Wrong answer.")
@@ -487,13 +492,17 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                                 override fun onHttpException() {
                                     Log.e("HTTP", "Wrong answer.")
                                     Toast.makeText(
-                                        context!!, "Продукт не найден!",
+                                        context!!, "Объект не найден!",
                                         Toast.LENGTH_SHORT
                                     ).show()
 
                                     workflowModel?.setWorkflowState(WorkflowState.DETECTING)
                                 }
-                            })
+                            })} else {
+                            withContext(Dispatchers.Main.immediate) {
+                                workflowModel?.setWorkflowState(WorkflowState.DETECTING)
+                            }
+                        }
                     }
 //                    bottomSheetTitleView?.text = resources
 //                        .getQuantityString(

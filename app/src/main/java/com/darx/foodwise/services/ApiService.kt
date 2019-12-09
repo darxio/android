@@ -109,7 +109,7 @@ interface ApiService {
     @POST("/fruits/search")
     fun searchFruit(
         @Part file: MultipartBody.Part
-    ): Call<ProductModel>
+    ): Deferred<ProductModel>
 
 
     companion object {

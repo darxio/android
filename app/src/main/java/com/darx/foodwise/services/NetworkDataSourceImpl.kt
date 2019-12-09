@@ -252,8 +252,8 @@ class NetworkDataSourceImpl(private val apiService: ApiService, private val _ctx
 
     override suspend fun searchFruit(file: MultipartBody.Part, callback: Callback) {
         try {
-            val fetchedFruit = apiService.searchFruit(file).execute()
-            fetchedFruit.body()?.let {
+            val fetchedFruit = apiService.searchFruit(file).await()
+            fetchedFruit?.let {
                 _fruit.postValue(it)
             } ?: {
                 Log.d("TEST", "Well we failed")

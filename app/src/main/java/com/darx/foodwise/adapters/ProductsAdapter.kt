@@ -118,8 +118,8 @@ class ProductsAdapter(var items: List<ProductModel>, val pVM: ProductViewModel, 
                 } else {
                     pVM.deleteOne_(item)
                 }
-                Snackbar.make(itemView, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+//                Snackbar.make(itemView, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
             }
         }
 

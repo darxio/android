@@ -40,6 +40,7 @@ import com.darx.foodwise.database.IngredientExtended
 import com.darx.foodwise.services.ApiService
 import com.darx.foodwise.services.ConnectivityInterceptorImpl
 import com.darx.foodwise.services.NetworkDataSourceImpl
+import com.google.android.gms.vision.text.Line
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.squareup.picasso.Picasso
@@ -197,6 +198,53 @@ private lateinit var productToShow: ProductModel
         }
 
 //        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        val favourite_bottom_sheet_container_ = root.findViewById<LinearLayout>(R.id.favourite_bottom_sheet_container)
+        favourite_bottom_sheet_container_.visibility = View.VISIBLE
+        val bottom_sheet_starred_ib_ = root.findViewById<ImageButton>(R.id.bottom_sheet_starred_ib)
+        val bottom_sheet_share_ib_ = root.findViewById<ImageButton>(R.id.bottom_sheet_share_ib)
+
+        // todo: favourites in barcode
+//        pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+//        pVM.getOne_(productToShow.barcode)?.observe(this,
+//            Observer<ProductModel> { t ->
+//                productToShow.starred = t?.starred ?: productToShow.starred
+//                if (t != null) {
+//                    if (t.starred) {
+//                        bottom_sheet_starred_ib_.setBackgroundResource(R.drawable.ic_star_yellow)
+//                    } else {
+//                        bottom_sheet_starred_ib_.setBackgroundResource(R.drawable.ic_star_black)
+//                    }
+//                } else {
+//                    bottom_sheet_starred_ib_.setBackgroundResource(R.drawable.ic_star_black)
+//                }
+//            })
+//
+//        bottom_sheet_starred_ib_.setOnClickListener {
+//            productToShow.starred = !productToShow.starred
+//            if (productToShow.starred) {
+//                pVM.upsert_(productToShow)
+//            } else {
+//                if (productToShow.scanned) {
+//                    pVM.upsert_(productToShow)
+//                } else {
+//                    pVM.deleteOne_(productToShow)
+//                }
+//            }
+//        }
+
+        bottom_sheet_share_ib_.setOnClickListener {
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            val shareBody = productToShow.name;
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+            context!!.startActivity(
+                Intent.createChooser(
+                    sharingIntent,
+                    "Поделиться"
+                )
+            )
+        }
+
         val product_toolbar_ = root.findViewById<androidx.appcompat.widget.Toolbar>(R.id.product_toolbar)
         product_toolbar_.visibility = View.GONE
         val info_product_name_ = root.findViewById<TextView>(R.id.info_product_name)

@@ -29,7 +29,6 @@ import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import com.darx.foodwise.MainActivity
 import com.darx.foodwise.R
-import kotlinx.android.synthetic.main.activity_favorites.*
 import java.lang.Exception
 import java.util.*
 

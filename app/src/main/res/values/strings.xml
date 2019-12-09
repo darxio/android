@@ -148,4 +148,6 @@
     <string name="empty_ingredients_button">Добавить</string>
     <string name="empty_groups_message">Вы пока не добавили ни одной группы!</string>
     <string name="empty_groups_button">Добавить</string>
+    <string name="empty_product_message">Нет информации про продукт!</string>
+    <string name="empty_product_button"></string>
 </resources>

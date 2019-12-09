@@ -31,6 +31,6 @@ data class IngredientModel(
         this.danger = ing.danger
         this.wikiLink = ing.wiki_link
         this.groups = ArrayList()
-        this.allowed = true
+        this.allowed = ing.allowed
     }
 }

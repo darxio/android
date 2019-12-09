@@ -531,6 +531,13 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+            <FrameLayout
+                    android:id="@+id/product_fragments_frame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="60dp"
+                    android:visibility="gone"/>
             <LinearLayout
                     android:id="@+id/fruit_stub"
                     android:layout_width="match_parent"

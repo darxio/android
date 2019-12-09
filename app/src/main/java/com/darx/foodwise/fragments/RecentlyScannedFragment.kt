@@ -47,6 +47,7 @@ class RecentlyScannedFragment : Fragment() {
     private var ingredientsDB: List<IngredientModel> = listOf()
 
     private var scanedProducts: List<ProductModel> = listOf()
+    private var staredProducts: List<ProductModel> = listOf()
     private var products: List<ProductModel> = listOf()
 
     override fun onCreateView(
@@ -100,6 +101,15 @@ class RecentlyScannedFragment : Fragment() {
                 scannedProductsAdapter?.addItems(matchMyProducts(rs_search_view?.query.toString()))
             })
 
+        productViewModel?.getFavourites_()?.observe(this@RecentlyScannedFragment,
+            Observer<List<ProductModel>> { l ->
+                staredProducts = l
+                filter()
+                if (view.rs_search_view.query.isNotEmpty()) {
+                    searchedProductsAdapter?.addItems(products)
+                }
+            })
+
 
         // search products
         searchedProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, false, object : ProductsAdapter.Callback {
@@ -130,7 +140,9 @@ class RecentlyScannedFragment : Fragment() {
             scannedProductsAdapter?.addItems(matchMyProducts(newQuery))
             if (newQuery.isEmpty()) {
                 searchedProductsAdapter?.addItems(listOf())
-                showEmptyFragment(view)
+                if (scannedProductsAdapter?.itemCount == 0) {
+                    showEmptyFragment(view)
+                }
             } else {
                 GlobalScope.launch(Dispatchers.Main) {
                     networkDataSource?.fetchProductSearch(newQuery, 15, 0)
@@ -225,22 +237,12 @@ class RecentlyScannedFragment : Fragment() {
         for (product in products) {
             if (product.ingredients != null) {
                 for (ingredient in product.ingredients!!) {
-                    var isOk: Boolean = true
-                    if (ingredient.groups != null) {
-                        for (g in ingredient.groups) {
-                            for (group in groupsDB) {
-                                if (group.id == g) {
-                                    isOk = false
-                                }
-                            }
-                        }
-                    }
-                    for (ingredientDB in ingredientsDB) {
-                        if (ingredientDB.id == ingredient.id) {
-                            isOk = ingredientDB.allowed ?: isOk
-                        }
-                    }
-                    product.ok += if (!isOk) 1 else 0
+                    product.ok += preorder(ingredient)
+                }
+            }
+            for (pr in staredProducts) {
+                if (product.barcode == pr.barcode) {
+                    product.starred = pr.starred
                 }
             }
         }
@@ -254,24 +256,35 @@ class RecentlyScannedFragment : Fragment() {
         for (product in scanedProducts) {
             if (product.ingredients != null) {
                 for (ingredient in product.ingredients!!) {
-                    var isOk: Boolean = true
-                    if (ingredient.groups != null) {
-                        for (g in ingredient.groups) {
-                            for (group in groupsDB) {
-                                if (group.id == g) {
-                                    isOk = false
-                                }
-                            }
-                        }
-                    }
-                    for (ingredientDB in ingredientsDB) {
-                        if (ingredientDB.id == ingredient.id) {
-                            isOk = ingredientDB.allowed ?: isOk
-                        }
-                    }
-                    product.ok += if (!isOk) 1 else 0
+                    product.ok += preorder(ingredient)
                 }
             }
         }
+    }
+
+    private fun preorder(ingredient: IngredientExtended): Int {
+        var count: Int = 0
+        if (ingredient.ingredients != null) {
+            for (ingr in ingredient.ingredients!!) {
+                count += preorder(ingr)
+            }
+        }
+
+        var isOk: Boolean = true
+        if (ingredient.groups != null) {
+            for (g in ingredient.groups) {
+                for (group in groupsDB) {
+                    if (group.id == g) {
+                        isOk = false
+                    }
+                }
+            }
+        }
+        for (ingredientDB in ingredientsDB) {
+            if (ingredientDB.id == ingredient.id) {
+                isOk = ingredientDB.allowed ?: isOk
+            }
+        }
+        return count + if (!isOk) 1 else 0
     }
 }

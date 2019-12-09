@@ -8,8 +8,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodwise.ProductActivity
 import com.darx.foodwise.adapters.ProductsAdapter
-import com.darx.foodwise.database.ProductModel
-import com.darx.foodwise.database.ProductViewModel
 import com.darx.foodwise.services.ApiService
 import com.darx.foodwise.services.ConnectivityInterceptorImpl
 import com.darx.foodwise.services.NetworkDataSourceImpl
@@ -29,6 +27,7 @@ import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import com.darx.foodwise.MainActivity
 import com.darx.foodwise.R
+import com.darx.foodwise.database.*
 import kotlinx.android.synthetic.main.activity_favorites.*
 import java.lang.Exception
 import java.util.*
@@ -45,6 +44,12 @@ class RecentlyScannedFragment : Fragment() {
     private var scannedProductsAdapter: ProductsAdapter? = null
     private var searchedProductsAdapter: ProductsAdapter? = null
 
+    private var groupsDB: List<GroupModel> = listOf()
+    private var ingredientsDB: List<IngredientModel> = listOf()
+
+    private var scanedProducts: List<ProductModel> = listOf()
+    private var products: List<ProductModel> = listOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,9 +60,27 @@ class RecentlyScannedFragment : Fragment() {
         networkDataSource = NetworkDataSourceImpl(apiService, context!!)
 
         productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        val ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+
+        // observers
+        groupViewModel.getAll_().observe(this, Observer {
+            groupsDB = it
+            filter()
+            filterScanned()
+            searchedProductsAdapter?.addItems(products)
+            scannedProductsAdapter?.addItems(scanedProducts)
+        })
+        ingredientViewModel.getAll_().observe(this, Observer<List<IngredientModel>> {
+            ingredientsDB = it
+            filter()
+            filterScanned()
+            searchedProductsAdapter?.addItems(products)
+            scannedProductsAdapter?.addItems(scanedProducts)
+        })
 
         // scaned products
-        scannedProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, this, true, object : ProductsAdapter.Callback {
+        scannedProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, true, object : ProductsAdapter.Callback {
             override fun onItemClicked(item: ProductModel) {
                 val intent = Intent(this@RecentlyScannedFragment.activity, ProductActivity::class.java)
                 intent.putExtra("PRODUCT", item as Serializable)
@@ -68,6 +91,8 @@ class RecentlyScannedFragment : Fragment() {
 
         productViewModel?.getScanned_()?.observe(this@RecentlyScannedFragment,
             Observer<List<ProductModel>> { l ->
+                scanedProducts = l
+                filterScanned()
                 if (l?.size == 0 && searchedProductsAdapter?.itemCount == 0) {
                     showEmptyFragment(view)
                 } else {
@@ -78,7 +103,7 @@ class RecentlyScannedFragment : Fragment() {
 
 
         // search products
-        searchedProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, this, false, object : ProductsAdapter.Callback {
+        searchedProductsAdapter = ProductsAdapter(emptyList(), productViewModel!!, this.context!!, false, object : ProductsAdapter.Callback {
             override fun onItemClicked(item: ProductModel) {
                 val intent = Intent(this@RecentlyScannedFragment.activity, ProductActivity::class.java)
                 intent.putExtra("PRODUCT", item as Serializable)
@@ -88,6 +113,8 @@ class RecentlyScannedFragment : Fragment() {
         view.all_products_rv.adapter = searchedProductsAdapter
 
         networkDataSource?.productSearch?.observe(this@RecentlyScannedFragment, Observer {
+            products = it
+            filter()
             if (it.isEmpty() && scannedProductsAdapter?.itemCount == 0) {
                 showEmptyFragment(view)
             } else {
@@ -95,7 +122,7 @@ class RecentlyScannedFragment : Fragment() {
             }
 
             if (view.rs_search_view.query.isNotEmpty()) {
-                searchedProductsAdapter?.addItems(it)
+                searchedProductsAdapter?.addItems(products)
             }
         })
 
@@ -189,5 +216,63 @@ class RecentlyScannedFragment : Fragment() {
             }
         }
         return matched
+    }
+
+    private fun filter() {
+        for (product in products) {
+            product.ok = 0
+        }
+
+        for (product in products) {
+            if (product.ingredients != null) {
+                for (ingredient in product.ingredients!!) {
+                    var isOk: Boolean = true
+                    if (ingredient.groups != null) {
+                        for (g in ingredient.groups) {
+                            for (group in groupsDB) {
+                                if (group.id == g) {
+                                    isOk = false
+                                }
+                            }
+                        }
+                    }
+                    for (ingredientDB in ingredientsDB) {
+                        if (ingredientDB.id == ingredient.id) {
+                            isOk = ingredientDB.allowed ?: isOk
+                        }
+                    }
+                    product.ok += if (!isOk) 1 else 0
+                }
+            }
+        }
+    }
+
+    private fun filterScanned() {
+        for (product in scanedProducts) {
+            product.ok = 0
+        }
+
+        for (product in scanedProducts) {
+            if (product.ingredients != null) {
+                for (ingredient in product.ingredients!!) {
+                    var isOk: Boolean = true
+                    if (ingredient.groups != null) {
+                        for (g in ingredient.groups) {
+                            for (group in groupsDB) {
+                                if (group.id == g) {
+                                    isOk = false
+                                }
+                            }
+                        }
+                    }
+                    for (ingredientDB in ingredientsDB) {
+                        if (ingredientDB.id == ingredient.id) {
+                            isOk = ingredientDB.allowed ?: isOk
+                        }
+                    }
+                    product.ok += if (!isOk) 1 else 0
+                }
+            }
+        }
     }
 }

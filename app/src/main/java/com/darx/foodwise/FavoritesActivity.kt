@@ -6,8 +6,6 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.darx.foodwise.adapters.ProductsAdapter
-import com.darx.foodwise.database.ProductModel
-import com.darx.foodwise.database.ProductViewModel
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import kotlinx.android.synthetic.main.activity_favorites.*
 import java.io.Serializable
@@ -25,14 +23,19 @@ import com.darx.foodwise.fragments.RecentlyScannedFragment
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
+import com.darx.foodwise.database.*
 
 
 class FavoritesActivity : AppCompatActivity() {
 
     private var productViewModel: ProductViewModel? = null
     private var productsAdapter: ProductsAdapter? = null
+
+    private var groupsDB: List<GroupModel> = listOf()
+    private var ingredientsDB: List<IngredientModel> = listOf()
+
+    private var products: List<ProductModel> = listOf()
+
     private var queryString: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,12 +43,14 @@ class FavoritesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_favorites)
 
         setSupportActionBar(favourites_toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         this.productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        val ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        val groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        productsAdapter = ProductsAdapter(emptyList(),  productViewModel!!, this@FavoritesActivity, this, false, object : ProductsAdapter.Callback {
+        productsAdapter = ProductsAdapter(emptyList(),  productViewModel!!, this@FavoritesActivity, false, object : ProductsAdapter.Callback {
             override fun onItemClicked(item: ProductModel) {
                 val intent = Intent(this@FavoritesActivity, ProductActivity::class.java)
                 intent.putExtra("PRODUCT", item as Serializable)
@@ -55,15 +60,28 @@ class FavoritesActivity : AppCompatActivity() {
 
         favourites_rv.adapter = productsAdapter
 
+        groupViewModel.getAll_().observe(this, Observer {
+            groupsDB = it
+            filter()
+            productsAdapter?.addItems(products)
+        })
+        ingredientViewModel.getAll_().observe(this, Observer<List<IngredientModel>> {
+            ingredientsDB = it
+            filter()
+            productsAdapter?.addItems(products)
+        })
+
         productViewModel!!.getFavourites_().observe(this@FavoritesActivity, object : Observer<List<ProductModel>> {
             override fun onChanged(l: List<ProductModel>?) {
-                if (l == null || l.isEmpty()) {
+                products = l?: listOf()
+                filter()
+                if (products.isEmpty()) {
                     showEmptyFragment()
                     favorites_fragments_frame.visibility = VISIBLE
                 } else {
                     favorites_fragments_frame.visibility = GONE
                 }
-                productsAdapter!!.addItems(l ?: return)
+                productsAdapter?.addItems(products)
             }
         })
     }
@@ -163,5 +181,34 @@ class FavoritesActivity : AppCompatActivity() {
             )
         }
         supportFragmentManager.beginTransaction().replace(R.id.favorites_fragments_frame, emptyFragment).commit()
+    }
+
+    private fun filter() {
+        for (product in products) {
+            product.ok = 0
+        }
+
+        for (product in products) {
+            if (product.ingredients != null) {
+                for (ingredient in product.ingredients!!) {
+                    var isOk: Boolean = true
+                    if (ingredient.groups != null) {
+                        for (g in ingredient.groups) {
+                            for (group in groupsDB) {
+                                if (group.id == g) {
+                                    isOk = false
+                                }
+                            }
+                        }
+                    }
+                    for (ingredientDB in ingredientsDB) {
+                        if (ingredientDB.id == ingredient.id) {
+                            isOk = ingredientDB.allowed ?: isOk
+                        }
+                    }
+                    product.ok += if (!isOk) 1 else 0
+                }
+            }
+        }
     }
 }

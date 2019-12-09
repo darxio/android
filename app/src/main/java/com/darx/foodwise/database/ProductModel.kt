@@ -31,8 +31,8 @@ data class ProductModel(
     @ColumnInfo(name = "starred")
                     var starred: Boolean = false,
     @ColumnInfo(name = "scanned") var scanned: Boolean = false,
-    @ColumnInfo(name = "ok") var ok: Boolean = true
+    var ok: Int = 0
 ): Serializable {
     constructor():this(0, false,"","", "", null, "",
-        "","","","","", java.util.Calendar.getInstance().time, false, false,true)
+        "","","","","", java.util.Calendar.getInstance().time, false, false,0)
 }

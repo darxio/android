@@ -23,7 +23,7 @@ import com.google.android.material.card.MaterialCardView
 import com.squareup.picasso.Picasso
 
 
-class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, val ctx: Context, val owner: LifecycleOwner, val scanedElements: Boolean, val callback: Callback) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
+class ProductsAdapter(var items: List<ProductModel>, val pVM: ProductViewModel, val ctx: Context, val scanedElements: Boolean, val callback: Callback) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false))
@@ -51,16 +51,11 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
         private val productCard = itemView.findViewById<MaterialCardView>(R.id.product_card)
 
         fun bind(item: ProductModel) {
-//            productCard.setBackgroundColor(R.color.colorPrimary)
-
-//            if (item.name.length > 20) {
-//                productName.text = item.name.substring(0, 20) + "..."
-//            } else {
-                productName.text = item.name
-//            }
+            productName.text = item.name
 
             if (!item.image.isNullOrEmpty() || item.image == "NULL") {
-                Picasso.get().load(item.image).error(R.drawable.ic_cereals__black).into(productImage);
+                Picasso.get().load(item.image).error(R.drawable.ic_cereals__black)
+                    .into(productImage);
             } else {
                 productImage.setImageResource(R.drawable.ic_cereals__black)
             }
@@ -77,45 +72,17 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
                 if (adapterPosition != RecyclerView.NO_POSITION) callback.onItemClicked(items[adapterPosition])
             }
 
-            pVM.getOne_(item.barcode)?.observe(owner,
-                Observer<ProductModel> { t ->
-                    item.starred = t?.starred ?: item.starred
+            if (item.starred) {
+                starred.setBackgroundResource(R.drawable.ic_star_yellow)
+            } else {
+                if (item.ok == 0) {
+                    starred.setBackgroundResource(R.drawable.ic_star_black)
+                } else {
+                    starred.setBackgroundResource(R.drawable.ic_star_white)
+                }
+            }
 
-                    if (t != null) {
-//                        setSettingsByStatus(checkStatus(t.ingredients))
-                        productCard.setBackgroundColor(ctx.getColor(R.color.positiveColor))
-                        productName.setTextColor(ctx.getColor(R.color.black))
-
-//                        if () {
-//                            productScannedDate.setTextColor(R.color.black)
-                        //                        delete.setBackgroundResource()
-                        //                        share.setBackgroundResource()
-                        if (t.starred) {
-                            starred.setBackgroundResource(R.drawable.ic_star_yellow)
-                        } else {
-                            starred.setBackgroundResource(R.drawable.ic_star_black)
-                        }
-//                        }
-                        //                        } else {
-                        //                            productCard.setBackgroundColor(R.color.negativeColor)
-                        //                            productName.setTextColor(R.color.white)
-                        //                            if (productScannedDate.isVisible) {
-                        //                                productScannedDate.setTextColor(R.color.white)
-                        //                            }
-                        //                            //                      white delete & share
-                        //                            //                        delete.setBackgroundResource()
-                        //                            //                        share.setBackgroundResource()
-                        //                            productScannedDate.setTextColor(R.color.white)
-                        //                            if (t.starred) {
-                        //                                starred.setBackgroundResource(R.drawable.ic_starred)
-                        //                            } else {
-                        //                                starred.setBackgroundResource(R.drawable.ic_unstarred)
-                        //                            }
-                        //                        }
-                    } else {
-                        starred.setBackgroundResource(R.drawable.ic_star_black)
-                    }
-                })
+            setSettingsByStatus(item.ok)
 
             // logics with image buttons
             starred.setOnClickListener {
@@ -156,35 +123,21 @@ class ProductsAdapter(var items: List<ProductModel>, var pVM: ProductViewModel, 
             }
         }
 
-//        private fun setSettingsByStatus(status: Boolean) {
-//            if (status) {
-//                ingredientObject.setTextColor(ctx.getColor(R.color.black))
-//                ingredientObject.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
-//            } else {
-//                ingredientObject.setTextColor(ctx.getColor(R.color.white))
-//                ingredientObject.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-//            }
-//        }
-//
-//        private fun checkStatus(ingredients: ArrayList<IngredientExtended>?): Boolean {
-//            var isAllowed = true
-//            if (ingredients == null) {
-//                return isAllowed
-//            }
-//            for (ingr in ingredients) {
-//
-//            }
-//
-//            isAllowed = true
-//            if (isGroupsMatched) {
-//                isAllowed = (ingredient != null && ingredient.allowed!!)
-//            } else {
-//                if (ingredient != null) {
-//                    isAllowed = ingredient.allowed!!
-//                }
-//            }
-//            return isAllowed
-//        }
+        private fun setSettingsByStatus(status: Int) {
+            if (status == 0) {
+                productName.setTextColor(ctx.getColor(R.color.black))
+                productCard.setCardBackgroundColor(ctx.getColor(R.color.positiveColor))
+//            ingredientImage.setImageDrawable(ctx.getDrawable(R.drawable.ic_checkmark_black))
+                share.setImageDrawable(ctx.getDrawable(R.drawable.ic_share_black))
+                delete.setImageDrawable(ctx.getDrawable(R.drawable.ic_garbage_black))
+            } else {
+                productName.setTextColor(ctx.getColor(R.color.white))
+                productCard.setCardBackgroundColor(ctx.getColor(R.color.negativeColor))
+//            ingredientImage.setImageDrawable(ctx.getDrawable(R.drawable.ic_stop_white))
+                share.setImageDrawable(ctx.getDrawable(R.drawable.ic_share_white))
+                delete.setImageDrawable(ctx.getDrawable(R.drawable.ic_garbage_white))
+            }
+        }
     }
 
     interface Callback {

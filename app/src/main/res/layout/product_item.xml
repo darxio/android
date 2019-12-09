@@ -8,7 +8,7 @@
         android:layout_marginTop="@dimen/mtrl_card_spacing"
         android:layout_marginRight="@dimen/mtrl_card_spacing"
         android:elevation="0dp"
-        android:backgroundTint="@color/positiveColor">
+        app:cardBackgroundColor="@color/positiveColor">
 
     <RelativeLayout
             android:layout_width="match_parent"

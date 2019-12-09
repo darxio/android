@@ -141,8 +141,9 @@ class GroupsFragment(val groupViewModel: GroupViewModel) : Fragment() {
     }
 
     private fun filter() {
-        for (element in groupsDB) {
-            for (group in groups) {
+        for (group in groups) {
+            group.isInBase = false
+            for (element in groupsDB) {
                 if (element.id == group.id) {
                     group.isInBase = true
                 }

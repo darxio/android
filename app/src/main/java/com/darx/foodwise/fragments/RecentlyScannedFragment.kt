@@ -130,7 +130,9 @@ class RecentlyScannedFragment : Fragment() {
             scannedProductsAdapter?.addItems(matchMyProducts(newQuery))
             if (newQuery.isEmpty()) {
                 searchedProductsAdapter?.addItems(listOf())
-                showEmptyFragment(view)
+                if (scannedProductsAdapter?.itemCount == 0) {
+                    showEmptyFragment(view)
+                }
             } else {
                 GlobalScope.launch(Dispatchers.Main) {
                     networkDataSource?.fetchProductSearch(newQuery, 15, 0)

@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,6 +27,7 @@ import kotlinx.android.synthetic.main.product_item.*
 import kotlinx.android.synthetic.main.product_items.*
 import java.util.*
 import android.view.ViewStub
+import com.darx.foodwise.fragments.EmptyFragment
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.product_bottom_sheet.*
 
@@ -85,7 +88,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 addItems(ingredient, false)
             }
         }
-        info_ingredient_chips.removeAllViews()
+        if (info_ingredient_chips != null) {
+            info_ingredient_chips.removeAllViews()
+        }
         if (this.chips != null) {
             for (i in this.chips!!) {
                 info_ingredient_chips.addView(i)
@@ -177,17 +182,6 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
 
-        gVM.getAll_().observe(this, Observer {
-            groupsDB = it
-            filter()
-            draw()
-        })
-        iVM.getAll_().observe(this, Observer<List<IngredientModel>> {
-            ingredientsDB = it
-            filter()
-            draw()
-        })
-
         if (this.productToShow.categoryURL == "Fruit") {
 //            container.removeAllViews()
             info_product_layout.removeAllViews()
@@ -233,6 +227,20 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             fruit_feedback_container.visibility = View.GONE
         } else {
+            gVM.getAll_().observe(this, Observer {
+                groupsDB = it
+                if (productToShow != null) {
+                    filter()
+                    draw()
+                }
+            })
+            iVM.getAll_().observe(this, Observer<List<IngredientModel>> {
+                ingredientsDB = it
+                if (productToShow != null) {
+                    filter()
+                    draw()
+                }
+            })
 
             if (this.productToShow.contents.isNullOrEmpty() || this.productToShow.contents == "NULL") {
                 speaker!!.isEnabled = false
@@ -268,9 +276,9 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             // short version of the product
             if (productToShow.shrinked == true) {
                 info_product_layout.removeAllViews()
-
-                // to do -- empty fragment here
-
+                info_product_layout.visibility = GONE
+                showEmptyFragment()
+                product_fragments_frame.visibility = VISIBLE
             } else if (productToShow.shrinked == false) {
                 if (productToShow.contents == "NULL" || productToShow.contents == "") {
                     info_contents_container.visibility = View.GONE
@@ -310,8 +318,10 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 info_product_nutrition_facts.text = productToShow.nutrition
             }
             if (!productToShow.ingredients.isNullOrEmpty()) {
-                filter()
-                draw()
+                if (productToShow != null) {
+                    filter()
+                    draw()
+                }
             } else {
                     info_ingredients_container.visibility = View.GONE
                     info_feedback_container.visibility = View.GONE
@@ -408,9 +418,10 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun filter() {
         productToShow.ok = 0
-        for (ingr in ingredientsDB) {
-            ingr.ok = true
-            ingr.groupMached = false
+        if (productToShow.ingredients != null) {
+            for (ingr in productToShow.ingredients!!) {
+                cleanInfo(ingr)
+            }
         }
 
         if (productToShow.ingredients != null) {
@@ -442,9 +453,31 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         for (ingredientDB in ingredientsDB) {
             if (ingredientDB.id == ingredient.id) {
                 ingredient.allowed = ingredientDB.allowed!!
-                ingredient.ok = ingredientDB.allowed!!
+                ingredient.ok = ingredient.allowed
             }
         }
-        return count + if (!ingredient.allowed) 1 else 0
+        return count + if (!ingredient.ok) 1 else 0
+    }
+
+    private fun cleanInfo(ingredient: IngredientExtended) {
+        if (ingredient.ingredients != null) {
+            for (ingr in ingredient.ingredients!!) {
+                cleanInfo(ingr)
+            }
+        }
+        ingredient.ok = true
+        ingredient.allowed = true
+        ingredient.groupMached = false
+    }
+
+    private fun showEmptyFragment() {
+        val emptyFragment = EmptyFragment(
+            R.drawable.empty_product_info,
+            getString(R.string.empty_product_message),
+            getString(R.string.empty_product_button),
+            LinearLayout.VERTICAL,
+            View.OnClickListener {}
+        )
+        supportFragmentManager.beginTransaction().replace(R.id.product_fragments_frame, emptyFragment).commit()
     }
 }

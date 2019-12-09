@@ -127,12 +127,14 @@ class ProductsAdapter(var items: List<ProductModel>, val pVM: ProductViewModel, 
             if (status == 0) {
                 productName.setTextColor(ctx.getColor(R.color.black))
                 productCard.setCardBackgroundColor(ctx.getColor(R.color.positiveColor))
+                productScannedDate.setTextColor(ctx.getColor(R.color.black))
 //            ingredientImage.setImageDrawable(ctx.getDrawable(R.drawable.ic_checkmark_black))
                 share.setImageDrawable(ctx.getDrawable(R.drawable.ic_share_black))
                 delete.setImageDrawable(ctx.getDrawable(R.drawable.ic_garbage_black))
             } else {
                 productName.setTextColor(ctx.getColor(R.color.white))
                 productCard.setCardBackgroundColor(ctx.getColor(R.color.negativeColor))
+                productScannedDate.setTextColor(ctx.getColor(R.color.white))
 //            ingredientImage.setImageDrawable(ctx.getDrawable(R.drawable.ic_stop_white))
                 share.setImageDrawable(ctx.getDrawable(R.drawable.ic_share_white))
                 delete.setImageDrawable(ctx.getDrawable(R.drawable.ic_garbage_white))

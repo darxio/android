@@ -60,6 +60,8 @@
     <dimen name="product_padding">13dp</dimen>
     <dimen name="product_feedback_padding">15dp</dimen>
 
+    <dimen name="vitamin_content_size">15dp</dimen>
+
     <dimen name="editable_padding">10dp</dimen>
 
     <dimen name="group_text_size_profile">20dp</dimen>

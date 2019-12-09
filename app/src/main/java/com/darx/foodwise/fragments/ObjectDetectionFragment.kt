@@ -60,6 +60,7 @@ import com.google.common.collect.ImmutableList
 import com.darx.foodwise.camerafragment.productsearch.ProductAdapter
 import com.darx.foodwise.camerafragment.settings.PreferenceUtils
 import com.darx.foodwise.camerafragment.settings.SettingsActivity
+import com.darx.foodwise.database.ProductViewModel
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_live_object_kotlin.*
 import kotlinx.android.synthetic.main.product_bottom_sheet.*
@@ -103,6 +104,8 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
     private var bottomSheetScrimView: BottomSheetScrimView? = null
     private var objectThumbnailForBottomSheet: Bitmap? = null
     private var slidingSheetUpFromHiddenState: Boolean = false
+
+    private var productViewModel: ProductViewModel? = null
 
     var voted: Boolean = false
 
@@ -149,6 +152,7 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
 //            }
         }
 
+        productViewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
         networkDataSource?.fruit?.observe(this, Observer {
             if (it.mass!!.toFloat() > 0.90) {
                 voted = false
@@ -156,6 +160,9 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                 bottomSheetBehavior?.peekHeight =
                     preview?.height?.div(2) ?: BottomSheetBehavior.PEEK_HEIGHT_AUTO
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+
+                it.scanned = true
+                productViewModel?.upsert_(it)
 
                 fruit_name.text = it.name
 
@@ -170,6 +177,21 @@ class ObjectDetectionFragment : Fragment(), OnClickListener {
                 fruit_container_4_value.text = nutritionFacts[1][3]
 
                 fruit_description.text = it.description
+
+                val vitamins = Gson().fromJson(it.contents, Array<Array<String>>::class.java)
+
+                fruit_vitamin_1_name.text = vitamins[0][0]
+                fruit_vitamin_1_value.text = vitamins[1][0]
+                fruit_vitamin_2_name.text = vitamins[0][1]
+                fruit_vitamin_2_value.text = vitamins[1][1]
+                fruit_vitamin_3_name.text = vitamins[0][2]
+                fruit_vitamin_3_value.text = vitamins[1][2]
+                fruit_vitamin_4_name.text = vitamins[0][3]
+                fruit_vitamin_4_value.text = vitamins[1][3]
+                fruit_vitamin_5_name.text = vitamins[0][4]
+                fruit_vitamin_5_value.text = vitamins[1][4]
+                fruit_vitamin_6_name.text = vitamins[0][5]
+                fruit_vitamin_6_value.text = vitamins[1][5]
 
                 fruit_good.setOnClickListener {
                     if (voted == false) {

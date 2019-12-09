@@ -31,6 +31,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.product_item.*
+import kotlinx.android.synthetic.main.product_items.*
 import java.util.*
 
 
@@ -39,17 +41,15 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var pVM: ProductViewModel
     private lateinit var iVM: IngredientViewModel
     private lateinit var gVM: GroupViewModel
-    private var networkDataSource: NetworkDataSourceImpl? = null
+
+    private var groupsDB: List<GroupModel> = listOf()
+    private var ingredientsDB: List<IngredientModel> = listOf()
 
     var chips: ArrayList<Chip>? = ArrayList()
-    var warningLevel: Int = 0
-    var ok: Int = 0
     var voted: Boolean = false
 
     private var speaker: ImageButton? = null
     private var tts: TextToSpeech? = null
-
-//    private var isAllowed: Boolean = true
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
@@ -83,102 +83,73 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onDestroy()
     }
 
-    fun checkStatus(ingredient: IngredientModel?, isGroupsMatched: Boolean): Boolean {
-        var isAllowed = true
-        if (isGroupsMatched) {
-            isAllowed = (ingredient != null && ingredient.allowed!!)
-        } else {
-            if (ingredient != null) {
-                isAllowed = ingredient.allowed!!
+    private fun draw() {
+        this.chips?.clear()
+        if (productToShow.ingredients != null) {
+            for (ingredient in productToShow.ingredients!!) {
+                addItems(ingredient, false)
             }
         }
-        return isAllowed
+        info_ingredient_chips.removeAllViews()
+        if (this.chips != null) {
+            for (i in this.chips!!) {
+                info_ingredient_chips.addView(i)
+            }
+        }
+
+        if (productToShow.ok == 0) {
+            info_product_name.setTextColor(getColor(R.color.black))
+            info_product_card.setCardBackgroundColor(getColor(R.color.positiveColor))
+        } else {
+            info_product_name.setTextColor(getColor(R.color.white))
+            info_product_card.setCardBackgroundColor(getColor(R.color.negativeColor))
+        }
     }
 
-    private fun preorder(ingredient: IngredientExtended?, showDanger: Boolean) {
-        if (ingredient == null) {
-            return
+
+    private fun addItems(ingredient: IngredientExtended, showDanger: Boolean) {
+        if (ingredient.ingredients != null) {
+            for (ingr in ingredient.ingredients!!) {
+                addItems(ingr, showDanger)
+            }
         }
 
         val chip = Chip(this)
-        if (ingredient.name != "") {
-            chip.text = ingredient.name
-        }
-
-        var isGroupsMatched = false
-
-        if (ingredient.groups.isNullOrEmpty()) {
-            ingredient.groups = ArrayList()
-        }
-
-        var isAllowed = true
-        gVM.checkAll_(ingredient.groups)?.observe(this@ProductActivity, object : Observer<Boolean> {
-            override fun onChanged(t: Boolean?) {
-                isGroupsMatched = t ?: false
-                isAllowed = checkStatus(null, isGroupsMatched)
-                if (isAllowed) {
-                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
-                } else {
-                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-                }
-                if (ok > 0) {
-                    info_product_card.setCardBackgroundColor(getColorStateList(R.color.negativeColor))
-                } else {
-                    info_product_card.setCardBackgroundColor(getColorStateList(R.color.positiveColor))
-                }
-            }
-        })
-
-        iVM.getOne_(ingredient.id)?.observe(this@ProductActivity, object : Observer<IngredientModel> {
-            override fun onChanged(t: IngredientModel?) {
-                isAllowed = checkStatus(t, isGroupsMatched)
-                if (isAllowed) {
-                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_positive)
-                    if (ingredient.danger!! > 1 && showDanger) {
-                        chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_cautious)
-                    }
-                } else {
-                    chip.setChipBackgroundColorResource(R.drawable.bg_chip_state_list_negative)
-                    ok++
-                }
-                if (ok > 0) {
-                    info_product_card.setCardBackgroundColor(getColorStateList(R.color.negativeColor))
-                } else {
-                    info_product_card.setCardBackgroundColor(getColorStateList(R.color.positiveColor))
-                }
-            }
-        })
-
-
         chip.isClickable = true
-        if (chip.text != "") {
-            this.chips?.add(chip)
+
+        if (ingredient.ok) {
+            chip.setTextAppearanceResource(R.style.ChipTextStyle_positive)
+            chip.setChipBackgroundColorResource(R.color.positiveColor)
+            chip.setChipIconResource(R.drawable.ic_checkmark_black)
+        } else {
+            chip.setTextAppearanceResource(R.style.ChipTextStyle_negative)
+            chip.setChipBackgroundColorResource(R.color.negativeColor)
+            chip.setChipIconResource(R.drawable.ic_stop_white)
         }
 
-        if (!ingredient.ingredients.isNullOrEmpty()) {
-            for (i in ingredient.ingredients!!) {
-                preorder(i, showDanger)
-            }
-        }
 
         chip.setOnClickListener {
-            val ingr = IngredientModel(ingredient)
-            if (!isAllowed) {
-                ok--
-                if (isGroupsMatched) {
+            var ingr = IngredientModel(ingredient)
+            if (!ingredient.ok) {
+                if (ingredient.groupMached) {
                     ingr.allowed = true
                     iVM.add_(ingr)
                 } else {
                     iVM.deleteOne_(ingr)
                 }
             } else {
-                if (isGroupsMatched) {
+                if (ingredient.groupMached) {
                     iVM.deleteOne_(ingr)
                 } else {
                     ingr.allowed = false
                     iVM.add_(ingr)
                 }
             }
+        }
+
+        if (ingredient.name != "") {
+            chip.text = ingredient.name
+            this.chips?.add(chip)
         }
     }
 
@@ -190,6 +161,10 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
+        this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
+        this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+
         var spoke = false
         speaker = findViewById(R.id.info_speaker_ib)
         speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
@@ -200,22 +175,23 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 override fun onDone(utteranceId: String?) {
                     speaker!!.setBackgroundResource(R.drawable.ic_speaker_on_black)
                 }
-
                 override fun onError(utteranceId: String?) {}
                 override fun onStart(utteranceId: String?) {}
             }
         )
 
-        val apiService = ApiService(ConnectivityInterceptorImpl(this))
-        networkDataSource = NetworkDataSourceImpl(apiService, this)
-
-        networkDataSource?.ingredient?.observe(this, Observer {
-            val intent = Intent(this, IngredientActivity::class.java)
-            intent.putExtra("INGREDIENT", it)
-            startActivity(intent)
-        })
-
         this.productToShow = intent?.extras?.get("PRODUCT") as ProductModel
+
+        gVM.getAll_().observe(this, Observer {
+            groupsDB = it
+            filter()
+            draw()
+        })
+        iVM.getAll_().observe(this, Observer<List<IngredientModel>> {
+            ingredientsDB = it
+            filter()
+            draw()
+        })
 
         if (this.productToShow.contents.isNullOrEmpty() || this.productToShow.contents == "NULL") {
             speaker!!.isEnabled = false
@@ -238,9 +214,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
         }
 
-        this.pVM = ViewModelProviders.of(this).get(ProductViewModel::class.java)
-        this.iVM = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
-        this.gVM = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+
 
 //        Setting correct views for 2 types of products
         info_product_name.text = productToShow.name
@@ -296,52 +270,43 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 info_product_nutrition_facts.text = productToShow.nutrition
             }
             if (!productToShow.ingredients.isNullOrEmpty()) {
-                for (i in productToShow.ingredients!!) {
-                    if (i.name.isNotEmpty()) {
-                        preorder(i, true)
-                    }
-                }
-
-                if (this.chips != null) {
-                    for (i in this.chips!!) {
-                        info_ingredient_chips.addView(i)
-                    }
-                }
+                filter()
+                draw()
             } else {
                     info_ingredients_container.visibility = View.GONE
                     info_feedback_container.visibility = View.GONE
             }
 
-                    if (info_feedback_container.visibility == View.VISIBLE) {
-                        good.setOnClickListener {
-                            if (voted == false) {
-                                Toast.makeText(
-                                    this, "Спасибо за отзыв!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                voted = true
-                            } else {
-                                Toast.makeText(
-                                    this, "Вы уже проголосовали!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
+            if (info_feedback_container.visibility == View.VISIBLE) {
+                good.setOnClickListener {
+                    if (!voted) {
+                        Toast.makeText(
+                            this, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            this, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
 
-                        bad.setOnClickListener {
-                            if (voted == false) {
-                                Toast.makeText(
-                                    this, "Спасибо за отзыв!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                voted = true
-                            } else {
-                                Toast.makeText(
-                                    this, "Вы уже проголосовали!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
+                bad.setOnClickListener {
+                    if (!voted) {
+                        Toast.makeText(
+                            this, "Спасибо за отзыв!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        voted = true
+                    } else {
+                        Toast.makeText(
+                            this, "Вы уже проголосовали!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         }
     }
@@ -388,16 +353,57 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         val item = menu!!.findItem(R.id.action_favourite)
 
-        pVM.getOne_(productToShow.barcode)?.observe(this, object : Observer<ProductModel> {
-            override fun onChanged(t: ProductModel?) {
+        pVM.getOne_(productToShow.barcode)?.observe(this,
+            Observer<ProductModel> { t ->
                 if (t != null && t.starred) {
                     item.setIcon(R.drawable.ic_star_yellow)
                 } else {
                     item.setIcon(R.drawable.ic_star_white)
                 }
-            }
-        })
+            })
 
         return true
+    }
+
+    private fun filter() {
+        productToShow.ok = 0
+        for (ingr in ingredientsDB) {
+            ingr.ok = true
+            ingr.groupMached = false
+        }
+
+        if (productToShow.ingredients != null) {
+            for (ingredient in productToShow.ingredients!!) {
+                productToShow.ok += preorder(ingredient)
+            }
+        }
+    }
+
+    private fun preorder(ingredient: IngredientExtended): Int {
+        var count: Int = 0
+        if (ingredient.ingredients != null) {
+            for (ingr in ingredient.ingredients!!) {
+                count += preorder(ingr)
+            }
+        }
+
+
+        if (ingredient.groups != null) {
+            for (g in ingredient.groups) {
+                for (group in groupsDB) {
+                    if (group.id == g) {
+                        ingredient.groupMached = true
+                        ingredient.ok = false
+                    }
+                }
+            }
+        }
+        for (ingredientDB in ingredientsDB) {
+            if (ingredientDB.id == ingredient.id) {
+                ingredient.allowed = ingredientDB.allowed!!
+                ingredient.ok = ingredientDB.allowed!!
+            }
+        }
+        return count + if (!ingredient.allowed) 1 else 0
     }
 }

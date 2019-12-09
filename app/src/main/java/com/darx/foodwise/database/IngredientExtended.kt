@@ -13,6 +13,9 @@ class IngredientExtended : Serializable {
     @SerializedName("wiki_link") var wiki_link: String? = ""
     @SerializedName("ingredients") var ingredients: ArrayList<IngredientExtended>? = null
     @SerializedName("groups") var groups: ArrayList<Int> = ArrayList()
+    var allowed: Boolean = true
+    var groupMached: Boolean = false
+    var ok: Boolean = true
 
     fun fromString(s: String): IngredientExtended {
         if (s  == "") return IngredientExtended()

@@ -225,22 +225,7 @@ class RecentlyScannedFragment : Fragment() {
         for (product in products) {
             if (product.ingredients != null) {
                 for (ingredient in product.ingredients!!) {
-                    var isOk: Boolean = true
-                    if (ingredient.groups != null) {
-                        for (g in ingredient.groups) {
-                            for (group in groupsDB) {
-                                if (group.id == g) {
-                                    isOk = false
-                                }
-                            }
-                        }
-                    }
-                    for (ingredientDB in ingredientsDB) {
-                        if (ingredientDB.id == ingredient.id) {
-                            isOk = ingredientDB.allowed ?: isOk
-                        }
-                    }
-                    product.ok += if (!isOk) 1 else 0
+                    product.ok += preorder(ingredient)
                 }
             }
         }
@@ -254,24 +239,35 @@ class RecentlyScannedFragment : Fragment() {
         for (product in scanedProducts) {
             if (product.ingredients != null) {
                 for (ingredient in product.ingredients!!) {
-                    var isOk: Boolean = true
-                    if (ingredient.groups != null) {
-                        for (g in ingredient.groups) {
-                            for (group in groupsDB) {
-                                if (group.id == g) {
-                                    isOk = false
-                                }
-                            }
-                        }
-                    }
-                    for (ingredientDB in ingredientsDB) {
-                        if (ingredientDB.id == ingredient.id) {
-                            isOk = ingredientDB.allowed ?: isOk
-                        }
-                    }
-                    product.ok += if (!isOk) 1 else 0
+                    product.ok += preorder(ingredient)
                 }
             }
         }
+    }
+
+    private fun preorder(ingredient: IngredientExtended): Int {
+        var count: Int = 0
+        if (ingredient.ingredients != null) {
+            for (ingr in ingredient.ingredients!!) {
+                count += preorder(ingr)
+            }
+        }
+
+        var isOk: Boolean = true
+        if (ingredient.groups != null) {
+            for (g in ingredient.groups) {
+                for (group in groupsDB) {
+                    if (group.id == g) {
+                        isOk = false
+                    }
+                }
+            }
+        }
+        for (ingredientDB in ingredientsDB) {
+            if (ingredientDB.id == ingredient.id) {
+                isOk = ingredientDB.allowed ?: isOk
+            }
+        }
+        return count + if (!isOk) 1 else 0
     }
 }

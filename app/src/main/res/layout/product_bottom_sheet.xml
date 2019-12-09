@@ -17,126 +17,169 @@
                 android:layout_height="match_parent"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:background="@color/white"
+                android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="15dp">
+                android:padding="@dimen/product_padding">
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Пищевая ценность на 100 гр"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Пищевая ценность на 100 гр"
+                        android:textStyle="bold"
+                        android:textColor="@color/dark_gray"
+                        android:textAllCaps="true"
+                        android:textSize="22dp"/>
 
-            <TextView
-                    android:id="@+id/fruit_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="сырой томат"/>
+                <TextView
+                        android:id="@+id/fruit_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="томат"
+                        android:textColor="@color/black"
+                        android:textSize="25dp"/>
 
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@color/colorPrimary"/>
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/product_padding">
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                 <TextView
                         android:id="@+id/fruit_container_1_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="8dp"/>
+                        android:textColor="@color/product_property_title_color"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/product_property_title_size"/>
 
                 <TextView
                         android:id="@+id/fruit_container_1_value"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/product_property_content_color"
+                        android:textSize="@dimen/product_property_content_size"/>
 
             </LinearLayout>
 
-          <View
-                  android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:layout_marginTop="4dp"
-                  android:layout_marginBottom="4dp"
-                  android:background="@color/colorPrimary"/>
+        </LinearLayout>
 
           <LinearLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="horizontal">
+                  android:orientation="vertical"
+                  android:padding="@dimen/product_padding">
 
-              <TextView
-                      android:id="@+id/fruit_container_2_name"
-                      android:layout_width="wrap_content"
+              <LinearLayout
+                      android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:layout_marginRight="8dp"/>
+                      android:orientation="vertical">
 
-              <TextView
-                      android:id="@+id/fruit_container_2_value"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
+                  <TextView
+                          android:id="@+id/fruit_container_2_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/product_property_title_color"
+                          android:textAllCaps="true"
+                          android:textStyle="bold"
+                          android:textSize="@dimen/product_property_title_size"/>
+
+                  <TextView
+                          android:id="@+id/fruit_container_2_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/product_property_content_color"
+                          android:textSize="@dimen/product_property_content_size"/>
+
+              </LinearLayout>
 
           </LinearLayout>
-
-          <View
-                  android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:layout_marginTop="4dp"
-                  android:layout_marginBottom="4dp"
-                  android:background="@color/colorPrimary"/>
 
           <LinearLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="horizontal">
+                  android:orientation="vertical"
+                  android:padding="@dimen/product_padding">
 
-              <TextView
-                      android:id="@+id/fruit_container_3_name"
-                      android:layout_width="wrap_content"
+              <LinearLayout
+                      android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:layout_marginRight="8dp"/>
+                      android:orientation="vertical">
 
-              <TextView
-                      android:id="@+id/fruit_container_3_value"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
+                  <TextView
+                          android:id="@+id/fruit_container_3_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/product_property_title_color"
+                          android:textAllCaps="true"
+                          android:textStyle="bold"
+                          android:textSize="@dimen/product_property_title_size"/>
+
+                  <TextView
+                          android:id="@+id/fruit_container_3_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/product_property_content_color"
+                          android:textSize="@dimen/product_property_content_size"/>
+
+              </LinearLayout>
 
           </LinearLayout>
-
-          <View
-                  android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:layout_marginTop="4dp"
-                  android:layout_marginBottom="4dp"
-                  android:background="@color/colorPrimary"/>
 
           <LinearLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="horizontal">
+                  android:orientation="vertical"
+                  android:padding="@dimen/product_padding">
 
-              <TextView
-                      android:id="@+id/fruit_container_4_name"
-                      android:layout_width="wrap_content"
+              <LinearLayout
+                      android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:layout_marginRight="8dp"/>
+                      android:orientation="vertical">
 
-              <TextView
-                      android:id="@+id/fruit_container_4_value"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
+                  <TextView
+                          android:id="@+id/fruit_container_4_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/product_property_title_color"
+                          android:textAllCaps="true"
+                          android:textStyle="bold"
+                          android:textSize="@dimen/product_property_title_size"/>
+
+                  <TextView
+                          android:id="@+id/fruit_container_4_value"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/product_property_content_color"
+                          android:textSize="@dimen/product_property_content_size"/>
+
+              </LinearLayout>
+
+              <View
+                      android:layout_width="match_parent"
+                      android:layout_height="4dp"
+                      android:layout_marginTop="4dp"
+                      android:layout_marginBottom="4dp"
+                      android:background="@color/colorPrimary"/>
 
           </LinearLayout>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="@color/colorPrimary"/>
 
           <GridLayout
                   android:layout_width="match_parent"
@@ -146,7 +189,7 @@
               <LinearLayout
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:orientation="horizontal">
+                      android:orientation="vertical">
 
                   <TextView
                           android:id="@+id/fruit_vitamin_1_name"
@@ -253,37 +296,36 @@
 
           </GridLayout>
 
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="@color/colorPrimary"/>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-          <TextView
-                  android:layout_width="wrap_content"
+          <LinearLayout
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginRight="8dp"
-                  android:text="Описание"/>
+                  android:orientation="vertical"
+                  android:padding="@dimen/product_padding">
 
-          <TextView
-                  android:id="@+id/fruit_description"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"/>
+              <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
 
-        </LinearLayout>
+                  <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="ОПИСАНИЕ"
+                          android:textColor="@color/product_property_title_color"
+                          android:textAllCaps="true"
+                          android:textStyle="bold"
+                          android:textSize="@dimen/product_property_title_size"/>
 
-        <View
-              android:layout_width="match_parent"
-              android:layout_height="1dp"
-              android:layout_marginTop="4dp"
-              android:layout_marginBottom="4dp"
-              android:background="@color/colorPrimary"/>
+                  <TextView
+                          android:id="@+id/fruit_description"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/product_property_content_color"
+                          android:textSize="@dimen/product_property_content_size"/>
+
+              </LinearLayout>
+
+          </LinearLayout>
 
         <LinearLayout
                 android:id="@+id/fruit_feedback_container"
@@ -300,6 +342,7 @@
                   android:text="Оцените точность распознавания"
                   android:textAlignment="center"
                   android:textColor="@color/product_property_title_color"
+                  android:textStyle="bold"
                   android:textSize="@dimen/product_property_title_size"
                   android:layout_marginBottom="10dp"/>
 

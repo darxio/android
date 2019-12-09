@@ -28,7 +28,6 @@ import androidx.core.widget.NestedScrollView
 import com.darx.foodwise.MainActivity
 import com.darx.foodwise.R
 import com.darx.foodwise.database.*
-import kotlinx.android.synthetic.main.activity_favorites.*
 import java.lang.Exception
 import java.util.*
 

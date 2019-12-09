@@ -256,35 +256,7 @@ class ProductActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             fruit_vitamin_6_name.text = vitamins[0][5]
             fruit_vitamin_6_value.text = vitamins[1][5]
 
-            fruit_good.setOnClickListener {
-                if (voted == false) {
-                    Toast.makeText(
-                        this, "Спасибо за отзыв!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    voted = true
-                } else {
-                    Toast.makeText(
-                        this, "Вы уже проголосовали!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            fruit_bad.setOnClickListener {
-                if (voted == false) {
-                    Toast.makeText(
-                        this, "Спасибо за отзыв!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    voted = true
-                } else {
-                    Toast.makeText(
-                        this, "Вы уже проголосовали!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            fruit_feedback_container.visibility = View.GONE
         } else {
 
             if (this.productToShow.contents.isNullOrEmpty() || this.productToShow.contents == "NULL") {

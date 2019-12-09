@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         if (firstLaunch) {
             val intent = Intent(this@MainActivity, WelcomeWizardActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(intent)
+            startActivity(intent)
         }
 
     }

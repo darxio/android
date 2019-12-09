@@ -184,6 +184,7 @@
                     android:orientation="horizontal">
 
                 <TextView
+                        android:id="@+id/fav_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/profile_fragment_title_padding"
@@ -237,9 +238,14 @@
 
                 <ImageButton
                         android:id="@+id/add_favs"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:background="@drawable/favourites"
+                        android:layout_marginTop="5dp"
+                        android:visibility="visible"
+                        android:adjustViewBounds="true"
+                        android:background="@color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_plus_blue"
                         android:layout_gravity="center">
                 </ImageButton>
 

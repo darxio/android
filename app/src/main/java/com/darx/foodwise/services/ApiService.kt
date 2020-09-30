@@ -125,7 +125,7 @@ interface ApiService {
                 .client(httpClient)
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://api.rasseki.ru/")
+                .baseUrl("https://api.foodwise.rasseki.org/")
                 .build()
 
             return retrofit.create(ApiService::class.java);

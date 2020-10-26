@@ -44,7 +44,7 @@ class AddProductFragment: AppCompatDialogFragment() {
             }
 
         val view = inflater.inflate(R.layout.fragment_add_product, container, false)
-        dialog!!.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val skip = view.findViewById<Button>(R.id.skip_btn)
         val add = view.findViewById<Button>(R.id.add_btn)

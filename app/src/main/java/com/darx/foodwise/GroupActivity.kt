@@ -41,7 +41,7 @@ class GroupActivity : AppCompatActivity() {
         ingredientViewModel = ViewModelProviders.of(this).get(IngredientViewModel::class.java)
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
 
-        groupToShow = intent.extras.get("GROUP") as GroupModel
+        groupToShow = intent.extras?.get("GROUP") as GroupModel
 
         group_collapsing_toolbar.title = groupToShow.name
         group_info.text = groupToShow.about

@@ -29,7 +29,7 @@ class IngredientActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
-        ingredientToShow = intent.extras.get("INGREDIENT") as IngredientModel
+        ingredientToShow = intent.extras?.get("INGREDIENT") as IngredientModel
 
         ingredient_name.text = ingredientToShow.name
 

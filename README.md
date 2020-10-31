@@ -16,3 +16,6 @@ All previously scanned products will be saved in the "History". This section is 
 
 The fruit and vegetable recognition mode provides information on their nutritional and energy value. For example, one apple contains approximately 25 grams.
 carbohydrates, which is unacceptable for people on a low-carb diet.
+
+The application is written in Kotlin, the "Camera" uses the ML Kit to scan barcodes and identify fruits and vegetables. The backend consists of two services: a server API with a database, in
+which stores 60,000 ingredients and formulations of 100,000 products, as well as a neural network written in Python and Tensorflow.
